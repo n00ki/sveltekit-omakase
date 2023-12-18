@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" class="%theme%">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%sveltekit.assets%/favicon.png" />
+    <link
+      rel="preload"
+      href="%sveltekit.assets%/fonts/Montserrat-VariableFont.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <script>
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+      const setSystemTheme = (prefersDark) => {
+        if (!document.cookie.includes('theme')) {
+          const systemTheme = prefersDark ? 'dark' : 'light';
+          document.documentElement.setAttribute('class', systemTheme);
+        }
+      };
+
+      setSystemTheme(prefersDark.matches);
+      prefersDark.addEventListener('change', (e) => setSystemTheme(e.matches));
+    </script>
+
+    %sveltekit.head%
+  </head>
+  <body data-sveltekit-preload-data="hover" class="bg-background text-foreground antialiased">
+    <div class="flex min-h-screen flex-1 flex-col overflow-hidden">%sveltekit.body%</div>
+  </body>
+</html>
