@@ -3,7 +3,7 @@ import type { Config } from 'drizzle-kit';
 
 export default {
   dialect: 'sqlite',
-  driver: 'turso', // Optional
+  // driver: 'turso', // Optional
   schema: './src/lib/db/models/*',
   out: './src/lib/db/migrations',
   breakpoints: true,

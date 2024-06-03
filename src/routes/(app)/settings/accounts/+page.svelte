@@ -1,6 +1,6 @@
 <script lang="ts">
   // Env Variables
-  import { PUBLIC_AWS_S3_BUCKET_URL } from '$env/static/public';
+  import { PUBLIC_AWS_S3_BUCKET_URL, PUBLIC_BASE_URL } from '$env/static/public';
 
   // Stores
   import { page } from '$app/stores';
@@ -21,6 +21,7 @@
 
   // Assets
   import { Reload } from 'svelte-radix';
+  import { goto, invalidateAll } from '$app/navigation';
 
   export let data;
 
@@ -31,7 +32,26 @@
   });
 
   const { form: formData, delayed, enhance } = form;
+
+  function handleAcceptInvite(accountId: number, token: string) {
+    invalidateAll();
+    goto(`${PUBLIC_BASE_URL}/invites?account=${accountId}&token=${token}`);
+  }
 </script>
+
+{#if data.pendingInvites.length > 0}
+  <h2 class="pb-4 font-semibold">Pending Invites</h2>
+  {#each data.pendingInvites as invite}
+    <div
+      class="mb-2 inline-flex w-full items-center justify-between rounded-lg border border-brand-primary bg-muted p-2 text-sm"
+    >
+      <p>{invite.account.name}</p>
+      <Form.Button size="sm" on:click={() => handleAcceptInvite(invite.accountId, invite.token)}>Accept</Form.Button>
+    </div>
+  {/each}
+
+  <Separator class="my-4" />
+{/if}
 
 {#if data.userAccounts}
   <div class="grid gap-2">

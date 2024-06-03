@@ -15,11 +15,16 @@ import { createAccountSchema } from '$lib/validations/account';
 import db from '$lib/server/database';
 import { Account, UsersAccounts } from '$models/account';
 import { getAccountsByUserIdQuery, type GetAccountsByUserId } from '$queries/account';
+import { getUserPendingInvitesByEmailQuery, type GetUserPendingInvitesByEmail } from '$queries/invite';
 
 export const load = async (event) => {
   const getUserAccounts = (await getAccountsByUserIdQuery.execute({
     id: event.locals.user!.id
   })) as GetAccountsByUserId;
+
+  const getUserPendingInvites = (await getUserPendingInvitesByEmailQuery.execute({
+    email: event.locals.user!.email
+  })) as GetUserPendingInvitesByEmail;
 
   const form = await superValidate(zod(createAccountSchema));
 
@@ -27,8 +32,9 @@ export const load = async (event) => {
     metadata: {
       title: 'Team Accounts'
     },
+    form,
     userAccounts: getUserAccounts?.userAccounts,
-    form
+    pendingInvites: getUserPendingInvites
   };
 };
 

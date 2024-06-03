@@ -54,6 +54,7 @@ export const sendEmail = async (
             invitedBy: templateData?.invitedBy ?? ''
           }
         });
+        console.log('Invite URL:', templateData?.url ?? '');
         break;
       default:
         return fail(402);
@@ -112,8 +113,6 @@ export function openMailPreview(htmlContent: string) {
     if (err) {
       console.log(`Error: ${err.message}`);
       return;
-    } else {
-      console.log('Email preview opened successfully');
     }
   });
 }

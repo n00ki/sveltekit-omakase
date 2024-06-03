@@ -26,7 +26,8 @@ export const Invite = sqliteTable(
   },
   (Invite) => {
     return {
-      accountIdIdx: index('invites_account_id').on(Invite.accountId)
+      accountIdIdx: index('invites_account_id').on(Invite.accountId),
+      emailIdx: index('invites_email').on(Invite.email)
     };
   }
 );
