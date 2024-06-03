@@ -8,6 +8,7 @@
   // Utils
   import { superForm } from 'sveltekit-superforms';
   import { zodClient } from 'sveltekit-superforms/adapters';
+  import { goto, invalidateAll } from '$app/navigation';
 
   // Components
   import * as Form from '$components/ui/form';
@@ -21,7 +22,6 @@
 
   // Assets
   import { Reload } from 'svelte-radix';
-  import { goto, invalidateAll } from '$app/navigation';
 
   export let data;
 
