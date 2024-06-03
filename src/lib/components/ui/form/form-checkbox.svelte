@@ -1,13 +1,14 @@
 <script lang="ts">
   import { getFormField } from 'formsnap';
   import type { Checkbox as CheckboxPrimitive } from 'bits-ui';
-  import { Checkbox } from '$lib/components/ui/checkbox';
+  import { Checkbox } from '$components/ui/checkbox';
   type $$Props = CheckboxPrimitive.Props;
   type $$Events = CheckboxPrimitive.Events;
 
   export let onCheckedChange: $$Props['onCheckedChange'] = undefined;
 
   const { name, setValue, attrStore, value } = getFormField();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { name: nameAttr, value: valueAttr, ...rest } = $attrStore;
 </script>
 

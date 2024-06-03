@@ -1,11 +1,28 @@
+// Utils
 import 'dotenv/config';
-import { drizzle } from 'drizzle-orm/node-postgres';
-import pg from 'pg';
+import { drizzle } from 'drizzle-orm/libsql';
+import { createClient } from '@libsql/client';
 
-export const pool = new pg.Pool({
-  connectionString:
-    process.env.NODE_ENV === 'test' ? process.env.TEST_DATABASE_URL : process.env.DATABASE_URL
+// Schemas
+import * as userSchema from '$models/user';
+import * as sessionSchema from '$models/session';
+import * as tokenSchema from '$models/token';
+import * as accountSchema from '$models/account';
+import * as inviteSchema from '$models/invite';
+
+export const client = createClient({
+  url: process.env.DATABASE_URL || '',
+  authToken: process.env.DATABASE_AUTH_TOKEN || ''
 });
 
-const db = drizzle(pool);
+const db = drizzle(client, {
+  schema: {
+    ...userSchema,
+    ...sessionSchema,
+    ...tokenSchema,
+    ...accountSchema,
+    ...inviteSchema
+  }
+});
+
 export default db;

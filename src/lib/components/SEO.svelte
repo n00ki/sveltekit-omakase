@@ -3,15 +3,15 @@
   import { PUBLIC_BASE_URL } from '$env/static/public';
 
   // Assets
-  import metaImage from '$lib/assets/meta.png';
+  import metaImage from '$lib/assets/meta_image.png';
 
   export let title: string;
   export let description: string;
   export let image: string;
   export let url: string;
 
-  $: title = title ? `Kickoff SvelteKit | ${title}` : 'Kickoff SvelteKit';
-  $: description = description ?? 'This is how to Kickoff a SvelteKit Project';
+  $: title = title ? `SvelteKit Omakase | ${title}` : 'SvelteKit Omakase';
+  $: description = description ?? 'a starter project designed to get you up and running with SvelteKit 🚀';
   $: image = image ?? metaImage;
   $: url = url ?? PUBLIC_BASE_URL;
 </script>

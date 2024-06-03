@@ -1,9 +1,9 @@
 <script lang="ts">
-  import FormWrapper from '$components/FormWrapper.svelte';
+  import Wrapper from '$components/Wrapper.svelte';
 </script>
 
-<div class="mb-24 grid flex-1 content-center md:mb-0">
-  <FormWrapper>
+<div class="flex flex-1 items-center">
+  <Wrapper size="lg">
     <slot />
-  </FormWrapper>
+  </Wrapper>
 </div>

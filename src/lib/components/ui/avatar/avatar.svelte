@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Avatar as AvatarPrimitive } from 'bits-ui';
-  import { cn } from '$lib/utils/utils';
+  import { cn } from '$lib/utils/utils.js';
 
   type $$Props = AvatarPrimitive.Props;
 

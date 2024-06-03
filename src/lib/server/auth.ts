@@ -1,34 +1,47 @@
-// Packages
-import { lucia } from 'lucia';
-import { pg } from '@lucia-auth/adapter-postgresql';
-// Utils
-import { pool } from '$lib/server/database';
-import { sveltekit } from 'lucia/middleware';
-
 // Stores
 import { dev } from '$app/environment';
 
-export const auth = lucia({
-  adapter: pg(pool, {
-    user: 'users',
-    key: 'keys',
-    session: 'sessions'
-  }),
-  env: dev ? 'DEV' : 'PROD',
-  middleware: sveltekit(),
-  getUserAttributes: (data) => {
+// Utils
+import { Lucia, TimeSpan } from 'lucia';
+import { LibSQLAdapter } from '@lucia-auth/adapter-sqlite';
+
+// Database
+import { client } from '$lib/server/database';
+
+const adapter = new LibSQLAdapter(client, {
+  user: 'users',
+  session: 'sessions'
+});
+
+export const auth = new Lucia(adapter, {
+  getUserAttributes: (attributes: DatabaseUserAttributes) => {
     return {
-      email: data.email,
-      avatar: data.avatar
+      email: attributes.email,
+      firstName: attributes.first_name,
+      lastName: attributes.last_name,
+      avatar: attributes.avatar
     };
   },
-  csrfProtection: true,
+  sessionExpiresIn: new TimeSpan(30, 'd'),
   sessionCookie: {
     name: '__auth_session',
     attributes: {
+      secure: !dev,
       sameSite: 'strict'
     }
   }
 });
 
-export type Auth = typeof auth;
+declare module 'lucia' {
+  interface Register {
+    Lucia: typeof auth;
+    DatabaseUserAttributes: DatabaseUserAttributes;
+  }
+}
+
+interface DatabaseUserAttributes {
+  email: string;
+  first_name: string;
+  last_name: string;
+  avatar: string;
+}

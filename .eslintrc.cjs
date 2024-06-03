@@ -1,11 +1,6 @@
 module.exports = {
   root: true,
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:svelte/recommended',
-    'prettier'
-  ],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:svelte/recommended', 'prettier'],
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
   parserOptions: {
@@ -18,7 +13,7 @@ module.exports = {
     es2017: true,
     node: true
   },
-  ignorePatterns: ['*.cjs'],
+  ignorePatterns: ['*.cjs', 'src/lib/components/ui/**/*.svelte'],
   overrides: [
     {
       files: ['*.svelte'],

@@ -31,6 +31,10 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
+
+    --brand-primary: 47 95% 76%;
+    --brand-secondary: 169 56% 73%;
+    --brand-tertiary: 359 83% 74%;
   }
 
   .dark {
@@ -53,6 +57,49 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+
+    --brand-primary: 169 56% 73%;
+    --brand-secondary: 47 95% 76%;
+    --brand-tertiary: 359 83% 74%;
+  }
+}
+
+@layer base {
+  /* === Scrollbars === */
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+    @apply h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply !bg-muted;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-sm !bg-muted-foreground/30;
+  }
+
+  /* Firefox */
+  /* https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color#browser_compatibility */
+  html {
+    scrollbar-color: hsl(215.4 16.3% 46.9% / 0.3);
+  }
+
+  html.dark {
+    scrollbar-color: hsl(215.4 16.3% 56.9% / 0.3);
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .antialised {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 

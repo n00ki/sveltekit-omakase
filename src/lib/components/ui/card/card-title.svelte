@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { HTMLAttributes } from 'svelte/elements';
-  import { cn } from '$lib/utils/utils';
-  import type { HeadingLevel } from '.';
+  import { cn } from '$lib/utils/utils.js';
+  import type { HeadingLevel } from './index.js';
 
   type $$Props = HTMLAttributes<HTMLHeadingElement> & {
     tag?: HeadingLevel;
@@ -12,10 +12,6 @@
   export { className as class };
 </script>
 
-<svelte:element
-  this={tag}
-  class={cn('font-semibold leading-none tracking-tight', className)}
-  {...$$restProps}
->
+<svelte:element this={tag} class={cn('font-semibold leading-none tracking-tight', className)} {...$$restProps}>
   <slot />
 </svelte:element>

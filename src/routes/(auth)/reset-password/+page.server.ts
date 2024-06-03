@@ -5,23 +5,29 @@ import type { Action } from './$types';
 import { PUBLIC_BASE_URL } from '$env/static/public';
 
 // Utils
-import db from '$lib/server/database';
 import { auth } from '$lib/server/auth';
-import { users, tokens } from '$lib/db/models/auth';
-import { eq } from 'drizzle-orm';
 import { redirect } from 'sveltekit-flash-message/server';
+import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
-import { requestPasswordResetSchema } from '$lib/validations/auth';
 import { setFormFail, setFormError } from '$lib/utils/helpers/forms';
+import { eq } from 'drizzle-orm';
 import { sendEmail } from '$lib/utils/mail/mailer';
-import { generateRandomString } from 'lucia/utils';
+import { generateNanoId } from '$lib/utils/helpers/nanoid';
+import * as m from '$lib/utils/messages.json';
+
+// Schemas
+import { requestPasswordResetSchema } from '$lib/validations/auth';
+
+// Database
+import db from '$lib/server/database';
+import { User } from '$models/user';
+import { Token } from '$models/token';
 
 export async function load({ locals }) {
   // redirect user if already logged in
-  const session = await locals.auth.validate();
-  if (session) throw redirect(302, '/');
+  if (locals.user) redirect(302, '/');
 
-  const form = await superValidate(requestPasswordResetSchema);
+  const form = await superValidate(zod(requestPasswordResetSchema));
 
   return {
     metadata: {
@@ -32,7 +38,7 @@ export async function load({ locals }) {
 }
 
 const requestPasswordReset: Action = async (event) => {
-  const form = await superValidate(event.request, requestPasswordResetSchema);
+  const form = await superValidate(event.request, zod(requestPasswordResetSchema));
 
   if (!form.valid) {
     return setFormFail(form);
@@ -40,16 +46,21 @@ const requestPasswordReset: Action = async (event) => {
 
   const { email } = form.data;
 
-  const getUsers = await db.select({ id: users.id }).from(users).where(eq(users.email, email));
-  const user = getUsers[0];
+  const user = await db.query.User.findFirst({
+    where: eq(User.email, email),
+    columns: {
+      id: true,
+      firstName: true
+    }
+  });
 
   if (!user) {
     // we send a success message even if the user doesn't exist to prevent email enumeration
-    throw redirect(
+    redirect(
       '/',
       {
         type: 'success',
-        message: 'An email has been sent to reset your password!'
+        message: m.auth.requestResetPassword.success
       },
       event
     );
@@ -57,37 +68,41 @@ const requestPasswordReset: Action = async (event) => {
 
   try {
     const timestamp = new Date(Date.now() + 1000 * 60 * 10);
+
     const createOrUpdateTokens = await db
-      .insert(tokens)
+      .insert(Token)
       .values({
-        id: generateRandomString(15),
         userId: user.id,
         expiresAt: timestamp
       })
       .onConflictDoUpdate({
-        target: tokens.userId,
-        set: { expiresAt: timestamp }
+        target: Token.userId,
+        set: { key: generateNanoId({ token: true }), expiresAt: timestamp }
       })
       .returning();
 
-    console.log(createOrUpdateTokens);
-
     const token = createOrUpdateTokens[0];
 
-    await auth.invalidateAllUserSessions(user.id);
+    await auth.invalidateUserSessions(user.id);
 
-    const url = new URL(`${PUBLIC_BASE_URL}/reset-password/${email}/${token?.id}`);
-    await sendEmail(email, 'Reset Password', 'ResetPassword', { url: url });
+    const url = new URL(`${PUBLIC_BASE_URL}/reset-password/${user.id}?token=${token?.key}`);
+
+    await sendEmail(email, '🔒 Reset Your Password!', 'ResetPassword', {
+      url: url.toString(),
+      userFirstName: user.firstName
+    });
   } catch (error) {
     console.log(error);
-    return setFormError(form, 'Something went wrong. Please try again later.', { status: 500 });
+    return setFormError(form, m.general.error, {
+      status: 500
+    });
   }
 
-  throw redirect(
+  redirect(
     '/',
     {
       type: 'success',
-      message: 'An email has been sent to reset your password!'
+      message: m.auth.requestResetPassword.success
     },
     event
   );

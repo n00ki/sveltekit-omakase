@@ -1,11 +1,18 @@
-import type { NumericRange } from 'sveltekit-superforms/dist/utils';
-import { fail, type RequestEvent } from '@sveltejs/kit';
-import { setError } from 'sveltekit-superforms/server';
+// Types
+import { type NumericRange, type RequestEvent } from '@sveltejs/kit';
+
+// Utils
+import { fail } from '@sveltejs/kit';
+import { setError, type SuperValidated } from 'sveltekit-superforms/server';
 import { setFlash } from 'sveltekit-flash-message/server';
 
 export const setFormFail = (
-  form: any,
-  opts?: { status?: NumericRange<400, 599>; removeSensitiveData?: string[]; event?: RequestEvent }
+  form: SuperValidated<Record<string, unknown>>,
+  opts?: {
+    status?: NumericRange<400, 599>;
+    removeSensitiveData?: string[];
+    event?: RequestEvent;
+  }
 ) => {
   if (!form) return;
   if (opts?.removeSensitiveData) {
@@ -18,7 +25,10 @@ export const setFormFail = (
 
   if (opts?.event)
     setFlash(
-      { type: 'error', message: 'Something went wrong. Please try again later.' },
+      {
+        type: 'error',
+        message: 'Something went wrong. Please try again later.'
+      },
       opts.event
     );
 
@@ -26,9 +36,13 @@ export const setFormFail = (
 };
 
 export const setFormError = (
-  form: any,
+  form: SuperValidated<Record<string, unknown>>,
   text: string,
-  opts?: { status?: NumericRange<400, 599>; field?: string; removeSensitiveData?: string[] },
+  opts?: {
+    status?: NumericRange<400, 599>;
+    field?: string;
+    removeSensitiveData?: string[];
+  },
   event?: RequestEvent
 ) => {
   if (!form) return;

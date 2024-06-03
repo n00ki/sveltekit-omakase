@@ -1,6 +1,6 @@
 <script lang="ts">
   import { AlertDialog as AlertDialogPrimitive } from 'bits-ui';
-  import { cn } from '$lib/utils/utils';
+  import { cn } from '$lib/utils/utils.js';
 
   type $$Props = AlertDialogPrimitive.TitleProps;
 
@@ -9,10 +9,6 @@
   export { className as class };
 </script>
 
-<AlertDialogPrimitive.Title
-  class={cn('text-lg font-semibold text-primary', className)}
-  {level}
-  {...$$restProps}
->
+<AlertDialogPrimitive.Title class={cn('text-lg font-semibold', className)} {level} {...$$restProps}>
   <slot />
 </AlertDialogPrimitive.Title>

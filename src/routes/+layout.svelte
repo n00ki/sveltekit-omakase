@@ -1,17 +1,16 @@
 <script lang="ts">
+  // Stores
+  import { page } from '$app/stores';
+
   // Utils
   import { onNavigate, disableScrollHandling } from '$app/navigation';
   import { getFlash } from 'sveltekit-flash-message/client';
-
-  // Stores
-  import { page } from '$app/stores';
-  import { browser } from '$app/environment';
-  import { jsStatus } from '$lib/stores/js_status';
+  import { fileUploadStatus } from '$lib/utils/helpers/uploadFile';
 
   // Components
   import SEO from '$components/SEO.svelte';
   import Navbar from '$components/Navbar.svelte';
-  import { Toaster } from 'svelte-french-toast';
+  import { Toaster } from '$lib/components/ui/sonner';
   import Flash from '$components/Flash.svelte';
   import ThemeSwitcher from '$components/ThemeSwitcher.svelte';
 
@@ -21,12 +20,10 @@
   export let data;
 
   const flash = getFlash(page, {
-    clearAfterMs: 5000
+    clearOnNavigate: true,
+    clearAfterMs: 3000,
+    clearArray: true
   });
-
-  if (browser) {
-    $jsStatus = 'enabled';
-  }
 
   // Disable scroll handling on same route navigation for theme switching
   onNavigate((navigation) => {
@@ -35,25 +32,26 @@
 
     if (previousRoute === currentRoute) {
       disableScrollHandling();
+    } else {
+      // reset file upload status on navigation
+      $fileUploadStatus = 'ready';
     }
   });
 </script>
 
 <SEO {...$page.data.metadata} url={$page.url.href} />
 
-<Toaster />
+<Toaster position="bottom-center" closeButton />
 
-<div class="flex w-full flex-1 flex-col font-primary">
-  <Navbar user={data.user} />
+<Navbar user={data.user} />
 
-  <main class="container mx-auto flex flex-1 flex-col p-4 md:px-8 md:py-4">
-    <slot />
+<main class="container mx-auto flex flex-1 flex-col p-4 md:px-8 md:py-4">
+  <slot />
 
-    <div class="fixed bottom-5 right-0">
-      <ThemeSwitcher />
-    </div>
-  </main>
-</div>
+  <div class="fixed bottom-5 right-0">
+    <ThemeSwitcher />
+  </div>
+</main>
 
 {#if $flash}
   <div class="fixed bottom-0 w-full overflow-hidden">

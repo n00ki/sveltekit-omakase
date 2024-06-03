@@ -7,7 +7,7 @@
     "baseColor": "slate"
   },
   "aliases": {
-    "components": "$lib/components",
+    "components": "$components",
     "utils": "$lib/utils/utils"
   }
 }

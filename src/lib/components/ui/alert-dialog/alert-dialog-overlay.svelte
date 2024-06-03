@@ -1,6 +1,6 @@
 <script lang="ts">
   import { AlertDialog as AlertDialogPrimitive } from 'bits-ui';
-  import { cn } from '$lib/utils/utils';
+  import { cn } from '$lib/utils/utils.js';
   import { fade } from 'svelte/transition';
 
   type $$Props = AlertDialogPrimitive.OverlayProps;

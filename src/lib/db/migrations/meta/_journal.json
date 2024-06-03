@@ -1,12 +1,12 @@
 {
-  "version": "5",
-  "dialect": "pg",
+  "version": "7",
+  "dialect": "sqlite",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1701104526637,
-      "tag": "0000_faithful_reavers",
+      "version": "6",
+      "when": 1717348099460,
+      "tag": "0000_worried_doctor_spectrum",
       "breakpoints": true
     }
   ]

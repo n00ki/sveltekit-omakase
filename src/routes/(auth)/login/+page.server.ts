@@ -5,16 +5,24 @@ import type { Action, Actions } from './$types';
 import { auth } from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
 import { superValidate } from 'sveltekit-superforms/server';
-import { loginSchema } from '$lib/validations/auth';
+import { zod } from 'sveltekit-superforms/adapters';
 import { setFormFail, setFormError } from '$lib/utils/helpers/forms';
-import { LuciaError } from 'lucia';
+import { eq } from 'drizzle-orm';
+import { Argon2id } from 'oslo/password';
+import * as m from '$lib/utils/messages.json';
+
+// Schemas
+import { loginSchema } from '$lib/validations/auth';
+
+// Database
+import db from '$lib/server/database';
+import { User } from '$models/user';
 
 export async function load({ locals }) {
   // redirect to `/` if logged in
-  const session = await locals.auth.validate();
-  if (session) throw redirect(302, '/');
+  if (locals.user) redirect(302, '/');
 
-  const form = await superValidate(loginSchema);
+  const form = await superValidate(zod(loginSchema));
 
   return {
     metadata: {
@@ -25,7 +33,7 @@ export async function load({ locals }) {
 }
 
 const login: Action = async (event) => {
-  const form = await superValidate(event.request, loginSchema);
+  const form = await superValidate(event.request, zod(loginSchema));
 
   if (!form.valid) {
     return setFormFail(form, { removeSensitiveData: ['password'] });
@@ -33,31 +41,48 @@ const login: Action = async (event) => {
     const { password, email } = form.data;
 
     try {
-      const key = await auth.useKey('email', email.toLowerCase(), password);
-      const session = await auth.createSession({
-        userId: key.userId,
-        attributes: {}
+      const user = await db.query.User.findFirst({
+        where: eq(User.email, email)
       });
-      event.locals.auth.setSession(session);
-    } catch (e: any) {
-      if (
-        (e instanceof LuciaError && e.message === 'AUTH_INVALID_KEY_ID') ||
-        e.message === 'AUTH_INVALID_PASSWORD'
-      ) {
+
+      if (!user) {
         return setFormError(
           form,
-          'Incorrect email or password',
+          m.auth.login.error,
           {
             status: 401,
+            field: 'email',
             removeSensitiveData: ['password']
           },
           event
         );
       }
 
+      const validPassword = await new Argon2id().verify(user.hashedPassword!, password);
+
+      if (!validPassword) {
+        return setFormError(
+          form,
+          m.auth.login.error,
+          {
+            status: 401,
+            field: 'email',
+            removeSensitiveData: ['password']
+          },
+          event
+        );
+      }
+
+      const session = await auth.createSession(user.id, {});
+      const sessionCookie = auth.createSessionCookie(session.id);
+      event.cookies.set(sessionCookie.name, sessionCookie.value, {
+        path: '.',
+        ...sessionCookie.attributes
+      });
+    } catch (e) {
       return setFormError(
         form,
-        'Something went wrong. Please try again later.',
+        m.general.error,
         {
           status: 500,
           removeSensitiveData: ['password']
@@ -67,11 +92,11 @@ const login: Action = async (event) => {
     }
   }
 
-  throw redirect(
+  redirect(
     '/',
     {
       type: 'success',
-      message: 'Logged in successfully'
+      message: m.auth.login.success
     },
     event
   );

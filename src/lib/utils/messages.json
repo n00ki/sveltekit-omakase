@@ -1,0 +1,76 @@
+{
+  "general": {
+    "error": "Something went wrong. Please try again."
+  },
+  "pages": {
+    "notFound": {
+      "title": "404 - Page Not Found",
+      "message": "Oops! We can’t seem to find the page you’re looking for."
+    }
+  },
+  "auth": {
+    "unauthorized": "Access denied. You do not have permission to view this page.",
+    "login": {
+      "success": "You're now logged in.",
+      "error": "Login failed. Please check your email and password and try again."
+    },
+    "logout": {
+      "success": "You've been logged out successfully."
+    },
+    "register": {
+      "success": "Awesome! You're all set to go.",
+      "emailIsTaken": "This email is already in use. Try another?",
+      "passwordsMismatch": "Oops! The passwords don’t match. Try again?"
+    },
+    "requestResetPassword": {
+      "success": "Check your inbox! We've sent you a link to reset your password."
+    },
+    "resetPassword": {
+      "success": "All set! Your password has been reset successfully. You can now log in with your new password.",
+      "passwordsMismatch": "The passwords don't match. Please try again."
+    }
+  },
+  "settings": {
+    "userProfile": {
+      "edit": {
+        "success": "Your profile has been updated successfully.",
+        "noChanges": "Looks like there were no changes to save."
+      },
+      "delete": {
+        "success": "Your account has been permanently deleted.",
+        "destructiveOperation": "Are you sure you want to delete your account? This cannot be undone."
+      }
+    }
+  },
+  "accounts": {
+    "notFound": "We couldn’t locate the account you’re searching for.",
+    "unauthorized": "You don't have access to this account.",
+    "create": {
+      "success": "Account created successfully!"
+    },
+    "edit": {
+      "success": "Account details updated successfully.",
+      "noChanges": "No updates were made as there were no changes."
+    },
+    "invite": {
+      "send": {
+        "success": "Invite sent! Check back to see when they join.",
+        "alreadyMember": "This user is already part of this account."
+      },
+      "receive": {
+        "success": "Welcome aboard! You've joined the account successfully.",
+        "mustLogin": "You have to be logged in to accept this invite. Could you do that and try again?",
+        "invalidUrl": "This invite link isn’t right. Could you check it?",
+        "expiredUrl": "This invite has expired. Ask for a new one?",
+        "claimed": "This invite has already been used."
+      }
+    },
+    "leave": {
+      "success": "You are no longer a member of this account."
+    },
+    "delete": {
+      "success": "Account deleted successfully.",
+      "destructiveOperation": "Deleting this account cannot be undone. Are you sure?"
+    }
+  }
+}

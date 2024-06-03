@@ -1,101 +1,82 @@
 <script lang="ts">
-  // Utils
-  import { applyAction, enhance } from '$app/forms';
-  import { invalidateAll } from '$app/navigation';
-  import { slide } from 'svelte/transition';
-
-  // Icons
-  import { HamburgerMenu, Exit, Cross1 } from 'radix-icons-svelte';
+  // Types
+  import type { User } from 'lucia';
 
   // Components
-  import { Button } from '$lib/components/ui/button';
+  import { Button } from '$components/ui/button';
+  import * as DropdownMenu from '$components/ui/dropdown-menu';
 
-  export let user: object | null = null;
-  let isMenuOpen = false;
+  // Assets
+  import { HamburgerMenu } from 'svelte-radix';
 
-  const toggleMenuState = (e: Event) => {
-    if (e.type === 'focusout' && !isMenuOpen) return;
-    isMenuOpen = !isMenuOpen;
-  };
+  export let user: User | null = null;
+
+  let logoutForm: HTMLFormElement;
 </script>
 
-<nav>
+<nav class="z-50">
   <div class="flex items-center justify-between p-4">
-    <div class="flex-1 px-2">
-      <a href="/" class="btn-ghost btn text-xl font-bold normal-case">Kickoff SvelteKit</a>
+    <div>
+      <Button href="/" variant="ghost" class="text-xl font-bold normal-case">SvelteKit Omakase</Button>
     </div>
 
-    <div class="hidden gap-2 lg:inline-flex">
+    <div class="hidden items-center gap-2 lg:inline-flex">
       {#if !user}
-        <Button href="/login" variant="outline">Login</Button>
-        <Button href="/register" variant="outline">Register</Button>
+        <Button href="/register" variant="outline" class="transition-none">Get started now</Button>
       {:else}
-        <Button href="/profile" variant="outline">Profile</Button>
-        <Button form="logout" type="submit" variant="outline">
-          <Exit class="mr-1 h-4 w-4" />
-          Log out
-        </Button>
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild let:builder class="rounded-full">
+            <Button
+              variant="ghost"
+              builders={[builder]}
+              class="transition-all duration-100 ease-in-out hover:ring-2 hover:ring-secondary/90"
+            >
+              <HamburgerMenu class="text-muted-foreground" />
+            </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content class="w-56">
+            <DropdownMenu.Label>{`${user.firstName} ${user.lastName}`}</DropdownMenu.Label>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Group>
+              <DropdownMenu.Item href="/settings/profile">User Profile</DropdownMenu.Item>
+              <DropdownMenu.Item href="/settings/accounts">Teams</DropdownMenu.Item>
+            </DropdownMenu.Group>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Item on:click={() => logoutForm.submit()}>Log out</DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
       {/if}
     </div>
 
-    <!-- Mobile Menu Icon -->
-    <div class="lg:hidden">
-      <Button on:click={toggleMenuState} variant="ghost">
-        {#if isMenuOpen}
-          <Cross1 />
-        {:else}
-          <HamburgerMenu />
-        {/if}
-      </Button>
+    <!-- Mobile -->
+    <div class="inline-flex items-center gap-2 lg:hidden">
+      {#if !user}
+        <Button href="/login" variant="outline" class="transition-none">Get started now</Button>
+      {:else}
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild let:builder class="rounded-full">
+            <Button
+              variant="ghost"
+              builders={[builder]}
+              class="transition-all duration-100 ease-in-out hover:ring-2 hover:ring-secondary/90"
+            >
+              <HamburgerMenu class="text-muted-foreground" />
+            </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content class="w-56">
+            <DropdownMenu.Label>{`${user.firstName} ${user.lastName}`}</DropdownMenu.Label>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Group>
+              <DropdownMenu.Item href="/settings/profile">User Profile</DropdownMenu.Item>
+              <DropdownMenu.Item href="/settings/accounts">Teams</DropdownMenu.Item>
+            </DropdownMenu.Group>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Item on:click={() => logoutForm.submit()}>Log out</DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      {/if}
     </div>
   </div>
 
-  <!-- Mobile Dropdown Menu -->
-  {#if isMenuOpen}
-    <div transition:slide class="flex w-full flex-col gap-2 bg-accent p-4">
-      {#if !user}
-        <Button
-          href="/login"
-          variant="link"
-          on:click={toggleMenuState}
-          class="text-accent-foreground">Login</Button
-        >
-        <Button
-          href="/register"
-          variant="link"
-          on:click={toggleMenuState}
-          class="text-accent-foreground">Register</Button
-        >
-      {:else}
-        <Button
-          href="/profile"
-          variant="link"
-          on:click={toggleMenuState}
-          class="text-accent-foreground">Profile</Button
-        >
-        <Button
-          form="logout"
-          type="submit"
-          variant="link"
-          on:click={toggleMenuState}
-          class="text-accent-foreground"
-        >
-          <Exit class="mr-1 h-4 w-4" />
-          Log out
-        </Button>
-      {/if}
-    </div>
-  {/if}
-
-  <form
-    id="logout"
-    action="/logout"
-    method="POST"
-    use:enhance={() => {
-      return async ({ result }) => {
-        await applyAction(result);
-        invalidateAll();
-      };
-    }}
-  />
+  <form bind:this={logoutForm} id="logout" method="POST" action="/logout" />
 </nav>

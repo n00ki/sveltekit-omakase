@@ -1,8 +1,8 @@
 <script lang="ts">
   import { Form as FormPrimitive } from 'formsnap';
-  import { buttonVariants } from '$lib/components/ui/button';
+  import { buttonVariants } from '$components/ui/button';
   import { cn } from '$lib/utils/utils';
-  import { CaretSort } from 'radix-icons-svelte';
+  import { CaretSort } from 'svelte-radix';
   import type { HTMLSelectAttributes } from 'svelte/elements';
 
   type $$Props = HTMLSelectAttributes;
@@ -11,14 +11,12 @@
   export { className as class };
 </script>
 
-<FormPrimitive.Select
-  class={cn(
-    buttonVariants({ variant: 'outline' }),
-    'appearance-none bg-transparent font-normal',
-    className
-  )}
-  {...$$restProps}
->
-  <slot />
-</FormPrimitive.Select>
-<CaretSort class="absolute right-3 top-2.5 h-4 w-4 opacity-50" />
+<div class="relative">
+  <FormPrimitive.Select
+    class={cn(buttonVariants({ variant: 'outline' }), 'appearance-none bg-transparent font-normal', className)}
+    {...$$restProps}
+  >
+    <slot />
+  </FormPrimitive.Select>
+  <CaretSort class="absolute right-3 top-2.5 h-4 w-4 opacity-50" />
+</div>

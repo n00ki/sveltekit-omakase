@@ -27,6 +27,11 @@ const config = {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))'
         },
+        brand: {
+          primary: 'hsl(var(--brand-primary))',
+          secondary: 'hsl(var(--brand-secondary))',
+          tertiary: 'hsl(var(--brand-tertiary))'
+        },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))'
