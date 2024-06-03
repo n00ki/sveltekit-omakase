@@ -32,7 +32,7 @@
       <Button href={url}>Click here to join</Button>
       <Hr />
       <Text>
-        If you have any questions, feel free to <Link href="mailto:noams+hayde@hey.com">reach out</Link>
+        If you have any questions, feel free to <Link href="mailto:noams+ks@hey.com">reach out</Link>
       </Text>
       <Text>Welcome aboard! 🎉</Text>
     </Section>
