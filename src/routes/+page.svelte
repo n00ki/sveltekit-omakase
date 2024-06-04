@@ -6,8 +6,8 @@
   <h1 class="my-2 text-3xl font-bold md:text-6xl">WELCOME</h1>
 
   {#if data.user}
-    <div class="bg-primary text-primary-foreground w-full rounded-md p-2 text-center text-sm font-semibold md:text-xl">
-      <p>{data.user ? data.user.email : ''}</p>
+    <div class="w-full rounded-md bg-primary p-2 text-center text-sm font-semibold text-primary-foreground md:text-xl">
+      <p>{`${data.user.firstName} ${data.user.lastName}`}</p>
     </div>
   {/if}
 </div>
