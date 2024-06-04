@@ -160,7 +160,7 @@ const leaveAccount: Action = async (event) => {
     await db
       .delete(UsersAccounts)
       .where(and(eq(UsersAccounts.accountId, accountId), eq(UsersAccounts.userId, userId.toString())));
-  } catch (error) {
+  } catch {
     redirect(
       {
         status: 500,

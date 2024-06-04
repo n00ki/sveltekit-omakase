@@ -79,7 +79,7 @@ const login: Action = async (event) => {
         path: '.',
         ...sessionCookie.attributes
       });
-    } catch (e) {
+    } catch {
       return setFormError(
         form,
         m.general.error,

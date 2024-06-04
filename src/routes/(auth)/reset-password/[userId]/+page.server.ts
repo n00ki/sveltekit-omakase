@@ -53,7 +53,7 @@ export async function load({ locals, params, url }) {
       }
 
       email = token.user?.email ?? null;
-    } catch (e) {
+    } catch {
       error(500, m.general.error);
     }
   } else {
@@ -100,7 +100,7 @@ const reset: Action = async (event) => {
           hashedPassword: await new Argon2id().hash(password)
         })
         .where(eq(User.email, email));
-    } catch (error) {
+    } catch {
       return setFormError(
         form,
         m.general.error,

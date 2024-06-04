@@ -81,7 +81,7 @@ export const uploadImageFile = async (
     previewUrl = `${PUBLIC_AWS_S3_BUCKET_URL}/${uploadDestinationDirectory}/${fileId}`;
 
     return { fileId, previewUrl };
-  } catch (err) {
+  } catch {
     fileUploadStatus.set('failed');
     fileUploadErrors = ['Error uploading image'];
     toast.error(fileUploadErrors[0]);
