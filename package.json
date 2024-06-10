@@ -35,7 +35,7 @@
     "drizzle-kit": "^0.22.6",
     "eslint": "^9.4.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-svelte": "^2.39.2",
+    "eslint-plugin-svelte": "^2.39.3",
     "formsnap": "^1.0.0",
     "globals": "^15.4.0",
     "postcss": "^8.4.38",
