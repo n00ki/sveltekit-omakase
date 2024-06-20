@@ -59,6 +59,7 @@ CREATE TABLE `users` (
 CREATE UNIQUE INDEX `accounts_public_id_unique` ON `accounts` (`public_id`);--> statement-breakpoint
 CREATE UNIQUE INDEX `invites_token_unique` ON `invites` (`token`);--> statement-breakpoint
 CREATE INDEX `invites_account_id` ON `invites` (`account_id`);--> statement-breakpoint
+CREATE INDEX `invites_email` ON `invites` (`email`);--> statement-breakpoint
 CREATE UNIQUE INDEX `tokens_key_unique` ON `tokens` (`key`);--> statement-breakpoint
 CREATE UNIQUE INDEX `tokens_user_id_unique` ON `tokens` (`user_id`);--> statement-breakpoint
 CREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);

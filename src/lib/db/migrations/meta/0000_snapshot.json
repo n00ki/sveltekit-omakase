@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "90baf6b2-7bfd-4587-9fcc-4616d2f8a8c1",
+  "id": "a8deacb7-2d6c-41fb-a5f7-632f979199b6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "accounts": {
@@ -62,7 +62,9 @@
       "indexes": {
         "accounts_public_id_unique": {
           "name": "accounts_public_id_unique",
-          "columns": ["public_id"],
+          "columns": [
+            "public_id"
+          ],
           "isUnique": true
         }
       },
@@ -110,8 +112,12 @@
           "name": "users_accounts_account_id_accounts_id_fk",
           "tableFrom": "users_accounts",
           "tableTo": "accounts",
-          "columnsFrom": ["account_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "account_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -119,15 +125,22 @@
           "name": "users_accounts_user_id_users_id_fk",
           "tableFrom": "users_accounts",
           "tableTo": "users",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
         "users_accounts_account_id_user_id_pk": {
-          "columns": ["account_id", "user_id"],
+          "columns": [
+            "account_id",
+            "user_id"
+          ],
           "name": "users_accounts_account_id_user_id_pk"
         }
       },
@@ -191,12 +204,23 @@
       "indexes": {
         "invites_token_unique": {
           "name": "invites_token_unique",
-          "columns": ["token"],
+          "columns": [
+            "token"
+          ],
           "isUnique": true
         },
         "invites_account_id": {
           "name": "invites_account_id",
-          "columns": ["account_id"],
+          "columns": [
+            "account_id"
+          ],
+          "isUnique": false
+        },
+        "invites_email": {
+          "name": "invites_email",
+          "columns": [
+            "email"
+          ],
           "isUnique": false
         }
       },
@@ -205,8 +229,12 @@
           "name": "invites_account_id_accounts_id_fk",
           "tableFrom": "invites",
           "tableTo": "accounts",
-          "columnsFrom": ["account_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "account_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -245,8 +273,12 @@
           "name": "sessions_user_id_users_id_fk",
           "tableFrom": "sessions",
           "tableTo": "users",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -289,12 +321,16 @@
       "indexes": {
         "tokens_key_unique": {
           "name": "tokens_key_unique",
-          "columns": ["key"],
+          "columns": [
+            "key"
+          ],
           "isUnique": true
         },
         "tokens_user_id_unique": {
           "name": "tokens_user_id_unique",
-          "columns": ["user_id"],
+          "columns": [
+            "user_id"
+          ],
           "isUnique": true
         }
       },
@@ -303,8 +339,12 @@
           "name": "tokens_user_id_users_id_fk",
           "tableFrom": "tokens",
           "tableTo": "users",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -384,7 +424,9 @@
       "indexes": {
         "users_email_unique": {
           "name": "users_email_unique",
-          "columns": ["email"],
+          "columns": [
+            "email"
+          ],
           "isUnique": true
         }
       },
