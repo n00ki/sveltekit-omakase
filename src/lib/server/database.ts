@@ -16,8 +16,8 @@ const localClient = createClient({
 });
 
 const remoteClient = createClient({
-  url: process.env.REMOTE_DATABASE_URL || '',
-  authToken: process.env.REMOTE_DATABASE_AUTH_TOKEN || ''
+  url: process.env.DATABASE_URL || '',
+  authToken: process.env.DATABASE_AUTH_TOKEN || ''
 });
 
 export const client = dev ? localClient : remoteClient;

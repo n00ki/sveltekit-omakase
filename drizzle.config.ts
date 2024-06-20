@@ -18,8 +18,8 @@ const remoteConfig = {
   out: './src/lib/db/migrations',
   breakpoints: true,
   dbCredentials: {
-    url: process.env.REMOTE_DATABASE_URL || '',
-    authToken: process.env.REMOTE_DATABASE_AUTH_TOKEN || ''
+    url: process.env.DATABASE_URL || '',
+    authToken: process.env.DATABASE_AUTH_TOKEN || ''
   }
 };
 
