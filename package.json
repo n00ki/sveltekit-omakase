@@ -58,8 +58,8 @@
     "zod": "^3.23.8"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.588.0",
-    "@aws-sdk/s3-request-presigner": "^3.588.0",
+    "@aws-sdk/client-s3": "^3.600.0",
+    "@aws-sdk/s3-request-presigner": "^3.600.0",
     "@libsql/client": "^0.6.0",
     "@lucia-auth/adapter-drizzle": "^1.0.7",
     "@lucia-auth/adapter-sqlite": "^3.0.1",
