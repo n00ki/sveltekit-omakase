@@ -1,5 +1,6 @@
 // Utils
 import 'dotenv/config';
+import { dev } from '$app/environment';
 import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
 
@@ -10,10 +11,16 @@ import * as tokenSchema from '$models/token';
 import * as accountSchema from '$models/account';
 import * as inviteSchema from '$models/invite';
 
-export const client = createClient({
-  url: process.env.DATABASE_URL || '',
-  authToken: process.env.DATABASE_AUTH_TOKEN || ''
+const localClient = createClient({
+  url: process.env.LOCAL_DATABASE_URL || ''
 });
+
+const remoteClient = createClient({
+  url: process.env.REMOTE_DATABASE_URL || '',
+  authToken: process.env.REMOTE_DATABASE_AUTH_TOKEN || ''
+});
+
+export const client = dev ? localClient : remoteClient;
 
 const db = drizzle(client, {
   schema: {

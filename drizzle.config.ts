@@ -1,14 +1,26 @@
 import 'dotenv/config';
 import type { Config } from 'drizzle-kit';
 
-export default {
+const localConfig = {
   dialect: 'sqlite',
-  // driver: 'turso', // Optional
   schema: './src/lib/db/models/*',
   out: './src/lib/db/migrations',
   breakpoints: true,
   dbCredentials: {
-    url: process.env.DATABASE_URL || '',
-    authToken: process.env.DATABASE_AUTH_TOKEN || '' // Optional
+    url: process.env.LOCAL_DATABASE_URL || ''
   }
-} satisfies Config;
+} as Config;
+
+const remoteConfig = {
+  dialect: 'sqlite',
+  driver: 'turso',
+  schema: './src/lib/db/models/*',
+  out: './src/lib/db/migrations',
+  breakpoints: true,
+  dbCredentials: {
+    url: process.env.REMOTE_DATABASE_URL || '',
+    authToken: process.env.REMOTE_DATABASE_AUTH_TOKEN || ''
+  }
+};
+
+export default process.env.NODE_ENV === 'production' ? remoteConfig : localConfig;
