@@ -14,6 +14,7 @@
     "db:drop": "drizzle-kit drop",
     "db:clear": "vite-node --options.transformMode.ssr='/.*/' src/lib/db/clear",
     "db:studio": "drizzle-kit studio",
+    "db:studio:remote": "NODE_ENV=production drizzle-kit studio",
     "test": "pnpm test:integration && pnpm test:unit",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
