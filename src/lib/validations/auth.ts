@@ -12,6 +12,12 @@ export const registrationSchema = z.object({
         return !value.includes('test');
       },
       { message: 'Test emails are not allowed' }
+    )
+    .refine(
+      (value) => {
+        return !value.includes('+');
+      },
+      { message: 'Email address tagging is not allowed' }
     ),
   firstName: z
     .string({ required_error: 'First name is required' })
