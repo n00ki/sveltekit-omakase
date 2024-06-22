@@ -44,9 +44,9 @@
   },
   "accounts": {
     "notFound": "We couldn’t locate the account you’re searching for.",
-    "unauthorized": "You don't have access to this account.",
+    "unauthorized": "You don't have access to this team account.",
     "create": {
-      "success": "Account created successfully!"
+      "success": "Team account created successfully!"
     },
     "edit": {
       "success": "Account details updated successfully.",
@@ -58,7 +58,7 @@
         "alreadyMember": "This user is already part of this account."
       },
       "receive": {
-        "success": "Welcome aboard! You've joined the account successfully.",
+        "success": "Welcome aboard! You've joined the team account successfully.",
         "mustLogin": "You have to be logged in to accept this invite. Could you do that and try again?",
         "invalidUrl": "This invite link isn’t right. Could you check it?",
         "expiredUrl": "This invite has expired. Ask for a new one?",
@@ -66,11 +66,11 @@
       }
     },
     "leave": {
-      "success": "You are no longer a member of this account."
+      "success": "You are no longer a member of this team."
     },
     "delete": {
-      "success": "Account deleted successfully.",
-      "destructiveOperation": "Deleting this account cannot be undone. Are you sure?"
+      "success": "Team account deleted successfully.",
+      "destructiveOperation": "Deleting this team account cannot be undone. Are you sure?"
     }
   }
 }

@@ -46,6 +46,7 @@ const createAccount: Action = async (event) => {
   }
 
   const { userId, name } = createAccountForm.data;
+  let account: Account;
 
   try {
     const createAccount = await db
@@ -55,7 +56,7 @@ const createAccount: Action = async (event) => {
       })
       .returning();
 
-    const account = createAccount[0];
+    account = createAccount[0];
 
     if (account) {
       await db.insert(UsersAccounts).values({
@@ -77,6 +78,7 @@ const createAccount: Action = async (event) => {
   }
 
   redirect(
+    `/settings/accounts/${account.publicId}`,
     {
       type: 'success',
       message: m.accounts.create.success

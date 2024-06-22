@@ -86,14 +86,14 @@
   </div>
 {/if}
 
-<h2 class="text-lg font-semibold">Create a New Team Account</h2>
+<h2 class="text-lg font-semibold">Create a New Team</h2>
 <form id="create-account-form" method="POST" action="?/createAccount" class="py-4" use:enhance>
   <Input type="hidden" name="userId" value={data.user?.id ?? ''} />
 
   <Form.Field {form} name="name" let:constraints>
     <Form.Control let:attrs>
       <Form.Label hidden>Name</Form.Label>
-      <Input type="text" placeholder="Account Name" bind:value={$formData.name} {...attrs} {...constraints} />
+      <Input type="text" placeholder="My Awesome Team" bind:value={$formData.name} {...attrs} {...constraints} />
       <Form.FieldErrors />
     </Form.Control>
   </Form.Field>

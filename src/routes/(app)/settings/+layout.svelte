@@ -10,7 +10,7 @@
       href: '/settings/profile'
     },
     {
-      title: 'Team Accounts',
+      title: 'Teams',
       href: '/settings/accounts'
     }
   ];

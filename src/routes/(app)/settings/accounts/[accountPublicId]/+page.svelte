@@ -16,6 +16,7 @@
   import * as Avatar from '$lib/components/ui/avatar';
   import { Button } from '$components/ui/button';
   import * as AlertDialog from '$components/ui/alert-dialog';
+  import * as Breadcrumb from '$components/ui/breadcrumb';
   import { Separator } from '$components/ui/separator';
 
   // Assets
@@ -70,6 +71,20 @@
 
   const { form: deleteAccountFormData, enhance: deleteAccountFormEnhance } = deleteAccountForm;
 </script>
+
+<div class="mb-2">
+  <Breadcrumb.Root>
+    <Breadcrumb.List>
+      <Breadcrumb.Item>
+        <Breadcrumb.Link href="/settings/accounts">Teams</Breadcrumb.Link>
+      </Breadcrumb.Item>
+      <Breadcrumb.Separator />
+      <Breadcrumb.Item>
+        <Breadcrumb.Page>{data.account.name}</Breadcrumb.Page>
+      </Breadcrumb.Item>
+    </Breadcrumb.List>
+  </Breadcrumb.Root>
+</div>
 
 <div>
   {#if isEditMode}
