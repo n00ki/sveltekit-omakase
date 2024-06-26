@@ -27,9 +27,9 @@ export function validateImageFile(
       errors.push('Avatar must be an image');
     }
   } else {
-    if (imageFile.size > 5000000) {
+    if (imageFile.size > 4000000) {
       valid = false;
-      errors.push('Image size must be less than 5MB');
+      errors.push('Image size must be less than 4MB');
     }
 
     if (!imageFile.type.includes('image')) {
