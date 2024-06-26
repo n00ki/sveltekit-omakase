@@ -5,6 +5,7 @@ import { type NumericRange, type RequestEvent } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
 import { setError, type SuperValidated } from 'sveltekit-superforms/server';
 import { setFlash } from 'sveltekit-flash-message/server';
+import { RetryAfterRateLimiter } from 'sveltekit-rate-limiter/server';
 
 export const setFormFail = (
   form: SuperValidated<Record<string, unknown>>,
@@ -57,4 +58,30 @@ export const setFormError = (
 
   if (event) setFlash({ type: 'error', message: text }, event);
   if (opts?.field) return setError(form, opts?.field, text, { status: opts?.status ?? 400 });
+};
+
+const limiter = new RetryAfterRateLimiter({
+  IP: [10, 'h'],
+  IPUA: [5, 'm']
+});
+
+export const isRateLimited = async (
+  form: SuperValidated<Record<string, unknown>>,
+  event: RequestEvent,
+  opts: { field: string; removeSensitiveData?: string[] }
+) => {
+  const status = await limiter.check(event);
+  if (status.limited) {
+    return setFormError(
+      form,
+      `Too many attempts. Try again in ${status.retryAfter} seconds.`,
+      {
+        status: 429,
+        field: opts?.field,
+        removeSensitiveData: opts?.removeSensitiveData
+      },
+      event
+    );
+  }
+  return;
 };

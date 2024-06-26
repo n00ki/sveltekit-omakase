@@ -5,7 +5,7 @@ import { type Action, type Actions } from '@sveltejs/kit';
 import { redirect } from 'sveltekit-flash-message/server';
 import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
-import { setFormFail } from '$lib/utils/helpers/forms';
+import { isRateLimited, setFormFail } from '$lib/utils/helpers/forms';
 import * as m from '$lib/utils/messages.json';
 
 // Schemas
@@ -40,6 +40,8 @@ export const load = async (event) => {
 
 const createAccount: Action = async (event) => {
   const createAccountForm = await superValidate(event.request, zod(createAccountSchema));
+
+  await isRateLimited(createAccountForm, event, { field: 'name' });
 
   if (!createAccountForm.valid) {
     return setFormFail(createAccountForm);

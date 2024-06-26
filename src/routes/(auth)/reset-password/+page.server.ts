@@ -9,7 +9,7 @@ import { auth } from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
 import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
-import { setFormFail, setFormError } from '$lib/utils/helpers/forms';
+import { setFormFail, setFormError, isRateLimited } from '$lib/utils/helpers/forms';
 import { eq } from 'drizzle-orm';
 import { sendEmail } from '$lib/utils/mail/mailer';
 import { generateNanoId } from '$lib/utils/helpers/nanoid';
@@ -39,6 +39,8 @@ export async function load({ locals }) {
 
 const requestPasswordReset: Action = async (event) => {
   const form = await superValidate(event.request, zod(requestPasswordResetSchema));
+
+  await isRateLimited(form, event, { field: 'email' });
 
   if (!form.valid) {
     return setFormFail(form);

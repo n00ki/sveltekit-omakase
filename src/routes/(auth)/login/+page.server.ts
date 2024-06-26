@@ -6,7 +6,7 @@ import { auth } from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
 import { superValidate } from 'sveltekit-superforms/server';
 import { zod } from 'sveltekit-superforms/adapters';
-import { setFormFail, setFormError } from '$lib/utils/helpers/forms';
+import { setFormFail, setFormError, isRateLimited } from '$lib/utils/helpers/forms';
 import { eq } from 'drizzle-orm';
 import { Argon2id } from 'oslo/password';
 import * as m from '$lib/utils/messages.json';
@@ -34,6 +34,8 @@ export async function load({ locals }) {
 
 const login: Action = async (event) => {
   const form = await superValidate(event.request, zod(loginSchema));
+
+  await isRateLimited(form, event, { field: 'email', removeSensitiveData: ['password'] });
 
   if (!form.valid) {
     return setFormFail(form, { removeSensitiveData: ['password'] });
