@@ -41,7 +41,7 @@ export const registrationSchema = z.object({
     .string({ required_error: 'Password is required' })
     .trim()
     .min(6, { message: 'Password must be at least 6 characters' })
-    .max(64, { message: 'Password must be less than 32 characters' }),
+    .max(32, { message: 'Password must be less than 32 characters' }),
   passwordConfirmation: z
     .string({ required_error: 'Password confirmation is required' })
     .trim()
@@ -71,7 +71,7 @@ export const resetPasswordSchema = z.object({
     .string({ required_error: 'Password is required' })
     .trim()
     .min(6, { message: 'Password must be at least 6 characters' })
-    .max(64, { message: 'Password must be less than 32 characters' }),
+    .max(32, { message: 'Password must be less than 32 characters' }),
 
   passwordConfirmation: z
     .string({ required_error: 'Password confirmation is required' })
