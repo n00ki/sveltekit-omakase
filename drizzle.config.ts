@@ -21,6 +21,6 @@ const remoteConfig = {
     url: process.env.DATABASE_URL || '',
     authToken: process.env.DATABASE_AUTH_TOKEN || ''
   }
-};
+} as Config;
 
 export default process.env.NODE_ENV === 'production' ? remoteConfig : localConfig;
