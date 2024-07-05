@@ -13,29 +13,32 @@ async function clearDb() {
   const enableForeignKeys = sql.raw('PRAGMA foreign_keys = ON;');
 
   const queries = Object.values(tableSchema).map((table) => {
-    console.log(`🧨 Preparing drop query for table: ${table.dbName}`);
-    return sql.raw(`DROP TABLE IF EXISTS ${table.dbName};`);
+    console.log(`🧨 Preparing DELETE query for table: ${table.dbName}`);
+    return {
+      query: sql.raw(`DELETE FROM ${table.dbName}; DELETE FROM sqlite_sequence WHERE name='${table.dbName}';`),
+      queryString: `DELETE FROM ${table.dbName}; DELETE FROM sqlite_sequence WHERE name='${table.dbName}';`
+    };
   });
 
-  console.log('📨 Sending DROP queries...');
+  try {
+    console.log('🔒 Disabling foreign keys...');
+    await db.run(dropForeignKeys);
 
-  await db.transaction(async (tx) => {
-    try {
-      await tx.run(dropForeignKeys);
+    await db.transaction(async (tx) => {
+      console.log('📨 Sending queries...');
+      for (const { query, queryString } of queries) {
+        console.log(`💽 Executing query: ${queryString}`);
+        await tx.run(query);
+      }
+    });
 
-      await Promise.all(
-        queries.map(async (query) => {
-          if (query) await tx.run(query);
-        })
-      );
+    console.log('🔓 Enabling foreign keys...');
+    await db.run(enableForeignKeys);
 
-      console.log('✅ Database emptied');
-    } catch (error) {
-      console.error('❌ Error occurred while dropping tables:', error);
-    } finally {
-      await tx.run(enableForeignKeys);
-    }
-  });
+    console.log('✅ Database emptied');
+  } catch (error) {
+    console.error('❌ Error occurred while clearing the database:', error);
+  }
 }
 
 clearDb().catch((e) => {
