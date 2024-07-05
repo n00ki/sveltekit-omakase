@@ -40,8 +40,9 @@ export const registrationSchema = z.object({
   password: z
     .string({ required_error: 'Password is required' })
     .trim()
-    .min(6, { message: 'Password must be at least 6 characters' })
-    .max(32, { message: 'Password must be less than 32 characters' }),
+    .min(8, { message: 'Password must be at least 8 characters' })
+    .max(32, { message: 'Password must be less than 32 characters' })
+    .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, 'Password must contain at least one letter and one number'),
   passwordConfirmation: z
     .string({ required_error: 'Password confirmation is required' })
     .trim()
