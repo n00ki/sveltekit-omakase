@@ -6,6 +6,7 @@
   import { onNavigate, disableScrollHandling } from '$app/navigation';
   import { getFlash } from 'sveltekit-flash-message/client';
   import { fileUploadStatus } from '$lib/utils/helpers/uploadFile';
+  import { ModeWatcher } from 'mode-watcher';
 
   // Components
   import SEO from '$components/SEO.svelte';
@@ -25,21 +26,15 @@
     clearArray: true
   });
 
-  // Disable scroll handling on same route navigation for theme switching
-  onNavigate((navigation) => {
-    const previousRoute = navigation.from?.url.pathname;
-    const currentRoute = navigation.to?.url.pathname;
-
-    if (previousRoute === currentRoute) {
-      disableScrollHandling();
-    } else {
-      // reset file upload status on navigation
-      $fileUploadStatus = 'ready';
-    }
+  // Reset file upload status store on navigation
+  onNavigate(() => {
+    $fileUploadStatus = 'ready';
   });
 </script>
 
 <SEO {...$page.data.metadata} url={$page.url.href} />
+
+<ModeWatcher />
 
 <Toaster position="bottom-center" closeButton />
 

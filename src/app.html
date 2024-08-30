@@ -1,7 +1,9 @@
 <!doctype html>
-<html lang="en" class="%theme%">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
     <link rel="icon" href="%sveltekit.assets%/favicon.png" />
     <link
       rel="preload"
@@ -10,22 +12,6 @@
       type="font/ttf"
       crossorigin
     />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-
-    <script>
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-
-      const setSystemTheme = (prefersDark) => {
-        if (!document.cookie.includes('theme')) {
-          const systemTheme = prefersDark ? 'dark' : 'light';
-          document.documentElement.setAttribute('class', systemTheme);
-        }
-      };
-
-      setSystemTheme(prefersDark.matches);
-      prefersDark.addEventListener('change', (e) => setSystemTheme(e.matches));
-    </script>
 
     %sveltekit.head%
   </head>
