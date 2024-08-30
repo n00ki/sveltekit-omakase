@@ -22,7 +22,7 @@ export const auth = new Lucia(adapter, {
       avatar: attributes.avatar
     };
   },
-  sessionExpiresIn: new TimeSpan(30, 'd'),
+  sessionExpiresIn: new TimeSpan(7, 'd'),
   sessionCookie: {
     name: '__auth_session',
     attributes: {
