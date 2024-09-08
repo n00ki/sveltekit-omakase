@@ -3,10 +3,9 @@
 @tailwind utilities;
 
 @font-face {
-  /* Reference name */
   font-family: 'Montserrat';
-  /* For multiple files use commas, ex: url(), url(), ... */
-  src: url('/fonts/Montserrat-VariableFont.ttf');
+  src: url('/fonts/Montserrat-VariableFont.ttf') format('truetype');
+  font-display: swap;
 }
 
 @layer base {
@@ -65,47 +64,40 @@
 }
 
 @layer base {
-  /* === Scrollbars === */
+  html {
+    @apply antialiased;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+    scrollbar-width: thin;
+  }
+
+  body {
+    @apply bg-background font-primary text-foreground;
+  }
 
   ::-webkit-scrollbar {
-    @apply w-2;
-    @apply h-2;
+    @apply h-2 w-2;
   }
 
   ::-webkit-scrollbar-track {
-    @apply !bg-muted;
+    @apply bg-muted;
   }
+
   ::-webkit-scrollbar-thumb {
-    @apply rounded-sm !bg-muted-foreground/30;
-  }
-
-  /* Firefox */
-  /* https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color#browser_compatibility */
-  html {
-    scrollbar-color: hsl(215.4 16.3% 46.9% / 0.3);
-  }
-
-  html.dark {
-    scrollbar-color: hsl(215.4 16.3% 56.9% / 0.3);
-  }
-
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
+    @apply rounded-sm bg-muted-foreground/30;
   }
 
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  .antialised {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
 
 @supports (-webkit-touch-callout: none) {
   .min-h-screen {
-    min-height: 100vh;
     min-height: -webkit-fill-available;
   }
 }
