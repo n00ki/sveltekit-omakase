@@ -22,8 +22,8 @@
   // Assets
   import { Reload, Pencil2 } from 'svelte-radix';
 
-  export let data;
-  let isEditMode = false;
+  let { data = $bindable() } = $props();
+  let isEditMode = $state(false);
 
   const createAccountInviteForm = superForm(data.createAccountInviteForm, {
     validators: zodClient(createAccountInviteSchema),
@@ -90,18 +90,22 @@
   {#if isEditMode}
     <form id="edit-account-form" method="POST" action="?/editAccount" use:editAccountFormEnhance>
       <Input type="hidden" name="accountId" value={$editAccountFormData.accountId} />
-      <Form.Field form={editAccountForm} name="name" let:constraints>
-        <Form.Control let:attrs>
-          <Form.Label hidden>Name</Form.Label>
-          <Input
-            type="text"
-            placeholder="Account Name"
-            bind:value={$editAccountFormData.name}
-            {...attrs}
-            {...constraints}
-          />
-          <Form.FieldErrors />
-        </Form.Control>
+      <Form.Field form={editAccountForm} name="name">
+        {#snippet children({ constraints })}
+          <Form.Control>
+            {#snippet children({ props })}
+              <Form.Label hidden>Name</Form.Label>
+              <Input
+                type="text"
+                placeholder="Account Name"
+                bind:value={$editAccountFormData.name}
+                {...props}
+                {...constraints}
+              />
+              <Form.FieldErrors />
+            {/snippet}
+          </Form.Control>
+        {/snippet}
       </Form.Field>
 
       <Form.Button type="submit" class="my-2 w-full">Update</Form.Button>
@@ -116,7 +120,7 @@
         {#if data.account.members.find((m) => m.userId === data.user?.id && m.role === 'admin')}
           <Button
             variant="ghost"
-            on:click={() => {
+            onclick={() => {
               isEditMode = true;
             }}
           >
@@ -159,21 +163,25 @@
       use:createAccountInviteFormEnhance
     >
       <Input type="hidden" name="accountId" value={$createAccountInviteFormData.accountId} />
-      <Form.Field form={createAccountInviteForm} name="email" let:constraints>
-        <Form.Control let:attrs>
-          <Form.Label hidden>Email</Form.Label>
-          <Input
-            type="email"
-            autocapitalize="none"
-            autocorrect="off"
-            autocomplete="username"
-            placeholder="john@doe.com"
-            bind:value={$createAccountInviteFormData.email}
-            {...attrs}
-            {...constraints}
-          />
-          <Form.FieldErrors />
-        </Form.Control>
+      <Form.Field form={createAccountInviteForm} name="email">
+        {#snippet children({ constraints })}
+          <Form.Control>
+            {#snippet children({ props })}
+              <Form.Label hidden>Email</Form.Label>
+              <Input
+                type="email"
+                autocapitalize="none"
+                autocorrect="off"
+                autocomplete="username"
+                placeholder="john@doe.com"
+                bind:value={$createAccountInviteFormData.email}
+                {...props}
+                {...constraints}
+              />
+              <Form.FieldErrors />
+            {/snippet}
+          </Form.Control>
+        {/snippet}
       </Form.Field>
 
       <Form.Button type="submit" disabled={$createAccountInviteFormDelayed} class="my-2 w-full">

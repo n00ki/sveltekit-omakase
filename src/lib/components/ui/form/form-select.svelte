@@ -5,7 +5,13 @@
 
   type $$Props = SelectPrimitive.Props<unknown>;
   const { setValue, name, value } = getFormField();
-  export let onSelectedChange: $$Props['onSelectedChange'] = undefined;
+  interface Props {
+    onSelectedChange?: $$Props['onSelectedChange'];
+    children?: import('svelte').Snippet;
+    [key: string]: any;
+  }
+
+  let { onSelectedChange = undefined, children, ...rest }: Props = $props();
 </script>
 
 <Select.Root
@@ -13,8 +19,8 @@
     onSelectedChange?.(v);
     setValue(v ? v.value : undefined);
   }}
-  {...$$restProps}
+  {...rest}
 >
-  <slot />
+  {@render children?.()}
   <input hidden {name} value={$value} />
 </Select.Root>

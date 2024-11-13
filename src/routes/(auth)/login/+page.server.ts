@@ -2,7 +2,7 @@
 import type { Action, Actions } from './$types';
 
 // Utils
-import { auth } from '$lib/server/auth';
+import * as auth from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
 import { superValidate } from 'sveltekit-superforms/server';
 import { zod } from 'sveltekit-superforms/adapters';
@@ -75,12 +75,9 @@ const login: Action = async (event) => {
         );
       }
 
-      const session = await auth.createSession(user.id, {});
-      const sessionCookie = auth.createSessionCookie(session.id);
-      event.cookies.set(sessionCookie.name, sessionCookie.value, {
-        path: '.',
-        ...sessionCookie.attributes
-      });
+      const sessionToken = auth.generateSessionToken();
+      const session = await auth.createSession(sessionToken, user.id);
+      auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
     } catch {
       return setFormError(
         form,

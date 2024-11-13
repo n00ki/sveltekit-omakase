@@ -1,11 +1,11 @@
-<script lang="ts">
+<script>
   // Stores
   import { page } from '$app/stores';
 
   // Utils
-  import { onNavigate, disableScrollHandling } from '$app/navigation';
+  import { onNavigate } from '$app/navigation';
   import { getFlash } from 'sveltekit-flash-message/client';
-  import { fileUploadStatus } from '$lib/utils/helpers/uploadFile';
+  import { fileUploadState } from '$lib/utils/helpers/uploadFile.svelte';
   import { ModeWatcher } from 'mode-watcher';
 
   // Components
@@ -18,7 +18,7 @@
   // Styles
   import '../styles/app.css';
 
-  export let data;
+  let { data, children } = $props();
 
   const flash = getFlash(page, {
     clearOnNavigate: true,
@@ -28,7 +28,7 @@
 
   // Reset file upload status store on navigation
   onNavigate(() => {
-    $fileUploadStatus = 'ready';
+    fileUploadState.reset();
   });
 </script>
 
@@ -41,7 +41,7 @@
 <Navbar user={data.user} />
 
 <main class="container mx-auto flex flex-1 flex-col p-4 md:px-8 md:py-4">
-  <slot />
+  {@render children?.()}
 
   <div class="fixed bottom-5 right-0">
     <ThemeSwitcher />

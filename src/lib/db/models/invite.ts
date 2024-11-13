@@ -7,16 +7,16 @@ import { Account } from './account';
 export const Invite = sqliteTable(
   'invites',
   {
-    id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+    id: integer({ mode: 'number' }).primaryKey({ autoIncrement: true }),
     accountId: integer('account_id')
       .notNull()
       .references(() => Account.id, { onDelete: 'cascade' }),
-    email: text('email').notNull(),
-    token: text('token')
+    email: text().notNull(),
+    token: text()
       .notNull()
       .unique()
       .$default(() => generateNanoId({ token: true })),
-    status: text('status', { enum: ['pending', 'accepted', 'expired'] })
+    status: text({ enum: ['pending', 'accepted', 'expired'] })
       .notNull()
       .default('pending'),
     expiresAt: integer('expires_at', { mode: 'timestamp_ms' }).notNull(),

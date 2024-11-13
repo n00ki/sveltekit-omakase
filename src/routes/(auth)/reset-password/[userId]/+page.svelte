@@ -12,7 +12,7 @@
   // Assets
   import { Reload } from 'svelte-radix';
 
-  export let data;
+  let { data } = $props();
 
   const form = superForm(data.form, {
     validators: zodClient(resetPasswordSchema)
@@ -32,32 +32,40 @@
 
       <Input name="token" type="hidden" aria-hidden="true" bind:value={$formData.token} />
 
-      <Form.Field {form} name="password" let:constraints>
-        <Form.Control let:attrs>
-          <Form.Label>Password</Form.Label>
-          <Input
-            type="password"
-            autocomplete="new-password"
-            bind:value={$formData.password}
-            {...attrs}
-            {...constraints}
-          />
-          <Form.FieldErrors />
-        </Form.Control>
+      <Form.Field {form} name="password">
+        {#snippet children({ constraints })}
+          <Form.Control>
+            {#snippet children({ props })}
+              <Form.Label>Password</Form.Label>
+              <Input
+                type="password"
+                autocomplete="new-password"
+                bind:value={$formData.password}
+                {...props}
+                {...constraints}
+              />
+              <Form.FieldErrors />
+            {/snippet}
+          </Form.Control>
+        {/snippet}
       </Form.Field>
 
-      <Form.Field {form} name="passwordConfirmation" let:constraints>
-        <Form.Control let:attrs>
-          <Form.Label>Password Confirmation</Form.Label>
-          <Input
-            type="password"
-            autocomplete="new-password"
-            bind:value={$formData.passwordConfirmation}
-            {...attrs}
-            {...constraints}
-          />
-          <Form.FieldErrors />
-        </Form.Control>
+      <Form.Field {form} name="passwordConfirmation">
+        {#snippet children({ constraints })}
+          <Form.Control>
+            {#snippet children({ props })}
+              <Form.Label>Password Confirmation</Form.Label>
+              <Input
+                type="password"
+                autocomplete="new-password"
+                bind:value={$formData.passwordConfirmation}
+                {...props}
+                {...constraints}
+              />
+              <Form.FieldErrors />
+            {/snippet}
+          </Form.Control>
+        {/snippet}
       </Form.Field>
 
       <Form.Button disabled={$delayed} class="my-2 w-full">

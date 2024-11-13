@@ -1,7 +1,12 @@
 <script lang="ts">
   import { cn } from '$lib/utils/utils';
 
-  export let size: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' = 'xl';
+  interface Props {
+    size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
+    children?: import('svelte').Snippet;
+  }
+
+  let { size = 'xl', children }: Props = $props();
 
   const className = 'mx-auto';
   const maxWidth = 'max-w-' + size;
@@ -9,6 +14,6 @@
 
 <div class="w-full">
   <div class={cn(className, maxWidth)}>
-    <slot />
+    {@render children?.()}
   </div>
 </div>

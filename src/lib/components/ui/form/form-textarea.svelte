@@ -3,6 +3,11 @@
   import type { HTMLTextareaAttributes } from 'svelte/elements';
   import type { TextareaGetFormField } from '.';
   import { Textarea, type TextareaEvents } from '$components/ui/textarea';
+  interface Props {
+    [key: string]: any;
+  }
+
+  let { ...rest }: Props = $props();
 
   type $$Props = HTMLTextareaAttributes;
   type $$Events = TextareaEvents;
@@ -13,7 +18,7 @@
 <Textarea
   {...$attrStore}
   bind:value={$value}
-  {...$$restProps}
+  {...rest}
   on:blur
   on:change
   on:click

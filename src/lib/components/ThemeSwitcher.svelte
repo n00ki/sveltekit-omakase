@@ -17,7 +17,7 @@
     variant="outline"
     size="icon"
     class="rounded-r-none border-r-0"
-    on:click={toggleMode}
+    onclick={toggleMode}
   >
     {#if $mode === 'dark'}
       <div in:fly={{ y: 20, duration: 300 }}>

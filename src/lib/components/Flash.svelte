@@ -5,11 +5,14 @@
   // Icons
   import { CheckCircled, ExclamationTriangle, CrossCircled } from 'svelte-radix';
 
-  export let type: 'success' | 'error' | 'warning';
-  export let message: string;
+  interface Props {
+    type: 'success' | 'error' | 'warning';
+    message: string;
+  }
 
-  const title: string = type === 'success' ? 'Success!' : type === 'error' ? 'Oops...' : 'Warning!';
+  let { type, message }: Props = $props();
 
+  const title = type === 'success' ? 'Success!' : type === 'error' ? 'Oops...' : 'Warning!';
   const bgColor = type === 'error' ? 'destructive' : 'primary';
   const textColor = type === 'error' ? 'destructive-foreground' : 'primary-foreground';
 </script>

@@ -2,7 +2,7 @@
 import { type Action } from '@sveltejs/kit';
 
 // Utils
-import { auth } from '$lib/server/auth';
+import * as auth from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
 import { fail } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
@@ -74,7 +74,7 @@ const editUser: Action = async (event) => {
       }
     }
 
-    throw redirect({ type: 'success', message: m.settings.userProfile.edit.success }, event);
+    redirect({ type: 'success', message: m.settings.userProfile.edit.success }, event);
   }
 };
 

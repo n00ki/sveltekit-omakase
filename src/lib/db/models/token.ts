@@ -5,8 +5,8 @@ import { generateNanoId } from '../../utils/helpers/nanoid';
 import { User } from './user';
 
 export const Token = sqliteTable('tokens', {
-  id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
-  key: text('key')
+  id: integer({ mode: 'number' }).primaryKey({ autoIncrement: true }),
+  key: text()
     .notNull()
     .unique()
     .$default(() => generateNanoId({ token: true })),

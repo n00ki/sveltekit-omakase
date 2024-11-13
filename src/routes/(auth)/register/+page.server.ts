@@ -2,7 +2,7 @@
 import type { Action } from './$types';
 
 // Utils
-import { auth } from '$lib/server/auth';
+import * as auth from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
 import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
@@ -113,12 +113,9 @@ const register: Action = async (event) => {
 
       // Automatically log in the user
       try {
-        const session = await auth.createSession(userId, {});
-        const sessionCookie = auth.createSessionCookie(session.id);
-        event.cookies.set(sessionCookie.name, sessionCookie.value, {
-          path: '.',
-          ...sessionCookie.attributes
-        });
+        const sessionToken = auth.generateSessionToken();
+        const session = await auth.createSession(sessionToken, userId);
+        auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
       } catch (e) {
         console.log(e);
       }
@@ -138,7 +135,7 @@ const register: Action = async (event) => {
 
     // Send welcome email
     try {
-      sendEmail(email, '🥋 Welcome to SvelteKit Omakase!', 'Welcome', { userFirstName: firstName });
+      sendEmail(email, 'Welcome', { userFirstName: firstName });
     } catch (e) {
       console.log(e);
     }

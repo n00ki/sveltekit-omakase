@@ -100,7 +100,7 @@ const createAccountInvite: Action = async (event) => {
 
       const inviteUrl = `${PUBLIC_BASE_URL}/invites?account=${accountId}&token=${invite[0].token}`;
       try {
-        sendEmail(email, '👥 You’re Invited to Collaborate on SvelteKit Omakase!', 'AccountInvite', {
+        sendEmail(email, 'AccountInvite', {
           url: inviteUrl,
           invitedBy: event.locals.user?.firstName + ' ' + event.locals.user?.lastName
         });

@@ -12,7 +12,7 @@
   // Assets
   import { Reload } from 'svelte-radix';
 
-  export let data;
+  let { data } = $props();
 
   const form = superForm(data.form, {
     validators: zodClient(registrationSchema)
@@ -31,88 +31,108 @@
       <div class="grid gap-4">
         <div class="grid grid-cols-2 gap-4">
           <div class="grid gap-2">
-            <Form.Field {form} name="firstName" let:constraints>
-              <Form.Control let:attrs>
-                <Form.Label>First name</Form.Label>
-                <Input
-                  type="text"
-                  autocomplete="given-name"
-                  placeholder="Frank"
-                  bind:value={$formData.firstName}
-                  {...attrs}
-                  {...constraints}
-                />
-                <Form.FieldErrors />
-              </Form.Control>
+            <Form.Field {form} name="firstName">
+              {#snippet children({ constraints })}
+                <Form.Control>
+                  {#snippet children({ props })}
+                    <Form.Label>First name</Form.Label>
+                    <Input
+                      type="text"
+                      autocomplete="given-name"
+                      placeholder="Frank"
+                      bind:value={$formData.firstName}
+                      {...props}
+                      {...constraints}
+                    />
+                    <Form.FieldErrors />
+                  {/snippet}
+                </Form.Control>
+              {/snippet}
             </Form.Field>
           </div>
 
           <div class="grid gap-2">
-            <Form.Field {form} name="lastName" let:constraints>
-              <Form.Control let:attrs>
-                <Form.Label>Last name</Form.Label>
-                <Input
-                  type="text"
-                  autocomplete="family-name"
-                  placeholder="Sinatra"
-                  bind:value={$formData.lastName}
-                  {...attrs}
-                  {...constraints}
-                />
-                <Form.FieldErrors />
-              </Form.Control>
+            <Form.Field {form} name="lastName">
+              {#snippet children({ constraints })}
+                <Form.Control>
+                  {#snippet children({ props })}
+                    <Form.Label>Last name</Form.Label>
+                    <Input
+                      type="text"
+                      autocomplete="family-name"
+                      placeholder="Sinatra"
+                      bind:value={$formData.lastName}
+                      {...props}
+                      {...constraints}
+                    />
+                    <Form.FieldErrors />
+                  {/snippet}
+                </Form.Control>
+              {/snippet}
             </Form.Field>
           </div>
         </div>
 
         <div class="grid gap-2">
-          <Form.Field {form} name="email" let:constraints>
-            <Form.Control let:attrs>
-              <Form.Label>Email</Form.Label>
-              <Input
-                type="email"
-                autocapitalize="none"
-                autocorrect="off"
-                autocomplete="username"
-                placeholder="email@example.com"
-                bind:value={$formData.email}
-                {...attrs}
-                {...constraints}
-              />
-              <Form.FieldErrors />
-            </Form.Control>
+          <Form.Field {form} name="email">
+            {#snippet children({ constraints })}
+              <Form.Control>
+                {#snippet children({ props })}
+                  <Form.Label>Email</Form.Label>
+                  <Input
+                    type="email"
+                    autocapitalize="none"
+                    autocorrect="off"
+                    autocomplete="username"
+                    placeholder="email@example.com"
+                    bind:value={$formData.email}
+                    {...props}
+                    {...constraints}
+                  />
+                  <Form.FieldErrors />
+                {/snippet}
+              </Form.Control>
+            {/snippet}
           </Form.Field>
         </div>
 
         <div class="grid gap-2">
-          <Form.Field {form} name="password" let:constraints>
-            <Form.Control let:attrs>
-              <Form.Label>Password</Form.Label>
-              <Input
-                type="password"
-                autocomplete="new-password"
-                bind:value={$formData.password}
-                {...attrs}
-                {...constraints}
-              />
-              <Form.FieldErrors />
-            </Form.Control>
+          <Form.Field {form} name="password">
+            {#snippet children({ constraints })}
+              <Form.Control>
+                {#snippet children({ props })}
+                  <Form.Label>Password</Form.Label>
+                  <Input
+                    type="password"
+                    autocomplete="new-password"
+                    bind:value={$formData.password}
+                    {...props}
+                    {...constraints}
+                  />
+                  <Form.FieldErrors />
+                {/snippet}
+              </Form.Control>
+            {/snippet}
           </Form.Field>
         </div>
 
         <div class="grid gap-2">
-          <Form.Field {form} name="passwordConfirmation" let:constraints>
-            <Form.Control let:attrs>
-              <Form.Label>Password Confirmation</Form.Label>
-              <Input
-                type="password"
-                autocomplete="new-password"
-                bind:value={$formData.passwordConfirmation}
-                {...attrs}
-                {...constraints}
-              />
-              <Form.FieldErrors />
-            </Form.Control>
+          <Form.Field {form} name="passwordConfirmation">
+            {#snippet children({ constraints })}
+              <Form.Control>
+                {#snippet children({ props })}
+                  <Form.Label>Password Confirmation</Form.Label>
+                  <Input
+                    type="password"
+                    autocomplete="new-password"
+                    bind:value={$formData.passwordConfirmation}
+                    {...props}
+                    {...constraints}
+                  />
+                  <Form.FieldErrors />
+                {/snippet}
+              </Form.Control>
+            {/snippet}
           </Form.Field>
         </div>
 

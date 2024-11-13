@@ -7,50 +7,35 @@ import { dev } from '$app/environment';
 // Utils
 import sendgrid from '@sendgrid/mail';
 import { fail } from '@sveltejs/kit';
-import { render } from 'svelty-email';
 import { previewHTML } from '$lib/utils/helpers/preview';
 
 // Templates
-import PreviewTemplate from '$lib/utils/mail/templates/Preview.svelte';
-import WelcomeTemplate from '$lib/utils/mail/templates/Welcome.svelte';
-import ResetPasswordTemplate from '$lib/utils/mail/templates/ResetPassword.svelte';
-import AccountInviteTemplate from '$lib/utils/mail/templates/AccountInvite.svelte';
+import { welcomeEmail } from './templates/welcome';
+import { resetPasswordEmail } from './templates/resetPassword';
+import { accountInviteEmail } from './templates/accountInvite';
+import { previewEmail } from './templates/preview';
 
 export const sendEmail = async (
   to: string,
-  subject: string,
   templateName: string,
-  templateData?: { url?: string; userFirstName?: string; invitedBy?: string; releaseTitle?: string }
+  templateData?: { url?: string; userFirstName?: string; invitedBy?: string; releaseTitle?: string },
+  subject?: string
 ) => {
-  if (to && subject && templateName) {
+  if (to && templateName) {
     let html;
 
     switch (templateName) {
       case 'Welcome':
-        html = render({
-          template: WelcomeTemplate,
-          props: {
-            userFirstName: templateData?.userFirstName ?? ''
-          }
-        });
+        html = welcomeEmail({ userFirstName: templateData?.userFirstName ?? '' }).html;
         break;
       case 'ResetPassword':
-        html = render({
-          template: ResetPasswordTemplate,
-          props: {
-            userFirstName: templateData?.userFirstName ?? '',
-            url: templateData?.url ?? ''
-          }
-        });
+        html = resetPasswordEmail({
+          userFirstName: templateData?.userFirstName ?? '',
+          url: templateData?.url ?? ''
+        }).html;
         break;
       case 'AccountInvite':
-        html = render({
-          template: AccountInviteTemplate,
-          props: {
-            url: templateData?.url ?? '',
-            invitedBy: templateData?.invitedBy ?? ''
-          }
-        });
+        html = accountInviteEmail({ url: templateData?.url ?? '', invitedBy: templateData?.invitedBy ?? '' }).html;
         console.log('Invite URL:', templateData?.url ?? '');
         break;
       default:
@@ -65,14 +50,11 @@ export const sendEmail = async (
     };
 
     if (dev) {
-      const previewTemplate = render({
-        template: PreviewTemplate,
-        props: {
-          from: options.from,
-          to: options.to,
-          subject: options.subject
-        }
-      });
+      const previewTemplate = previewEmail({
+        from: options.from,
+        to: options.to
+      }).html;
+
       html = previewTemplate + html;
       previewHTML(html);
     } else {

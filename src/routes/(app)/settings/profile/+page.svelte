@@ -5,7 +5,7 @@
   // Utils
   import { superForm } from 'sveltekit-superforms';
   import { zodClient } from 'sveltekit-superforms/adapters';
-  import { uploadImageFile, fileUploadStatus } from '$lib/utils/helpers/uploadFile';
+  import { uploadImageFile, fileUploadState } from '$lib/utils/helpers/uploadFile.svelte';
   import { toast } from 'svelte-sonner';
   import * as m from '$lib/utils/messages.json';
 
@@ -24,12 +24,21 @@
   import avatarPlaceholder from '$lib/assets/avatar.png';
   import { Reload, Symbol, CrossCircled } from 'svelte-radix';
 
-  export let data;
+  let { data } = $props();
 
   let avatarFileId: string | null = null;
-  let fileUploadErrors: string[] = [];
+  let fileUploadErrors: string[] = $state([]);
+  let avatarPreviewElement: HTMLImageElement | null = $state(null);
 
-  let userAvatar = data.user?.avatar ? `${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${data.user.avatar}` : avatarPlaceholder;
+  let userAvatar = $state(
+    data.user?.avatar ? `${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${data.user.avatar}` : avatarPlaceholder
+  );
+
+  $effect(() => {
+    if (fileUploadState.status === 'uploaded') {
+      document.getElementById('edit-user-form')?.dispatchEvent(new Event('submit'));
+    }
+  });
 
   async function uploadAvatar(event: Event) {
     const avatarInputField: HTMLInputElement = event.target as HTMLInputElement;
@@ -44,8 +53,7 @@
       }
 
       avatarFileId = upload.fileId;
-      userAvatar = `${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${avatarFileId}`;
-      document.getElementById('edit-user-form')?.dispatchEvent(new Event('submit'));
+      userAvatar = upload.previewUrl;
     }
   }
 
@@ -72,28 +80,37 @@
 <div class="flex w-full flex-1 flex-col justify-center">
   <div class="mx-auto my-2 flex h-32 w-32 rounded-full p-1 ring-4 ring-accent drop-shadow-sm">
     <div class="m-auto flex h-full w-full items-center justify-center overflow-hidden rounded-full">
-      {#if $fileUploadStatus === 'uploading'}
+      {#if fileUploadState.status === 'uploading'}
         <Symbol class="h-6 w-6 animate-spin" />
       {:else}
-        <img src={userAvatar} alt="avatar preview" class="min-h-full min-w-full shrink-0 object-cover" />
+        <img
+          bind:this={avatarPreviewElement}
+          src={userAvatar}
+          alt="avatar preview"
+          class="min-h-full min-w-full shrink-0 object-cover"
+        />
       {/if}
     </div>
   </div>
 
   <form id="edit-user-form" method="POST" action="?/editUser" enctype="multipart/form-data" use:enhance>
-    <Form.Field name="avatar" {form} let:constraints>
-      <Form.Control let:attrs>
-        <Form.Label>Avatar</Form.Label>
-        <Input
-          type="file"
-          on:change={uploadAvatar}
-          disabled={$fileUploadStatus === 'uploading'}
-          class="file:p-1 file:text-foreground"
-          {...attrs}
-          {...constraints}
-        />
-        <Form.FieldErrors />
-      </Form.Control>
+    <Form.Field name="avatar" {form}>
+      {#snippet children({ constraints })}
+        <Form.Control>
+          {#snippet children({ props })}
+            <Form.Label>Avatar</Form.Label>
+            <Input
+              type="file"
+              onchange={uploadAvatar}
+              disabled={fileUploadState.status === 'uploading'}
+              class="file:p-1 file:text-foreground"
+              {...props}
+              {...constraints}
+            />
+            <Form.FieldErrors />
+          {/snippet}
+        </Form.Control>
+      {/snippet}
     </Form.Field>
 
     <Form.Button disabled={$delayed} variant="secondary" class="my-2 hidden w-full">
@@ -104,7 +121,7 @@
     </Form.Button>
   </form>
 
-  {#if $fileUploadStatus === 'failed'}
+  {#if fileUploadState.status === 'failed'}
     {#each fileUploadErrors as error}
       <Alert.Root variant="destructive" class="inline-flex items-center gap-2 py-2">
         <div>

@@ -8,6 +8,7 @@ CREATE TABLE `accounts` (
 	`updated_at` integer
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `accounts_public_id_unique` ON `accounts` (`public_id`);--> statement-breakpoint
 CREATE TABLE `users_accounts` (
 	`account_id` integer NOT NULL,
 	`user_id` text NOT NULL,
@@ -29,6 +30,9 @@ CREATE TABLE `invites` (
 	FOREIGN KEY (`account_id`) REFERENCES `accounts`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `invites_token_unique` ON `invites` (`token`);--> statement-breakpoint
+CREATE INDEX `invites_account_id` ON `invites` (`account_id`);--> statement-breakpoint
+CREATE INDEX `invites_email` ON `invites` (`email`);--> statement-breakpoint
 CREATE TABLE `sessions` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` text NOT NULL,
@@ -44,6 +48,8 @@ CREATE TABLE `tokens` (
 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `tokens_key_unique` ON `tokens` (`key`);--> statement-breakpoint
+CREATE UNIQUE INDEX `tokens_user_id_unique` ON `tokens` (`user_id`);--> statement-breakpoint
 CREATE TABLE `users` (
 	`id` text PRIMARY KEY NOT NULL,
 	`email` text,
@@ -56,10 +62,4 @@ CREATE TABLE `users` (
 	`updated_at` integer
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `accounts_public_id_unique` ON `accounts` (`public_id`);--> statement-breakpoint
-CREATE UNIQUE INDEX `invites_token_unique` ON `invites` (`token`);--> statement-breakpoint
-CREATE INDEX `invites_account_id` ON `invites` (`account_id`);--> statement-breakpoint
-CREATE INDEX `invites_email` ON `invites` (`email`);--> statement-breakpoint
-CREATE UNIQUE INDEX `tokens_key_unique` ON `tokens` (`key`);--> statement-breakpoint
-CREATE UNIQUE INDEX `tokens_user_id_unique` ON `tokens` (`user_id`);--> statement-breakpoint
 CREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);

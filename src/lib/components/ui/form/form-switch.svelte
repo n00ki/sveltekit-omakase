@@ -5,7 +5,12 @@
   type $$Props = SwitchPrimitive.Props;
   type $$Events = SwitchPrimitive.Events;
 
-  export let onCheckedChange: $$Props['onCheckedChange'] = undefined;
+  interface Props {
+    onCheckedChange?: $$Props['onCheckedChange'];
+    [key: string]: any;
+  }
+
+  let { onCheckedChange = undefined, ...rest }: Props = $props();
 
   const { name, setValue, attrStore, value } = getFormField();
 </script>
@@ -17,7 +22,7 @@
     onCheckedChange?.(v);
     setValue(v);
   }}
-  {...$$restProps}
+  {...rest}
   on:click
   on:keydown
 />

@@ -10,9 +10,12 @@
   // Components
   import { Button } from '$components/ui/button';
 
-  let className: string | undefined | null = undefined;
-  export let items: { href: string; title: string }[];
-  export { className as class };
+  interface Props {
+    class?: string | undefined | null;
+    items: { href: string; title: string }[];
+  }
+
+  let { class: className = undefined, items }: Props = $props();
 
   const [send, receive] = crossfade({
     duration: 250,
@@ -35,7 +38,7 @@
           class="absolute inset-0 rounded-md bg-muted"
           in:send={{ key: 'active-sidebar-tab' }}
           out:receive={{ key: 'active-sidebar-tab' }}
-        />
+        ></div>
       {/if}
       <div class="relative">
         {item.title}

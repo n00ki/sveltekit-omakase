@@ -5,7 +5,12 @@
   type $$Props = CheckboxPrimitive.Props;
   type $$Events = CheckboxPrimitive.Events;
 
-  export let onCheckedChange: $$Props['onCheckedChange'] = undefined;
+  interface Props {
+    onCheckedChange?: $$Props['onCheckedChange'];
+    [key: string]: any;
+  }
+
+  let { onCheckedChange = undefined, ...rest_1 }: Props = $props();
 
   const { name, setValue, attrStore, value } = getFormField();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -19,7 +24,7 @@
     onCheckedChange?.(v);
     setValue(v);
   }}
-  {...$$restProps}
+  {...rest_1}
   on:click
   on:keydown
 />

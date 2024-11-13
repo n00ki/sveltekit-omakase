@@ -5,15 +5,23 @@
   // Assets
   import metaImage from '$lib/assets/meta_image.png';
 
-  export let title: string;
-  export let description: string;
-  export let image: string;
-  export let url: string;
+  interface Props {
+    title: string;
+    description: string;
+    image: string;
+    url: string;
+  }
 
-  $: title = title ? `SvelteKit Omakase | ${title}` : 'SvelteKit Omakase';
-  $: description = description ?? 'a starter project designed to get you up and running with SvelteKit 🚀';
-  $: image = image ?? metaImage;
-  $: url = url ?? PUBLIC_BASE_URL;
+  let {
+    title = $bindable(),
+    description = $bindable('a starter project designed to get you up and running with SvelteKit 🚀'),
+    image = $bindable(metaImage),
+    url = $bindable(PUBLIC_BASE_URL)
+  }: Props = $props();
+
+  $effect(() => {
+    title = title ? `${title} | SvelteKit Omakase` : 'SvelteKit Omakase';
+  });
 </script>
 
 <svelte:head>

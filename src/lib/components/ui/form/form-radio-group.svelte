@@ -6,7 +6,13 @@
   type $$Props = RadioGroupPrimitive.Props;
   const { attrStore, setValue, name, value } = getFormField();
 
-  export let onValueChange: $$Props['onValueChange'] = undefined;
+  interface Props {
+    onValueChange?: $$Props['onValueChange'];
+    children?: import('svelte').Snippet;
+    [key: string]: any;
+  }
+
+  let { onValueChange = undefined, children, ...rest }: Props = $props();
 </script>
 
 <RadioGroup.Root
@@ -15,8 +21,8 @@
     onValueChange?.(v);
     setValue(v);
   }}
-  {...$$restProps}
+  {...rest}
 >
-  <slot />
+  {@render children?.()}
   <input hidden {name} value={$value} />
 </RadioGroup.Root>

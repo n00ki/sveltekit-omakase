@@ -23,7 +23,7 @@
   // Assets
   import { Reload } from 'svelte-radix';
 
-  export let data;
+  let { data } = $props();
 
   const form = superForm(data.form, {
     validators: zodClient(createAccountSchema),
@@ -43,10 +43,10 @@
   <h2 class="pb-4 font-semibold">Pending Invites</h2>
   {#each data.pendingInvites as invite}
     <div
-      class="mb-2 inline-flex w-full items-center justify-between rounded-lg border border-brand-primary bg-muted p-2 text-sm"
+      class="border-brand-primary mb-2 inline-flex w-full items-center justify-between rounded-lg border bg-muted p-2 text-sm"
     >
       <p>{invite.account.name}</p>
-      <Form.Button size="sm" on:click={() => handleAcceptInvite(invite.accountId, invite.token)}>Accept</Form.Button>
+      <Form.Button size="sm" onclick={() => handleAcceptInvite(invite.accountId, invite.token)}>Accept</Form.Button>
     </div>
   {/each}
 
@@ -90,12 +90,16 @@
 <form id="create-account-form" method="POST" action="?/createAccount" class="py-4" use:enhance>
   <Input type="hidden" name="userId" value={data.user?.id ?? ''} />
 
-  <Form.Field {form} name="name" let:constraints>
-    <Form.Control let:attrs>
-      <Form.Label hidden>Name</Form.Label>
-      <Input type="text" placeholder="My Awesome Team" bind:value={$formData.name} {...attrs} {...constraints} />
-      <Form.FieldErrors />
-    </Form.Control>
+  <Form.Field {form} name="name">
+    {#snippet children({ constraints })}
+      <Form.Control>
+        {#snippet children({ props })}
+          <Form.Label hidden>Name</Form.Label>
+          <Input type="text" placeholder="My Awesome Team" bind:value={$formData.name} {...props} {...constraints} />
+          <Form.FieldErrors />
+        {/snippet}
+      </Form.Control>
+    {/snippet}
   </Form.Field>
 
   <Form.Button type="submit" disabled={$delayed} class="my-2 w-full">

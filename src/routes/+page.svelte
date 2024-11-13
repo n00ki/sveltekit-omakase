@@ -1,5 +1,5 @@
 <script>
-  export let data;
+  let { data } = $props();
 </script>
 
 <div class="grid flex-1 content-center justify-center text-center">

@@ -2,6 +2,11 @@
   import { getFormField } from 'formsnap';
   import type { HTMLInputAttributes } from 'svelte/elements';
   import { Input, type InputEvents } from '$components/ui/input';
+  interface Props {
+    [key: string]: any;
+  }
+
+  let { ...rest }: Props = $props();
 
   type $$Props = HTMLInputAttributes;
   type $$Events = InputEvents;
@@ -12,7 +17,7 @@
 <Input
   {...$attrStore}
   bind:value={$value}
-  {...$$restProps}
+  {...rest}
   on:blur
   on:change
   on:click

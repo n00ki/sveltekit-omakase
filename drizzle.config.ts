@@ -1,22 +1,25 @@
-import 'dotenv/config';
 import type { Config } from 'drizzle-kit';
+import 'dotenv/config';
 
 const localConfig = {
-  dialect: 'sqlite',
+  dialect: 'turso',
   schema: './src/lib/db/models/*',
   out: './src/lib/db/migrations',
   breakpoints: true,
+  casing: 'snake_case',
+  verbose: true,
   dbCredentials: {
     url: process.env.LOCAL_DATABASE_URL || ''
   }
 } as Config;
 
 const remoteConfig = {
-  dialect: 'sqlite',
-  driver: 'turso',
+  dialect: 'turso',
   schema: './src/lib/db/models/*',
   out: './src/lib/db/migrations',
   breakpoints: true,
+  casing: 'snake_case',
+  verbose: true,
   dbCredentials: {
     url: process.env.DATABASE_URL || '',
     authToken: process.env.DATABASE_AUTH_TOKEN || ''

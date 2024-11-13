@@ -5,7 +5,7 @@ import type { Action } from './$types';
 import { PUBLIC_BASE_URL } from '$env/static/public';
 
 // Utils
-import { auth } from '$lib/server/auth';
+import * as auth from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
 import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
@@ -89,7 +89,7 @@ const requestPasswordReset: Action = async (event) => {
 
     const url = new URL(`${PUBLIC_BASE_URL}/reset-password/${user.id}?token=${token?.key}`);
 
-    await sendEmail(email, '🔒 Reset Your Password!', 'ResetPassword', {
+    await sendEmail(email, 'ResetPassword', {
       url: url.toString(),
       userFirstName: user.firstName
     });

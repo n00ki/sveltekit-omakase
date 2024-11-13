@@ -4,6 +4,12 @@
   import * as Breadcrumb from '$components/ui/breadcrumb';
   import { Separator } from '$components/ui/separator';
 
+  interface Props {
+    children?: import('svelte').Snippet;
+  }
+
+  let { children }: Props = $props();
+
   const sidebarNavItems = [
     {
       title: 'User Profile',
@@ -39,7 +45,7 @@
       <SettingsNavbar items={sidebarNavItems} />
     </aside>
     <div class="flex-1 lg:max-w-2xl">
-      <slot />
+      {@render children?.()}
     </div>
   </div>
 </div>

@@ -1,11 +1,12 @@
 <script lang="ts">
   import { Toaster as Sonner, type ToasterProps as SonnerProps } from 'svelte-sonner';
-  import { page } from '$app/stores';
-  type $$Props = SonnerProps;
+  import { mode } from 'mode-watcher';
+
+  let restProps: SonnerProps = $props();
 </script>
 
 <Sonner
-  theme={$page.data.theme}
+  theme={$mode}
   class="toaster group"
   toastOptions={{
     classes: {
@@ -16,5 +17,5 @@
       cancelButton: 'group-[.toast]:bg-muted group-[.toast]:text-muted-foreground'
     }
   }}
-  {...$$restProps}
+  {...restProps}
 />

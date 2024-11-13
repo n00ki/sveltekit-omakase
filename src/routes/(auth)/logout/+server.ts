@@ -1,6 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { redirect } from 'sveltekit-flash-message/server';
-import { auth } from '$lib/server/auth';
+import * as auth from '$lib/server/auth';
 import * as m from '$lib/utils/messages.json';
 
 export const POST: RequestHandler = async (event) => {
@@ -8,11 +8,7 @@ export const POST: RequestHandler = async (event) => {
 
   try {
     await auth.invalidateSession(event.locals.session.id);
-    const sessionCookie = auth.createBlankSessionCookie();
-    event.cookies.set(sessionCookie.name, sessionCookie.value, {
-      path: '.',
-      ...sessionCookie.attributes
-    });
+    auth.deleteSessionTokenCookie(event);
   } catch (error) {
     console.log(error);
     redirect(

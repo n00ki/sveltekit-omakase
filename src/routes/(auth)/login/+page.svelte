@@ -12,7 +12,7 @@
   // Assets
   import { Reload } from 'svelte-radix';
 
-  export let data;
+  let { data } = $props();
 
   const form = superForm(data.form, {
     validators: zodClient(loginSchema)
@@ -30,39 +30,47 @@
     <div class="grid gap-4">
       <form method="POST" action="?/login" use:enhance>
         <div class="grid gap-2">
-          <Form.Field {form} name="email" let:constraints>
-            <Form.Control let:attrs>
-              <Form.Label>Email</Form.Label>
-              <Input
-                type="email"
-                autocapitalize="none"
-                autocorrect="off"
-                autocomplete="username"
-                placeholder="email@example.com"
-                bind:value={$formData.email}
-                {...attrs}
-                {...constraints}
-              />
-              <Form.FieldErrors />
-            </Form.Control>
+          <Form.Field {form} name="email">
+            {#snippet children({ constraints })}
+              <Form.Control>
+                {#snippet children({ props })}
+                  <Form.Label>Email</Form.Label>
+                  <Input
+                    type="email"
+                    autocapitalize="none"
+                    autocorrect="off"
+                    autocomplete="username"
+                    placeholder="email@example.com"
+                    bind:value={$formData.email}
+                    {...props}
+                    {...constraints}
+                  />
+                  <Form.FieldErrors />
+                {/snippet}
+              </Form.Control>
+            {/snippet}
           </Form.Field>
         </div>
         <div class="grid gap-2">
-          <Form.Field {form} name="password" let:constraints>
-            <Form.Control let:attrs>
-              <div class="flex items-center">
-                <Form.Label>Password</Form.Label>
-                <a href="/reset-password" class="ml-auto inline-block text-sm underline"> Forgot your password? </a>
-              </div>
-              <Input
-                type="password"
-                autocomplete="current-password"
-                bind:value={$formData.password}
-                {...attrs}
-                {...constraints}
-              />
-              <Form.FieldErrors />
-            </Form.Control>
+          <Form.Field {form} name="password">
+            {#snippet children({ constraints })}
+              <Form.Control>
+                {#snippet children({ props })}
+                  <div class="flex items-center">
+                    <Form.Label>Password</Form.Label>
+                    <a href="/reset-password" class="ml-auto inline-block text-sm underline"> Forgot your password? </a>
+                  </div>
+                  <Input
+                    type="password"
+                    autocomplete="current-password"
+                    bind:value={$formData.password}
+                    {...props}
+                    {...constraints}
+                  />
+                  <Form.FieldErrors />
+                {/snippet}
+              </Form.Control>
+            {/snippet}
           </Form.Field>
         </div>
 

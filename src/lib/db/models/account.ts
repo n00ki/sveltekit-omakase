@@ -6,16 +6,16 @@ import { User } from './user';
 import { Invite } from './invite';
 
 export const Account = sqliteTable('accounts', {
-  id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+  id: integer({ mode: 'number' }).primaryKey({ autoIncrement: true }),
   publicId: text('public_id')
     .notNull()
     .unique()
     .$default(() => generateNanoId()),
-  type: text('type', { enum: ['personal', 'team'] })
+  type: text({ enum: ['personal', 'team'] })
     .notNull()
     .default('team'),
-  name: text('name').notNull(),
-  avatar: text('avatar'),
+  name: text().notNull(),
+  avatar: text(),
   createdAt: integer('created_at', { mode: 'timestamp_ms' })
     .notNull()
     .default(sql`(CURRENT_TIMESTAMP)`),
@@ -36,7 +36,7 @@ export const UsersAccounts = sqliteTable(
     userId: text('user_id')
       .notNull()
       .references(() => User.id),
-    role: text('role', { enum: ['admin', 'member'] })
+    role: text({ enum: ['admin', 'member'] })
       .notNull()
       .default('member'),
     joinedAt: integer('joined_at', { mode: 'timestamp' })

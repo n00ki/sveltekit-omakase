@@ -12,7 +12,7 @@
   // Assets
   import { Reload } from 'svelte-radix';
 
-  export let data;
+  let { data } = $props();
 
   const form = superForm(data.form, {
     validators: zodClient(requestPasswordResetSchema)
@@ -27,20 +27,24 @@
   </Card.Header>
   <Card.Content class="grid gap-4">
     <form method="POST" action="?/requestPasswordReset" use:enhance>
-      <Form.Field {form} name="email" let:constraints>
-        <Form.Control let:attrs>
-          <Form.Label>Email</Form.Label>
-          <Input
-            type="email"
-            autocapitalize="none"
-            autocorrect="off"
-            bind:value={$formData.email}
-            {...attrs}
-            {...constraints}
-          />
-          <Form.FieldErrors />
-        </Form.Control>
-        <Form.Description class="mt-1.5">We will send you a password reset link</Form.Description>
+      <Form.Field {form} name="email">
+        {#snippet children({ constraints })}
+          <Form.Control>
+            {#snippet children({ props })}
+              <Form.Label>Email</Form.Label>
+              <Input
+                type="email"
+                autocapitalize="none"
+                autocorrect="off"
+                bind:value={$formData.email}
+                {...props}
+                {...constraints}
+              />
+              <Form.FieldErrors />
+            {/snippet}
+          </Form.Control>
+          <Form.Description class="mt-1.5">We will send you a password reset link</Form.Description>
+        {/snippet}
       </Form.Field>
 
       <Form.Button disabled={$delayed} class="my-2 w-full">
