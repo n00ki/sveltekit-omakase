@@ -18,24 +18,32 @@ import { previewEmail } from './templates/preview';
 export const sendEmail = async (
   to: string,
   templateName: string,
-  templateData?: { url?: string; userFirstName?: string; invitedBy?: string; releaseTitle?: string },
-  subject?: string
+  templateData?: { url?: string; userFirstName?: string; invitedBy?: string; releaseTitle?: string }
 ) => {
   if (to && templateName) {
-    let html;
+    let html, subject;
 
     switch (templateName) {
       case 'Welcome':
-        html = welcomeEmail({ userFirstName: templateData?.userFirstName ?? '' }).html;
+        const welcome = welcomeEmail({ userFirstName: templateData?.userFirstName ?? '' });
+        subject = welcome.subject;
+        html = welcome.html;
         break;
       case 'ResetPassword':
-        html = resetPasswordEmail({
+        const reset = resetPasswordEmail({
           userFirstName: templateData?.userFirstName ?? '',
           url: templateData?.url ?? ''
-        }).html;
+        });
+        subject = reset.subject;
+        html = reset.html;
         break;
       case 'AccountInvite':
-        html = accountInviteEmail({ url: templateData?.url ?? '', invitedBy: templateData?.invitedBy ?? '' }).html;
+        const invite = accountInviteEmail({
+          url: templateData?.url ?? '',
+          invitedBy: templateData?.invitedBy ?? ''
+        });
+        subject = invite.subject;
+        html = invite.html;
         console.log('Invite URL:', templateData?.url ?? '');
         break;
       default:
@@ -52,7 +60,8 @@ export const sendEmail = async (
     if (dev) {
       const previewTemplate = previewEmail({
         from: options.from,
-        to: options.to
+        to: options.to,
+        subject: options.subject
       }).html;
 
       html = previewTemplate + html;
