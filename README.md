@@ -41,10 +41,10 @@ Clone this repository, install dependencies, set your environment variables (ref
 ## Built With
 
 - [👍 SvelteKit](https://kit.svelte.dev/)
+- [5️⃣ Svelte 5](https://svelte.dev/)
 - [💨 TailwindCSS](https://tailwindcss.com/)
 - [💾 Drizzle ORM](https://orm.drizzle.team/)
 - [🎨 shadcn-svelte](https://www.shadcn-svelte.com/)
-- [👥 Lucia](https://lucia-auth.com/)
 - [📬 SendGrid API](https://sendgrid.com/en-us)
 - [⛔ Zod](https://zod.dev/)
 - [📄 SvelteKit SuperForms](https://superforms.rocks/)
