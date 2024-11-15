@@ -72,7 +72,7 @@
         {#if $delayed}
           <Reload class="mr-2 h-4 w-4 animate-spin" />
         {/if}
-        Register
+        Reset
       </Form.Button>
     </form>
   </Card.Content>
