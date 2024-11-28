@@ -1,7 +1,6 @@
 <script lang="ts">
   // Types
-  import type { User } from 'lucia';
-
+  import type { SessionValidationResult } from '$lib/server/auth';
   // Components
   import { Button } from '$components/ui/button';
   import * as DropdownMenu from '$components/ui/dropdown-menu';
@@ -10,7 +9,7 @@
   import { HamburgerMenu } from 'svelte-radix';
 
   interface Props {
-    user?: User | null;
+    user?: SessionValidationResult['user'] | null;
   }
 
   let { user = null }: Props = $props();
