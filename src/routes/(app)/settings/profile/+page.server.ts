@@ -111,12 +111,8 @@ const deleteUser: Action = async (event) => {
 
   try {
     try {
-      await auth.invalidateUserSessions(user.id);
-      const sessionCookie = auth.createBlankSessionCookie();
-      event.cookies.set(sessionCookie.name, sessionCookie.value, {
-        path: '.',
-        ...sessionCookie.attributes
-      });
+      if (event.locals.session) await auth.invalidateSession(event.locals.session.id);
+      auth.deleteSessionTokenCookie(event);
     } catch {
       redirect(
         {
@@ -151,6 +147,7 @@ const deleteUser: Action = async (event) => {
     );
   }
 
+  await auth.invalidateUserSessions(user.id);
   redirect('/', { type: 'success', message: m.settings.userProfile.delete.success }, event);
 };
 
