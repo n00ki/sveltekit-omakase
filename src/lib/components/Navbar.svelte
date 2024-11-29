@@ -1,6 +1,7 @@
 <script lang="ts">
   // Types
   import type { SessionValidationResult } from '$lib/server/auth';
+
   // Components
   import { Button } from '$components/ui/button';
   import * as DropdownMenu from '$components/ui/dropdown-menu';
