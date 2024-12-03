@@ -26,7 +26,7 @@
 
     <div class="hidden items-center gap-2 lg:inline-flex">
       {#if !user}
-        <Button href="/register" variant="outline" class="transition-none">Register</Button>
+        <Button href="/register" variant="outline">Register</Button>
       {:else}
         <DropdownMenu.Root>
           <DropdownMenu.Trigger class="rounded-full">

@@ -20,13 +20,13 @@
     onclick={toggleMode}
   >
     {#if $mode === 'dark'}
-      <div in:fly={{ y: 20, duration: 300 }}>
-        <Sun size={16} />
-      </div>
+      <span in:fly={{ y: 20, duration: 300 }}>
+        <Sun size="16" />
+      </span>
     {:else}
-      <div in:fly={{ y: -10, duration: 300 }}>
-        <Moon size={16} />
-      </div>
+      <span in:fly={{ y: -10, duration: 300 }}>
+        <Moon size="16" />
+      </span>
     {/if}
   </Button>
 {/if}

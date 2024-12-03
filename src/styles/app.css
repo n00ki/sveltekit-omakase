@@ -77,23 +77,21 @@
     --brand-secondary: 47 95% 76%;
     --brand-tertiary: 359 83% 74%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
+
   html {
-    @apply antialiased;
     scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
     scrollbar-width: thin;
   }
-  body {
-    @apply font-primary bg-background text-foreground;
-  }
-}
 
-@layer base {
+  body {
+    @apply bg-background font-primary text-foreground antialiased;
+    transition: background-color 0.2s ease-in-out;
+  }
+
   ::-webkit-scrollbar {
     @apply h-2 w-2;
   }

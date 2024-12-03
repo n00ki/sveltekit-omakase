@@ -124,7 +124,7 @@
               isEditMode = true;
             }}
           >
-            <Pencil2 size={18} />
+            <Pencil2 size="18" />
           </Button>
         {/if}
       {/if}

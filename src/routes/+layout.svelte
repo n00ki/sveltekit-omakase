@@ -34,7 +34,7 @@
 
 <SEO {...$page.data.metadata} url={$page.url.href} />
 
-<ModeWatcher />
+<ModeWatcher modeStorageKey="mode" themeStorageKey="theme" disableTransitions={false} />
 
 <Toaster position="bottom-center" closeButton />
 
