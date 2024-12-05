@@ -88,8 +88,7 @@
   }
 
   body {
-    @apply bg-background font-primary text-foreground antialiased;
-    transition: background-color 0.2s ease-in-out;
+    @apply bg-background font-primary text-foreground antialiased transition-colors duration-200 ease-in-out;
   }
 
   ::-webkit-scrollbar {
