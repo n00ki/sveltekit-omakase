@@ -6,12 +6,10 @@ import { dev } from '$app/environment';
 
 // Utils
 import sendgrid from '@sendgrid/mail';
-import { renderEmail } from 'sailkit';
 import { fail } from '@sveltejs/kit';
 import { previewHTML } from '$lib/utils/helpers/preview';
 
 // Templates
-import Welcome from './templates/Welcome.svelte';
 import { welcomeEmail } from './templates/welcome';
 import { resetPasswordEmail } from './templates/resetPassword';
 import { accountInviteEmail } from './templates/accountInvite';
@@ -27,9 +25,9 @@ export const sendEmail = async (
 
     switch (templateName) {
       case 'Welcome':
-        const { html: welcomeHtml } = await renderEmail(Welcome, { userFirstName: templateData?.userFirstName ?? '' });
-        subject = `🥋 Welcome to SvelteKit Omakase!`;
-        html = welcomeHtml;
+        const welcome = welcomeEmail({ userFirstName: templateData?.userFirstName ?? '' });
+        subject = welcome.subject;
+        html = welcome.html;
         break;
       case 'ResetPassword':
         const reset = resetPasswordEmail({
