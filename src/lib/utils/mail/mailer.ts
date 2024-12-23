@@ -7,14 +7,13 @@ import { dev } from '$app/environment';
 // Utils
 import sendgrid from '@sendgrid/mail';
 import { renderEmail } from 'sailkit';
-import { fail } from '@sveltejs/kit';
 import { previewHTML } from '$lib/utils/helpers/preview';
+import { fail } from '@sveltejs/kit';
 
 // Templates
 import Welcome from './templates/Welcome.svelte';
-import { welcomeEmail } from './templates/welcome';
-import { resetPasswordEmail } from './templates/resetPassword';
-import { accountInviteEmail } from './templates/accountInvite';
+import ResetPassword from './templates/ResetPassword.svelte';
+import AccountInvite from './templates/AccountInvite.svelte';
 import { previewEmail } from './templates/preview';
 
 export const sendEmail = async (
@@ -32,20 +31,20 @@ export const sendEmail = async (
         html = welcomeHtml;
         break;
       case 'ResetPassword':
-        const reset = resetPasswordEmail({
+        const { html: resetHtml } = await renderEmail(ResetPassword, {
           userFirstName: templateData?.userFirstName ?? '',
           url: templateData?.url ?? ''
         });
-        subject = reset.subject;
-        html = reset.html;
+        subject = `🔒 Reset Your Password`;
+        html = resetHtml;
         break;
       case 'AccountInvite':
-        const invite = accountInviteEmail({
-          url: templateData?.url ?? '',
-          invitedBy: templateData?.invitedBy ?? ''
+        const { html: inviteHtml } = await renderEmail(AccountInvite, {
+          invitedBy: templateData?.invitedBy ?? '',
+          url: templateData?.url ?? ''
         });
-        subject = invite.subject;
-        html = invite.html;
+        subject = "👥 You're Invited to Collaborate on SvelteKit Omakase!";
+        html = inviteHtml;
         console.log('Invite URL:', templateData?.url ?? '');
         break;
       default:

@@ -45,6 +45,7 @@ Clone this repository, install dependencies, set your environment variables (ref
 - [💨 TailwindCSS](https://tailwindcss.com/)
 - [💾 Drizzle ORM](https://orm.drizzle.team/)
 - [🎨 shadcn-svelte](https://www.shadcn-svelte.com/)
+- [⛵ sailkit](https://github.com/n00ki/sailkit)
 - [📬 SendGrid API](https://sendgrid.com/en-us)
 - [⛔ Zod](https://zod.dev/)
 - [📄 SvelteKit SuperForms](https://superforms.rocks/)

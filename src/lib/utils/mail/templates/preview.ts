@@ -19,7 +19,7 @@ export function previewEmail({ from, to, subject }: PreviewEmailProps): EmailTem
           }
       </style>
   </head>
-  <body>
+  <body style="padding: 20px;">
     <p><strong>subject:</strong> ${subject}</p>
     <p><strong>from:</strong> ${from}</p>
     <p><strong>to:</strong> ${to}</p>
