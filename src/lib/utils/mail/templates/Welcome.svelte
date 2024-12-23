@@ -22,7 +22,7 @@
   <Body>
     <Section>
       <Column>
-        <Text fontFamily="Outfit" paddingBottom="0px">
+        <Text fontFamily="Outfit" paddingBottom="0px" lineHeight="0px">
           <h1>Welcome to <span style="color: #f59e0b">SvelteKit Omakase</span></h1>
         </Text>
         <Text>
