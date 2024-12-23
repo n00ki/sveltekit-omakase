@@ -36,8 +36,8 @@ importers:
         specifier: ^1.2.1
         version: 1.2.1
       sailkit:
-        specifier: ^0.0.9
-        version: 0.0.9(@sveltejs/kit@2.12.1(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.14.4)(vite@6.0.3(@types/node@22.10.2)(jiti@2.3.3)(yaml@2.6.1)))(svelte@5.14.4)(vite@6.0.3(@types/node@22.10.2)(jiti@2.3.3)(yaml@2.6.1)))(svelte@5.14.4)
+        specifier: ^0.0.10
+        version: 0.0.10(@sveltejs/kit@2.12.1(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.14.4)(vite@6.0.3(@types/node@22.10.2)(jiti@2.3.3)(yaml@2.6.1)))(svelte@5.14.4)(vite@6.0.3(@types/node@22.10.2)(jiti@2.3.3)(yaml@2.6.1)))(svelte@5.14.4)
       svelte-radix:
         specifier: ^2.0.1
         version: 2.0.1(svelte@5.14.4)
@@ -3588,8 +3588,8 @@ packages:
     resolution: {integrity: sha512-xal3CZX1Xlo/k4ApwCFrHVACi9fBqJ7V+mwhBsuf/1IOKbBy098Fex+Wa/5QMubw09pSZ/u8EY8PWgevJsXp1A==}
     engines: {node: '>=6'}
 
-  sailkit@0.0.9:
-    resolution: {integrity: sha512-mbbnPbgFGOOlgZjGj4eYaAm49FRkcH4bGDwi/3xYGWC/of+7yfTwxBoQs5H471ck6teXtdN6/vlhUCVnBZJBgg==}
+  sailkit@0.0.10:
+    resolution: {integrity: sha512-YfNNZn66NJVWcmRBhnptt0INdAK9cIto87dVarOUAIZrt9pViDE+e2393w3ta7YVCkhFRTMVbpe8mhYeqY9/FA==}
     peerDependencies:
       '@sveltejs/kit': ^2.0.0
       svelte: ^5.0.0
@@ -7884,7 +7884,7 @@ snapshots:
     dependencies:
       mri: 1.2.0
 
-  sailkit@0.0.9(@sveltejs/kit@2.12.1(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.14.4)(vite@6.0.3(@types/node@22.10.2)(jiti@2.3.3)(yaml@2.6.1)))(svelte@5.14.4)(vite@6.0.3(@types/node@22.10.2)(jiti@2.3.3)(yaml@2.6.1)))(svelte@5.14.4):
+  sailkit@0.0.10(@sveltejs/kit@2.12.1(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.14.4)(vite@6.0.3(@types/node@22.10.2)(jiti@2.3.3)(yaml@2.6.1)))(svelte@5.14.4)(vite@6.0.3(@types/node@22.10.2)(jiti@2.3.3)(yaml@2.6.1)))(svelte@5.14.4):
     dependencies:
       '@sveltejs/kit': 2.12.1(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.14.4)(vite@6.0.3(@types/node@22.10.2)(jiti@2.3.3)(yaml@2.6.1)))(svelte@5.14.4)(vite@6.0.3(@types/node@22.10.2)(jiti@2.3.3)(yaml@2.6.1))
       html-minifier: 4.0.0

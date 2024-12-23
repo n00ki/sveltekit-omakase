@@ -14,23 +14,18 @@
     preview="We are thrilled to have you onboard. ⭐"
     fonts={[
       {
-        name: 'Oswald',
-        href: 'https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap'
-      }
-    ]}
-    styles={[
-      {
-        type: 'component',
-        component: 'text',
-        value: 'font-family="Oswald, Arial"'
+        name: 'Outfit',
+        href: 'https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap'
       }
     ]}
   />
   <Body>
     <Section>
       <Column>
+        <Text fontFamily="Outfit" paddingBottom="0px" lineHeight="0px">
+          <h1>Welcome to <span style="color: #f59e0b">SvelteKit Omakase</span></h1>
+        </Text>
         <Text>
-          <h2>Welcome to <span style="color: #f59e0b">SvelteKit Omakase</span></h2>
           <p>Hey, {userFirstName}!</p>
           <p>We're thrilled to have you onboard. ⭐</p>
         </Text>

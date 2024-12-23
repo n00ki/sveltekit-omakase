@@ -27,9 +27,8 @@ export const sendEmail = async (
 
     switch (templateName) {
       case 'Welcome':
-        const welcome = welcomeEmail({ userFirstName: templateData?.userFirstName ?? '' });
         const { html: welcomeHtml } = await renderEmail(Welcome, { userFirstName: templateData?.userFirstName ?? '' });
-        subject = welcome.subject;
+        subject = `🥋 Welcome to SvelteKit Omakase!`;
         html = welcomeHtml;
         break;
       case 'ResetPassword':
@@ -60,7 +59,7 @@ export const sendEmail = async (
       html
     };
 
-    if (!dev) {
+    if (dev) {
       const previewTemplate = previewEmail({
         from: options.from,
         to: options.to,
