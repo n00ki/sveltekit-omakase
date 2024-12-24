@@ -72,9 +72,11 @@
     "@oslojs/encoding": "^1.1.0",
     "@sendgrid/mail": "^8.1.4",
     "drizzle-orm": "^0.38.2",
+    "html-minifier": "^4.0.0",
+    "mjml": "^4.15.3",
     "nanoid": "^5.0.9",
     "oslo": "^1.2.1",
-    "sailkit": "^0.1.4",
+    "sailkit": "^0.1.5",
     "svelte-radix": "^2.0.1",
     "sveltekit-flash-message": "^2.4.4"
   }
