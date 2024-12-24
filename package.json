@@ -74,6 +74,7 @@
     "drizzle-orm": "^0.38.2",
     "nanoid": "^5.0.9",
     "oslo": "^1.2.1",
+    "sailkit": "^0.1.4",
     "svelte-radix": "^2.0.1",
     "sveltekit-flash-message": "^2.4.4"
   }
