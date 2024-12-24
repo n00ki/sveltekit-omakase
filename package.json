@@ -75,7 +75,7 @@
     "mjml": "^4.15.3",
     "nanoid": "^5.0.9",
     "oslo": "^1.2.1",
-    "sailkit": "^0.1.6",
+    "sailkit": "^0.1.7",
     "svelte-radix": "^2.0.1",
     "sveltekit-flash-message": "^2.4.4"
   }
