@@ -1,13 +1,13 @@
 <script>
   // Stores
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
 </script>
 
 <div class="flex flex-1 flex-col items-center justify-center">
   <h1 class="my-2 text-2xl font-bold md:text-6xl">
-    {$page.status}: {$page.error?.message}
+    {page.status}: {page.error?.message}
   </h1>
   <p>
-    <a href="/" class=" text-base text-muted-foreground/80 hover:text-muted-foreground md:text-xl">Go back home</a>
+    <a href="/" class="text-base text-muted-foreground/80 hover:text-muted-foreground md:text-xl">Go back home</a>
   </p>
 </div>

@@ -3,7 +3,7 @@
   import { PUBLIC_AWS_S3_BUCKET_URL, PUBLIC_BASE_URL } from '$env/static/public';
 
   // Stores
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
 
   // Utils
   import { superForm } from 'sveltekit-superforms';
@@ -57,7 +57,7 @@
   <div class="grid gap-2">
     {#each data.userAccounts as userAccount}
       {#if userAccount.account.type !== 'personal'}
-        <a href="{$page.url.pathname}/{userAccount.account.publicId}">
+        <a href="{page.url.pathname}/{userAccount.account.publicId}">
           <div class="rounded-xl border-2 border-primary p-4 shadow-sm">
             <div class="flex items-center justify-between">
               <h1 class="text-lg font-semibold md:text-xl">{userAccount.account.name}</h1>
