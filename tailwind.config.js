@@ -88,6 +88,24 @@ const config = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'caret-blink': 'caret-blink 1.25s ease-out infinite'
+      },
+      transitionDuration: {
+        DEFAULT: '150ms',
+        0: '0ms',
+        75: '75ms',
+        100: '100ms',
+        150: '150ms',
+        200: '200ms',
+        300: '300ms',
+        500: '500ms',
+        700: '700ms',
+        1000: '1000ms'
+      },
+      transitionTimingFunction: {
+        DEFAULT: 'cubic-bezier(0.4, 0, 0.2, 1)'
+      },
+      transitionProperty: {
+        colors: 'background-color, text, border-color, color, fill, stroke'
       }
     }
   },
