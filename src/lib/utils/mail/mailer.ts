@@ -25,12 +25,13 @@ export const sendEmail = async (
     let html, subject;
 
     switch (templateName) {
-      case 'Welcome':
+      case 'Welcome': {
         const { html: welcomeHtml } = await renderEmail(Welcome, { userFirstName: templateData?.userFirstName ?? '' });
         subject = `🥋 Welcome to SvelteKit Omakase!`;
         html = welcomeHtml;
         break;
-      case 'ResetPassword':
+      }
+      case 'ResetPassword': {
         const { html: resetHtml } = await renderEmail(ResetPassword, {
           userFirstName: templateData?.userFirstName ?? '',
           url: templateData?.url ?? ''
@@ -38,7 +39,8 @@ export const sendEmail = async (
         subject = `🔒 Reset Your Password`;
         html = resetHtml;
         break;
-      case 'AccountInvite':
+      }
+      case 'AccountInvite': {
         const { html: inviteHtml } = await renderEmail(AccountInvite, {
           invitedBy: templateData?.invitedBy ?? '',
           url: templateData?.url ?? ''
@@ -47,6 +49,7 @@ export const sendEmail = async (
         html = inviteHtml;
         console.log('Invite URL:', templateData?.url ?? '');
         break;
+      }
       default:
         return fail(402);
     }
