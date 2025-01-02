@@ -1,6 +1,6 @@
 <script lang="ts">
   // Stores
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
 
   // Utils
   import { cn } from '$lib/utils/utils';
@@ -25,7 +25,7 @@
 
 <nav class={cn('flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1', className)}>
   {#each items as item}
-    {@const isActive = $page.url.pathname === item.href}
+    {@const isActive = page.url.pathname === item.href}
 
     <Button
       href={item.href}
