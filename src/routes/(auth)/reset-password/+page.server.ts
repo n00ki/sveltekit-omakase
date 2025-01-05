@@ -5,14 +5,14 @@ import type { Action } from './$types';
 import { PUBLIC_BASE_URL } from '$env/static/public';
 
 // Utils
-import * as auth from '$lib/server/auth';
+import { invalidateUserSessions } from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
 import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
 import { setFormFail, setFormError, isRateLimited } from '$lib/utils/helpers/forms';
 import { eq } from 'drizzle-orm';
 import { sendEmail } from '$lib/utils/mail/mailer';
-import { generateNanoId } from '$lib/utils/helpers/nanoid';
+import { generateToken } from '$lib/utils/helpers/generate';
 import * as m from '$lib/utils/messages.json';
 
 // Schemas
@@ -52,6 +52,7 @@ const requestPasswordReset: Action = async (event) => {
     where: eq(User.email, email),
     columns: {
       id: true,
+      publicId: true,
       firstName: true
     }
   });
@@ -79,15 +80,15 @@ const requestPasswordReset: Action = async (event) => {
       })
       .onConflictDoUpdate({
         target: Token.userId,
-        set: { key: generateNanoId({ token: true }), expiresAt: timestamp }
+        set: { key: generateToken(), expiresAt: timestamp }
       })
       .returning();
 
     const token = createOrUpdateTokens[0];
 
-    await auth.invalidateUserSessions(user.id);
+    await invalidateUserSessions(user.id);
 
-    const url = new URL(`${PUBLIC_BASE_URL}/reset-password/${user.id}?token=${token?.key}`);
+    const url = new URL(`${PUBLIC_BASE_URL}/reset-password/${user.publicId}?token=${token?.key}`);
 
     await sendEmail(email, 'ResetPassword', {
       url: url.toString(),

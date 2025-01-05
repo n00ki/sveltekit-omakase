@@ -18,6 +18,7 @@ import { editUserSchema } from '$lib/validations/auth';
 import db from '$lib/server/database';
 import { User } from '$models/user';
 import { UsersAccounts, Account } from '$models/account';
+import { Session } from '$models/session';
 
 export async function load() {
   const form = await superValidate(zod(editUserSchema), {
@@ -93,6 +94,9 @@ const deleteUser: Action = async (event) => {
           columns: {
             id: true,
             type: true
+          },
+          with: {
+            members: true
           }
         }
       }
@@ -125,13 +129,23 @@ const deleteUser: Action = async (event) => {
     }
 
     if (user && userAccounts.length > 0) {
+      await auth.invalidateUserSessions(user.id);
       await db.transaction(async (tx) => {
+        // First, delete all sessions for this user
+        await tx.delete(Session).where(eq(Session.userId, user.id));
+
+        // Then delete UsersAccounts
         await tx.delete(UsersAccounts).where(eq(UsersAccounts.userId, user.id));
-        userAccounts.forEach(async (ua) => {
-          if (ua.account.type === 'personal') {
-            await tx.delete(Account).where(eq(Account.id, ua.account.id));
+
+        // Then handle Account deletion
+        for (const userAccount of userAccounts) {
+          if (userAccount.account.members.length === 1) {
+            // Then delete the Account
+            await tx.delete(Account).where(eq(Account.id, userAccount.account.id));
           }
-        });
+        }
+
+        // Finally delete the User
         await tx.delete(User).where(eq(User.id, user.id));
       });
     }
@@ -147,7 +161,6 @@ const deleteUser: Action = async (event) => {
     );
   }
 
-  await auth.invalidateUserSessions(user.id);
   redirect('/', { type: 'success', message: m.settings.userProfile.delete.success }, event);
 };
 

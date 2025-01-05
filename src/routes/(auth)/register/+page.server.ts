@@ -2,15 +2,15 @@
 import type { Action } from './$types';
 
 // Utils
-import * as auth from '$lib/server/auth';
+import { generateSessionToken, createSession, setSessionTokenCookie } from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
 import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
 import { setFormFail, setFormError, isRateLimited } from '$lib/utils/helpers/forms';
 import { eq } from 'drizzle-orm';
 import { sendEmail } from '$lib/utils/mail/mailer';
-import { Argon2id } from 'oslo/password';
-import { generateNanoId } from '$lib/utils/helpers/nanoid';
+import { generateNanoId } from '$lib/utils/helpers/generate';
+import { hashPassword } from '$lib/utils/helpers/password';
 import * as m from '$lib/utils/messages.json';
 
 // Schemas
@@ -78,15 +78,16 @@ const register: Action = async (event) => {
       );
     }
 
-    const userId = generateNanoId();
-    const userHashedPassword = await new Argon2id().hash(password);
+    let userId = null;
+    const userPublicId = generateNanoId();
+    const userHashedPassword = await hashPassword(password);
 
     try {
       await db.transaction(async (tx) => {
         const createUser = await tx
           .insert(User)
           .values({
-            id: userId,
+            publicId: userPublicId,
             email,
             firstName,
             lastName,
@@ -102,6 +103,7 @@ const register: Action = async (event) => {
           })
           .returning();
 
+        userId = createUser[0].id;
         const accountId = createAccount[0].id;
 
         await tx.insert(UsersAccounts).values({
@@ -111,13 +113,15 @@ const register: Action = async (event) => {
         });
       });
 
-      // Automatically log in the user
-      try {
-        const sessionToken = auth.generateSessionToken();
-        const session = await auth.createSession(sessionToken, userId);
-        auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
-      } catch (e) {
-        console.log(e);
+      if (userId) {
+        // Automatically log in the user
+        try {
+          const sessionToken = generateSessionToken();
+          const session = await createSession(sessionToken, userId);
+          setSessionTokenCookie(event, sessionToken, session.expiresAt);
+        } catch (e) {
+          console.log(e);
+        }
       }
     } catch (e) {
       console.log(e);

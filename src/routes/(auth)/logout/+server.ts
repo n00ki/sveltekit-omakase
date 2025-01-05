@@ -1,14 +1,14 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { redirect } from 'sveltekit-flash-message/server';
-import * as auth from '$lib/server/auth';
+import { invalidateSession, deleteSessionTokenCookie } from '$lib/server/auth';
 import * as m from '$lib/utils/messages.json';
 
 export const POST: RequestHandler = async (event) => {
   if (!event.locals.session) redirect(302, '/');
 
   try {
-    await auth.invalidateSession(event.locals.session.id);
-    auth.deleteSessionTokenCookie(event);
+    await invalidateSession(event.locals.session.id);
+    deleteSessionTokenCookie(event);
   } catch (error) {
     console.log(error);
     redirect(

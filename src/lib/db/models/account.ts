@@ -1,6 +1,6 @@
 import { text, integer, primaryKey, sqliteTable } from 'drizzle-orm/sqlite-core';
 import { sql, relations } from 'drizzle-orm';
-import { generateNanoId } from '../../utils/helpers/nanoid';
+import { generateNanoId } from '../../utils/helpers/generate';
 
 import { User } from './user';
 import { Invite } from './invite';
@@ -33,7 +33,7 @@ export const UsersAccounts = sqliteTable(
     accountId: integer('account_id')
       .notNull()
       .references(() => Account.id, { onDelete: 'cascade' }),
-    userId: text('user_id')
+    userId: integer('user_id')
       .notNull()
       .references(() => User.id),
     role: text({ enum: ['admin', 'member'] })

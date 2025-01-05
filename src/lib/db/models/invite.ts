@@ -1,6 +1,6 @@
 import { text, integer, index, sqliteTable } from 'drizzle-orm/sqlite-core';
 import { sql, relations } from 'drizzle-orm';
-import { generateNanoId } from '../../utils/helpers/nanoid';
+import { generateNanoId } from '../../utils/helpers/generate';
 
 import { Account } from './account';
 

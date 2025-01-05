@@ -4,8 +4,10 @@ import { sql, relations } from 'drizzle-orm';
 import { UsersAccounts } from './account';
 
 export const User = sqliteTable('users', {
-  id: text().notNull().primaryKey(),
+  id: integer().notNull().primaryKey({ autoIncrement: true }),
+  publicId: text('public_id').notNull(),
   email: text().unique(),
+  googleId: integer('google_id').unique(),
   firstName: text('first_name').notNull(),
   lastName: text('last_name').notNull(),
   hashedPassword: text('hashed_password'),

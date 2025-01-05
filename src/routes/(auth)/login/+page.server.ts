@@ -2,13 +2,12 @@
 import type { Action, Actions } from './$types';
 
 // Utils
-import * as auth from '$lib/server/auth';
+import { generateSessionToken, createSession, setSessionTokenCookie } from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
 import { superValidate } from 'sveltekit-superforms/server';
 import { zod } from 'sveltekit-superforms/adapters';
 import { setFormFail, setFormError, isRateLimited } from '$lib/utils/helpers/forms';
 import { eq } from 'drizzle-orm';
-import { Argon2id } from 'oslo/password';
 import * as m from '$lib/utils/messages.json';
 
 // Schemas
@@ -17,6 +16,7 @@ import { loginSchema } from '$lib/validations/auth';
 // Database
 import db from '$lib/server/database';
 import { User } from '$models/user';
+import { verifyPassword } from '$lib/utils/helpers/password';
 
 export async function load({ locals }) {
   // redirect to `/` if logged in
@@ -60,7 +60,7 @@ const login: Action = async (event) => {
         );
       }
 
-      const validPassword = await new Argon2id().verify(user.hashedPassword!, password);
+      const validPassword = await verifyPassword(user.hashedPassword!, password);
 
       if (!validPassword) {
         return setFormError(
@@ -75,9 +75,9 @@ const login: Action = async (event) => {
         );
       }
 
-      const sessionToken = auth.generateSessionToken();
-      const session = await auth.createSession(sessionToken, user.id);
-      auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
+      const sessionToken = generateSessionToken();
+      const session = await createSession(sessionToken, user.id);
+      setSessionTokenCookie(event, sessionToken, session.expiresAt);
     } catch {
       return setFormError(
         form,

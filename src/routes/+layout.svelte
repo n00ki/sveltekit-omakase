@@ -1,8 +1,6 @@
 <script>
   // Stores
   import { page } from '$app/state';
-  // importing deprecated page store for sveltekit-flash-message compatibility
-  import { page as pageStore } from '$app/stores';
 
   // Utils
   import { onNavigate } from '$app/navigation';
@@ -22,7 +20,7 @@
 
   let { data, children } = $props();
 
-  const flash = getFlash(pageStore, {
+  const flash = getFlash(page, {
     clearOnNavigate: true,
     clearAfterMs: 3000,
     clearArray: true

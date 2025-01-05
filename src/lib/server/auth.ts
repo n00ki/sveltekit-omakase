@@ -21,7 +21,7 @@ export function generateSessionToken() {
   return token;
 }
 
-export async function createSession(token: string, userId: string) {
+export async function createSession(token: string, userId: number) {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const session: SessionType = {
     id: sessionId,
@@ -70,7 +70,7 @@ export async function invalidateSession(sessionId: string) {
   await db.delete(Session).where(eq(Session.id, sessionId));
 }
 
-export async function invalidateUserSessions(userId: string) {
+export async function invalidateUserSessions(userId: number) {
   await db.delete(Session).where(eq(Session.userId, userId));
 }
 

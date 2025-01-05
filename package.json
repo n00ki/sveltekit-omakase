@@ -47,7 +47,7 @@
     "prettier": "^3.4.2",
     "prettier-plugin-svelte": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.6.9",
-    "svelte": "^5.16.1",
+    "svelte": "^5.16.5",
     "svelte-check": "^4.1.1",
     "svelte-sonner": "^0.3.28",
     "sveltekit-rate-limiter": "^0.6.1",
@@ -58,25 +58,27 @@
     "tailwindcss-animate": "^1.0.7",
     "tslib": "^2.8.1",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^8.19.0",
+    "typescript-eslint": "^8.19.1",
     "vite": "^6.0.7",
     "vite-node": "^2.1.8",
     "vitest": "^2.1.8",
     "zod": "^3.24.1"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.722.0",
-    "@aws-sdk/s3-request-presigner": "^3.722.0",
+    "@aws-sdk/client-s3": "^3.723.0",
+    "@aws-sdk/s3-request-presigner": "^3.723.0",
     "@libsql/client": "^0.14.0",
+    "@node-rs/argon2": "^2.0.2",
     "@oslojs/crypto": "^1.0.1",
     "@oslojs/encoding": "^1.1.0",
+    "@pilcrowjs/object-parser": "^0.0.4",
     "@sendgrid/mail": "^8.1.4",
+    "arctic": "^3.1.0",
     "drizzle-orm": "^0.38.3",
     "mjml": "^4.15.3",
     "nanoid": "^5.0.9",
-    "oslo": "^1.2.1",
     "sailkit": "^0.1.10",
     "svelte-radix": "^2.0.1",
-    "sveltekit-flash-message": "^2.4.4"
+    "sveltekit-flash-message": "^2.4.5"
   }
 }

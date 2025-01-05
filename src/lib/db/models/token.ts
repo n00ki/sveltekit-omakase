@@ -1,6 +1,6 @@
 import { text, integer, sqliteTable } from 'drizzle-orm/sqlite-core';
 import { relations } from 'drizzle-orm';
-import { generateNanoId } from '../../utils/helpers/nanoid';
+import { generateToken } from '../../utils/helpers/generate';
 
 import { User } from './user';
 
@@ -9,8 +9,8 @@ export const Token = sqliteTable('tokens', {
   key: text()
     .notNull()
     .unique()
-    .$default(() => generateNanoId({ token: true })),
-  userId: text('user_id')
+    .$default(() => generateToken()),
+  userId: integer('user_id')
     .references(() => User.id, { onDelete: 'cascade' })
     .unique(),
   expiresAt: integer('expires_at', { mode: 'timestamp_ms' }).notNull()

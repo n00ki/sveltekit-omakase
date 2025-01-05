@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 // Create Account Form Validation
 export const createAccountSchema = z.object({
-  userId: z.string({ required_error: 'User is required' }),
+  userId: z.number({ required_error: 'User is required' }),
   name: z
     .string({ required_error: 'Name is required' })
     .trim()
@@ -40,5 +40,5 @@ export const createAccountInviteSchema = z.object({
 // Remove User From Account Form Validation
 export const leaveAccountSchema = z.object({
   accountId: z.number({ required_error: 'Account is required' }).nonnegative(),
-  userId: z.string({ required_error: 'User is required' })
+  userId: z.number({ required_error: 'User is required' })
 });

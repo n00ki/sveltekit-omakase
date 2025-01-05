@@ -81,7 +81,18 @@
           Login
         </Form.Button>
       </form>
+
+      <div class="relative">
+        <div class="absolute inset-0 flex items-center">
+          <span class="w-full border-t transition-colors"></span>
+        </div>
+        <div class="relative flex justify-center text-xs uppercase">
+          <span class="bg-background px-2 text-muted-foreground transition-colors"> Or continue with </span>
+        </div>
+      </div>
+      <Form.Button variant="outline" type="button" href="/login/google" class="flex-1">Google</Form.Button>
     </div>
+
     <div class="mt-4 text-center text-sm">
       Don&apos;t have an account?
       <a href="/register" class="underline"> Sign up </a>

@@ -8,7 +8,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
 import { setFormFail, setFormError } from '$lib/utils/helpers/forms';
 import { eq } from 'drizzle-orm';
-import { Argon2id } from 'oslo/password';
+import { hashPassword } from '$lib/utils/helpers/password';
 import * as m from '$lib/utils/messages.json';
 
 // Scehmas
@@ -23,11 +23,11 @@ export async function load({ locals, params, url }) {
   // redirect user if already logged in
   if (locals.user) redirect(302, '/');
 
-  const userIdParam: string | null = params.userId || null;
+  const userPublicIdParam: string | null = params.userPublicId || null;
   const tokenParam: string | null = url.searchParams.get('token') || null;
   let email: string | null = null;
 
-  if (userIdParam && tokenParam) {
+  if (userPublicIdParam && tokenParam) {
     try {
       const token = await db.query.Token.findFirst({
         where: eq(Token.key, tokenParam),
@@ -97,7 +97,7 @@ const reset: Action = async (event) => {
       await db
         .update(User)
         .set({
-          hashedPassword: await new Argon2id().hash(password)
+          hashedPassword: await hashPassword(password)
         })
         .where(eq(User.email, email));
     } catch {

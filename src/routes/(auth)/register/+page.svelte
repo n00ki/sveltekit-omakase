@@ -27,8 +27,8 @@
     <Card.Description>Enter your information to create an account</Card.Description>
   </Card.Header>
   <Card.Content>
-    <form method="POST" action="?/register" use:enhance>
-      <div class="grid gap-4">
+    <div class="grid gap-4">
+      <form method="POST" action="?/register" use:enhance>
         <div class="grid grid-cols-2 gap-4">
           <div class="grid gap-2">
             <Form.Field {form} name="firstName">
@@ -142,8 +142,20 @@
           {/if}
           Register
         </Form.Button>
+      </form>
+
+      <div class="relative">
+        <div class="absolute inset-0 flex items-center">
+          <span class="w-full border-t transition-colors"></span>
+        </div>
+        <div class="relative flex justify-center text-xs uppercase">
+          <span class="bg-background px-2 text-muted-foreground transition-colors"> Or continue with </span>
+        </div>
       </div>
-    </form>
+
+      <Form.Button variant="outline" type="button" href="/login/google" class="flex-1">Google</Form.Button>
+    </div>
+
     <div class="mt-4 text-center text-sm">
       Already have an account?
       <a href="/login" class="underline"> Sign in </a>
