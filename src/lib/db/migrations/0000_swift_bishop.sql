@@ -11,7 +11,7 @@ CREATE TABLE `accounts` (
 CREATE UNIQUE INDEX `accounts_public_id_unique` ON `accounts` (`public_id`);--> statement-breakpoint
 CREATE TABLE `users_accounts` (
 	`account_id` integer NOT NULL,
-	`user_id` text NOT NULL,
+	`user_id` integer NOT NULL,
 	`role` text DEFAULT 'member' NOT NULL,
 	`joined_at` integer DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
 	PRIMARY KEY(`account_id`, `user_id`),
@@ -35,7 +35,7 @@ CREATE INDEX `invites_account_id` ON `invites` (`account_id`);--> statement-brea
 CREATE INDEX `invites_email` ON `invites` (`email`);--> statement-breakpoint
 CREATE TABLE `sessions` (
 	`id` text PRIMARY KEY NOT NULL,
-	`user_id` text NOT NULL,
+	`user_id` integer NOT NULL,
 	`expires_at` integer NOT NULL,
 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
 );
@@ -43,7 +43,7 @@ CREATE TABLE `sessions` (
 CREATE TABLE `tokens` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`key` text NOT NULL,
-	`user_id` text,
+	`user_id` integer,
 	`expires_at` integer NOT NULL,
 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
 );
@@ -51,8 +51,10 @@ CREATE TABLE `tokens` (
 CREATE UNIQUE INDEX `tokens_key_unique` ON `tokens` (`key`);--> statement-breakpoint
 CREATE UNIQUE INDEX `tokens_user_id_unique` ON `tokens` (`user_id`);--> statement-breakpoint
 CREATE TABLE `users` (
-	`id` text PRIMARY KEY NOT NULL,
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`public_id` text NOT NULL,
 	`email` text,
+	`google_id` integer,
 	`first_name` text NOT NULL,
 	`last_name` text NOT NULL,
 	`hashed_password` text,
@@ -62,4 +64,5 @@ CREATE TABLE `users` (
 	`updated_at` integer
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);
+CREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);--> statement-breakpoint
+CREATE UNIQUE INDEX `users_google_id_unique` ON `users` (`google_id`);
