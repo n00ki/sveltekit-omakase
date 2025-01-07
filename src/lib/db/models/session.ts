@@ -10,4 +10,4 @@ export const Session = sqliteTable('sessions', {
   expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
 });
 
-export type SessionType = typeof Session.$inferSelect;
+export type Session = typeof Session.$inferSelect;

@@ -9,7 +9,7 @@ import { encodeBase64url, encodeHexLowerCase } from '@oslojs/encoding';
 // Database
 import db from '$lib/server/database';
 import { User } from '$models/user';
-import { Session, type SessionType } from '$models/session';
+import { Session, type Session as SessionType } from '$models/session';
 
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
 
