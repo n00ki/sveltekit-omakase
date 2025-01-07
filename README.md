@@ -18,7 +18,6 @@ It offers an opinionated selection of tools and a structured approach, providing
   - [Documentation](#documentation)
   - [Contributing](#contributing)
   - [Acknowledgments](#acknowledgments)
-  - [Notes](#notes)
 
 ## Demo
 
@@ -69,7 +68,3 @@ This project makes use of some great tools and libraries and could not have come
 - [Hunter Johnston (huntabyte)](https://github.com/huntabyte)
 - [Andreas Söderlund (ciscoheat)](https://github.com/ciscoheat)
 - [pilcrow](https://github.com/pilcrowOnPaper)
-
-## Notes
-
-> If you are looking for the archived Postgres-compatible version, please check the V1 branch. However, please be aware that this version is no longer maintained. We highly recommend using the new and improved SvelteKit Omakase version, which features significant enhancements and will be regularly maintained. Transitioning to this version is straightforward and offers a better development experience compared to the older version.
