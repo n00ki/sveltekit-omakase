@@ -32,7 +32,7 @@
           <DropdownMenu.Trigger class="rounded-full">
             {#snippet children()}
               <span
-                class="inline-flex h-9 items-center justify-center gap-2 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground hover:ring-2 hover:ring-secondary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+                class="inline-flex h-9 items-center justify-center gap-2 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground hover:ring-2 hover:ring-secondary/90 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
               >
                 <HamburgerMenu class="text-muted-foreground" />
               </span>
@@ -66,7 +66,7 @@
         <DropdownMenu.Trigger class="rounded-full">
           {#snippet children()}
             <span
-              class="inline-flex h-9 items-center justify-center gap-2 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground hover:ring-2 hover:ring-secondary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+              class="inline-flex h-9 items-center justify-center gap-2 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground hover:ring-2 hover:ring-secondary/90 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
             >
               <HamburgerMenu class="text-muted-foreground" />
             </span>

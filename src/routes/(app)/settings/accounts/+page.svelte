@@ -58,7 +58,7 @@
     {#each data.userAccounts as userAccount}
       {#if userAccount.account.type !== 'personal'}
         <a href="{page.url.pathname}/{userAccount.account.publicId}">
-          <div class="rounded-xl border-2 border-primary p-4 shadow-sm">
+          <div class="rounded-xl border-2 border-primary p-4 shadow-xs">
             <div class="flex items-center justify-between">
               <h1 class="text-lg font-semibold md:text-xl">{userAccount.account.name}</h1>
               <Badge variant="outline">{userAccount.account.type}</Badge>

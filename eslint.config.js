@@ -1,11 +1,15 @@
+import { includeIgnoreFile } from '@eslint/compat';
 import js from '@eslint/js';
-import ts from 'typescript-eslint';
-import svelte from 'eslint-plugin-svelte';
 import prettier from 'eslint-config-prettier';
+import svelte from 'eslint-plugin-svelte';
 import globals from 'globals';
+import { fileURLToPath } from 'node:url';
+import ts from 'typescript-eslint';
 
-/** @type {import('eslint').Linter.FlatConfig[]} */
-export default [
+const gitignorePath = fileURLToPath(new URL('./.gitignore', import.meta.url));
+
+export default ts.config(
+  includeIgnoreFile(gitignorePath),
   js.configs.recommended,
   ...ts.configs.recommended,
   ...svelte.configs['flat/recommended'],
@@ -21,12 +25,14 @@ export default [
   },
   {
     files: ['**/*.svelte'],
+
     languageOptions: {
       parserOptions: {
         parser: ts.parser
       }
     }
   },
+
   {
     ignores: [
       '.DS_Store',
@@ -42,4 +48,4 @@ export default [
       'src/lib/components/ui/**/*.svelte'
     ]
   }
-];
+);

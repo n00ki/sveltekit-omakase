@@ -34,7 +34,7 @@
 
 <SEO {...page.data.metadata} url={page.url.href} />
 
-<ModeWatcher modeStorageKey="mode" themeStorageKey="theme" disableTransitions={false} />
+<ModeWatcher modeStorageKey="mode" themeStorageKey="theme" disableTransitions={true} />
 
 <Toaster position="bottom-center" closeButton />
 
@@ -43,7 +43,7 @@
 <main class="container mx-auto flex flex-1 flex-col p-4 md:px-8 md:py-4">
   {@render children?.()}
 
-  <div class="fixed bottom-5 right-0">
+  <div class="fixed right-0 bottom-5">
     <ThemeSwitcher />
   </div>
 </main>

@@ -78,7 +78,7 @@
 </script>
 
 <div class="flex w-full flex-1 flex-col justify-center">
-  <div class="mx-auto my-2 flex h-32 w-32 rounded-full p-1 ring-4 ring-accent drop-shadow-sm">
+  <div class="mx-auto my-2 flex h-32 w-32 rounded-full p-1 ring-4 ring-accent drop-shadow-xs">
     <div class="m-auto flex h-full w-full items-center justify-center overflow-hidden rounded-full">
       {#if fileUploadState.status === 'uploading'}
         <Symbol class="h-6 w-6 animate-spin" />
