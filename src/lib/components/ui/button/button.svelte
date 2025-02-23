@@ -9,7 +9,8 @@
       variant: {
         default: 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-xs',
-        outline: 'border-input bg-background hover:bg-accent hover:text-accent-foreground border shadow-xs',
+        outline:
+          'border-input bg-background hover:bg-accent hover:text-accent-foreground border shadow-xs',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-xs',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline'
@@ -57,7 +58,12 @@
     {@render children?.()}
   </a>
 {:else}
-  <button bind:this={ref} class={cn(buttonVariants({ variant, size, className }))} {type} {...restProps}>
+  <button
+    bind:this={ref}
+    class={cn(buttonVariants({ variant, size, className }))}
+    {type}
+    {...restProps}
+  >
     {@render children?.()}
   </button>
 {/if}

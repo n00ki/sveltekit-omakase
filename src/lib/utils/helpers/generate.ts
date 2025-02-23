@@ -7,7 +7,10 @@ const ID_LENGTH = 12;
 const TOKEN_LENGTH = 64;
 
 export function generateNanoId(opts?: { token?: boolean }) {
-  const nanoid = customAlphabet(opts?.token ? TOKEN_ALPHABET : ID_ALPHABET, opts?.token ? TOKEN_LENGTH : ID_LENGTH);
+  const nanoid = customAlphabet(
+    opts?.token ? TOKEN_ALPHABET : ID_ALPHABET,
+    opts?.token ? TOKEN_LENGTH : ID_LENGTH
+  );
   return nanoid();
 }
 

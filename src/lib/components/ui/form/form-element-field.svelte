@@ -17,7 +17,8 @@
     name,
     children: childrenProp,
     ...restProps
-  }: WithElementRef<HTMLAttributes<HTMLDivElement>> & FormPrimitive.ElementFieldProps<T, U> = $props();
+  }: WithElementRef<HTMLAttributes<HTMLDivElement>> &
+    FormPrimitive.ElementFieldProps<T, U> = $props();
 </script>
 
 <FormPrimitive.ElementField {form} {name}>

@@ -38,7 +38,10 @@ export async function load({ locals }) {
 const register: Action = async (event) => {
   const form = await superValidate(event.request, zod(registrationSchema));
 
-  await isRateLimited(form, event, { field: 'email', removeSensitiveData: ['password', 'passwordConfirmation'] });
+  await isRateLimited(form, event, {
+    field: 'email',
+    removeSensitiveData: ['password', 'passwordConfirmation']
+  });
 
   if (!form.valid) {
     return setFormFail(form, {

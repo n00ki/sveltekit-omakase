@@ -10,4 +10,8 @@
   }: WithoutChild<FormPrimitive.DescriptionProps> = $props();
 </script>
 
-<FormPrimitive.Description bind:ref class={cn('text-muted-foreground text-[0.8rem]', className)} {...restProps} />
+<FormPrimitive.Description
+  bind:ref
+  class={cn('text-muted-foreground text-[0.8rem]', className)}
+  {...restProps}
+/>

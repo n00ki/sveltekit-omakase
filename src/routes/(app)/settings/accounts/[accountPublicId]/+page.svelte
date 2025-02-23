@@ -5,7 +5,11 @@
   // Utils
   import { superForm } from 'sveltekit-superforms';
   import { zodClient } from 'sveltekit-superforms/adapters';
-  import { createAccountInviteSchema, deleteAccountSchema, editAccountSchema } from '$lib/validations/account';
+  import {
+    createAccountInviteSchema,
+    deleteAccountSchema,
+    editAccountSchema
+  } from '$lib/validations/account';
   import * as flashModule from 'sveltekit-flash-message/client';
   import { toast } from 'svelte-sonner';
   import * as m from '$lib/utils/messages.json';
@@ -138,7 +142,10 @@
       <li class="flex flex-col items-center justify-center">
         <Avatar.Root class="size-6 ring-2 ring-border md:size-10">
           {#if member.user.avatar}
-            <Avatar.Image src={`${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${member.user.avatar}`} alt={member.user.email} />
+            <Avatar.Image
+              src={`${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${member.user.avatar}`}
+              alt={member.user.email}
+            />
           {/if}
           <Avatar.Fallback class="text-xs uppercase md:text-base"
             >{`${member.user.firstName.charAt(0)}${member.user.lastName.charAt(0)}`}</Avatar.Fallback
@@ -216,7 +223,12 @@
             class="bg-destructive/90 text-destructive-foreground hover:bg-destructive"
           >
             Continue
-            <form id="delete-account-form" method="POST" action="?/deleteAccount" use:deleteAccountFormEnhance>
+            <form
+              id="delete-account-form"
+              method="POST"
+              action="?/deleteAccount"
+              use:deleteAccountFormEnhance
+            >
               <Input type="hidden" name="accountId" bind:value={$deleteAccountFormData.accountId} />
             </form>
           </AlertDialog.Action>
@@ -228,7 +240,12 @@
       <Input type="hidden" name="accountId" bind:value={data.account.id} />
       <Input type="hidden" name="userId" value={data.user?.id} />
 
-      <Form.Button type="submit" variant="destructive" disabled={$leaveAccountFormDelayed} class="my-2 w-full">
+      <Form.Button
+        type="submit"
+        variant="destructive"
+        disabled={$leaveAccountFormDelayed}
+        class="my-2 w-full"
+      >
         {#if $leaveAccountFormDelayed}
           <Reload class="mr-2 h-4 w-4 animate-spin" />
         {/if}

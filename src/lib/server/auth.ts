@@ -37,7 +37,13 @@ export async function validateSessionToken(token: string) {
   const [result] = await db
     .select({
       // Adjust user table here to tweak returned data
-      user: { id: User.id, email: User.email, firstName: User.firstName, lastName: User.lastName, avatar: User.avatar },
+      user: {
+        id: User.id,
+        email: User.email,
+        firstName: User.firstName,
+        lastName: User.lastName,
+        avatar: User.avatar
+      },
       session: Session
     })
     .from(Session)
@@ -58,7 +64,10 @@ export async function validateSessionToken(token: string) {
   const renewSession = Date.now() >= session.expiresAt.getTime() - DAY_IN_MS * 15;
   if (renewSession) {
     session.expiresAt = new Date(Date.now() + DAY_IN_MS * 30);
-    await db.update(Session).set({ expiresAt: session.expiresAt }).where(eq(Session.id, session.id));
+    await db
+      .update(Session)
+      .set({ expiresAt: session.expiresAt })
+      .where(eq(Session.id, session.id));
   }
 
   return { session, user };

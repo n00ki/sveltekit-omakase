@@ -46,7 +46,9 @@
       class="border-brand-primary mb-2 inline-flex w-full items-center justify-between rounded-lg border bg-muted p-2 text-sm"
     >
       <p>{invite.account.name}</p>
-      <Form.Button size="sm" onclick={() => handleAcceptInvite(invite.accountId, invite.token)}>Accept</Form.Button>
+      <Form.Button size="sm" onclick={() => handleAcceptInvite(invite.accountId, invite.token)}
+        >Accept</Form.Button
+      >
     </div>
   {/each}
 
@@ -95,7 +97,13 @@
       <Form.Control>
         {#snippet children({ props })}
           <Form.Label hidden>Name</Form.Label>
-          <Input type="text" placeholder="My Awesome Team" bind:value={$formData.name} {...props} {...constraints} />
+          <Input
+            type="text"
+            placeholder="My Awesome Team"
+            bind:value={$formData.name}
+            {...props}
+            {...constraints}
+          />
           <Form.FieldErrors />
         {/snippet}
       </Form.Control>

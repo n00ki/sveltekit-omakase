@@ -26,7 +26,9 @@ export const sendEmail = async (
 
     switch (templateName) {
       case 'Welcome': {
-        const { html: welcomeHtml } = await renderEmail(Welcome, { userFirstName: templateData?.userFirstName ?? '' });
+        const { html: welcomeHtml } = await renderEmail(Welcome, {
+          userFirstName: templateData?.userFirstName ?? ''
+        });
         subject = `🥋 Welcome to SvelteKit Omakase!`;
         html = welcomeHtml;
         break;

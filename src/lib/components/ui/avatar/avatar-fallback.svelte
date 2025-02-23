@@ -2,7 +2,11 @@
   import { Avatar as AvatarPrimitive } from 'bits-ui';
   import { cn } from '$lib/utils/utils.js';
 
-  let { class: className, ref = $bindable(null), ...restProps }: AvatarPrimitive.FallbackProps = $props();
+  let {
+    class: className,
+    ref = $bindable(null),
+    ...restProps
+  }: AvatarPrimitive.FallbackProps = $props();
 </script>
 
 <AvatarPrimitive.Fallback

@@ -3,7 +3,11 @@
   import { buttonVariants } from '$lib/components/ui/button/index.js';
   import { cn } from '$lib/utils/utils.js';
 
-  let { class: className, ref = $bindable(null), ...restProps }: AlertDialogPrimitive.CancelProps = $props();
+  let {
+    class: className,
+    ref = $bindable(null),
+    ...restProps
+  }: AlertDialogPrimitive.CancelProps = $props();
 </script>
 
 <AlertDialogPrimitive.Cancel

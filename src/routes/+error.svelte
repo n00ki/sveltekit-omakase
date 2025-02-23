@@ -8,6 +8,8 @@
     {page.status}: {page.error?.message}
   </h1>
   <p>
-    <a href="/" class="text-base text-muted-foreground/80 hover:text-muted-foreground md:text-xl">Go back home</a>
+    <a href="/" class="text-base text-muted-foreground/80 hover:text-muted-foreground md:text-xl"
+      >Go back home</a
+    >
   </p>
 </div>

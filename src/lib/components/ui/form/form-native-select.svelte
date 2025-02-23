@@ -18,7 +18,11 @@
 
 <div class="relative">
   <FormPrimitive.Select
-    class={cn(buttonVariants({ variant: 'outline' }), 'appearance-none bg-transparent font-normal', className)}
+    class={cn(
+      buttonVariants({ variant: 'outline' }),
+      'appearance-none bg-transparent font-normal',
+      className
+    )}
     {...rest}
   >
     {@render children?.()}

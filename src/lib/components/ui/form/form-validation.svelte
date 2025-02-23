@@ -12,4 +12,7 @@
   let { class: className = undefined, ...rest }: Props = $props();
 </script>
 
-<FormPrimitive.Validation class={cn('text-[0.8rem] font-medium text-destructive', className)} {...rest} />
+<FormPrimitive.Validation
+  class={cn('text-[0.8rem] font-medium text-destructive', className)}
+  {...rest}
+/>

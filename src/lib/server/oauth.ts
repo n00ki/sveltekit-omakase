@@ -6,4 +6,8 @@ if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
   throw new Error('GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET are required for Google OAuth');
 }
 
-export const google = new Google(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, `${PUBLIC_BASE_URL}/login/google/callback`);
+export const google = new Google(
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  `${PUBLIC_BASE_URL}/login/google/callback`
+);

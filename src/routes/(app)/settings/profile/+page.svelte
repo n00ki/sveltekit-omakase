@@ -31,7 +31,9 @@
   let avatarPreviewElement: HTMLImageElement | null = $state(null);
 
   let userAvatar = $state(
-    data.user?.avatar ? `${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${data.user.avatar}` : avatarPlaceholder
+    data.user?.avatar
+      ? `${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${data.user.avatar}`
+      : avatarPlaceholder
   );
 
   $effect(() => {
@@ -93,7 +95,13 @@
     </div>
   </div>
 
-  <form id="edit-user-form" method="POST" action="?/editUser" enctype="multipart/form-data" use:enhance>
+  <form
+    id="edit-user-form"
+    method="POST"
+    action="?/editUser"
+    enctype="multipart/form-data"
+    use:enhance
+  >
     <Form.Field name="avatar" {form}>
       {#snippet children({ constraints })}
         <Form.Control>
