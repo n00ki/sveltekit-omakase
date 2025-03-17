@@ -23,7 +23,8 @@
 
 <Card.Root>
   <Card.Header class="space-y-1">
-    <Card.Title class="text-2xl">Request Password Reset</Card.Title>
+    <Card.Title class="font-secondary text-xl">Request Password Reset</Card.Title>
+    <Card.Description>Enter your email below to receive a password reset link</Card.Description>
   </Card.Header>
   <Card.Content class="grid gap-4">
     <form method="POST" action="?/requestPasswordReset" use:enhance>
@@ -43,7 +44,6 @@
               <Form.FieldErrors />
             {/snippet}
           </Form.Control>
-          <Form.Description class="mt-1.5">We will send you a password reset link</Form.Description>
         {/snippet}
       </Form.Field>
 

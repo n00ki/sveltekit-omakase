@@ -23,8 +23,8 @@
 
 <Card.Root>
   <Card.Header>
-    <Card.Title class="text-xl">Sign Up</Card.Title>
-    <Card.Description>Enter your information to create an account</Card.Description>
+    <Card.Title class="font-secondary text-xl">Sign Up</Card.Title>
+    <Card.Description>Enter your details below to create your account</Card.Description>
   </Card.Header>
   <Card.Content>
     <div class="grid gap-4">
@@ -149,7 +149,7 @@
           <span class="w-full border-t transition-colors"></span>
         </div>
         <div class="relative flex justify-center text-xs uppercase">
-          <span class="bg-background px-2 text-muted-foreground transition-colors">
+          <span class="bg-background text-muted-foreground px-2 transition-colors">
             Or continue with
           </span>
         </div>

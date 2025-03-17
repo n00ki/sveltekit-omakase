@@ -23,8 +23,8 @@
 
 <Card.Root>
   <Card.Header>
-    <Card.Title class="text-2xl">Login</Card.Title>
-    <Card.Description>Enter your email below to login to your account</Card.Description>
+    <Card.Title class="font-secondary text-xl">Login</Card.Title>
+    <Card.Description>Enter your email and password below to log in</Card.Description>
   </Card.Header>
   <Card.Content>
     <div class="grid gap-4">
@@ -89,7 +89,7 @@
           <span class="w-full border-t transition-colors"></span>
         </div>
         <div class="relative flex justify-center text-xs uppercase">
-          <span class="bg-background px-2 text-muted-foreground transition-colors">
+          <span class="bg-background text-muted-foreground px-2 transition-colors">
             Or continue with
           </span>
         </div>
