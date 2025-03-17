@@ -31,6 +31,9 @@ import {
 } from '$queries/account';
 
 export const load = async (event) => {
+  // redirect to `/` if logged in
+  if (!event.locals.user) redirect(302, '/');
+
   const account = (await getAccountByPublicIdWithRelationsQuery.execute({
     publicId: event.params.accountPublicId
   })) as GetAccountByPublicIdWithRelations;

@@ -21,6 +21,9 @@ import {
 } from '$queries/invite';
 
 export const load = async (event) => {
+  // redirect to `/` if logged in
+  if (!event.locals.user) redirect(302, '/');
+
   const getUserAccounts = (await getAccountsByUserIdQuery.execute({
     id: event.locals.user!.id
   })) as GetAccountsByUserId;

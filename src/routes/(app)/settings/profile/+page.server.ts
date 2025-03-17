@@ -20,7 +20,10 @@ import { User } from '$models/user';
 import { UsersAccounts, Account } from '$models/account';
 import { Session } from '$models/session';
 
-export async function load() {
+export async function load({ locals }) {
+  // redirect to `/` if logged in
+  if (!locals.user) redirect(302, '/');
+
   const form = await superValidate(zod(editUserSchema), {
     id: 'edit-user-form'
   });
