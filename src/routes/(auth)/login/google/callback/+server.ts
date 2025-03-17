@@ -9,7 +9,7 @@ import { decodeIdToken } from 'arctic';
 import { ObjectParser } from '@pilcrowjs/object-parser';
 import { eq, or } from 'drizzle-orm';
 import { redirect } from 'sveltekit-flash-message/server';
-import { sendEmail } from '$lib/utils/mail/mailer';
+import { Emails, sendEmail } from '$lib/utils/mail/mailer';
 import { generateNanoId } from '$lib/utils/helpers/generate';
 import * as m from '$lib/utils/messages.json';
 
@@ -124,7 +124,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 
     // Send welcome email
     try {
-      sendEmail(email, 'Welcome', { userFirstName: firstName });
+      sendEmail(email, Emails.Welcome, { userFirstName: firstName });
     } catch (e) {
       console.log(e);
     }

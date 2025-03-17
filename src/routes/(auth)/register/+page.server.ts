@@ -8,7 +8,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
 import { setFormFail, setFormError, isRateLimited } from '$lib/utils/helpers/forms';
 import { eq } from 'drizzle-orm';
-import { sendEmail } from '$lib/utils/mail/mailer';
+import { Emails, sendEmail } from '$lib/utils/mail/mailer';
 import { generateNanoId } from '$lib/utils/helpers/generate';
 import { hashPassword } from '$lib/utils/helpers/password';
 import * as m from '$lib/utils/messages.json';
@@ -142,7 +142,9 @@ const register: Action = async (event) => {
 
     // Send welcome email
     try {
-      sendEmail(email, 'Welcome', { userFirstName: firstName });
+      sendEmail(email, Emails.Welcome, {
+        userFirstName: firstName
+      });
     } catch (e) {
       console.log(e);
     }

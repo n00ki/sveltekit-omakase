@@ -10,7 +10,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/client';
 import { setFormFail, setFormError } from '$lib/utils/helpers/forms';
 import { and, eq } from 'drizzle-orm';
-import { sendEmail } from '$lib/utils/mail/mailer';
+import { Emails, sendEmail } from '$lib/utils/mail/mailer';
 import * as m from '$lib/utils/messages.json';
 
 // Schemas
@@ -118,7 +118,7 @@ const createAccountInvite: Action = async (event) => {
 
       const inviteUrl = `${PUBLIC_BASE_URL}/invites?account=${accountId}&token=${invite[0].token}`;
       try {
-        sendEmail(email, 'AccountInvite', {
+        sendEmail(email, Emails.AccountInvite, {
           url: inviteUrl,
           invitedBy: event.locals.user?.firstName + ' ' + event.locals.user?.lastName
         });
@@ -180,9 +180,7 @@ const leaveAccount: Action = async (event) => {
   try {
     await db
       .delete(UsersAccounts)
-      .where(
-        and(eq(UsersAccounts.accountId, accountId), eq(UsersAccounts.userId, userId.toString()))
-      );
+      .where(and(eq(UsersAccounts.accountId, accountId), eq(UsersAccounts.userId, Number(userId))));
   } catch {
     redirect(
       {

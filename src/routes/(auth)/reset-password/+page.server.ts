@@ -11,7 +11,7 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
 import { setFormFail, setFormError, isRateLimited } from '$lib/utils/helpers/forms';
 import { eq } from 'drizzle-orm';
-import { sendEmail } from '$lib/utils/mail/mailer';
+import { Emails, sendEmail } from '$lib/utils/mail/mailer';
 import { generateToken } from '$lib/utils/helpers/generate';
 import * as m from '$lib/utils/messages.json';
 
@@ -90,7 +90,7 @@ const requestPasswordReset: Action = async (event) => {
 
     const url = new URL(`${PUBLIC_BASE_URL}/reset-password/${user.publicId}?token=${token?.key}`);
 
-    await sendEmail(email, 'ResetPassword', {
+    await sendEmail(email, Emails.ResetPassword, {
       url: url.toString(),
       userFirstName: user.firstName
     });

@@ -6,81 +6,104 @@ import { dev } from '$app/environment';
 
 // Utils
 import { Resend } from 'resend';
-import { renderEmail } from 'sailkit';
-import { previewHTML } from '$lib/utils/helpers/preview';
-import { fail } from '@sveltejs/kit';
+import { previewEmail, renderEmail } from 'sailkit';
+import type { Component } from 'svelte';
 
 // Templates
-import Welcome from './templates/Welcome.svelte';
-import ResetPassword from './templates/ResetPassword.svelte';
-import AccountInvite from './templates/AccountInvite.svelte';
-import { previewEmail } from './templates/preview';
+import WelcomeTemplate from './templates/Welcome.svelte';
+import ResetPasswordTemplate from './templates/ResetPassword.svelte';
+import AccountInviteTemplate from './templates/AccountInvite.svelte';
 
+export enum Emails {
+  Welcome = 'Welcome',
+  ResetPassword = 'ResetPassword',
+  AccountInvite = 'AccountInvite'
+}
+
+type Data = {
+  url?: string;
+  userFirstName?: string;
+  invitedBy?: string;
+  releaseTitle?: string;
+};
+
+type Config = {
+  component: Component;
+  requiredProps: (keyof Data)[];
+  subject?: string; // default subject for this template
+};
+
+const TEMPLATES: Record<Emails, Config> = {
+  [Emails.Welcome]: {
+    component: WelcomeTemplate as Component,
+    requiredProps: ['userFirstName'],
+    subject: '🥋 Welcome to SvelteKit Omakase!'
+  },
+  [Emails.ResetPassword]: {
+    component: ResetPasswordTemplate as Component,
+    requiredProps: ['userFirstName'],
+    subject: '🔒 Reset Your Password'
+  },
+  [Emails.AccountInvite]: {
+    component: AccountInviteTemplate as Component,
+    requiredProps: ['invitedBy', 'url'],
+    subject: "👥 You're Invited to Collaborate on SvelteKit Omakase!"
+  }
+};
+
+// Validates that all required props for a template are present in the provided data
+const validateTemplateData = (templateName: Emails, data?: Data): void => {
+  const template = TEMPLATES[templateName];
+  const missingProps = template.requiredProps.filter((prop) => !data || data[prop] === undefined);
+
+  if (missingProps.length > 0) {
+    throw new Error(
+      `Missing required properties for ${templateName} template: ${missingProps.join(', ')}`
+    );
+  }
+};
+
+// Sends an email using the specified template
 export const sendEmail = async (
   to: string,
-  templateName: string,
-  templateData?: { url?: string; userFirstName?: string; invitedBy?: string; releaseTitle?: string }
-) => {
-  if (to && templateName) {
-    let html, subject;
+  templateName: Emails,
+  templateData: Data,
+  options?: { subject?: string }
+): Promise<void> => {
+  if (!to) {
+    throw new Error('Recipient email address is required');
+  }
 
-    switch (templateName) {
-      case 'Welcome': {
-        const { html: welcomeHtml } = await renderEmail(Welcome, {
-          userFirstName: templateData?.userFirstName ?? ''
-        });
-        subject = `🥋 Welcome to SvelteKit Omakase!`;
-        html = welcomeHtml;
-        break;
-      }
-      case 'ResetPassword': {
-        const { html: resetHtml } = await renderEmail(ResetPassword, {
-          userFirstName: templateData?.userFirstName ?? '',
-          url: templateData?.url ?? ''
-        });
-        subject = `🔒 Reset Your Password`;
-        html = resetHtml;
-        break;
-      }
-      case 'AccountInvite': {
-        const { html: inviteHtml } = await renderEmail(AccountInvite, {
-          invitedBy: templateData?.invitedBy ?? '',
-          url: templateData?.url ?? ''
-        });
-        subject = "👥 You're Invited to Collaborate on SvelteKit Omakase!";
-        html = inviteHtml;
-        console.log('Invite URL:', templateData?.url ?? '');
-        break;
-      }
-      default:
-        return fail(402);
-    }
+  if (!templateName || !TEMPLATES[templateName]) {
+    throw new Error(`Unknown or invalid template: ${templateName}`);
+  }
 
-    const options = {
-      from: EMAIL_SENDER,
-      to,
-      subject,
-      html
-    };
+  // Validate template data
+  validateTemplateData(templateName, templateData);
+
+  const config = TEMPLATES[templateName];
+  const emailSubject = options?.subject ?? config.subject ?? `New message from ${EMAIL_SENDER}`;
+
+  try {
+    const { html } = await renderEmail(config.component, templateData);
+    const mailOptions = { from: EMAIL_SENDER, to, subject: emailSubject, html };
 
     if (dev) {
-      const previewTemplate = previewEmail({
-        from: options.from,
-        to: options.to,
-        subject: options.subject
-      }).html;
-
-      html = previewTemplate + html;
-      return previewHTML(html);
+      await previewEmail(config.component, templateData);
+      console.log(`Email preview generated for ${to}`);
+      return;
     }
 
-    try {
-      const resend = new Resend(RESEND_API_KEY);
-      await resend.emails.send(options);
-      console.log('Email sent successfully');
-    } catch (error) {
-      console.error('Failed to send email:', error);
-      throw error;
+    const resend = new Resend(RESEND_API_KEY);
+    const { data, error } = await resend.emails.send(mailOptions);
+
+    if (error) {
+      throw new Error(`Email service error: ${error.message}`);
     }
+
+    console.log(`Email sent successfully to ${to} with ID: ${data?.id}`);
+  } catch (error) {
+    console.error('Failed to send email:', error);
+    throw error instanceof Error ? error : new Error('Unknown error occurred while sending email');
   }
 };

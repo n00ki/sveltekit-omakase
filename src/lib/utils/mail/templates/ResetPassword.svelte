@@ -16,7 +16,7 @@
     fonts={[
       {
         name: 'Outfit',
-        href: 'https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap'
+        href: 'https://fonts.googleapis.com/css2?family=Outfit:wght@100..900'
       }
     ]}
   />
