@@ -1,15 +1,155 @@
 <script>
-  let { data } = $props();
+  import logo from '$lib/assets/logo.png';
+  import {
+    Rocket,
+    Sparkles,
+    Palette,
+    Database,
+    Zap,
+    Paintbrush,
+    Mountain,
+    Snowflake,
+    Ship,
+    Mail,
+    Shield,
+    HardDrive
+  } from 'lucide-svelte';
 </script>
 
-<div class="grid flex-1 content-center justify-center text-center">
-  <h1 class="my-2 text-3xl font-bold md:text-6xl">WELCOME</h1>
+<div class="flex flex-1 flex-col items-center justify-center gap-8 p-4">
+  <section class="text-center">
+    <img src={logo} alt="logo" class="mx-auto size-16 md:size-24" />
+    <h1 class="font-secondary mb-1.5 text-3xl font-black md:text-6xl">SvelteKit Omakase</h1>
+    <h2 class="text-base font-medium tracking-tight md:text-lg">
+      everything you need to get up and running with SvelteKit 🚀
+    </h2>
+  </section>
 
-  {#if data.user}
-    <div
-      class="w-full rounded-md bg-primary p-2 text-center text-sm font-semibold text-primary-foreground md:text-xl"
-    >
-      <p>{`${data.user.firstName} ${data.user.lastName}`}</p>
+  <section class="w-full max-w-3xl">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+      <a
+        href="https://svelte.dev/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+      >
+        <Sparkles size="18" class="text-muted-foreground" />
+        <span class="font-medium">Svelte 5</span>
+      </a>
+      <a
+        href="https://tailwindcss.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+      >
+        <Palette size="18" class="text-muted-foreground" />
+        <span class="font-medium">TailwindCSS 4</span>
+      </a>
+      <a
+        href="https://orm.drizzle.team/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+      >
+        <Database size="18" class="text-muted-foreground" />
+        <span class="font-medium">Drizzle ORM</span>
+      </a>
+      <a
+        href="https://turso.tech/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+      >
+        <Zap size="18" class="text-muted-foreground" />
+        <span class="font-medium">Turso</span>
+      </a>
+      <a
+        href="https://www.shadcn-svelte.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+      >
+        <Paintbrush size="18" class="text-muted-foreground" />
+        <span class="font-medium">shadcn-svelte</span>
+      </a>
+      <a
+        href="https://oslojs.dev/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+      >
+        <Mountain size="18" class="text-muted-foreground" />
+        <span class="font-medium">Oslo</span>
+      </a>
+      <a
+        href="https://arcticjs.dev/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+      >
+        <Snowflake size="18" class="text-muted-foreground" />
+        <span class="font-medium">Arctic</span>
+      </a>
+      <a
+        href="https://sailkit.xyz/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+      >
+        <Ship size="18" class="text-muted-foreground" />
+        <span class="font-medium">SailKit</span>
+      </a>
+      <a
+        href="https://sendgrid.com/en-us"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+      >
+        <Mail size="18" class="text-muted-foreground" />
+        <span class="font-medium">SendGrid API</span>
+      </a>
+      <a
+        href="https://zod.dev/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+      >
+        <Shield size="18" class="text-muted-foreground" />
+        <span class="font-medium">Zod</span>
+      </a>
+      <a
+        href="https://superforms.rocks/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+      >
+        <Rocket size="18" class="text-muted-foreground" />
+        <span class="font-medium">SuperForms</span>
+      </a>
+      <a
+        href="https://aws.amazon.com/s3/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+      >
+        <HardDrive size="18" class="text-muted-foreground" />
+        <span class="font-medium">AWS S3</span>
+      </a>
     </div>
-  {/if}
+  </section>
+
+  <section class="w-full max-w-3xl">
+    <h2 class="text-sm font-light">
+      Inspired by the <a
+        href="https://rubyonrails.org/doctrine#omakase"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-muted-foreground"
+      >
+        Rails doctrine
+      </a>, <em>SvelteKit Omakase</em> offers an opinionated selection of tools and a structured approach,
+      providing a robust foundation while allowing you the flexibility to customize and extend it as
+      needed.
+    </h2>
+  </section>
 </div>
