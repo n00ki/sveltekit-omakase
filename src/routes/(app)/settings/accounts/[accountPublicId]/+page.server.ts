@@ -116,7 +116,7 @@ const createAccountInvite: Action = async (event) => {
         })
         .returning();
 
-      const inviteUrl = `${PUBLIC_BASE_URL}/invites?account=${accountId}&token=${invite[0].token}`;
+      const inviteUrl = `${PUBLIC_BASE_URL}/api/invites?account=${accountId}&token=${invite[0].token}`;
       try {
         sendEmail(email, Emails.AccountInvite, {
           url: inviteUrl,

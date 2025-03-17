@@ -35,7 +35,7 @@
 
   function handleAcceptInvite(accountId: number, token: string) {
     invalidateAll();
-    goto(`${PUBLIC_BASE_URL}/invites?account=${accountId}&token=${token}`);
+    goto(`${PUBLIC_BASE_URL}/api/invites?account=${accountId}&token=${token}`);
   }
 </script>
 
