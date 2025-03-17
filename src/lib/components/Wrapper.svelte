@@ -9,7 +9,7 @@
   let { size = 'xl', children }: Props = $props();
 
   const className = 'mx-auto';
-  const maxWidth = 'max-w-' + size;
+  const maxWidth = $derived(`max-w-${size}`);
 </script>
 
 <div class="w-full">

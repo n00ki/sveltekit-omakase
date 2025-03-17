@@ -1,4 +1,4 @@
-// Types
+// Env Variables
 import { PUBLIC_AWS_S3_BUCKET_URL } from '$env/static/public';
 
 // Utils

@@ -7,11 +7,16 @@
   import * as Tooltip from '$components/ui/tooltip';
   import { Button } from '$components/ui/button';
 
-  // Icons
-  import { Sun, Moon } from 'svelte-radix';
+  // Assets
+  import { Sun, Moon } from 'lucide-svelte';
 
   $effect(() => {
     const keyListener = (e: KeyboardEvent) => {
+      // Ignore key presses when typing in input fields
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+
       if (e.key === 'd') {
         toggleMode();
       }

@@ -11,6 +11,10 @@ declare global {
         description: string;
         image: string;
         url: string;
+        breadcrumbs: {
+          title: string;
+          href: string;
+        }[];
       };
     }
   }

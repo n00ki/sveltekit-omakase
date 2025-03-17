@@ -2,7 +2,7 @@
   // Utils
   import { fly } from 'svelte/transition';
 
-  // Icons
+  // Assets
   import { CheckCircled, ExclamationTriangle, CrossCircled } from 'svelte-radix';
 
   interface Props {
@@ -31,7 +31,7 @@
     {/if}
   </div>
   <div>
-    <h3 class="mb-1 font-medium leading-none tracking-tight">
+    <h3 class="mb-1 leading-none font-medium tracking-tight">
       {title}
     </h3>
     <p class="text-sm leading-relaxed">

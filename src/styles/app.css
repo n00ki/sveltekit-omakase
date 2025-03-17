@@ -1,92 +1,90 @@
 @import 'tailwindcss';
-@import './tailwindcss-animate.css';
+@import 'tw-animate-css';
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/Montserrat-VariableFont.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sora';
+  src: url('/fonts/Sora-VariableFont.ttf') format('truetype');
+  font-display: swap;
+}
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-@layer utilities {
-  @font-face {
-    font-family: 'Montserrat';
-    src: url('/fonts/Montserrat-VariableFont.ttf') format('truetype');
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: 'Sora';
-    src: url('/fonts/Sora-VariableFont.ttf') format('truetype');
-    font-display: swap;
-  }
-}
-
 :root {
-  --background: 100% 0 0;
-  --foreground: 0.15 0.015 256.79;
-  --muted: 0.97 0.01 227.77;
-  --muted-foreground: 0.5 0.02 240.15;
-  --popover: 100% 0 0;
-  --popover-foreground: 0.15 0.015 256.79;
-  --card: 100% 0 0;
-  --card-foreground: 0.15 0.015 256.79;
-  --border: 0.92 0.01 229.49;
-  --input: 0.92 0.01 229.49;
-  --primary: 0.25 0.01 256.79;
-  --primary-foreground: 0.98 0.005 227.77;
-  --secondary: 0.97 0.01 227.77;
-  --secondary-foreground: 0.25 0.01 256.79;
-  --accent: 0.97 0.01 227.77;
-  --accent-foreground: 0.25 0.01 256.79;
-  --destructive: 0.55 0.12 29.84;
-  --destructive-foreground: 0.98 0.005 227.77;
-  --ring: 0.15 0.015 256.79;
+  --background: var(--color-white);
+  --foreground: var(--color-stone-950);
+  --muted: var(--color-stone-100);
+  --muted-foreground: var(--color-stone-500);
+  --popover: var(--color-white);
+  --popover-foreground: var(--color-stone-950);
+  --card: var(--color-white);
+  --card-foreground: var(--color-stone-950);
+  --border: var(--color-stone-200);
+  --input: var(--color-stone-200);
+  --primary: var(--color-stone-900);
+  --primary-foreground: var(--color-stone-50);
+  --secondary: var(--color-stone-100);
+  --secondary-foreground: var(--color-stone-900);
+  --accent: var(--color-stone-100);
+  --accent-foreground: var(--color-stone-900);
+  --destructive: var(--color-red-600);
+  --destructive-foreground: var(--color-stone-50);
+  --ring: var(--color-stone-950);
   --radius: 0.5rem;
-  --sidebar-background: 0.98 0 0;
-  --sidebar-foreground: 0.35 0.01 262.25;
-  --sidebar-primary: 0.2 0.01 262.25;
-  --sidebar-primary-foreground: 0.98 0 0;
-  --sidebar-accent: 0.96 0.005 262.25;
-  --sidebar-accent-foreground: 0.2 0.01 262.25;
-  --sidebar-border: 0.91 0.01 251.07;
-  --sidebar-ring: 0.6 0.15 250.79;
+  --sidebar-background: var(--color-stone-50);
+  --sidebar-foreground: var(--color-stone-700);
+  --sidebar-primary: var(--color-stone-900);
+  --sidebar-primary-foreground: var(--color-stone-50);
+  --sidebar-accent: var(--color-stone-100);
+  --sidebar-accent-foreground: var(--color-stone-700);
+  --sidebar-border: var(--color-stone-200);
+  --sidebar-ring: var(--ring);
 
-  --brand-primary: 0.85 0.12 92.39;
-  --brand-secondary: 0.8 0.1 180.32;
-  --brand-tertiary: 0.75 0.15 15.84;
+  --brand-primary: var(--color-yellow-300);
+  --brand-secondary: var(--color-teal-300);
+  --brand-tertiary: var(--color-rose-400);
 }
 
 .dark {
-  --background: 0.15 0.015 256.79;
-  --foreground: 0.98 0.005 227.77;
-  --muted: 0.25 0.02 250.79;
-  --muted-foreground: 0.7 0.015 240.15;
-  --popover: 0.15 0.015 256.79;
-  --popover-foreground: 0.98 0.005 227.77;
-  --card: 0.15 0.015 256.79;
-  --card-foreground: 0.98 0.005 227.77;
-  --border: 0.25 0.02 250.79;
-  --input: 0.25 0.02 250.79;
-  --primary: 0.98 0.005 227.77;
-  --primary-foreground: 0.25 0.01 256.79;
-  --secondary: 0.25 0.02 250.79;
-  --secondary-foreground: 0.98 0.005 227.77;
-  --accent: 0.25 0.02 250.79;
-  --accent-foreground: 0.98 0.005 227.77;
-  --destructive: 0.35 0.12 29.84;
-  --destructive-foreground: 0.98 0.005 227.77;
-  --ring: 0.85 0.02 251.07;
-  --sidebar-background: 0.2 0.01 262.25;
-  --sidebar-foreground: 0.96 0.005 262.25;
-  --sidebar-primary: 0.55 0.15 250.79;
-  --sidebar-primary-foreground: 100% 0 0;
-  --sidebar-accent: 0.25 0.01 262.25;
-  --sidebar-accent-foreground: 0.96 0.005 262.25;
-  --sidebar-border: 0.25 0.01 262.25;
-  --sidebar-ring: 0.6 0.15 250.79;
+  --background: var(--color-stone-950);
+  --foreground: var(--color-stone-50);
+  --muted: var(--color-stone-800);
+  --muted-foreground: var(--color-stone-400);
+  --popover: var(--color-stone-950);
+  --popover-foreground: var(--color-stone-50);
+  --card: var(--color-stone-950);
+  --card-foreground: var(--color-stone-50);
+  --border: var(--color-stone-800);
+  --input: var(--color-stone-800);
+  --primary: var(--color-stone-50);
+  --primary-foreground: var(--color-stone-900);
+  --secondary: var(--color-stone-800);
+  --secondary-foreground: var(--color-stone-50);
+  --accent: var(--color-stone-800);
+  --accent-foreground: var(--color-stone-50);
+  --destructive: var(--color-red-600);
+  --destructive-foreground: var(--color-stone-50);
+  --ring: var(--color-stone-300);
+  --sidebar-background: var(--color-stone-900);
+  --sidebar-foreground: var(--color-stone-200);
+  --sidebar-primary: var(--color-white);
+  --sidebar-primary-foreground: var(--color-white);
+  --sidebar-accent: var(--color-stone-800);
+  --sidebar-accent-foreground: var(--color-stone-200);
+  --sidebar-border: var(--color-stone-800);
+  --sidebar-ring: var(--ring);
 
-  --brand-primary: 0.8 0.1 180.32;
-  --brand-secondary: 0.85 0.12 92.39;
-  --brand-tertiary: 0.75 0.15 15.84;
+  --brand-primary: var(--color-teal-300);
+  --brand-secondary: var(--color-yellow-300);
+  --brand-tertiary: var(--color-rose-400);
 }
 
-@theme inline {
+@theme {
   /* Fonts */
   --font-primary: 'Montserrat', sans-serif;
   --font-secondary: 'Sora', sans-serif;
@@ -98,36 +96,36 @@
     'Liberation Mono', 'Courier New', monospace;
 
   /* Colors */
-  --color-border: oklch(var(--border));
-  --color-input: oklch(var(--input));
-  --color-ring: oklch(var(--ring));
-  --color-background: oklch(var(--background));
-  --color-foreground: oklch(var(--foreground));
-  --color-primary: oklch(var(--primary));
-  --color-primary-foreground: oklch(var(--primary-foreground));
-  --color-secondary: oklch(var(--secondary));
-  --color-secondary-foreground: oklch(var(--secondary-foreground));
-  --color-destructive: oklch(var(--destructive));
-  --color-destructive-foreground: oklch(var(--destructive-foreground));
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-caution: var(--color-red-500);
   --color-warning: var(--color-amber-500);
   --color-info: var(--color-sky-500);
-  --color-muted: oklch(var(--muted));
-  --color-muted-foreground: oklch(var(--muted-foreground));
-  --color-accent: oklch(var(--accent));
-  --color-accent-foreground: oklch(var(--accent-foreground));
-  --color-popover: oklch(var(--popover));
-  --color-popover-foreground: oklch(var(--popover-foreground));
-  --color-card: oklch(var(--card));
-  --color-card-foreground: oklch(var(--card-foreground));
-  --color-sidebar: oklch(var(--sidebar-background));
-  --color-sidebar-foreground: oklch(var(--sidebar-foreground));
-  --color-sidebar-primary: oklch(var(--sidebar-primary));
-  --color-sidebar-primary-foreground: oklch(var(--sidebar-primary-foreground));
-  --color-sidebar-accent: oklch(var(--sidebar-accent));
-  --color-sidebar-accent-foreground: oklch(var(--sidebar-accent-foreground));
-  --color-sidebar-border: oklch(var(--sidebar-border));
-  --color-sidebar-ring: oklch(var(--sidebar-ring));
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-sidebar: var(--sidebar-background);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 
   /* Border */
   --radius-xl: calc(var(--radius) + 4px);
@@ -142,18 +140,18 @@
 
   /* Keyframes */
   @keyframes accordion-down {
-    from: {
+    from {
       height: 0;
     }
-    to: {
+    to {
       height: var(--bits-accordion-content-height);
     }
   }
   @keyframes accordion-up {
-    from: {
+    from {
       height: var(--bits-accordion-content-height);
     }
-    to: {
+    to {
       height: 0;
     }
   }
@@ -171,28 +169,16 @@
 }
 
 @layer base {
-  /*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
-
   * {
     @apply border-border;
   }
 
+  *:focus-visible {
+    @apply ring-ring ring-1 outline-none;
+  }
+
   html {
-    scrollbar-color: oklch(var(--muted-foreground) / 0.3) transparent;
+    scrollbar-color: color-mix(in oklch, var(--muted-foreground), transparent 70%) transparent;
     scrollbar-width: thin;
   }
 
@@ -227,7 +213,6 @@
   padding-inline: 2rem;
 }
 
-/* For extra‑large screens (e.g. 2xl) set a max-width */
 @media (min-width: 1400px) {
   .container {
     max-width: 1400px;

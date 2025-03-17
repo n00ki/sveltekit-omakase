@@ -10,7 +10,6 @@
 
   // Components
   import SEO from '$components/SEO.svelte';
-  import Navbar from '$components/Navbar.svelte';
   import { Toaster } from '$lib/components/ui/sonner';
   import Flash from '$components/Flash.svelte';
   import ThemeSwitcher from '$components/ThemeSwitcher.svelte';
@@ -38,9 +37,7 @@
 
 <Toaster position="bottom-center" closeButton />
 
-<Navbar user={data.user} />
-
-<main class="container mx-auto flex flex-1 flex-col p-4 md:px-8 md:py-4">
+<main>
   {@render children?.()}
 
   <div class="fixed right-5 bottom-5">
@@ -49,7 +46,7 @@
 </main>
 
 {#if $flash}
-  <div class="fixed bottom-0 w-full overflow-hidden">
+  <div class="fixed bottom-0 z-50 w-full overflow-hidden">
     <Flash type={$flash.type} message={$flash?.message} />
   </div>
 {/if}
