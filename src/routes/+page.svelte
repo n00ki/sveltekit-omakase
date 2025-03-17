@@ -31,7 +31,7 @@
         href="https://svelte.dev/"
         target="_blank"
         rel="noopener noreferrer"
-        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+        class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
       >
         <Sparkles size="18" class="text-muted-foreground" />
         <span class="font-medium">Svelte 5</span>
@@ -40,7 +40,7 @@
         href="https://tailwindcss.com/"
         target="_blank"
         rel="noopener noreferrer"
-        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+        class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
       >
         <Palette size="18" class="text-muted-foreground" />
         <span class="font-medium">TailwindCSS 4</span>
@@ -49,7 +49,7 @@
         href="https://orm.drizzle.team/"
         target="_blank"
         rel="noopener noreferrer"
-        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+        class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
       >
         <Database size="18" class="text-muted-foreground" />
         <span class="font-medium">Drizzle ORM</span>
@@ -58,7 +58,7 @@
         href="https://turso.tech/"
         target="_blank"
         rel="noopener noreferrer"
-        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+        class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
       >
         <Zap size="18" class="text-muted-foreground" />
         <span class="font-medium">Turso</span>
@@ -67,7 +67,7 @@
         href="https://www.shadcn-svelte.com/"
         target="_blank"
         rel="noopener noreferrer"
-        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+        class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
       >
         <Paintbrush size="18" class="text-muted-foreground" />
         <span class="font-medium">shadcn-svelte</span>
@@ -76,7 +76,7 @@
         href="https://oslojs.dev/"
         target="_blank"
         rel="noopener noreferrer"
-        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+        class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
       >
         <Mountain size="18" class="text-muted-foreground" />
         <span class="font-medium">Oslo</span>
@@ -85,7 +85,7 @@
         href="https://arcticjs.dev/"
         target="_blank"
         rel="noopener noreferrer"
-        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+        class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
       >
         <Snowflake size="18" class="text-muted-foreground" />
         <span class="font-medium">Arctic</span>
@@ -94,7 +94,7 @@
         href="https://sailkit.xyz/"
         target="_blank"
         rel="noopener noreferrer"
-        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+        class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
       >
         <Ship size="18" class="text-muted-foreground" />
         <span class="font-medium">SailKit</span>
@@ -103,7 +103,7 @@
         href="https://sendgrid.com/en-us"
         target="_blank"
         rel="noopener noreferrer"
-        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+        class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
       >
         <Mail size="18" class="text-muted-foreground" />
         <span class="font-medium">SendGrid API</span>
@@ -112,7 +112,7 @@
         href="https://zod.dev/"
         target="_blank"
         rel="noopener noreferrer"
-        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+        class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
       >
         <Shield size="18" class="text-muted-foreground" />
         <span class="font-medium">Zod</span>
@@ -121,7 +121,7 @@
         href="https://superforms.rocks/"
         target="_blank"
         rel="noopener noreferrer"
-        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+        class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
       >
         <Rocket size="18" class="text-muted-foreground" />
         <span class="font-medium">SuperForms</span>
@@ -130,7 +130,7 @@
         href="https://aws.amazon.com/s3/"
         target="_blank"
         rel="noopener noreferrer"
-        class="group border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
+        class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
       >
         <HardDrive size="18" class="text-muted-foreground" />
         <span class="font-medium">AWS S3</span>

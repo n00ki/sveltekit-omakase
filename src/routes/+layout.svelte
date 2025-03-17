@@ -43,7 +43,7 @@
 <main class="container mx-auto flex flex-1 flex-col p-4 md:px-8 md:py-4">
   {@render children?.()}
 
-  <div class="fixed right-0 bottom-5">
+  <div class="fixed right-5 bottom-5">
     <ThemeSwitcher />
   </div>
 </main>
