@@ -1,6 +1,6 @@
 import { text, integer, index, sqliteTable } from 'drizzle-orm/sqlite-core';
 import { sql, relations } from 'drizzle-orm';
-import { generateNanoId } from '../../utils/helpers/generate';
+import { generateToken } from '../../utils/helpers/generate';
 
 import { Account } from './account';
 
@@ -15,7 +15,7 @@ export const Invite = sqliteTable(
     token: text()
       .notNull()
       .unique()
-      .$default(() => generateNanoId({ token: true })),
+      .$default(() => generateToken()),
     status: text({ enum: ['pending', 'accepted', 'expired'] })
       .notNull()
       .default('pending'),
