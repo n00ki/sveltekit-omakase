@@ -100,13 +100,13 @@
         <span class="font-medium">SailKit</span>
       </a>
       <a
-        href="https://sendgrid.com/en-us"
+        href="https://resend.com/home"
         target="_blank"
         rel="noopener noreferrer"
         class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
       >
         <Mail size="18" class="text-muted-foreground" />
-        <span class="font-medium">SendGrid API</span>
+        <span class="font-medium">Resend</span>
       </a>
       <a
         href="https://zod.dev/"

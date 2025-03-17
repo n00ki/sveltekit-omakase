@@ -69,12 +69,12 @@
     "@oslojs/crypto": "^1.0.1",
     "@oslojs/encoding": "^1.1.0",
     "@pilcrowjs/object-parser": "^0.0.4",
-    "@sendgrid/mail": "^8.1.4",
     "arctic": "^3.5.0",
     "drizzle-orm": "^0.40.0",
     "lucide-svelte": "^0.482.0",
     "mjml": "^4.15.3",
     "nanoid": "^5.1.4",
+    "resend": "^4.1.2",
     "sailkit": "^0.2.2",
     "svelte-radix": "^2.0.1",
     "sveltekit-flash-message": "^2.4.6"

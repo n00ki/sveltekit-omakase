@@ -48,7 +48,7 @@ Clone this repository, install dependencies, set your environment variables (ref
 - [🇳🇴 Oslo](https://oslojs.dev/)
 - [🇦🇶 Arctic](https://arcticjs.dev/)
 - [⛵ SailKit](https://sailkit.xyz/)
-- [📬 SendGrid API](https://sendgrid.com/en-us)
+- [📬 Resend](https://resend.com/home)
 - [⛔ Zod](https://zod.dev/)
 - [📄 SvelteKit SuperForms](https://superforms.rocks/)
 - [📁 AWS S3](https://aws.amazon.com/s3/)

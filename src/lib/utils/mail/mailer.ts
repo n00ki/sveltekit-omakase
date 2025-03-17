@@ -1,11 +1,11 @@
 // Env Variables
-import { SENDGRID_API_KEY, EMAIL_SENDER } from '$env/static/private';
+import { RESEND_API_KEY, EMAIL_SENDER } from '$env/static/private';
 
 // Stores
 import { dev } from '$app/environment';
 
 // Utils
-import sendgrid from '@sendgrid/mail';
+import { Resend } from 'resend';
 import { renderEmail } from 'sailkit';
 import { previewHTML } from '$lib/utils/helpers/preview';
 import { fail } from '@sveltejs/kit';
@@ -71,11 +71,16 @@ export const sendEmail = async (
       }).html;
 
       html = previewTemplate + html;
-      previewHTML(html);
-    } else {
-      sendgrid.setApiKey(SENDGRID_API_KEY);
-      await sendgrid.send(options);
+      return previewHTML(html);
+    }
+
+    try {
+      const resend = new Resend(RESEND_API_KEY);
+      await resend.emails.send(options);
       console.log('Email sent successfully');
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      throw error;
     }
   }
 };
