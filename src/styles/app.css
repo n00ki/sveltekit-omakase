@@ -9,6 +9,12 @@
     src: url('/fonts/Montserrat-VariableFont.ttf') format('truetype');
     font-display: swap;
   }
+
+  @font-face {
+    font-family: 'Sora';
+    src: url('/fonts/Sora-VariableFont.ttf') format('truetype');
+    font-display: swap;
+  }
 }
 
 :root {
@@ -83,6 +89,7 @@
 @theme inline {
   /* Fonts */
   --font-primary: 'Montserrat', sans-serif;
+  --font-secondary: 'Sora', sans-serif;
   --font-sans:
     'Inter Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
