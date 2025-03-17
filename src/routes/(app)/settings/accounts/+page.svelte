@@ -43,7 +43,7 @@
   <h2 class="pb-4 font-semibold">Pending Invites</h2>
   {#each data.pendingInvites as invite}
     <div
-      class="border-brand-primary mb-2 inline-flex w-full items-center justify-between rounded-lg border bg-muted p-2 text-sm"
+      class="border-brand-primary bg-muted mb-2 inline-flex w-full items-center justify-between rounded-lg border p-2 text-sm"
     >
       <p>{invite.account.name}</p>
       <Form.Button size="sm" onclick={() => handleAcceptInvite(invite.accountId, invite.token)}
@@ -60,14 +60,14 @@
     {#each data.userAccounts as userAccount}
       {#if userAccount.account.type !== 'personal'}
         <a href="{page.url.pathname}/{userAccount.account.publicId}">
-          <div class="rounded-xl border-2 border-primary p-4 shadow-xs">
+          <div class="border-primary rounded-xl border-2 p-4 shadow-xs">
             <div class="flex items-center justify-between">
               <h1 class="text-lg font-semibold md:text-xl">{userAccount.account.name}</h1>
               <Badge variant="outline">{userAccount.account.type}</Badge>
             </div>
             <div class="flex gap-2 py-4">
               {#each userAccount.account.members as member}
-                <Avatar.Root class="z-50 size-6 ring-2 ring-border md:size-10">
+                <Avatar.Root class="ring-border z-50 size-6 ring-2 md:size-10">
                   {#if member.user.avatar}
                     <Avatar.Image
                       src={`${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${member.user.avatar}`}

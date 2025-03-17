@@ -20,7 +20,8 @@ export const getUserPendingInvitesByEmail = db.query.Invite.findMany({
         name: true
       }
     }
-  }
+  },
+  orderBy: (invites, { desc }) => [desc(invites.createdAt)]
 });
 
 export const getUserPendingInvitesByEmailQuery: SQLitePreparedQuery<PreparedQueryConfig> =

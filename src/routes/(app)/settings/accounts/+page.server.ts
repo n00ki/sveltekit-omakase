@@ -29,6 +29,14 @@ export const load = async (event) => {
     email: event.locals.user!.email
   })) as GetUserPendingInvitesByEmail;
 
+  const uniqueAccountInvites = getUserPendingInvites.reduce((unique, invite) => {
+    const existingInvite = unique.find((i) => i.accountId === invite.accountId);
+    if (!existingInvite) {
+      unique.push(invite);
+    }
+    return unique;
+  }, [] as GetUserPendingInvitesByEmail);
+
   const form = await superValidate(zod(createAccountSchema));
 
   return {
@@ -37,7 +45,7 @@ export const load = async (event) => {
     },
     form,
     userAccounts: getUserAccounts?.userAccounts,
-    pendingInvites: getUserPendingInvites
+    pendingInvites: uniqueAccountInvites
   };
 };
 

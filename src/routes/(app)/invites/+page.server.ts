@@ -1,6 +1,6 @@
 // Utils
 import { redirect } from 'sveltekit-flash-message/server';
-import { eq } from 'drizzle-orm';
+import { eq, and, ne } from 'drizzle-orm';
 import * as m from '$lib/utils/messages.json';
 
 // Database
@@ -15,6 +15,7 @@ export const load = async (event) => {
 
   const accountId = event.url.searchParams.get('account');
   const inviteToken = event.url.searchParams.get('token');
+
   if (!inviteToken || !accountId) {
     redirect('/', { type: 'error', message: m.accounts.invite.receive.invalidUrl }, event);
   }
@@ -50,12 +51,28 @@ export const load = async (event) => {
     });
 
     if (addUserToAccount) {
+      // Mark the current invite as accepted
       await db
         .update(Invite)
         .set({
           status: 'accepted'
         })
         .where(eq(Invite.id, invite.id));
+
+      // Expire any other pending invites for the same account and email
+      await db
+        .update(Invite)
+        .set({
+          status: 'expired'
+        })
+        .where(
+          and(
+            eq(Invite.accountId, invite.accountId),
+            eq(Invite.email, invite.email),
+            eq(Invite.status, 'pending'),
+            ne(Invite.id, invite.id)
+          )
+        );
     }
   } catch (error) {
     console.log(error);
