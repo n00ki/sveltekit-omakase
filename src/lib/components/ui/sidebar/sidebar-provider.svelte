@@ -3,12 +3,7 @@
   import { cn } from '$lib/utils/utils.js';
   import type { WithElementRef } from 'bits-ui';
   import type { HTMLAttributes } from 'svelte/elements';
-  import {
-    SIDEBAR_COOKIE_MAX_AGE,
-    SIDEBAR_COOKIE_NAME,
-    SIDEBAR_WIDTH,
-    SIDEBAR_WIDTH_ICON
-  } from './constants.js';
+  import { SIDEBAR_COOKIE_MAX_AGE, SIDEBAR_COOKIE_NAME, SIDEBAR_WIDTH, SIDEBAR_WIDTH_ICON } from './constants.js';
   import { setSidebar } from './context.svelte.js';
 
   let {
@@ -41,10 +36,7 @@
 <Tooltip.Provider delayDuration={0}>
   <div
     style="--sidebar-width: {SIDEBAR_WIDTH}; --sidebar-width-icon: {SIDEBAR_WIDTH_ICON}; {style}"
-    class={cn(
-      'group/sidebar-wrapper has-[[data-variant=inset]]:bg-sidebar flex min-h-svh w-full',
-      className
-    )}
+    class={cn('group/sidebar-wrapper has-[[data-variant=inset]]:bg-sidebar flex min-h-svh w-full', className)}
     bind:this={ref}
     {...restProps}
   >

@@ -1,6 +1,6 @@
 <script lang="ts">
   // Env Variables
-  import { PUBLIC_AWS_S3_BUCKET_URL, PUBLIC_BASE_URL } from '$env/static/public';
+  import { PUBLIC_AWS_S3_BUCKET_URL } from '$env/static/public';
 
   // Types
   import type { SessionValidationResult } from '$lib/server/auth';

@@ -15,10 +15,7 @@ import { createAccountSchema } from '$lib/validations/account';
 import db from '$lib/server/database';
 import { Account, UsersAccounts } from '$models/account';
 import { getAccountsByUserIdQuery, type GetAccountsByUserId } from '$queries/account';
-import {
-  getUserPendingInvitesByEmailQuery,
-  type GetUserPendingInvitesByEmail
-} from '$queries/invite';
+import { getUserPendingInvitesByEmailQuery, type GetUserPendingInvitesByEmail } from '$queries/invite';
 
 export async function load(event) {
   const getUserAccounts = (await getAccountsByUserIdQuery.execute({

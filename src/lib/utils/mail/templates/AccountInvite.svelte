@@ -25,7 +25,7 @@
       <Column>
         <Text fontFamily="Outfit" paddingBottom="0px">
           <h1>
-            👥 You're Invited to Collaborate on{' '}
+            `👥 You're Invited to Collaborate on `
             <span style="color: #f59e0b">SvelteKit Omakase</span>
           </h1>
         </Text>
@@ -40,8 +40,8 @@
         <Column.Divider />
         <Text>
           <p>
-            If you have any questions, feel free to{' '}
-            <a href="https://mailto:noams+ks@hey.com">reach out</a>.
+            `If you have any questions, feel free to `
+            <a href="https://mailto:noams+sko@hey.com">reach out</a>.
           </p>
           <p>Welcome aboard! 🎉</p>
         </Text>

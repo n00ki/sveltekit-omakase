@@ -59,9 +59,7 @@ const validateTemplateData = (templateName: Emails, data?: Data): void => {
   const missingProps = template.requiredProps.filter((prop) => !data || data[prop] === undefined);
 
   if (missingProps.length > 0) {
-    throw new Error(
-      `Missing required properties for ${templateName} template: ${missingProps.join(', ')}`
-    );
+    throw new Error(`Missing required properties for ${templateName} template: ${missingProps.join(', ')}`);
   }
 };
 

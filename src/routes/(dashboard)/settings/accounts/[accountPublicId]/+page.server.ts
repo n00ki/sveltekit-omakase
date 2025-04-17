@@ -25,10 +25,7 @@ import {
 import db from '$lib/server/database';
 import { Account, UsersAccounts } from '$models/account';
 import { Invite } from '$models/invite';
-import {
-  getAccountByPublicIdWithRelationsQuery,
-  type GetAccountByPublicIdWithRelations
-} from '$queries/account';
+import { getAccountByPublicIdWithRelationsQuery, type GetAccountByPublicIdWithRelations } from '$queries/account';
 
 export async function load(event) {
   const account = (await getAccountByPublicIdWithRelationsQuery.execute({
@@ -43,36 +40,24 @@ export async function load(event) {
     redirect('/', { type: 'error', message: m.accounts.unauthorized }, event);
   }
 
-  const createAccountInviteForm = await superValidate(
-    { accountId: account.id },
-    zod(createAccountInviteSchema),
-    {
-      id: 'create-account-invite-form',
-      errors: false
-    }
-  );
+  const createAccountInviteForm = await superValidate({ accountId: account.id }, zod(createAccountInviteSchema), {
+    id: 'create-account-invite-form',
+    errors: false
+  });
 
-  const editAccountForm = await superValidate(
-    { accountId: account.id, name: account.name },
-    zod(editAccountSchema),
-    {
-      id: 'edit-account-form',
-      errors: false
-    }
-  );
+  const editAccountForm = await superValidate({ accountId: account.id, name: account.name }, zod(editAccountSchema), {
+    id: 'edit-account-form',
+    errors: false
+  });
 
   const leaveAccountForm = await superValidate(zod(leaveAccountSchema), {
     id: 'leave-account-form'
   });
 
-  const deleteAccountForm = await superValidate(
-    { accountId: account.id },
-    zod(deleteAccountSchema),
-    {
-      id: 'delete-account-form',
-      errors: false
-    }
-  );
+  const deleteAccountForm = await superValidate({ accountId: account.id }, zod(deleteAccountSchema), {
+    id: 'delete-account-form',
+    errors: false
+  });
 
   return {
     metadata: {
@@ -101,10 +86,7 @@ export async function load(event) {
 }
 
 const createAccountInvite: Action = async (event) => {
-  const createAccountInviteForm = await superValidate(
-    event.request,
-    zod(createAccountInviteSchema)
-  );
+  const createAccountInviteForm = await superValidate(event.request, zod(createAccountInviteSchema));
 
   if (!createAccountInviteForm.valid) {
     return setFormFail(createAccountInviteForm);
@@ -147,10 +129,7 @@ const createAccountInvite: Action = async (event) => {
       });
     }
 
-    redirect(
-      { type: 'success', message: `Invite sent to ${email}! Check back to see when they join.` },
-      event
-    );
+    redirect({ type: 'success', message: `Invite sent to ${email}! Check back to see when they join.` }, event);
   }
 };
 

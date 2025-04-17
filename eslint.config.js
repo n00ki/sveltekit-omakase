@@ -32,7 +32,12 @@ export default ts.config(
       }
     }
   },
-
+  {
+    files: ['**/*.svelte.ts', '**/*.ts'],
+    languageOptions: {
+      parser: ts.parser
+    }
+  },
   {
     ignores: [
       '.DS_Store',

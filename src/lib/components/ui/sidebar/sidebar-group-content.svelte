@@ -11,11 +11,6 @@
   }: WithElementRef<HTMLAttributes<HTMLDivElement>> = $props();
 </script>
 
-<div
-  bind:this={ref}
-  data-sidebar="group-content"
-  class={cn('w-full text-sm', className)}
-  {...restProps}
->
+<div bind:this={ref} data-sidebar="group-content" class={cn('w-full text-sm', className)} {...restProps}>
   {@render children?.()}
 </div>

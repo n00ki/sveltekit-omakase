@@ -37,8 +37,8 @@
         <Column.Divider />
         <Text>
           <p>
-            If you didn't request this, please ignore this email or{' '}
-            <a href="https://mailto:noams+ks@hey.com">contact us</a>.
+            `If you didn't request this, please ignore this email or `
+            <a href="https://mailto:noams+sko@hey.com">contact us</a>.
           </p>
           <p>Stay secure 🛟</p>
         </Text>

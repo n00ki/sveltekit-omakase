@@ -11,11 +11,6 @@
   }: WithElementRef<HTMLAttributes<HTMLLIElement>, HTMLLIElement> = $props();
 </script>
 
-<li
-  bind:this={ref}
-  data-sidebar="menu-item"
-  class={cn('group/menu-item relative', className)}
-  {...restProps}
->
+<li bind:this={ref} data-sidebar="menu-item" class={cn('group/menu-item relative', className)} {...restProps}>
   {@render children?.()}
 </li>

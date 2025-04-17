@@ -17,7 +17,7 @@
   // Styles
   import '../styles/app.css';
 
-  let { data, children } = $props();
+  let { children } = $props();
 
   const flash = getFlash(page, {
     clearOnNavigate: true,

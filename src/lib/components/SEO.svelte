@@ -14,9 +14,7 @@
 
   let {
     title = $bindable(),
-    description = $bindable(
-      'a starter project designed to get you up and running with SvelteKit 🚀'
-    ),
+    description = $bindable('a starter project designed to get you up and running with SvelteKit 🚀'),
     image = $bindable(metaImage),
     url = $bindable(PUBLIC_BASE_URL)
   }: Props = $props();

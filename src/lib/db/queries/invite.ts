@@ -26,6 +26,4 @@ export const getUserPendingInvitesByEmail = db.query.Invite.findMany({
 
 export const getUserPendingInvitesByEmailQuery: SQLitePreparedQuery<PreparedQueryConfig> =
   getUserPendingInvitesByEmail.prepare();
-export type GetUserPendingInvitesByEmail = Awaited<
-  ReturnType<typeof getUserPendingInvitesByEmail.execute>
->;
+export type GetUserPendingInvitesByEmail = Awaited<ReturnType<typeof getUserPendingInvitesByEmail.execute>>;

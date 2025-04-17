@@ -165,9 +165,9 @@
           class="text-muted-foreground"
         >
           Rails doctrine
-        </a>, <em>SvelteKit Omakase</em> offers an opinionated selection of tools and a structured approach
-        for your next web application. It provides a robust foundation with carefully chosen defaults,
-        while preserving the flexibility to customize and extend as your project needs evolve.
+        </a>, <em>SvelteKit Omakase</em> offers an opinionated selection of tools and a structured approach for your next
+        web application. It provides a robust foundation with carefully chosen defaults, while preserving the flexibility
+        to customize and extend as your project needs evolve.
       </h2>
     </section>
   </div>

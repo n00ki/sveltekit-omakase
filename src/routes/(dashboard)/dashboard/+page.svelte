@@ -8,9 +8,7 @@
       <PlaceholderPattern class="stroke-muted-foreground/20 absolute inset-0 size-full" />
     </div>
   {/each}
-  <div
-    class="border-border/70 relative col-span-3 hidden overflow-hidden rounded-xl border md:block"
-  >
+  <div class="border-border/70 relative col-span-3 hidden overflow-hidden rounded-xl border md:block">
     <PlaceholderPattern class="stroke-muted-foreground/20 absolute inset-0 size-full" />
   </div>
 </div>

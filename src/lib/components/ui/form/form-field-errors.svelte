@@ -14,10 +14,7 @@
   } = $props();
 </script>
 
-<FormPrimitive.FieldErrors
-  class={cn('text-destructive text-[0.8rem] font-medium', className)}
-  {...restProps}
->
+<FormPrimitive.FieldErrors class={cn('text-destructive text-[0.8rem] font-medium', className)} {...restProps}>
   {#snippet children({ errors, errorProps })}
     {#if childrenProp}
       {@render childrenProp({ errors, errorProps })}

@@ -20,7 +20,7 @@ import { User } from '$models/user';
 import { UsersAccounts, Account } from '$models/account';
 import { Session } from '$models/session';
 
-export async function load({ locals }) {
+export async function load() {
   const form = await superValidate(zod(editUserSchema), {
     id: 'edit-user-form'
   });

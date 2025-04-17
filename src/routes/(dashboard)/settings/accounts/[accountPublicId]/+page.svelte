@@ -5,11 +5,7 @@
   // Utils
   import { superForm } from 'sveltekit-superforms';
   import { zodClient } from 'sveltekit-superforms/adapters';
-  import {
-    createAccountInviteSchema,
-    deleteAccountSchema,
-    editAccountSchema
-  } from '$lib/validations/account';
+  import { createAccountInviteSchema, deleteAccountSchema, editAccountSchema } from '$lib/validations/account';
   import * as flashModule from 'sveltekit-flash-message/client';
   import { toast } from 'svelte-sonner';
   import * as m from '$lib/utils/messages.json';
@@ -123,16 +119,11 @@
 
 <div class="py-2">
   <ul class="flex w-full flex-wrap items-start gap-4 pt-2">
-    {#each data.account.members as member}
+    {#each data.account.members as member (member.user.publicId)}
       <li class="flex flex-col items-center justify-center">
-        <Avatar.Root
-          class={['ring-border size-7 text-xs ring-2', member.role === 'admin' && 'ring-ring']}
-        >
+        <Avatar.Root class={['ring-border size-7 text-xs ring-2', member.role === 'admin' && 'ring-ring']}>
           {#if member.user.avatar}
-            <Avatar.Image
-              src={`${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${member.user.avatar}`}
-              alt={member.user.email}
-            />
+            <Avatar.Image src={`${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${member.user.avatar}`} alt={member.user.email} />
           {/if}
           <Avatar.Fallback class="text-xs uppercase"
             >{`${member.user.firstName.charAt(0)}${member.user.lastName.charAt(0)}`}</Avatar.Fallback
@@ -192,17 +183,13 @@
   <h3 class="mb-0.5 text-base font-medium">Danger Zone</h3>
 
   {#if data.account.members.find((m) => m.userId === data.user?.id && m.role === 'admin')}
-    <div
-      class="space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10"
-    >
+    <div class="space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10">
       <div class="relative space-y-0.5 text-red-600 dark:text-red-100">
         <p class="font-medium">Warning</p>
         <p class="text-sm">Please proceed with caution, this cannot be undone.</p>
       </div>
       <AlertDialog.Root>
-        <AlertDialog.Trigger class={buttonVariants({ variant: 'destructive' })}>
-          Delete account
-        </AlertDialog.Trigger>
+        <AlertDialog.Trigger class={buttonVariants({ variant: 'destructive' })}>Delete account</AlertDialog.Trigger>
         <AlertDialog.Content>
           <AlertDialog.Header>
             <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
@@ -218,17 +205,8 @@
               class="bg-destructive/90 text-destructive-foreground hover:bg-destructive"
             >
               Continue
-              <form
-                id="delete-account-form"
-                method="POST"
-                action="?/deleteAccount"
-                use:deleteAccountFormEnhance
-              >
-                <Input
-                  type="hidden"
-                  name="accountId"
-                  bind:value={$deleteAccountFormData.accountId}
-                />
+              <form id="delete-account-form" method="POST" action="?/deleteAccount" use:deleteAccountFormEnhance>
+                <Input type="hidden" name="accountId" bind:value={$deleteAccountFormData.accountId} />
               </form>
             </AlertDialog.Action>
           </AlertDialog.Footer>
@@ -240,12 +218,7 @@
       <Input type="hidden" name="accountId" bind:value={data.account.id} />
       <Input type="hidden" name="userId" value={data.user?.id} />
 
-      <Form.Button
-        type="submit"
-        variant="destructive"
-        disabled={$leaveAccountFormDelayed}
-        class="my-2 w-full"
-      >
+      <Form.Button type="submit" variant="destructive" disabled={$leaveAccountFormDelayed} class="my-2 w-full">
         {#if $leaveAccountFormDelayed}
           <Reload class="mr-2 h-4 w-4 animate-spin" />
         {/if}

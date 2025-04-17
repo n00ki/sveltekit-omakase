@@ -31,7 +31,9 @@
         </Text>
         <Column.Divider />
         <Text>
-          <p>Need help? we are just an <a href="https://mailto:noams+ks@hey.com">email</a> away.</p>
+          <p>
+            Need help? we are just an <a href="https://mailto:noams+sko@hey.com">email</a> away.
+          </p>
         </Text>
       </Column>
     </Section>

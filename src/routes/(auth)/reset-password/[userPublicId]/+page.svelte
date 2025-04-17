@@ -24,9 +24,7 @@
 <Card.Root>
   <Card.Header class="space-y-1">
     <Card.Title class="font-secondary text-xl">Create a New Password</Card.Title>
-    <Card.Description
-      >Enter a new password for <strong>{data.form.data.email}</strong></Card.Description
-    >
+    <Card.Description>Enter a new password for <strong>{data.form.data.email}</strong></Card.Description>
   </Card.Header>
   <Card.Content class="grid gap-4">
     <form method="POST" action="?/reset" use:enhance>

@@ -41,14 +41,12 @@
 
 {#if data.pendingInvites.length > 0}
   <h2 class="pb-4 font-semibold">Pending Invites</h2>
-  {#each data.pendingInvites as invite}
+  {#each data.pendingInvites as invite, index (index)}
     <div
       class="border-brand-primary bg-muted mb-2 inline-flex w-full items-center justify-between rounded-lg border p-2 text-sm"
     >
       <p>{invite.account.name}</p>
-      <Form.Button size="sm" onclick={() => handleAcceptInvite(invite.accountId, invite.token)}
-        >Accept</Form.Button
-      >
+      <Form.Button size="sm" onclick={() => handleAcceptInvite(invite.accountId, invite.token)}>Accept</Form.Button>
     </div>
   {/each}
 
@@ -58,7 +56,7 @@
 {#if data.userAccounts}
   <div class="grid gap-2">
     <h3 class="mb-0.5 text-base font-medium">Teams</h3>
-    {#each data.userAccounts as userAccount}
+    {#each data.userAccounts as userAccount, index (index)}
       {#if userAccount.account.type !== 'personal'}
         <a href="{page.url.pathname}/{userAccount.account.publicId}">
           <div class="border-primary rounded-xl border-2 p-4 shadow-xs">
@@ -67,7 +65,7 @@
               <Badge variant="outline">{userAccount.account.type}</Badge>
             </div>
             <div class="flex gap-2 py-4">
-              {#each userAccount.account.members as member}
+              {#each userAccount.account.members as member (member.user.publicId)}
                 <Avatar.Root class="ring-border z-50 size-7 text-xs ring-2">
                   {#if member.user.avatar}
                     <Avatar.Image
@@ -98,13 +96,7 @@
       <Form.Control>
         {#snippet children({ props })}
           <Form.Label hidden>Name</Form.Label>
-          <Input
-            type="text"
-            placeholder="My Awesome Team"
-            bind:value={$formData.name}
-            {...props}
-            {...constraints}
-          />
+          <Input type="text" placeholder="My Awesome Team" bind:value={$formData.name} {...props} {...constraints} />
           <Form.FieldErrors />
         {/snippet}
       </Form.Control>

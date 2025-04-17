@@ -23,8 +23,8 @@
   });
 </script>
 
-<nav class={cn('flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1', className)}>
-  {#each items as item}
+<nav class={cn('flex space-x-2 lg:flex-col lg:space-y-1 lg:space-x-0', className)}>
+  {#each items as item (item.title)}
     {@const isActive = page.url.pathname === item.href}
 
     <Button
@@ -35,7 +35,7 @@
     >
       {#if isActive}
         <div
-          class="absolute inset-0 rounded-md bg-muted"
+          class="bg-muted absolute inset-0 rounded-md"
           in:send={{ key: 'active-sidebar-tab' }}
           out:receive={{ key: 'active-sidebar-tab' }}
         ></div>

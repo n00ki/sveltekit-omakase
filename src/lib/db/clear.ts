@@ -15,9 +15,7 @@ async function clearDb() {
   const queries = Object.values(tableSchema).map((table) => {
     console.log(`🧨 Preparing DELETE query for table: ${table.dbName}`);
     return {
-      query: sql.raw(
-        `DELETE FROM ${table.dbName}; DELETE FROM sqlite_sequence WHERE name='${table.dbName}';`
-      ),
+      query: sql.raw(`DELETE FROM ${table.dbName}; DELETE FROM sqlite_sequence WHERE name='${table.dbName}';`),
       queryString: `DELETE FROM ${table.dbName}; DELETE FROM sqlite_sequence WHERE name='${table.dbName}';`
     };
   });

@@ -31,9 +31,7 @@
   let avatarPreviewElement: HTMLImageElement | null = $state(null);
 
   let userAvatar = $state(
-    data.user?.avatar
-      ? `${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${data.user.avatar}`
-      : avatarPlaceholder
+    data.user?.avatar ? `${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${data.user.avatar}` : avatarPlaceholder
   );
 
   $effect(() => {
@@ -96,13 +94,7 @@
     </div>
   </div>
 
-  <form
-    id="edit-user-form"
-    method="POST"
-    action="?/editUser"
-    enctype="multipart/form-data"
-    use:enhance
-  >
+  <form id="edit-user-form" method="POST" action="?/editUser" enctype="multipart/form-data" use:enhance>
     <Form.Field name="avatar" {form}>
       {#snippet children({ constraints })}
         <Form.Control>
@@ -131,7 +123,7 @@
   </form>
 
   {#if fileUploadState.status === 'failed'}
-    {#each fileUploadErrors as error}
+    {#each fileUploadErrors as error, index (index)}
       <Alert.Root variant="destructive" class="inline-flex items-center gap-2 py-2">
         <div>
           <CrossCircled class="h-6 w-6" />
@@ -144,17 +136,13 @@
   <Separator class="my-4" />
 
   <h3 class="mb-0.5 text-base font-medium">Danger Zone</h3>
-  <div
-    class="space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10"
-  >
+  <div class="space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10">
     <div class="relative space-y-0.5 text-red-600 dark:text-red-100">
       <p class="font-medium">Warning</p>
       <p class="text-sm">Please proceed with caution, this cannot be undone.</p>
     </div>
     <AlertDialog.Root>
-      <AlertDialog.Trigger class={buttonVariants({ variant: 'destructive' })}>
-        Delete account
-      </AlertDialog.Trigger>
+      <AlertDialog.Trigger class={buttonVariants({ variant: 'destructive' })}>Delete account</AlertDialog.Trigger>
       <AlertDialog.Content>
         <AlertDialog.Header>
           <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>

@@ -50,9 +50,9 @@
           <Separator orientation="vertical" class="mr-2 h-4" />
           <Breadcrumb.Root>
             <Breadcrumb.List>
-              {#each breadcrumbs as item, i (i)}
+              {#each breadcrumbs as item, index (index)}
                 <Breadcrumb.Item>
-                  {#if i === breadcrumbs.length - 1}
+                  {#if index === breadcrumbs.length - 1}
                     <Breadcrumb.Page>{item.title}</Breadcrumb.Page>
                   {:else}
                     <Breadcrumb.Link href={item.href ?? '#'}>
@@ -60,7 +60,7 @@
                     </Breadcrumb.Link>
                   {/if}
                 </Breadcrumb.Item>
-                {#if i !== breadcrumbs.length - 1}
+                {#if index !== breadcrumbs.length - 1}
                   <Breadcrumb.Separator />
                 {/if}
               {/each}
