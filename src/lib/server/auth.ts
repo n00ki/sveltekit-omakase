@@ -2,6 +2,8 @@
 import type { RequestEvent } from '@sveltejs/kit';
 
 // Utils
+import { redirect } from '@sveltejs/kit';
+import { getRequestEvent } from '$app/server';
 import { eq } from 'drizzle-orm';
 import { sha256 } from '@oslojs/crypto/sha2';
 import { encodeBase64url, encodeHexLowerCase } from '@oslojs/encoding';
@@ -91,4 +93,16 @@ export function deleteSessionTokenCookie(event: RequestEvent) {
   event.cookies.delete(sessionCookieName, {
     path: '/'
   });
+}
+
+export function requireLogin() {
+  const { locals, url } = getRequestEvent();
+
+  if (!locals.user) {
+    const location = new URL('/login', url.origin);
+
+    redirect(307, location);
+  }
+
+  return locals.user;
 }

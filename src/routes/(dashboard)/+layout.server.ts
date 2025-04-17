@@ -1,6 +1,5 @@
-import { redirect } from '@sveltejs/kit';
+import { requireLogin } from '$lib/server/auth';
 
-export async function load({ locals }) {
-  // redirect to `/` if not logged in
-  if (!locals.user) redirect(302, '/');
+export async function load() {
+  requireLogin();
 }
