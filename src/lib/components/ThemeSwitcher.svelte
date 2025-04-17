@@ -30,7 +30,7 @@
   });
 </script>
 
-{#if $mode}
+{#if mode.current}
   <Tooltip.Provider>
     <Tooltip.Root delayDuration={250}>
       <Tooltip.Trigger onclick={toggleMode}>
@@ -43,7 +43,7 @@
             class="rounded-full"
             {...props}
           >
-            {#if $mode === 'dark'}
+            {#if mode.current === 'dark'}
               <span in:fly={{ y: 20, duration: 300 }}>
                 <Sun size="16" />
               </span>
