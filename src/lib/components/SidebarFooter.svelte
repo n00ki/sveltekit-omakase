@@ -13,6 +13,7 @@
 
   // Assets
   import { ChevronsUpDown, Settings, LogOut } from 'lucide-svelte';
+  import { Reload } from 'svelte-radix';
 
   interface Props {
     user: SessionValidationResult['user'];
@@ -23,6 +24,7 @@
   const sidebar = useSidebar();
 
   let logoutForm: HTMLFormElement;
+  let isLoggingOut = $state(false);
 </script>
 
 <Sidebar.Menu>
@@ -87,8 +89,18 @@
           </DropdownMenu.Item>
         </DropdownMenu.Group>
         <DropdownMenu.Separator />
-        <DropdownMenu.Item onclick={() => logoutForm.submit()}>
-          <LogOut />
+        <DropdownMenu.Item
+          onclick={() => {
+            isLoggingOut = true;
+            logoutForm.submit();
+          }}
+          disabled={isLoggingOut}
+        >
+          {#if isLoggingOut}
+            <Reload class="mr-2 h-4 w-4 animate-spin" />
+          {:else}
+            <LogOut />
+          {/if}
           Log out
           <form bind:this={logoutForm} id="logout" method="POST" action="/logout"></form>
         </DropdownMenu.Item>

@@ -19,6 +19,12 @@
   });
 
   const { form: formData, enhance, delayed } = form;
+
+  let isGoogleLoggingIn = $state(false);
+
+  function handleGoogleLoginState() {
+    isGoogleLoggingIn = true;
+  }
 </script>
 
 <Card.Root>
@@ -90,7 +96,19 @@
           <span class="bg-background text-muted-foreground px-2 transition-colors"> Or continue with </span>
         </div>
       </div>
-      <Form.Button variant="outline" type="button" href="/login/google" class="flex-1">Google</Form.Button>
+      <Form.Button
+        variant="outline"
+        type="button"
+        class="flex-1"
+        onclick={handleGoogleLoginState}
+        disabled={isGoogleLoggingIn}
+        href="/login/google"
+      >
+        {#if isGoogleLoggingIn}
+          <Reload class="mr-2 h-4 w-4 animate-spin" />
+        {/if}
+        Google
+      </Form.Button>
     </div>
 
     <div class="mt-4 text-center text-sm">
