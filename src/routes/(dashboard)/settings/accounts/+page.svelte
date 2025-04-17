@@ -34,7 +34,6 @@
   const { form: formData, delayed, enhance } = form;
 
   function handleAcceptInvite(accountId: number, token: string) {
-    invalidateAll();
     goto(`${PUBLIC_BASE_URL}/api/invites?account=${accountId}&token=${token}`);
   }
 </script>
