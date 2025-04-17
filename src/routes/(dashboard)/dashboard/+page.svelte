@@ -2,7 +2,7 @@
   import PlaceholderPattern from '$components/PlaceholderPattern.svelte';
 </script>
 
-<div class="grid h-full grid-cols-1 gap-4 p-4 md:grid-cols-3 md:grid-rows-[auto_1fr]">
+<div class="grid grid-cols-1 gap-4 p-4 md:h-full md:grid-cols-3 md:grid-rows-[auto_1fr]">
   {#each Array(3)}
     <div class="border-border/70 relative aspect-video overflow-hidden rounded-xl border">
       <PlaceholderPattern class="stroke-muted-foreground/20 absolute inset-0 size-full" />

@@ -12,7 +12,7 @@
   const maxWidth = $derived(`max-w-${size}`);
 </script>
 
-<div class="w-full">
+<div class="w-full px-2 md:px-0">
   <div class={cn(className, maxWidth)}>
     {@render children?.()}
   </div>
