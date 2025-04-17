@@ -8,7 +8,7 @@
   // Utils
   import { superForm } from 'sveltekit-superforms';
   import { zodClient } from 'sveltekit-superforms/adapters';
-  import { goto, invalidateAll } from '$app/navigation';
+  import { goto } from '$app/navigation';
 
   // Components
   import * as Form from '$components/ui/form';
