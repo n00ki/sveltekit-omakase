@@ -15,12 +15,12 @@
     "db:clear": "vite-node --options.transformMode.ssr='/.*/' src/lib/db/clear",
     "db:studio": "drizzle-kit studio",
     "db:studio:remote": "NODE_ENV=production drizzle-kit studio",
-    "test": "pnpm test:integration && pnpm test:unit",
+    "test": "pnpm test:e2e && pnpm test:unit",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --plugin prettier-plugin-svelte . --check . && eslint .",
     "format": "prettier --write  --plugin prettier-plugin-svelte .",
-    "test:integration": "pnpm db:clear && NODE_ENV=test playwright test",
+    "test:e2e": "pnpm db:clear && NODE_ENV=test playwright test",
     "test:unit": "vitest"
   },
   "devDependencies": {
@@ -32,6 +32,8 @@
     "@sveltejs/kit": "^2.20.7",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
     "@tailwindcss/vite": "^4.1.4",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/svelte": "^5.2.7",
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.14.1",
     "bits-ui": "1.3.19",
