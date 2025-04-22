@@ -1,6 +1,6 @@
 # SvelteKit Omakase
 
-![SvelteKit Omakase](https://res.cloudinary.com/nshemesh/image/upload/v1717396211/Sveltekit%20Omakase/meta.png)
+![SvelteKit Omakase](https://res.cloudinary.com/nshemesh/image/upload/v1745329712/Sveltekit%20Omakase/meta_new.png)
 
 Welcome to **SvelteKit Omakase**, a starter project designed to get you up and running with SvelteKit 🚀.
 
