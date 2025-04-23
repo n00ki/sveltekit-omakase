@@ -63,6 +63,9 @@ importers:
       '@eslint/js':
         specifier: ^9.25.1
         version: 9.25.1
+      '@lucide/svelte':
+        specifier: ^0.503.0
+        version: 0.503.0(svelte@5.28.2)
       '@playwright/test':
         specifier: ^1.52.0
         version: 1.52.0
@@ -838,6 +841,11 @@ packages:
     resolution: {integrity: sha512-8PtI2LrcacvFvzGOkm1CFCGWR5Y5eJDliAlZUEv7BTSAWf07FIVi21mEAyB9VG5y3VpWtY0f+6JYblrwqgqD3A==}
     cpu: [x64]
     os: [win32]
+
+  '@lucide/svelte@0.503.0':
+    resolution: {integrity: sha512-Y7Q8pHnX2YG8Ef4a/VnYFN9tTAJS33MiS78vQtPiyp5iiWuBlTMoViMiRUxQb7U9Ro46RdJ0kpCADvvha3Z2rA==}
+    peerDependencies:
+      svelte: ^5
 
   '@napi-rs/wasm-runtime@0.2.6':
     resolution: {integrity: sha512-z8YVS3XszxFTO73iwvFDNpQIzdMmSDTP/mB3E/ucR37V3Sx57hSExcXyMoNwaucWxnsWf4xfbZv0iZ30jr0M4Q==}
@@ -4496,6 +4504,10 @@ snapshots:
 
   '@libsql/win32-x64-msvc@0.5.6':
     optional: true
+
+  '@lucide/svelte@0.503.0(svelte@5.28.2)':
+    dependencies:
+      svelte: 5.28.2
 
   '@napi-rs/wasm-runtime@0.2.6':
     dependencies:
