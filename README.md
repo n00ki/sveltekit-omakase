@@ -51,7 +51,7 @@ Clone this repository, install dependencies, set your environment variables (ref
 - [📬 Resend](https://resend.com/home)
 - [⛔ Zod](https://zod.dev/)
 - [📄 SvelteKit SuperForms](https://superforms.rocks/)
-- [📁 AWS S3](https://aws.amazon.com/s3/)
+- [📁 Cloudflare R2](https://www.cloudflare.com/r2/)
 
 ## Documentation
 

@@ -1,6 +1,6 @@
 <script lang="ts">
   // Env Variables
-  import { PUBLIC_AWS_S3_BUCKET_URL } from '$env/static/public';
+  import { PUBLIC_R2_BUCKET_URL } from '$env/static/public';
 
   // Utils
   import { superForm } from 'sveltekit-superforms';
@@ -31,7 +31,7 @@
   let avatarPreviewElement: HTMLImageElement | null = $state(null);
 
   let userAvatar = $state(
-    data.user?.avatar ? `${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${data.user.avatar}` : avatarPlaceholder
+    data.user?.avatar ? `${PUBLIC_R2_BUCKET_URL}/avatars/${data.user.avatar}` : avatarPlaceholder
   );
 
   $effect(() => {

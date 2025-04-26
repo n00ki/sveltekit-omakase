@@ -145,13 +145,13 @@
           <span class="font-medium">SuperForms</span>
         </a>
         <a
-          href="https://aws.amazon.com/s3/"
+          href="https://www.cloudflare.com/r2/"
           target="_blank"
           rel="noopener noreferrer"
           class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 hover:shadow-sm"
         >
           <HardDrive size="18" class="text-muted-foreground" />
-          <span class="font-medium">AWS S3</span>
+          <span class="font-medium">Cloudflare R2</span>
         </a>
       </div>
     </section>

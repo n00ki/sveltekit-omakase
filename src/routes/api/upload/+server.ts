@@ -1,5 +1,5 @@
 // Env Variables
-import { PUBLIC_AWS_S3_BUCKET_NAME } from '$env/static/public';
+import { PUBLIC_R2_BUCKET_NAME } from '$env/static/public';
 
 // Types
 import { type RequestHandler } from '@sveltejs/kit';
@@ -22,7 +22,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
     const fileName = crypto.randomBytes(16).toString('hex');
 
     const file = {
-      Bucket: PUBLIC_AWS_S3_BUCKET_NAME,
+      Bucket: PUBLIC_R2_BUCKET_NAME,
       Key: `${destinationDirectory}/${fileName}`,
       ContentType: fileType
     };

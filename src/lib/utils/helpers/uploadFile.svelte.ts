@@ -1,5 +1,5 @@
 // Env Variables
-import { PUBLIC_AWS_S3_BUCKET_URL } from '$env/static/public';
+import { PUBLIC_R2_BUCKET_URL } from '$env/static/public';
 
 // Utils
 import { validateImageFile } from '$lib/validations/files';
@@ -114,7 +114,7 @@ export const uploadImageFile = async (
     };
 
     fileId = fileName ?? '';
-    previewUrl = `${PUBLIC_AWS_S3_BUCKET_URL}/${uploadDestinationDirectory}/${fileId}`;
+    previewUrl = `${PUBLIC_R2_BUCKET_URL}/${uploadDestinationDirectory}/${fileId}`;
 
     return { fileId, previewUrl };
   } catch {
