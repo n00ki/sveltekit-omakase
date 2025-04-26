@@ -33,12 +33,6 @@
     data.user?.avatar ? `${PUBLIC_R2_BUCKET_URL}/avatars/${data.user.avatar}` : avatarPlaceholder
   );
 
-  $effect(() => {
-    if (imageFileUploadState.status === 'uploaded') {
-      document.getElementById('edit-user-form')?.dispatchEvent(new Event('submit'));
-    }
-  });
-
   async function uploadAvatar(event: Event) {
     const avatarInputField: HTMLInputElement = event.target as HTMLInputElement;
     if (!avatarInputField.files) return;
@@ -74,6 +68,16 @@
   });
 
   const { enhance, delayed } = form;
+
+  const CONFIRMATION_PHRASE = 'DELETE';
+  let deleteConfirmationInput = $state('');
+  let isDeleteConfirmed = $derived(deleteConfirmationInput === CONFIRMATION_PHRASE);
+
+  $effect(() => {
+    if (imageFileUploadState.status === 'uploaded') {
+      document.getElementById('edit-user-form')?.dispatchEvent(new Event('submit'));
+    }
+  });
 </script>
 
 <div class="flex w-full flex-1 flex-col justify-center">
@@ -149,11 +153,17 @@
             {m.accounts.delete.destructiveOperation}
           </AlertDialog.Description>
         </AlertDialog.Header>
+        <Input
+          type="text"
+          bind:value={deleteConfirmationInput}
+          placeholder={`Type "${CONFIRMATION_PHRASE}" to confirm`}
+        />
         <AlertDialog.Footer>
           <AlertDialog.Cancel>Back to safety</AlertDialog.Cancel>
           <AlertDialog.Action
             type="submit"
             form="delete-user-form"
+            disabled={!isDeleteConfirmed}
             class="bg-destructive/90 text-destructive-foreground hover:bg-destructive"
           >
             Continue

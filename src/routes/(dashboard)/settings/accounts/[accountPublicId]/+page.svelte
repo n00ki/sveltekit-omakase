@@ -69,6 +69,10 @@
   });
 
   const { form: deleteAccountFormData, enhance: deleteAccountFormEnhance } = deleteAccountForm;
+
+  const CONFIRMATION_PHRASE = 'DELETE';
+  let deleteConfirmationInput = $state('');
+  let isDeleteConfirmed = $derived(deleteConfirmationInput === CONFIRMATION_PHRASE);
 </script>
 
 <div>
@@ -197,11 +201,17 @@
               {m.accounts.delete.destructiveOperation}
             </AlertDialog.Description>
           </AlertDialog.Header>
+          <Input
+            type="text"
+            bind:value={deleteConfirmationInput}
+            placeholder={`Type "${CONFIRMATION_PHRASE}" to confirm`}
+          />
           <AlertDialog.Footer>
             <AlertDialog.Cancel>Back to safety</AlertDialog.Cancel>
             <AlertDialog.Action
               type="submit"
               form="delete-account-form"
+              disabled={!isDeleteConfirmed}
               class="bg-destructive/90 text-destructive-foreground hover:bg-destructive"
             >
               Continue
