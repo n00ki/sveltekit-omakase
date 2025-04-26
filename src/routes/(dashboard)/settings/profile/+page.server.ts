@@ -3,11 +3,10 @@ import { type Action } from '@sveltejs/kit';
 
 // Utils
 import * as auth from '$lib/server/auth';
-import { redirect } from 'sveltekit-flash-message/server';
+import { redirect, setFlash } from 'sveltekit-flash-message/server';
 import { fail } from '@sveltejs/kit';
 import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
-import { setFormError } from '$lib/utils/helpers/forms';
 import { eq } from 'drizzle-orm';
 import * as m from '$lib/utils/messages.json';
 
@@ -72,10 +71,8 @@ const editUser: Action = async (event) => {
         await db.update(User).set({ avatar }).where(eq(User.id, user.id));
       } catch (error) {
         console.log(error);
-        return setFormError(form, m.general.error, {
-          status: 500,
-          field: 'avatar'
-        });
+        setFlash({ status: 500, type: 'error', message: m.general.error }, event);
+        return fail(500, { form: await superValidate(zod(editUserSchema)) });
       }
     }
 
@@ -107,14 +104,8 @@ const deleteUser: Action = async (event) => {
     });
   } catch (error) {
     console.log(error);
-    redirect(
-      {
-        status: 500,
-        type: 'error',
-        message: m.general.error
-      },
-      event
-    );
+    setFlash({ status: 500, type: 'error', message: m.general.error }, event);
+    return fail(500);
   }
 
   try {
@@ -122,14 +113,8 @@ const deleteUser: Action = async (event) => {
       if (event.locals.session) await auth.invalidateSession(event.locals.session.id);
       auth.deleteSessionTokenCookie(event);
     } catch {
-      redirect(
-        {
-          status: 500,
-          type: 'error',
-          message: m.general.error
-        },
-        event
-      );
+      setFlash({ status: 500, type: 'error', message: m.general.error }, event);
+      return fail(500, { form: await superValidate(zod(editUserSchema)) });
     }
 
     if (user && userAccounts.length > 0) {
@@ -155,14 +140,8 @@ const deleteUser: Action = async (event) => {
     }
   } catch (error) {
     console.log(error);
-    redirect(
-      {
-        status: 500,
-        type: 'error',
-        message: m.general.error
-      },
-      event
-    );
+    setFlash({ status: 500, type: 'error', message: m.general.error }, event);
+    return fail(500, { form: await superValidate(zod(editUserSchema)) });
   }
 
   redirect('/', { type: 'success', message: m.settings.userProfile.delete.success }, event);

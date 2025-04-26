@@ -5,7 +5,7 @@
   // Utils
   import { onNavigate } from '$app/navigation';
   import { getFlash } from 'sveltekit-flash-message/client';
-  import { fileUploadState } from '$lib/utils/helpers/uploadFile.svelte';
+  import { imageFileUploadState } from '$lib/utils/helpers/uploadFile.svelte';
   import { ModeWatcher } from 'mode-watcher';
 
   // Components
@@ -27,7 +27,7 @@
 
   // Reset file upload status store on navigation
   onNavigate(() => {
-    fileUploadState.reset();
+    imageFileUploadState.reset();
   });
 </script>
 

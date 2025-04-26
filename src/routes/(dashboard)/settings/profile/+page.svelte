@@ -5,7 +5,7 @@
   // Utils
   import { superForm } from 'sveltekit-superforms';
   import { zodClient } from 'sveltekit-superforms/adapters';
-  import { uploadImageFile, fileUploadState } from '$lib/utils/helpers/uploadFile.svelte';
+  import { uploadImageFile, imageFileUploadState } from '$lib/utils/helpers/uploadFile.svelte';
   import { toast } from 'svelte-sonner';
   import * as m from '$lib/utils/messages.json';
 
@@ -28,14 +28,13 @@
 
   let avatarFileId: string | null = null;
   let fileUploadErrors: string[] = $state([]);
-  let avatarPreviewElement: HTMLImageElement | null = $state(null);
 
   let userAvatar = $state(
     data.user?.avatar ? `${PUBLIC_R2_BUCKET_URL}/avatars/${data.user.avatar}` : avatarPlaceholder
   );
 
   $effect(() => {
-    if (fileUploadState.status === 'uploaded') {
+    if (imageFileUploadState.status === 'uploaded') {
       document.getElementById('edit-user-form')?.dispatchEvent(new Event('submit'));
     }
   });
@@ -81,15 +80,12 @@
   <h3 class="mb-0.5 text-base font-medium">Profile</h3>
   <div class="ring-accent mx-auto my-2 flex h-32 w-32 rounded-full p-1 ring-4 drop-shadow-xs">
     <div class="m-auto flex h-full w-full items-center justify-center overflow-hidden rounded-full">
-      {#if fileUploadState.status === 'uploading'}
+      {#if imageFileUploadState.status === 'uploading'}
         <Symbol class="h-6 w-6 animate-spin" />
       {:else}
-        <img
-          bind:this={avatarPreviewElement}
-          src={userAvatar}
-          alt="avatar preview"
-          class="min-h-full min-w-full shrink-0 object-cover"
-        />
+        {#key userAvatar}
+          <img src={userAvatar} alt="avatar preview" class="min-h-full min-w-full shrink-0 object-cover" />
+        {/key}
       {/if}
     </div>
   </div>
@@ -102,8 +98,9 @@
             <Form.Label>Avatar</Form.Label>
             <Input
               type="file"
+              accept="image/*"
               onchange={uploadAvatar}
-              disabled={fileUploadState.status === 'uploading'}
+              disabled={imageFileUploadState.status === 'uploading'}
               class="file:text-foreground file:p-1"
               {...props}
               {...constraints}
@@ -122,15 +119,17 @@
     </Form.Button>
   </form>
 
-  {#if fileUploadState.status === 'failed'}
-    {#each fileUploadErrors as error, index (index)}
-      <Alert.Root variant="destructive" class="inline-flex items-center gap-2 py-2">
-        <div>
-          <CrossCircled class="h-6 w-6" />
-        </div>
-        <Alert.Description>{error}</Alert.Description>
-      </Alert.Root>
-    {/each}
+  {#if imageFileUploadState.status === 'failed'}
+    <div class="space-y-2">
+      {#each fileUploadErrors as error, index (index)}
+        <Alert.Root variant="destructive" class="inline-flex items-center gap-2 py-2">
+          <div>
+            <CrossCircled class="h-6 w-6" />
+          </div>
+          <Alert.Description>{error}</Alert.Description>
+        </Alert.Root>
+      {/each}
+    </div>
   {/if}
 
   <Separator class="my-4" />

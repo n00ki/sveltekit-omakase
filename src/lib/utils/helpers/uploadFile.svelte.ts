@@ -6,6 +6,7 @@ import { validateImageFile } from '$lib/validations/files';
 import { toast } from 'svelte-sonner';
 
 interface FileUploadState {
+  type: 'image' | 'audio' | 'video' | 'document';
   status: 'ready' | 'uploading' | 'uploaded' | 'failed';
   progress: number;
 }
@@ -14,8 +15,9 @@ let fileUploadErrors: string[] = [];
 let fileId: string | null = null;
 let previewUrl: string | null = null;
 
-export function createFileUploadState() {
-  let state: FileUploadState = $state({
+export function createFileUploadState(type: FileUploadState['type']) {
+  const state: FileUploadState = $state({
+    type: type,
     status: 'ready',
     progress: 0
   });
@@ -38,22 +40,21 @@ export function createFileUploadState() {
     },
 
     reset() {
-      state = {
-        status: 'ready',
-        progress: 0
-      };
+      state.type = type;
+      state.status = 'ready';
+      state.progress = 0;
     }
   };
 }
 
-export const fileUploadState = createFileUploadState();
+export const imageFileUploadState = createFileUploadState('image');
 
 export const uploadImageFile = async (
   fileInputField: HTMLInputElement,
   uploadDestinationDirectory: string,
   type?: 'avatar'
 ) => {
-  fileUploadState.status = 'ready';
+  imageFileUploadState.status = 'ready';
 
   try {
     if (!fileInputField.files) return;
@@ -62,7 +63,7 @@ export const uploadImageFile = async (
     const { valid, errors } = validateImageFile(file, type ?? '');
 
     if (!valid) {
-      fileUploadState.status = 'failed';
+      imageFileUploadState.status = 'failed';
       fileUploadErrors = errors;
       toast.error(fileUploadErrors[0]);
       return { fileUploadErrors };
@@ -85,12 +86,12 @@ export const uploadImageFile = async (
     const xhr = new XMLHttpRequest();
 
     xhr.upload.onloadstart = () => {
-      fileUploadState.status = 'uploading';
+      imageFileUploadState.status = 'uploading';
     };
 
     xhr.upload.onprogress = (e) => {
       if (e.lengthComputable) {
-        fileUploadState.progress = Math.round((e.loaded / e.total) * 100);
+        imageFileUploadState.progress = Math.round((e.loaded / e.total) * 100);
       }
     };
 
@@ -101,11 +102,11 @@ export const uploadImageFile = async (
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
-          fileUploadState.progress = 0;
+          imageFileUploadState.progress = 0;
           toast.success('Image uploaded successfully');
-          fileUploadState.status = 'uploaded';
+          imageFileUploadState.status = 'uploaded';
         } else {
-          fileUploadState.status = 'failed';
+          imageFileUploadState.status = 'failed';
           fileUploadErrors = ['Error uploading image'];
           toast.error(fileUploadErrors[0]);
           return { fileUploadErrors };
@@ -118,7 +119,7 @@ export const uploadImageFile = async (
 
     return { fileId, previewUrl };
   } catch {
-    fileUploadState.status = 'failed';
+    imageFileUploadState.status = 'failed';
     fileUploadErrors = ['Error uploading image'];
     toast.error(fileUploadErrors[0]);
     return { fileUploadErrors };
