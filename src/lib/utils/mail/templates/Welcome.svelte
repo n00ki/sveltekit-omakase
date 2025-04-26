@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Html, Head, Body, Column, Section, Text } from 'sailkit';
+  import { mailTheme } from './mailTheme';
 
   interface WelcomeEmailProps {
     userFirstName: string;
@@ -12,17 +13,12 @@
   <Head
     subject="🥋 Welcome to SvelteKit Omakase!"
     preview="We are thrilled to have you onboard. ⭐"
-    fonts={[
-      {
-        name: 'Outfit',
-        href: 'https://fonts.googleapis.com/css2?family=Outfit:wght@100..900'
-      }
-    ]}
+    theme={mailTheme}
   />
   <Body>
     <Section>
       <Column>
-        <Text fontFamily="Outfit" paddingBottom="0px">
+        <Text paddingBottom="0px">
           <h1>Welcome to <span style="color: #f59e0b">SvelteKit Omakase</span></h1>
         </Text>
         <Text>
