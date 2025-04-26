@@ -26,7 +26,6 @@ export default ts.config(
     files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
     languageOptions: {
       parserOptions: {
-        projectService: true,
         extraFileExtensions: ['.svelte'],
         parser: ts.parser,
         svelteConfig
@@ -34,18 +33,6 @@ export default ts.config(
     }
   },
   {
-    ignores: [
-      '.DS_Store',
-      'node_modules/',
-      '*.env',
-      'pnpm-lock.yaml',
-      'yarn.lock',
-      'package-lock.json',
-      'build/',
-      '.svelte-kit/',
-      'dist/',
-      '*.cjs',
-      'src/lib/components/ui/**'
-    ]
+    ignores: ['*.env', 'node_modules/', 'build/', '.svelte-kit/', 'src/lib/components/ui/**']
   }
 );
