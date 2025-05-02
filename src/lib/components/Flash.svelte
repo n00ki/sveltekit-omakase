@@ -4,7 +4,7 @@
   import { cn } from '$lib/utils/utils';
 
   // Assets
-  import { CheckCircled, ExclamationTriangle, CrossCircled } from 'svelte-radix';
+  import { CircleCheck, TriangleAlert, CircleX } from '@lucide/svelte';
 
   interface Props {
     type: 'success' | 'error' | 'warning';
@@ -30,11 +30,11 @@
   <div class="flex items-center gap-2">
     <div>
       {#if type === 'success'}
-        <CheckCircled class="size-5" />
+        <CircleCheck size="18" />
       {:else if type === 'error'}
-        <CrossCircled class="size-5" />
+        <CircleX size="18" />
       {:else if type === 'warning'}
-        <ExclamationTriangle class="size-5" />
+        <TriangleAlert size="18" />
       {/if}
     </div>
 

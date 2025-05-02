@@ -19,7 +19,7 @@
   import { Separator } from '$components/ui/separator';
 
   // Assets
-  import { Reload, Pencil2 } from 'svelte-radix';
+  import { SquarePen, RotateCw } from '@lucide/svelte';
 
   let { data = $bindable() } = $props();
   let isEditMode = $state(false);
@@ -113,7 +113,7 @@
               isEditMode = true;
             }}
           >
-            <Pencil2 size="18" />
+            <SquarePen size="18" />
           </Button>
         {/if}
       {/if}
@@ -175,7 +175,7 @@
 
       <Form.Button type="submit" disabled={$createAccountInviteFormDelayed} class="my-2 w-full">
         {#if $createAccountInviteFormDelayed}
-          <Reload class="mr-2 h-4 w-4 animate-spin" />
+          <RotateCw size="16" class="mr-2 animate-spin" />
         {/if}
         Invite
       </Form.Button>
@@ -230,7 +230,7 @@
 
       <Form.Button type="submit" variant="destructive" disabled={$leaveAccountFormDelayed} class="my-2 w-full">
         {#if $leaveAccountFormDelayed}
-          <Reload class="mr-2 h-4 w-4 animate-spin" />
+          <RotateCw size="16" class="mr-2 animate-spin" />
         {/if}
         Leave Account
       </Form.Button>

@@ -22,7 +22,7 @@
 
   // Assets
   import avatarPlaceholder from '$lib/assets/avatar.png';
-  import { Reload, Symbol, CrossCircled } from 'svelte-radix';
+  import { RotateCw, RefreshCw, CircleX } from '@lucide/svelte';
 
   let { data } = $props();
 
@@ -85,7 +85,7 @@
   <div class="ring-accent mx-auto my-2 flex h-32 w-32 rounded-full p-1 ring-4 drop-shadow-xs">
     <div class="m-auto flex h-full w-full items-center justify-center overflow-hidden rounded-full">
       {#if imageFileUploadState.status === 'uploading'}
-        <Symbol class="h-6 w-6 animate-spin" />
+        <RefreshCw size="24" class="animate-spin" />
       {:else}
         {#key userAvatar}
           <img src={userAvatar} alt="avatar preview" class="min-h-full min-w-full shrink-0 object-cover" />
@@ -117,7 +117,7 @@
 
     <Form.Button disabled={$delayed} variant="secondary" class="my-2 hidden w-full">
       {#if $delayed}
-        <Reload class="mr-2 h-4 w-4 animate-spin" />
+        <RotateCw size="16" class="mr-2 animate-spin" />
       {/if}
       Update
     </Form.Button>
@@ -128,7 +128,7 @@
       {#each fileUploadErrors as error, index (index)}
         <Alert.Root variant="destructive" class="inline-flex items-center gap-2 py-2">
           <div>
-            <CrossCircled class="h-6 w-6" />
+            <CircleX size="24" />
           </div>
           <Alert.Description>{error}</Alert.Description>
         </Alert.Root>

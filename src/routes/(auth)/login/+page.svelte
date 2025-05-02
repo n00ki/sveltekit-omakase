@@ -10,7 +10,7 @@
   import * as Card from '$components/ui/card';
 
   // Assets
-  import { Reload } from 'svelte-radix';
+  import { RotateCw } from '@lucide/svelte';
 
   let { data } = $props();
 
@@ -82,7 +82,7 @@
 
         <Form.Button disabled={$delayed} class="my-2 w-full">
           {#if $delayed}
-            <Reload class="mr-2 h-4 w-4 animate-spin" />
+            <RotateCw size="16" class="mr-2 animate-spin" />
           {/if}
           Login
         </Form.Button>
@@ -105,7 +105,7 @@
         href="/login/google"
       >
         {#if isGoogleLoggingIn}
-          <Reload class="mr-2 h-4 w-4 animate-spin" />
+          <RotateCw size="16" class="mr-2 animate-spin" />
         {/if}
         Google
       </Form.Button>

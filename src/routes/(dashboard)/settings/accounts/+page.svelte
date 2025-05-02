@@ -21,7 +21,7 @@
   import { createAccountSchema } from '$lib/validations/account';
 
   // Assets
-  import { Reload } from 'svelte-radix';
+  import { RotateCw } from '@lucide/svelte';
 
   let { data } = $props();
 
@@ -104,7 +104,7 @@
 
   <Form.Button type="submit" disabled={$delayed} class="my-2 w-full">
     {#if $delayed}
-      <Reload class="mr-2 h-4 w-4 animate-spin" />
+      <RotateCw size="16" class="mr-2 animate-spin" />
     {/if}
     Create
   </Form.Button>

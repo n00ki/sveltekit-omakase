@@ -2,7 +2,7 @@
   import { Form as FormPrimitive } from 'formsnap';
   import { buttonVariants } from '$components/ui/button';
   import { cn } from '$lib/utils/utils';
-  import { CaretSort } from 'svelte-radix';
+  import { ChevronsUpDown } from '@lucide/svelte';
   import type { HTMLSelectAttributes } from 'svelte/elements';
 
   type $$Props = HTMLSelectAttributes;
@@ -23,5 +23,5 @@
   >
     {@render children?.()}
   </FormPrimitive.Select>
-  <CaretSort class="absolute right-3 top-2.5 h-4 w-4 opacity-50" />
+  <ChevronsUpDown class="absolute top-2.5 right-3 h-4 w-4 opacity-50" />
 </div>

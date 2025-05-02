@@ -8,7 +8,7 @@
   import { Button } from '$components/ui/button';
 
   // Assets
-  import { Sun, Moon } from 'lucide-svelte';
+  import { Sun, Moon } from '@lucide/svelte';
 
   $effect(() => {
     const keyListener = (e: KeyboardEvent) => {

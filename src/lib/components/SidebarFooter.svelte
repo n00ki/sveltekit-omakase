@@ -12,8 +12,7 @@
   import { useSidebar } from '$lib/components/ui/sidebar';
 
   // Assets
-  import { ChevronsUpDown, Settings, LogOut } from 'lucide-svelte';
-  import { Reload } from 'svelte-radix';
+  import { ChevronsUpDown, Settings, LogOut, RotateCw } from '@lucide/svelte';
 
   interface Props {
     user: SessionValidationResult['user'];
@@ -97,9 +96,9 @@
           disabled={isLoggingOut}
         >
           {#if isLoggingOut}
-            <Reload class="mr-2 h-4 w-4 animate-spin" />
+            <RotateCw size="16" class="mr-2 animate-spin" />
           {:else}
-            <LogOut />
+            <LogOut size="16" />
           {/if}
           Log out
           <form bind:this={logoutForm} id="logout" method="POST" action="/logout"></form>

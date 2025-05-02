@@ -10,7 +10,7 @@
   import * as Sidebar from '$lib/components/ui/sidebar';
 
   // Assets
-  import { LayoutGrid } from 'lucide-svelte';
+  import { LayoutGrid } from '@lucide/svelte';
 
   interface Props {
     user: SessionValidationResult['user'];

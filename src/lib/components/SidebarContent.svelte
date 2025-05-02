@@ -1,6 +1,6 @@
 <script lang="ts">
   // Types
-  import { type Component } from 'lucide-svelte';
+  import { type Component } from '@lucide/svelte';
   // Stores
   import { page } from '$app/state';
 
@@ -8,7 +8,7 @@
   import * as Sidebar from '$lib/components/ui/sidebar';
 
   // Assets
-  import { GithubLogo } from 'svelte-radix';
+  import { Github } from '@lucide/svelte';
 
   let {
     items
@@ -49,7 +49,7 @@
         <Sidebar.MenuButton size="sm">
           {#snippet child({ props })}
             <a href="https://github.com/n00ki/sveltekit-omakase" target="_blank" rel="noopener noreferrer" {...props}>
-              <GithubLogo class="h-4 w-4 shrink-0" />
+              <Github class="h-4 w-4 shrink-0" />
               <span>GitHub</span>
             </a>
           {/snippet}
