@@ -1,6 +1,6 @@
 <script lang="ts">
   // Env Variables
-  import { PUBLIC_AWS_S3_BUCKET_URL } from '$env/static/public';
+  import { PUBLIC_R2_BUCKET_URL } from '$env/static/public';
 
   // Utils
   import { superForm } from 'sveltekit-superforms';
@@ -127,7 +127,7 @@
       <li class="flex flex-col items-center justify-center">
         <Avatar.Root class={['ring-border size-7 text-xs ring-2', member.role === 'admin' && 'ring-ring']}>
           {#if member.user.avatar}
-            <Avatar.Image src={`${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${member.user.avatar}`} alt={member.user.email} />
+            <Avatar.Image src={`${PUBLIC_R2_BUCKET_URL}/avatars/${member.user.avatar}`} alt={member.user.email} />
           {/if}
           <Avatar.Fallback class="text-xs uppercase"
             >{`${member.user.firstName.charAt(0)}${member.user.lastName.charAt(0)}`}</Avatar.Fallback

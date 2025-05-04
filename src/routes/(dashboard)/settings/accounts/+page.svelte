@@ -1,6 +1,6 @@
 <script lang="ts">
   // Env Variables
-  import { PUBLIC_AWS_S3_BUCKET_URL, PUBLIC_BASE_URL } from '$env/static/public';
+  import { PUBLIC_R2_BUCKET_URL, PUBLIC_BASE_URL } from '$env/static/public';
 
   // Stores
   import { page } from '$app/state';
@@ -68,7 +68,7 @@
                 <Avatar.Root class="ring-border z-50 size-7 text-xs ring-2">
                   {#if member.user.avatar}
                     <Avatar.Image
-                      src={`${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${member.user.avatar}`}
+                      src={`${PUBLIC_R2_BUCKET_URL}/avatars/${member.user.avatar}`}
                       alt={member.user.email}
                     />
                   {/if}

@@ -1,6 +1,6 @@
 <script lang="ts">
   // Env Variables
-  import { PUBLIC_AWS_S3_BUCKET_URL } from '$env/static/public';
+  import { PUBLIC_R2_BUCKET_URL } from '$env/static/public';
 
   // Types
   import type { SessionValidationResult } from '$lib/server/auth';
@@ -38,7 +38,7 @@
           >
             <Avatar.Root class="h-8 w-8 rounded-lg">
               <Avatar.Image
-                src={`${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${user?.avatar}`}
+                src={`${PUBLIC_R2_BUCKET_URL}/avatars/${user?.avatar}`}
                 alt={`${user?.firstName} ${user?.lastName}`}
               />
               <Avatar.Fallback class="rounded-lg">
@@ -63,7 +63,7 @@
           <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
             <Avatar.Root class="h-8 w-8 rounded-lg">
               <Avatar.Image
-                src={`${PUBLIC_AWS_S3_BUCKET_URL}/avatars/${user?.avatar}`}
+                src={`${PUBLIC_R2_BUCKET_URL}/avatars/${user?.avatar}`}
                 alt={`${user?.firstName} ${user?.lastName}`}
               />
               <Avatar.Fallback class="rounded-lg">
