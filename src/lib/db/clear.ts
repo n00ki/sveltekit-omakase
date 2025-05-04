@@ -1,7 +1,15 @@
+import { config } from 'dotenv';
 import db from '$lib/server/database';
 import { sql } from 'drizzle-orm';
 
 async function clearDb() {
+  config();
+
+  if (process.env.NODE_ENV === 'production') {
+    console.error('Clear script should not be run in production!');
+    process.exit(1);
+  }
+
   const tableSchema = db._.schema;
   if (!tableSchema) {
     throw new Error('No table schema found');
@@ -38,9 +46,11 @@ async function clearDb() {
     console.log('✅ Database emptied');
   } catch (error) {
     console.error('❌ Error occurred while clearing the database:', error);
+    process.exit(1);
   }
 }
 
 clearDb().catch((e) => {
   console.error(e);
+  process.exit(1);
 });

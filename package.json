@@ -12,6 +12,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:migrate:remote": "NODE_ENV=production drizzle-kit migrate",
     "db:drop": "drizzle-kit drop",
+    "db:seed": "vite-node --options.transformMode.ssr='/.*/' src/lib/db/seed",
     "db:clear": "vite-node --options.transformMode.ssr='/.*/' src/lib/db/clear",
     "db:studio": "drizzle-kit studio",
     "db:studio:remote": "NODE_ENV=production drizzle-kit studio",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@eslint/compat": "^1.2.9",
     "@eslint/js": "^9.25.1",
+    "@faker-js/faker": "^9.7.0",
     "@lucide/svelte": "^0.506.0",
     "@playwright/test": "^1.52.0",
     "@sveltejs/adapter-auto": "^6.0.0",
