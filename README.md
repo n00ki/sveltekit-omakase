@@ -1,46 +1,46 @@
 # SvelteKit Omakase
 
-![SvelteKit Omakase](https://res.cloudinary.com/nshemesh/image/upload/v1745329712/Sveltekit%20Omakase/meta_new.png)
+<div align="center">
+  <img src="https://res.cloudinary.com/nshemesh/image/upload/v1745329712/Sveltekit%20Omakase/meta_new.png" alt="SvelteKit Omakase" width="600">
 
-Welcome to **SvelteKit Omakase**, a starter project designed to get you up and running with SvelteKit 🚀.
+<a href="https://demo.somakade.dev">View Demo</a> ·
+<a href="#getting-started">Quick Start</a> ·
+<a href="#features">Features</a>
 
-This project embraces an _omakase_ approach, inspired by the [Rails doctrine](https://rubyonrails.org/doctrine#omakase).
-It offers an opinionated selection of tools and a structured approach, providing a robust foundation while allowing you the flexibility to customize and extend it as needed.
+</div>
+
+## Overview
+
+#### Welcome to SvelteKit Omakase, the ultimate mise en place for your next SvelteKit project 🚀.
+
+Inspired by the [Rails doctrine](https://rubyonrails.org/doctrine#omakase), this project embraces an **_omakase_** approach—offering an opinionated selection of tools and a structured foundation while giving you the freedom to customize and extend as needed.
+Whether you're a seasoned developer or just starting out, this starter kit is carefully curated to get you up and running with SvelteKit by providing everything you need to build modern, scalable web applications with ease.
 
 ## Table of Contents
 
-- [SvelteKit Omakase](#sveltekit-omakase)
-  - [Table of Contents](#table-of-contents)
-  - [Demo](#demo)
-  - [Getting Started](#getting-started)
-  - [Features](#features)
-  - [Built With](#built-with)
-  - [Documentation](#documentation)
-  - [Contributing](#contributing)
-  - [Acknowledgments](#acknowledgments)
-
-## Demo
-
-[Demo](https://sko.ns-projects.com)
-
-## Getting Started
-
-Clone this repository, install dependencies, set your environment variables (refer to `.env.example` for the required environment variables), and kick off your project!
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [Acknowledgments](#acknowledgments)
 
 ## Features
 
-- **Authentication** (Registration, Login, Password Reset, etc.)
-- **Personal & Team Accounts** (including invites)
-- **File Uploads**
-- **Mailer** (with previews in development environment)
-- **Responsive Design**
-- **Light & Dark Themes**
-- _*And more...*_
+- 🎨 **Modern, Responsive & Accessible UI**
+- 🔒 **Robust Authentication**
+- 👥 **Teams/Accounts Management**
+- 🎛️ **Customizable Dashboard**
+- 📁 **File Storage**
+- 📧 **Transactional Email**
+- 🛠️ **Developer Utilities & DX Enhancements**
 
-## Built With
+## Tech Stack
 
+- [🟠 Svelte 5](https://svelte.dev/)
 - [👍 SvelteKit](https://kit.svelte.dev/)
-- [5️⃣ Svelte 5](https://svelte.dev/)
 - [💨 TailwindCSS](https://tailwindcss.com/)
 - [💾 Drizzle ORM](https://orm.drizzle.team/)
 - [🐂 Turso](https://turso.tech/)
@@ -48,10 +48,48 @@ Clone this repository, install dependencies, set your environment variables (ref
 - [🇳🇴 Oslo](https://oslojs.dev/)
 - [🇦🇶 Arctic](https://arcticjs.dev/)
 - [⛵ SailKit](https://sailkit.xyz/)
-- [📬 Resend](https://resend.com/home)
+- [📬 Resend](https://resend.com/)
 - [⛔ Zod](https://zod.dev/)
-- [📄 SvelteKit SuperForms](https://superforms.rocks/)
+- [📄 SuperForms](https://superforms.rocks/)
 - [📁 Cloudflare R2](https://www.cloudflare.com/r2/)
+
+## Getting Started
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/n00ki/sveltekit-omakase.git my-app
+cd my-app
+
+# Install dependencies (SvelteKit Omakase is tailored for pnpm, but you can use any package manager you like)
+pnpm install
+
+# Setup environment variables
+cp .env.example .env
+# Edit .env with your configuration
+
+# Initialize the database locally
+pnpm db:push
+
+# Start the development server
+pnpm dev
+```
+
+## Project Structure
+
+```
+src/
+├── lib/             # Library code
+│   ├── components/  # UI components
+│   ├── db/          # Database models and queries
+│   ├── server/      # Server-only code
+│   └── utils/       # Utility functions
+├── routes/          # SvelteKit routes
+│   ├── (auth)/      # Authentication routes
+│   └── (dashboard)/ # Protected dashboard routes
+└── styles/          # Global styles
+```
 
 ## Documentation
 
@@ -59,11 +97,11 @@ Comprehensive documentation is in the works. In the meantime, we encourage you t
 
 ## Contributing
 
-Your contributions are what make the open-source community such an amazing place to learn, inspire, and create. **Any contributions you make are greatly appreciated**.
+Contributions are welcome! Please feel free to submit a Pull Request 💪
 
 ## Acknowledgments
 
-This project makes use of some great tools and libraries and could not have come to life without the incredible contributions of these individuals to the open-source community:
+Special thanks to these incredible contributors to the open-source community:
 
 - [Hunter Johnston (huntabyte)](https://github.com/huntabyte)
 - [Andreas Söderlund (ciscoheat)](https://github.com/ciscoheat)
