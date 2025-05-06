@@ -3,7 +3,7 @@
 <div align="center">
   <img src="https://res.cloudinary.com/nshemesh/image/upload/v1745329712/Sveltekit%20Omakase/meta_new.png" alt="SvelteKit Omakase" width="600">
 
-<a href="https://demo.somakade.dev">View Demo</a> ·
+<a href="https://demo.somakase.dev">View Demo</a> ·
 <a href="#getting-started">Quick Start</a> ·
 <a href="#features">Features</a>
 
