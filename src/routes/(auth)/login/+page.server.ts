@@ -60,7 +60,10 @@ const login: Action = async (event) => {
         );
       }
 
-      if (!user.hashedPassword && user.googleId) {
+      console.log(user);
+
+      if (password && !user.hashedPassword && user.googleId) {
+        console.log('registered with different method');
         return setFormError(
           form,
           m.auth.login.registeredWithDifferentMethod,
