@@ -15,7 +15,7 @@
 </nav>
 
 <div class="flex min-h-screen items-center justify-center">
-  <Wrapper size="lg">
+  <Wrapper>
     {@render children?.()}
   </Wrapper>
 </div>

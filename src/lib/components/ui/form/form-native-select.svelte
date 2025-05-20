@@ -23,5 +23,5 @@
   >
     {@render children?.()}
   </FormPrimitive.Select>
-  <ChevronsUpDown class="absolute top-2.5 right-3 h-4 w-4 opacity-50" />
+  <ChevronsUpDown class="absolute top-2.5 right-3 size-4 opacity-50" />
 </div>

@@ -32,7 +32,7 @@
           <a href={item.url} {...props}>
             {#if item.icon}
               {@const Icon = item.icon}
-              <Icon class="h-4 w-4 shrink-0" />
+              <Icon class="size-4 shrink-0" />
             {/if}
             <span>{item.title}</span>
           </a>
@@ -49,7 +49,7 @@
         <Sidebar.MenuButton size="sm">
           {#snippet child({ props })}
             <a href="https://github.com/n00ki/sveltekit-omakase" target="_blank" rel="noopener noreferrer" {...props}>
-              <Github class="h-4 w-4 shrink-0" />
+              <Github class="size-4 shrink-0" />
               <span>GitHub</span>
             </a>
           {/snippet}

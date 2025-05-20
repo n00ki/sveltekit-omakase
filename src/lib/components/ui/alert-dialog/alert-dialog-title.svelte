@@ -2,7 +2,12 @@
   import { AlertDialog as AlertDialogPrimitive } from 'bits-ui';
   import { cn } from '$lib/utils/utils.js';
 
-  let { class: className, level = 3, ref = $bindable(null), ...restProps }: AlertDialogPrimitive.TitleProps = $props();
+  let { ref = $bindable(null), class: className, ...restProps }: AlertDialogPrimitive.TitleProps = $props();
 </script>
 
-<AlertDialogPrimitive.Title bind:ref class={cn('text-lg font-semibold', className)} {level} {...restProps} />
+<AlertDialogPrimitive.Title
+  bind:ref
+  data-slot="alert-dialog-title"
+  class={cn('text-lg font-semibold', className)}
+  {...restProps}
+/>

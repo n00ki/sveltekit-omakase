@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { cn } from '$lib/utils/utils.js';
-  import type { WithElementRef } from 'bits-ui';
+  import { cn, type WithElementRef } from '$lib/utils/utils.js';
   import type { HTMLAttributes } from 'svelte/elements';
 
   let {
@@ -11,6 +10,12 @@
   }: WithElementRef<HTMLAttributes<HTMLLIElement>, HTMLLIElement> = $props();
 </script>
 
-<li bind:this={ref} data-sidebar="menu-item" class={cn('group/menu-item relative', className)} {...restProps}>
+<li
+  bind:this={ref}
+  data-slot="sidebar-menu-item"
+  data-sidebar="menu-item"
+  class={cn('group/menu-item relative', className)}
+  {...restProps}
+>
   {@render children?.()}
 </li>
