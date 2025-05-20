@@ -60,6 +60,19 @@ const login: Action = async (event) => {
         );
       }
 
+      if (!user.hashedPassword && user.googleId) {
+        return setFormError(
+          form,
+          m.auth.login.registeredWithDifferentMethod,
+          {
+            status: 401,
+            field: 'email',
+            removeSensitiveData: ['password']
+          },
+          event
+        );
+      }
+
       const validPassword = await verifyPassword(user.hashedPassword!, password);
 
       if (!validPassword) {
