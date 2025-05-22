@@ -95,6 +95,9 @@
     'Source Code Pro Variable', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
 
+  /* Typography */
+  --text-sm: 0.825rem;
+
   /* Colors */
   --color-border: var(--border);
   --color-input: var(--input);
