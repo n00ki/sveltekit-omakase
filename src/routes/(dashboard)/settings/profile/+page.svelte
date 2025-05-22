@@ -105,7 +105,6 @@
               accept="image/*"
               onchange={uploadAvatar}
               disabled={imageFileUploadState.status === 'uploading'}
-              class="file:text-foreground file:p-1"
               {...props}
               {...constraints}
             />
