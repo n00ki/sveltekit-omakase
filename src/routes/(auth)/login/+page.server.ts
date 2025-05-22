@@ -65,8 +65,7 @@ const login: Action = async (event) => {
           form,
           m.auth.login.registeredWithDifferentMethod,
           {
-            status: 401,
-            field: 'email',
+            status: 400,
             removeSensitiveData: ['password']
           },
           event
