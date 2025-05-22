@@ -7,11 +7,11 @@
   import { getFlash } from 'sveltekit-flash-message/client';
   import { imageFileUploadState } from '$lib/utils/helpers/uploadFile.svelte';
   import { ModeWatcher } from 'mode-watcher';
+  import { toast } from 'svelte-sonner';
 
   // Components
   import SEO from '$components/SEO.svelte';
   import { Toaster } from '$lib/components/ui/sonner';
-  import Flash from '$components/Flash.svelte';
   import ThemeSwitcher from '$components/ThemeSwitcher.svelte';
 
   // Styles
@@ -25,6 +25,28 @@
     clearArray: true
   });
 
+  $effect(() => {
+    if (!$flash) return;
+
+    switch ($flash.type) {
+      case 'success':
+        toast.success($flash.message);
+        break;
+      case 'error':
+        toast.error($flash.message);
+        break;
+      case 'warning':
+        toast.warning($flash.message);
+        break;
+      case 'info':
+        toast.info($flash.message);
+        break;
+    }
+
+    // Clear the flash message to avoid double-toasting.
+    $flash = undefined;
+  });
+
   // Reset file upload status store on navigation
   onNavigate(() => {
     imageFileUploadState.reset();
@@ -35,7 +57,7 @@
 
 <ModeWatcher />
 
-<Toaster position="bottom-center" closeButton />
+<Toaster position="top-right" richColors />
 
 <main>
   {@render children?.()}
@@ -44,9 +66,3 @@
     <ThemeSwitcher />
   </div>
 </main>
-
-{#if $flash}
-  <div class="fixed bottom-0 z-50 w-full overflow-hidden">
-    <Flash type={$flash.type} message={$flash?.message} />
-  </div>
-{/if}
