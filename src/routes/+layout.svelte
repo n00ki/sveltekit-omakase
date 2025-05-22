@@ -57,7 +57,7 @@
 
 <ModeWatcher />
 
-<Toaster position="top-right" richColors />
+<Toaster position="bottom-right" richColors />
 
 <main>
   {@render children?.()}
