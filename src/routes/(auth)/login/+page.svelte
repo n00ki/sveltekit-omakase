@@ -21,11 +21,7 @@
 
   const { form: formData, enhance, delayed } = form;
 
-  let isGoogleLoggingIn = $state(false);
-
-  function handleGoogleLoginState() {
-    isGoogleLoggingIn = true;
-  }
+  let isRedirecting = $state(false);
 </script>
 
 <Card.Root>
@@ -100,12 +96,12 @@
       <a
         class={buttonVariants({
           variant: 'outline',
-          class: isGoogleLoggingIn ? 'pointer-events-none cursor-not-allowed opacity-50' : ''
+          class: isRedirecting ? 'pointer-events-none cursor-not-allowed opacity-50' : ''
         })}
-        onclick={() => (isGoogleLoggingIn = true)}
+        onclick={() => (isRedirecting = true)}
         href="/login/google"
       >
-        {#if isGoogleLoggingIn}
+        {#if isRedirecting}
           <RotateCw size="16" class="mr-2 animate-spin" />
         {/if}
         Google
