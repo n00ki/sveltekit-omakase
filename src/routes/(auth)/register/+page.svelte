@@ -8,6 +8,7 @@
   import * as Form from '$components/ui/form';
   import { Input } from '$components/ui/input';
   import * as Card from '$components/ui/card';
+  import { buttonVariants } from '$components/ui/button';
 
   // Assets
   import { RotateCw } from '@lucide/svelte';
@@ -153,7 +154,14 @@
         </div>
       </div>
 
-      <Form.Button variant="outline" type="button" href="/login/google" class="flex-1">Google</Form.Button>
+      <a
+        class={buttonVariants({
+          variant: 'outline'
+        })}
+        href="/login/google"
+      >
+        Google
+      </a>
     </div>
 
     <div class="mt-4 text-center text-sm">

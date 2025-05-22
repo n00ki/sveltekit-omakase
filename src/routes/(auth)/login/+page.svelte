@@ -3,6 +3,7 @@
   import { superForm } from 'sveltekit-superforms';
   import { zodClient } from 'sveltekit-superforms/adapters';
   import { loginSchema } from '$lib/validations/auth';
+  import { buttonVariants } from '$components/ui/button';
 
   // Components
   import * as Form from '$components/ui/form';
@@ -96,19 +97,19 @@
           <span class="bg-background text-muted-foreground px-2 transition-colors"> Or continue with </span>
         </div>
       </div>
-      <Form.Button
-        variant="outline"
-        type="button"
-        class="flex-1"
-        onclick={handleGoogleLoginState}
-        disabled={isGoogleLoggingIn}
+      <a
+        class={buttonVariants({
+          variant: 'outline',
+          class: isGoogleLoggingIn ? 'pointer-events-none cursor-not-allowed opacity-50' : ''
+        })}
+        onclick={() => (isGoogleLoggingIn = true)}
         href="/login/google"
       >
         {#if isGoogleLoggingIn}
           <RotateCw size="16" class="mr-2 animate-spin" />
         {/if}
         Google
-      </Form.Button>
+      </a>
     </div>
 
     <div class="mt-4 text-center text-sm">
