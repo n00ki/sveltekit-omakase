@@ -39,7 +39,7 @@
     "@testing-library/svelte": "^5.2.8",
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.15.21",
-    "bits-ui": "1.5.3",
+    "bits-ui": "1.7.0",
     "clsx": "^2.1.1",
     "dotenv": "^16.5.0",
     "drizzle-kit": "^0.31.1",
@@ -55,7 +55,7 @@
     "prettier": "^3.5.3",
     "prettier-plugin-svelte": "^3.4.0",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "svelte": "5.30.2",
+    "svelte": "5.33.1",
     "svelte-check": "^4.2.1",
     "svelte-sonner": "^1.0.2",
     "sveltekit-flash-message": "^2.4.6",
@@ -71,11 +71,11 @@
     "vite": "^6.3.5",
     "vite-node": "^3.1.4",
     "vitest": "^3.1.4",
-    "zod": "^3.25.20"
+    "zod": "^3.25.23"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.815.0",
-    "@aws-sdk/s3-request-presigner": "^3.815.0",
+    "@aws-sdk/client-s3": "^3.816.0",
+    "@aws-sdk/s3-request-presigner": "^3.816.0",
     "@libsql/client": "^0.15.7",
     "@node-rs/argon2": "^2.0.2",
     "@oslojs/crypto": "^1.0.1",
