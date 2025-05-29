@@ -20,8 +20,7 @@
       <Column>
         <Text paddingBottom="0px">
           <h1>
-            `👥 You're Invited to Collaborate on `
-            <span style="color: #f59e0b">SvelteKit Omakase</span>
+            👥 You're Invited to Collaborate on <span style="color: #f59e0b">SvelteKit Omakase</span>
           </h1>
         </Text>
         <Text>
