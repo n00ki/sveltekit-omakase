@@ -1,12 +1,12 @@
 <script lang="ts">
   import { Html, Head, Body, Column, Section, Text } from 'sailkit';
   import { mailTheme } from './mailTheme';
-  interface AccountInviteEmailProps {
+  interface TeamInviteEmailProps {
     url: string;
     invitedBy: string;
   }
 
-  const { url, invitedBy }: AccountInviteEmailProps = $props();
+  const { url, invitedBy }: TeamInviteEmailProps = $props();
 </script>
 
 <Html>
@@ -26,7 +26,7 @@
         </Text>
         <Text>
           <p>Hey! 👋</p>
-          <p>{invitedBy} has invited you to join their team account on SvelteKit Omakase! 🥁</p>
+          <p>{invitedBy} has invited you to join their team on SvelteKit Omakase! 🥁</p>
           <p>To get started, click the link below and accept the invitation:</p>
           <p>
             <a href={url}>Click here to join</a>

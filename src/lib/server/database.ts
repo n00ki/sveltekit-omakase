@@ -7,7 +7,7 @@ import { createClient, type Client } from '@libsql/client';
 import * as userSchema from '$models/user';
 import * as sessionSchema from '$models/session';
 import * as tokenSchema from '$models/token';
-import * as accountSchema from '$models/account';
+import * as teamSchema from '$models/team';
 import * as inviteSchema from '$models/invite';
 
 const env = process.env.NODE_ENV === 'production' ? 'production' : 'development';
@@ -51,7 +51,7 @@ const db = drizzle(client, {
     ...userSchema,
     ...sessionSchema,
     ...tokenSchema,
-    ...accountSchema,
+    ...teamSchema,
     ...inviteSchema
   }
 });

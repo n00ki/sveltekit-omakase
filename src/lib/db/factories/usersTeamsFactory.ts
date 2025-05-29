@@ -1,11 +1,11 @@
 import type { User } from '$lib/db/models/user';
-import type { Account } from '$lib/db/models/account';
+import type { Team } from '$lib/db/models/team';
 import { faker } from '@faker-js/faker';
 
-export const userAccountsFactory = async (users: User[], accounts: Account[]) => {
+export const usersTeamsFactory = async (users: User[], teams: Team[]) => {
   return Array.from({ length: users.length }, (_, index) => ({
     userId: users[index].id,
-    accountId: accounts[index].id,
+    teamId: teams[index].id,
     role: faker.helpers.arrayElement(['admin', 'member'])
   }));
 };

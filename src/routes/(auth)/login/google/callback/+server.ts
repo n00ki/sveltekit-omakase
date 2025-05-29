@@ -16,7 +16,7 @@ import * as m from '$lib/utils/messages.json';
 // Database
 import db from '$lib/server/database';
 import { User } from '$models/user';
-import { Account, UsersAccounts } from '$models/account';
+import { Team, UsersTeams } from '$models/team';
 
 export async function GET(event: RequestEvent): Promise<Response> {
   const code = event.url.searchParams.get('code');
@@ -93,20 +93,19 @@ export async function GET(event: RequestEvent): Promise<Response> {
         })
         .returning();
 
-      const userAccount = await tx
-        .insert(Account)
+      const createdTeam = await tx
+        .insert(Team)
         .values({
-          type: 'personal',
           name: `${firstName} ${lastName}`
         })
         .returning();
 
       userId = user[0].id;
-      const accountId = userAccount[0].id;
+      const teamId = createdTeam[0].id;
 
-      await tx.insert(UsersAccounts).values({
+      await tx.insert(UsersTeams).values({
         userId: userId,
-        accountId: accountId,
+        teamId: teamId,
         role: 'admin'
       });
     });

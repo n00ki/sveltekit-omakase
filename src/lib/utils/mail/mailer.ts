@@ -14,12 +14,12 @@ import { previewEmail, renderEmail } from 'sailkit';
 // Templates
 import WelcomeTemplate from './templates/Welcome.svelte';
 import ResetPasswordTemplate from './templates/ResetPassword.svelte';
-import AccountInviteTemplate from './templates/AccountInvite.svelte';
+import TeamInviteTemplate from './templates/TeamInvite.svelte';
 
 export enum Emails {
   Welcome = 'Welcome',
   ResetPassword = 'ResetPassword',
-  AccountInvite = 'AccountInvite'
+  TeamInvite = 'TeamInvite'
 }
 
 type Data = {
@@ -46,8 +46,8 @@ const TEMPLATES: Record<Emails, Config> = {
     requiredProps: ['userFirstName'],
     subject: '🔒 Reset Your Password'
   },
-  [Emails.AccountInvite]: {
-    component: AccountInviteTemplate as Component,
+  [Emails.TeamInvite]: {
+    component: TeamInviteTemplate as Component,
     requiredProps: ['invitedBy', 'url'],
     subject: "👥 You're Invited to Collaborate on SvelteKit Omakase!"
   }

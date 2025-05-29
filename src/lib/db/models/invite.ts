@@ -2,15 +2,15 @@ import { text, integer, index, sqliteTable } from 'drizzle-orm/sqlite-core';
 import { sql, relations } from 'drizzle-orm';
 import { generateToken } from '../../utils/helpers/generate';
 
-import { Account } from './account';
+import { Team } from './team';
 
 export const Invite = sqliteTable(
   'invites',
   {
     id: integer({ mode: 'number' }).primaryKey({ autoIncrement: true }),
-    accountId: integer('account_id')
+    teamId: integer('team_id')
       .notNull()
-      .references(() => Account.id, { onDelete: 'cascade' }),
+      .references(() => Team.id, { onDelete: 'cascade' }),
     email: text().notNull(),
     token: text()
       .notNull()
@@ -26,7 +26,7 @@ export const Invite = sqliteTable(
   },
   (Invite) => {
     return {
-      accountIdIdx: index('invites_account_id').on(Invite.accountId),
+      teamIdIdx: index('invites_team_id').on(Invite.teamId),
       emailIdx: index('invites_email').on(Invite.email)
     };
   }
@@ -35,8 +35,8 @@ export const Invite = sqliteTable(
 export type Invite = typeof Invite.$inferSelect;
 
 export const InviteRelations = relations(Invite, ({ one }) => ({
-  account: one(Account, {
-    fields: [Invite.accountId],
-    references: [Account.id]
+  team: one(Team, {
+    fields: [Invite.teamId],
+    references: [Team.id]
   })
 }));

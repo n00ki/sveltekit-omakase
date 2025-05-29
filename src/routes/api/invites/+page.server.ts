@@ -6,51 +6,53 @@ import * as m from '$lib/utils/messages.json';
 // Database
 import db from '$lib/server/database';
 import { Invite } from '$models/invite';
-import { UsersAccounts } from '$models/account';
+import { UsersTeams } from '$models/team';
 
 export async function load(event) {
   if (!event.locals.user) {
-    redirect('/login', { type: 'error', message: m.accounts.invite.receive.mustLogin }, event);
+    redirect('/login', { type: 'error', message: m.teams.invite.receive.mustLogin }, event);
   }
 
-  const accountId = event.url.searchParams.get('account');
+  const teamIdParam = event.url.searchParams.get('team');
   const inviteToken = event.url.searchParams.get('token');
 
-  if (!inviteToken || !accountId) {
-    redirect('/', { type: 'error', message: m.accounts.invite.receive.invalidUrl }, event);
+  if (!inviteToken || !teamIdParam) {
+    redirect('/', { type: 'error', message: m.teams.invite.receive.invalidUrl }, event);
   }
 
+  const teamId = parseInt(teamIdParam);
+
   const invite = await db.query.Invite.findFirst({
-    where: eq(Invite.accountId, parseInt(accountId)) && eq(Invite.token, inviteToken)
+    where: eq(Invite.teamId, teamId) && eq(Invite.token, inviteToken)
   });
 
   if (!invite) {
-    redirect('/', { type: 'error', message: m.accounts.invite.receive.invalidUrl }, event);
+    redirect('/', { type: 'error', message: m.teams.invite.receive.invalidUrl }, event);
   }
 
   if (invite.email !== event.locals.user?.email) {
-    redirect('/', { type: 'error', message: m.accounts.invite.receive.invalidUrl }, event);
+    redirect('/', { type: 'error', message: m.teams.invite.receive.invalidUrl }, event);
   }
 
   if (invite.status !== 'pending') {
-    redirect('/', { type: 'error', message: m.accounts.invite.receive.claimed }, event);
+    redirect('/', { type: 'error', message: m.teams.invite.receive.claimed }, event);
   }
 
   if (invite.expiresAt < new Date(Date.now())) {
     await db.update(Invite).set({ status: 'expired' }).where(eq(Invite.id, invite.id));
 
-    redirect('/', { type: 'error', message: m.accounts.invite.receive.expiredUrl }, event);
+    redirect('/', { type: 'error', message: m.teams.invite.receive.expiredUrl }, event);
   }
 
   try {
-    const addUserToAccount = await db.insert(UsersAccounts).values({
-      accountId: invite.accountId,
+    const addUserToTeam = await db.insert(UsersTeams).values({
+      teamId: invite.teamId,
       userId: event.locals.user?.id,
       role: 'member',
       joinedAt: new Date(Date.now())
     });
 
-    if (addUserToAccount) {
+    if (addUserToTeam) {
       // Mark the current invite as accepted
       await db
         .update(Invite)
@@ -59,7 +61,7 @@ export async function load(event) {
         })
         .where(eq(Invite.id, invite.id));
 
-      // Expire any other pending invites for the same account and email
+      // Expire any other pending invites for the same team and email
       await db
         .update(Invite)
         .set({
@@ -67,7 +69,7 @@ export async function load(event) {
         })
         .where(
           and(
-            eq(Invite.accountId, invite.accountId),
+            eq(Invite.teamId, invite.teamId),
             eq(Invite.email, invite.email),
             eq(Invite.status, 'pending'),
             ne(Invite.id, invite.id)
@@ -88,10 +90,10 @@ export async function load(event) {
   }
 
   redirect(
-    '/settings/accounts',
+    '/settings/teams',
     {
       type: 'success',
-      message: m.accounts.invite.receive.success
+      message: m.teams.invite.receive.success
     },
     event
   );

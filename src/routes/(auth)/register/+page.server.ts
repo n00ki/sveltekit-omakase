@@ -19,7 +19,7 @@ import { registrationSchema } from '$lib/validations/auth';
 // Database
 import db from '$lib/server/database';
 import { User } from '$models/user';
-import { Account, UsersAccounts } from '$models/account';
+import { Team, UsersTeams } from '$models/team';
 
 export async function load({ locals }) {
   // redirect to `/` if logged in
@@ -98,20 +98,19 @@ const register: Action = async (event) => {
           })
           .returning();
 
-        const createAccount = await tx
-          .insert(Account)
+        const createTeam = await tx
+          .insert(Team)
           .values({
-            type: 'personal',
             name: `${firstName} ${lastName}`
           })
           .returning();
 
         userId = createUser[0].id;
-        const accountId = createAccount[0].id;
+        const teamId = createTeam[0].id;
 
-        await tx.insert(UsersAccounts).values({
+        await tx.insert(UsersTeams).values({
           userId: createUser[0].id,
-          accountId: accountId,
+          teamId: teamId,
           role: 'admin'
         });
       });

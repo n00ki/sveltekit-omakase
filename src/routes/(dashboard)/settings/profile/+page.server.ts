@@ -16,7 +16,7 @@ import { editUserSchema } from '$lib/validations/auth';
 // Database
 import db from '$lib/server/database';
 import { User } from '$models/user';
-import { UsersAccounts, Account } from '$models/account';
+import { UsersTeams, Team } from '$models/team';
 import { Session } from '$models/session';
 
 export async function load() {
@@ -82,19 +82,18 @@ const editUser: Action = async (event) => {
 
 const deleteUser: Action = async (event) => {
   const user = event.locals.user;
-  let userAccounts = [];
+  let userTeams = [];
 
   if (!user) redirect('/', { type: 'error', message: m.auth.unauthorized }, event);
 
   try {
-    userAccounts = await db.query.UsersAccounts.findMany({
-      where: eq(UsersAccounts.userId, user.id),
+    userTeams = await db.query.UsersTeams.findMany({
+      where: eq(UsersTeams.userId, user.id),
       columns: {},
       with: {
-        account: {
+        team: {
           columns: {
-            id: true,
-            type: true
+            id: true
           },
           with: {
             members: true
@@ -117,20 +116,20 @@ const deleteUser: Action = async (event) => {
       return fail(500, { form: await superValidate(zod(editUserSchema)) });
     }
 
-    if (user && userAccounts.length > 0) {
+    if (user && userTeams.length > 0) {
       await auth.invalidateUserSessions(user.id);
       await db.transaction(async (tx) => {
         // First, delete all sessions for this user
         await tx.delete(Session).where(eq(Session.userId, user.id));
 
-        // Then delete UsersAccounts
-        await tx.delete(UsersAccounts).where(eq(UsersAccounts.userId, user.id));
+        // Then delete UsersTeams
+        await tx.delete(UsersTeams).where(eq(UsersTeams.userId, user.id));
 
-        // Then handle Account deletion
-        for (const userAccount of userAccounts) {
-          if (userAccount.account.members.length === 1) {
-            // Then delete the Account
-            await tx.delete(Account).where(eq(Account.id, userAccount.account.id));
+        // Then handle Team deletion
+        for (const userTeam of userTeams) {
+          if (userTeam.team.members.length === 1) {
+            // Then delete the Team
+            await tx.delete(Team).where(eq(Team.id, userTeam.team.id));
           }
         }
 

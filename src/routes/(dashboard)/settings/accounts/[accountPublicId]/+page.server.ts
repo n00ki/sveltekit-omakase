@@ -14,54 +14,49 @@ import { Emails, sendEmail } from '$lib/utils/mail/mailer';
 import * as m from '$lib/utils/messages.json';
 
 // Schemas
-import {
-  createAccountInviteSchema,
-  editAccountSchema,
-  leaveAccountSchema,
-  deleteAccountSchema
-} from '$lib/validations/account';
+import { createTeamInviteSchema, editTeamSchema, leaveTeamSchema, deleteTeamSchema } from '$lib/validations/team';
 
 // Database
 import db from '$lib/server/database';
-import { Account, UsersAccounts } from '$models/account';
+import { Team, UsersTeams } from '$models/team';
 import { Invite } from '$models/invite';
-import { getAccountByPublicIdWithRelationsQuery, type GetAccountByPublicIdWithRelations } from '$queries/account';
+import { getTeamByPublicIdWithRelationsQuery, type GetTeamByPublicIdWithRelations } from '$queries/team';
 
 export async function load(event) {
-  const account = (await getAccountByPublicIdWithRelationsQuery.execute({
-    publicId: event.params.accountPublicId
-  })) as GetAccountByPublicIdWithRelations;
+  const team = (await getTeamByPublicIdWithRelationsQuery.execute({
+    publicId: event.params.teamPublicId
+  })) as GetTeamByPublicIdWithRelations;
 
-  if (!account) {
+  if (!team) {
     redirect('/', { type: 'error', message: m.accounts.notFound }, event);
   }
 
-  if (!account.members.find((m) => m.userId === event.locals.user?.id)) {
+  if (!team.members.find((m) => m.userId === event.locals.user?.id)) {
     redirect('/', { type: 'error', message: m.accounts.unauthorized }, event);
   }
 
-  const createAccountInviteForm = await superValidate({ accountId: account.id }, zod(createAccountInviteSchema), {
-    id: 'create-account-invite-form',
+  const createTeamInviteForm = await superValidate({ teamId: team.id }, zod(createTeamInviteSchema), {
+    id: 'create-team-invite-form',
     errors: false
   });
 
-  const editAccountForm = await superValidate({ accountId: account.id, name: account.name }, zod(editAccountSchema), {
-    id: 'edit-account-form',
+  const editTeamForm = await superValidate({ teamId: team.id, name: team.name }, zod(editTeamSchema), {
+    id: 'edit-team-form',
     errors: false
   });
 
-  const leaveAccountForm = await superValidate(zod(leaveAccountSchema), {
-    id: 'leave-account-form'
+  const leaveTeamForm = await superValidate(zod(leaveTeamSchema), {
+    id: 'leave-team-form'
   });
 
-  const deleteAccountForm = await superValidate({ accountId: account.id }, zod(deleteAccountSchema), {
-    id: 'delete-account-form',
+  const deleteTeamForm = await superValidate({ teamId: team.id }, zod(deleteTeamSchema), {
+    id: 'delete-team-form',
     errors: false
   });
 
   return {
     metadata: {
-      title: account.name,
+      title: team.name,
       breadcrumbs: [
         {
           title: 'Dashboard',
@@ -69,34 +64,34 @@ export async function load(event) {
         },
         {
           title: 'Teams',
-          href: '/settings/accounts'
+          href: '/settings/teams'
         },
         {
-          title: account.name,
-          href: `/settings/accounts/${account.publicId}`
+          title: team.name,
+          href: `/settings/teams/${team.publicId}`
         }
       ]
     },
-    account,
-    createAccountInviteForm,
-    editAccountForm,
-    leaveAccountForm,
-    deleteAccountForm
+    team,
+    createTeamInviteForm,
+    editTeamForm,
+    leaveTeamForm,
+    deleteTeamForm
   };
 }
 
-const createAccountInvite: Action = async (event) => {
-  const createAccountInviteForm = await superValidate(event.request, zod(createAccountInviteSchema));
+const createTeamInvite: Action = async (event) => {
+  const createTeamInviteFormValidated = await superValidate(event.request, zod(createTeamInviteSchema));
 
-  if (!createAccountInviteForm.valid) {
-    return setFormFail(createAccountInviteForm);
+  if (!createTeamInviteFormValidated.valid) {
+    return setFormFail(createTeamInviteFormValidated);
   }
 
-  const { accountId, email } = createAccountInviteForm.data;
+  const { teamId, email } = createTeamInviteFormValidated.data;
 
-  if (accountId && email) {
+  if (teamId && email) {
     if (email === event.locals.user?.email) {
-      return setFormError(createAccountInviteForm, m.accounts.invite.send.alreadyMember, {
+      return setFormError(createTeamInviteFormValidated, m.accounts.invite.send.alreadyMember, {
         status: 500,
         field: 'email'
       });
@@ -106,13 +101,13 @@ const createAccountInvite: Action = async (event) => {
       const invite = await db
         .insert(Invite)
         .values({
-          accountId: accountId,
+          teamId: teamId,
           email: email,
           expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 168)
         })
         .returning();
 
-      const inviteUrl = `${PUBLIC_BASE_URL}/api/invites?account=${accountId}&token=${invite[0].token}`;
+      const inviteUrl = `${PUBLIC_BASE_URL}/api/invites?team=${teamId}&token=${invite[0].token}`;
       try {
         sendEmail(email, Emails.AccountInvite, {
           url: inviteUrl,
@@ -124,7 +119,7 @@ const createAccountInvite: Action = async (event) => {
     } catch (error) {
       console.log(error);
 
-      return setFormError(createAccountInviteForm, m.general.error, {
+      return setFormError(createTeamInviteFormValidated, m.general.error, {
         status: 500
       });
     }
@@ -133,18 +128,18 @@ const createAccountInvite: Action = async (event) => {
   }
 };
 
-const editAccount: Action = async (event) => {
-  const editAccountForm = await superValidate(event.request, zod(editAccountSchema));
+const editTeam: Action = async (event) => {
+  const editTeamFormValidated = await superValidate(event.request, zod(editTeamSchema));
 
-  if (!editAccountForm.valid) {
-    return setFormFail(editAccountForm);
+  if (!editTeamFormValidated.valid) {
+    return setFormFail(editTeamFormValidated);
   }
 
-  const { accountId, name } = editAccountForm.data;
+  const { teamId, name } = editTeamFormValidated.data;
 
-  if (accountId && name) {
+  if (teamId && name) {
     try {
-      await db.update(Account).set({ name: name }).where(eq(Account.id, accountId));
+      await db.update(Team).set({ name: name }).where(eq(Team.id, teamId));
     } catch (error) {
       console.log(error);
       redirect(
@@ -161,19 +156,17 @@ const editAccount: Action = async (event) => {
   }
 };
 
-const leaveAccount: Action = async (event) => {
-  const leaveAccountForm = await superValidate(event.request, zod(leaveAccountSchema));
+const leaveTeam: Action = async (event) => {
+  const leaveTeamFormValidated = await superValidate(event.request, zod(leaveTeamSchema));
 
-  if (!leaveAccountForm.valid) {
-    return setFormFail(leaveAccountForm);
+  if (!leaveTeamFormValidated.valid) {
+    return setFormFail(leaveTeamFormValidated);
   }
 
-  const { accountId, userId } = leaveAccountForm.data;
+  const { teamId, userId } = leaveTeamFormValidated.data;
 
   try {
-    await db
-      .delete(UsersAccounts)
-      .where(and(eq(UsersAccounts.accountId, accountId), eq(UsersAccounts.userId, Number(userId))));
+    await db.delete(UsersTeams).where(and(eq(UsersTeams.teamId, teamId), eq(UsersTeams.userId, Number(userId))));
   } catch {
     redirect(
       {
@@ -185,31 +178,31 @@ const leaveAccount: Action = async (event) => {
     );
   }
 
-  redirect('/settings/accounts', { type: 'success', message: m.accounts.leave.success }, event);
+  redirect('/settings/teams', { type: 'success', message: m.teams.leave.success }, event);
 };
 
-const deleteAccount: Action = async (event) => {
-  const deleteAccountForm = await superValidate(event.request, zod(deleteAccountSchema));
+const deleteTeam: Action = async (event) => {
+  const deleteTeamFormValidated = await superValidate(event.request, zod(deleteTeamSchema));
 
-  if (!deleteAccountForm.valid) {
-    return setFormFail(deleteAccountForm);
+  if (!deleteTeamFormValidated.valid) {
+    return setFormFail(deleteTeamFormValidated);
   }
 
-  const { accountId } = deleteAccountForm.data;
+  const { teamId } = deleteTeamFormValidated.data;
 
-  if (accountId) {
+  if (teamId) {
     try {
-      await db.delete(Account).where(eq(Account.id, accountId));
+      await db.delete(Team).where(eq(Team.id, teamId));
     } catch (error) {
       console.log(error);
 
-      return setFormError(deleteAccountForm, m.general.error, {
+      return setFormError(deleteTeamFormValidated, m.general.error, {
         status: 500
       });
     }
 
-    redirect('/settings/accounts', { type: 'success', message: m.accounts.delete.success }, event);
+    redirect('/settings/teams', { type: 'success', message: m.teams.delete.success }, event);
   }
 };
 
-export const actions: Actions = { createAccountInvite, editAccount, leaveAccount, deleteAccount };
+export const actions: Actions = { createTeamInvite, editTeam, leaveTeam, deleteTeam };

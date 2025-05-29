@@ -2,11 +2,11 @@ import { config } from 'dotenv';
 import db from '$lib/server/database';
 
 import { User } from '$models/user';
-import { Account, UsersAccounts } from '$models/account';
+import { Team, UsersTeams } from '$models/team';
 
 import { userFactory } from './factories/userFactory';
-import { accountFactory } from './factories/accountFactory';
-import { userAccountsFactory } from './factories/userAccountsFactory';
+import { teamFactory } from './factories/teamFactory';
+import { usersTeamsFactory } from './factories/usersTeamsFactory';
 
 async function seed() {
   config();
@@ -16,17 +16,17 @@ async function seed() {
     process.exit(1);
   }
 
-  console.log(`🌱 Seeding the database with 100 users and 100 accounts...`);
+  console.log(`🌱 Seeding the database with 100 users and 100 teams...`);
 
   const users = await userFactory(100);
-  const accounts = await accountFactory(100);
-  const userAccounts = await userAccountsFactory(users, accounts);
+  const teams = await teamFactory(100);
+  const usersTeams = await usersTeamsFactory(users, teams);
 
   try {
     await db.batch([
       db.insert(User).values(users),
-      db.insert(Account).values(accounts),
-      db.insert(UsersAccounts).values(userAccounts)
+      db.insert(Team).values(teams),
+      db.insert(UsersTeams).values(usersTeams)
     ]);
 
     console.log('Database seeded.');

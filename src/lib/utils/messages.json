@@ -5,7 +5,7 @@
   "pages": {
     "notFound": {
       "title": "404 - Page Not Found",
-      "message": "Oops! We can’t seem to find the page you’re looking for."
+      "message": "Oops! We can't seem to find the page you're looking for."
     }
   },
   "auth": {
@@ -21,7 +21,7 @@
     "register": {
       "success": "Awesome! You're all set to go.",
       "emailIsTaken": "This email is already in use. Try another?",
-      "passwordsMismatch": "Oops! The passwords don’t match. Try again?"
+      "passwordsMismatch": "Oops! The passwords don't match. Try again?"
     },
     "requestResetPassword": {
       "success": "Check your inbox! We've sent you a link to reset your password."
@@ -38,30 +38,30 @@
         "noChanges": "Looks like there were no changes to save."
       },
       "delete": {
-        "success": "Your account has been permanently deleted.",
-        "destructiveOperation": "Are you sure you want to delete your account? This cannot be undone."
+        "success": "Your user account has been permanently deleted.",
+        "destructiveOperation": "Are you sure you want to delete your user account? This cannot be undone."
       }
     }
   },
-  "accounts": {
-    "notFound": "We couldn’t locate the account you’re searching for.",
-    "unauthorized": "You don't have access to this team account.",
+  "teams": {
+    "notFound": "We couldn't locate the team you're searching for.",
+    "unauthorized": "You don't have access to this team.",
     "create": {
-      "success": "Team account created successfully!"
+      "success": "Team created successfully!"
     },
     "edit": {
-      "success": "Account details updated successfully.",
+      "success": "Team details updated successfully.",
       "noChanges": "No updates were made as there were no changes."
     },
     "invite": {
       "send": {
         "success": "Invite sent! Check back to see when they join.",
-        "alreadyMember": "This user is already part of this account."
+        "alreadyMember": "This user is already part of this team."
       },
       "receive": {
-        "success": "Welcome aboard! You've joined the team account successfully.",
+        "success": "Welcome aboard! You've joined the team successfully.",
         "mustLogin": "You have to be logged in to accept this invite. Could you do that and try again?",
-        "invalidUrl": "This invite link isn’t right. Could you check it?",
+        "invalidUrl": "This invite link isn't right. Could you check it?",
         "expiredUrl": "This invite has expired. Ask for a new one?",
         "claimed": "This invite has already been used."
       }
@@ -70,8 +70,8 @@
       "success": "You are no longer a member of this team."
     },
     "delete": {
-      "success": "Team account deleted successfully.",
-      "destructiveOperation": "Deleting this team account cannot be undone. Are you sure?"
+      "success": "Team deleted successfully.",
+      "destructiveOperation": "Deleting this team cannot be undone. Are you sure?"
     }
   }
 }

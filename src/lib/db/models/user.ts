@@ -1,7 +1,7 @@
 import { text, integer, sqliteTable } from 'drizzle-orm/sqlite-core';
 import { sql, relations } from 'drizzle-orm';
 
-import { UsersAccounts } from './account';
+import { UsersTeams } from './team';
 
 export const User = sqliteTable('users', {
   id: integer().notNull().primaryKey({ autoIncrement: true }),
@@ -20,7 +20,7 @@ export const User = sqliteTable('users', {
 });
 
 export const UserRelations = relations(User, ({ many }) => ({
-  userAccounts: many(UsersAccounts)
+  userTeams: many(UsersTeams)
 }));
 
 export type User = typeof User.$inferSelect;

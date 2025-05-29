@@ -3,9 +3,9 @@
   import { PUBLIC_R2_BUCKET_URL } from '$env/static/public';
 
   // Utils
-  import { superForm } from 'sveltekit-superforms';
+  import { superForm, type SuperValidated } from 'sveltekit-superforms';
   import { zodClient } from 'sveltekit-superforms/adapters';
-  import { createAccountInviteSchema, deleteAccountSchema, editAccountSchema } from '$lib/validations/account';
+  import { createTeamInviteSchema, deleteTeamSchema, editTeamSchema, leaveTeamSchema } from '$lib/validations/team';
   import * as flashModule from 'sveltekit-flash-message/client';
   import { toast } from 'svelte-sonner';
   import * as m from '$lib/utils/messages.json';
@@ -21,28 +21,43 @@
   // Assets
   import { SquarePen, RotateCw } from '@lucide/svelte';
 
-  let { data = $bindable() } = $props();
+  // Import the type for the team data
+  import type { GetTeamByPublicIdWithRelations } from '$queries/team';
+  import type { User } from '$models/user'; // Assuming User type is needed for data.user
+
+  // Define the type for the `data` prop
+  type PageData = {
+    user: User | null; // From locals
+    metadata: { title: string; breadcrumbs: { title: string; href: string }[] };
+    team: GetTeamByPublicIdWithRelations;
+    createTeamInviteForm: SuperValidated<typeof createTeamInviteSchema>;
+    editTeamForm: SuperValidated<typeof editTeamSchema>;
+    leaveTeamForm: SuperValidated<typeof leaveTeamSchema>;
+    deleteTeamForm: SuperValidated<typeof deleteTeamSchema>;
+  };
+
+  let { data = $bindable() }: { data: PageData } = $props();
   let isEditMode = $state(false);
 
-  const createAccountInviteForm = superForm(data.createAccountInviteForm, {
-    validators: zodClient(createAccountInviteSchema),
+  const createTeamInviteForm = superForm(data.createTeamInviteForm, {
+    validators: zodClient(createTeamInviteSchema),
     invalidateAll: 'force'
   });
 
   const {
-    form: createAccountInviteFormData,
-    enhance: createAccountInviteFormEnhance,
-    delayed: createAccountInviteFormDelayed
-  } = createAccountInviteForm;
+    form: createTeamInviteFormData,
+    enhance: createTeamInviteFormEnhance,
+    delayed: createTeamInviteFormDelayed
+  } = createTeamInviteForm;
 
-  const editAccountForm = superForm(data.editAccountForm, {
-    validators: zodClient(editAccountSchema),
+  const editTeamForm = superForm(data.editTeamForm, {
+    validators: zodClient(editTeamSchema),
     invalidateAll: 'force',
     onSubmit: async ({ formData, cancel }) => {
-      if (formData.get('name') === data.account.name) {
+      if (formData.get('name') === data.team.name) {
         cancel();
         isEditMode = false;
-        toast.error('No changes were made');
+        toast.error(m.teams.edit.noChanges);
       }
     },
     onResult({ result }) {
@@ -52,23 +67,24 @@
     }
   });
 
-  const { form: editAccountFormData, enhance: editAccountFormEnhance } = editAccountForm;
+  const { form: editTeamFormData, enhance: editTeamFormEnhance } = editTeamForm;
 
-  const leaveAccountForm = superForm(data.leaveAccountForm, {
+  const leaveTeamForm = superForm(data.leaveTeamForm, {
+    validators: zodClient(leaveTeamSchema),
     syncFlashMessage: false,
     flashMessage: {
       module: flashModule
     }
   });
 
-  const { delayed: leaveAccountFormDelayed, enhance: leaveAccountFormEnhance } = leaveAccountForm;
+  const { delayed: leaveTeamFormDelayed, enhance: leaveTeamFormEnhance } = leaveTeamForm;
 
-  const deleteAccountForm = superForm(data.deleteAccountForm, {
-    validators: zodClient(deleteAccountSchema),
+  const deleteTeamForm = superForm(data.deleteTeamForm, {
+    validators: zodClient(deleteTeamSchema),
     invalidateAll: 'force'
   });
 
-  const { form: deleteAccountFormData, enhance: deleteAccountFormEnhance } = deleteAccountForm;
+  const { form: deleteTeamFormData, enhance: deleteTeamFormEnhance } = deleteTeamForm;
 
   const CONFIRMATION_PHRASE = 'DELETE';
   let deleteConfirmationInput = $state('');
@@ -77,17 +93,17 @@
 
 <div>
   {#if isEditMode}
-    <form id="edit-account-form" method="POST" action="?/editAccount" use:editAccountFormEnhance>
-      <Input type="hidden" name="accountId" value={$editAccountFormData.accountId} />
-      <Form.Field form={editAccountForm} name="name">
+    <form id="edit-team-form" method="POST" action="?/editTeam" use:editTeamFormEnhance>
+      <Input type="hidden" name="teamId" value={$editTeamFormData.teamId} />
+      <Form.Field form={editTeamForm} name="name">
         {#snippet children({ constraints })}
           <Form.Control>
             {#snippet children({ props })}
               <Form.Label hidden>Name</Form.Label>
               <Input
                 type="text"
-                placeholder="Account Name"
-                bind:value={$editAccountFormData.name}
+                placeholder="Team Name"
+                bind:value={$editTeamFormData.name}
                 {...props}
                 {...constraints}
               />
@@ -102,20 +118,18 @@
   {:else}
     <div class="flex w-full items-center justify-between">
       <div>
-        <h1 class="text-xl font-semibold md:text-2xl">{data.account.name}</h1>
+        <h1 class="text-xl font-semibold md:text-2xl">{data.team.name}</h1>
       </div>
 
-      {#if data.account.type !== 'personal'}
-        {#if data.account.members.find((m) => m.userId === data.user?.id && m.role === 'admin')}
-          <Button
-            variant="ghost"
-            onclick={() => {
-              isEditMode = true;
-            }}
-          >
-            <SquarePen size="18" />
-          </Button>
-        {/if}
+      {#if data.team.members.find((member) => member.userId === data.user?.id && member.role === 'admin')}
+        <Button
+          variant="ghost"
+          onclick={() => {
+            isEditMode = true;
+          }}
+        >
+          <SquarePen size="18" />
+        </Button>
       {/if}
     </div>
   {/if}
@@ -123,7 +137,7 @@
 
 <div class="py-2">
   <ul class="flex w-full flex-wrap items-start gap-4 pt-2">
-    {#each data.account.members as member (member.user.publicId)}
+    {#each data.team.members as member (member.user.publicId)}
       <li class="flex flex-col items-center justify-center">
         <Avatar.Root class={['ring-border size-7 text-xs ring-2', member.role === 'admin' && 'ring-ring']}>
           {#if member.user.avatar}
@@ -141,99 +155,92 @@
   </ul>
 </div>
 
-{#if data.account.type !== 'personal'}
-  {#if data.account.members.find((m) => m.userId === data.user?.id && m.role === 'admin')}
-    <Separator class="my-4" />
-    <h3 class="mb-0.5 text-base font-medium">Invite a new team member</h3>
-    <form
-      id="invite-form-{data.account.id}"
-      method="POST"
-      action="?/createAccountInvite"
-      use:createAccountInviteFormEnhance
-    >
-      <Input type="hidden" name="accountId" value={$createAccountInviteFormData.accountId} />
-      <Form.Field form={createAccountInviteForm} name="email">
-        {#snippet children({ constraints })}
-          <Form.Control>
-            {#snippet children({ props })}
-              <Form.Label hidden>Email</Form.Label>
-              <Input
-                type="email"
-                autocapitalize="none"
-                autocorrect="off"
-                autocomplete="username"
-                placeholder="john@doe.com"
-                bind:value={$createAccountInviteFormData.email}
-                {...props}
-                {...constraints}
-              />
-              <Form.FieldErrors />
-            {/snippet}
-          </Form.Control>
-        {/snippet}
-      </Form.Field>
-
-      <Form.Button type="submit" disabled={$createAccountInviteFormDelayed} class="my-2 w-full">
-        {#if $createAccountInviteFormDelayed}
-          <RotateCw size="16" class="mr-2 animate-spin" />
-        {/if}
-        Invite
-      </Form.Button>
-    </form>
-  {/if}
-
+{#if data.team.members.find((member) => member.userId === data.user?.id && member.role === 'admin')}
   <Separator class="my-4" />
+  <h3 class="mb-0.5 text-base font-medium">Invite a new team member</h3>
+  <form id="invite-form-{data.team.id}" method="POST" action="?/createTeamInvite" use:createTeamInviteFormEnhance>
+    <Input type="hidden" name="teamId" value={$createTeamInviteFormData.teamId} />
+    <Form.Field form={createTeamInviteForm} name="email">
+      {#snippet children({ constraints })}
+        <Form.Control>
+          {#snippet children({ props })}
+            <Form.Label hidden>Email</Form.Label>
+            <Input
+              type="email"
+              autocapitalize="none"
+              autocorrect="off"
+              autocomplete="username"
+              placeholder="john@doe.com"
+              bind:value={$createTeamInviteFormData.email}
+              {...props}
+              {...constraints}
+            />
+            <Form.FieldErrors />
+          {/snippet}
+        </Form.Control>
+      {/snippet}
+    </Form.Field>
 
-  <h3 class="mb-0.5 text-base font-medium">Danger Zone</h3>
+    <Form.Button type="submit" disabled={$createTeamInviteFormDelayed} class="my-2 w-full">
+      {#if $createTeamInviteFormDelayed}
+        <RotateCw size="16" class="mr-2 animate-spin" />
+      {/if}
+      Invite
+    </Form.Button>
+  </form>
+{/if}
 
-  {#if data.account.members.find((m) => m.userId === data.user?.id && m.role === 'admin')}
-    <div class="space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10">
-      <div class="relative space-y-0.5 text-red-600 dark:text-red-100">
-        <p class="font-medium">Warning</p>
-        <p class="text-sm">Please proceed with caution, this cannot be undone.</p>
-      </div>
-      <AlertDialog.Root>
-        <AlertDialog.Trigger class={buttonVariants({ variant: 'destructive' })}>Delete account</AlertDialog.Trigger>
-        <AlertDialog.Content>
-          <AlertDialog.Header>
-            <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
-            <AlertDialog.Description>
-              {m.accounts.delete.destructiveOperation}
-            </AlertDialog.Description>
-          </AlertDialog.Header>
-          <Input
-            type="text"
-            bind:value={deleteConfirmationInput}
-            placeholder={`Type "${CONFIRMATION_PHRASE}" to confirm`}
-          />
-          <AlertDialog.Footer>
-            <AlertDialog.Cancel>Back to safety</AlertDialog.Cancel>
-            <AlertDialog.Action
-              type="submit"
-              form="delete-account-form"
-              disabled={!isDeleteConfirmed}
-              class="bg-destructive/90 text-destructive-foreground hover:bg-destructive"
-            >
-              Continue
-              <form id="delete-account-form" method="POST" action="?/deleteAccount" use:deleteAccountFormEnhance>
-                <Input type="hidden" name="accountId" bind:value={$deleteAccountFormData.accountId} />
-              </form>
-            </AlertDialog.Action>
-          </AlertDialog.Footer>
-        </AlertDialog.Content>
-      </AlertDialog.Root>
+<Separator class="my-4" />
+
+<h3 class="mb-0.5 text-base font-medium">Danger Zone</h3>
+
+{#if data.team.members.find((member) => member.userId === data.user?.id && member.role === 'admin')}
+  <div class="space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10">
+    <div class="relative space-y-0.5 text-red-600 dark:text-red-100">
+      <p class="font-medium">Warning</p>
+      <p class="text-sm">Please proceed with caution, this cannot be undone.</p>
     </div>
-  {:else}
-    <form id="leave-account-form" method="POST" action="?/leaveAccount" use:leaveAccountFormEnhance>
-      <Input type="hidden" name="accountId" bind:value={data.account.id} />
-      <Input type="hidden" name="userId" value={data.user?.id} />
+    <AlertDialog.Root>
+      <AlertDialog.Trigger class={buttonVariants({ variant: 'destructive' })}>Delete team</AlertDialog.Trigger>
+      <AlertDialog.Content>
+        <AlertDialog.Header>
+          <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
+          <AlertDialog.Description>
+            {m.teams.delete.destructiveOperation}
+          </AlertDialog.Description>
+        </AlertDialog.Header>
+        <Input
+          type="text"
+          bind:value={deleteConfirmationInput}
+          placeholder={`Type "${CONFIRMATION_PHRASE}" to confirm`}
+        />
+        <AlertDialog.Footer>
+          <AlertDialog.Cancel>Back to safety</AlertDialog.Cancel>
+          <AlertDialog.Action
+            type="submit"
+            form="delete-team-form"
+            disabled={!isDeleteConfirmed}
+            class="bg-destructive/90 text-destructive-foreground hover:bg-destructive"
+          >
+            Continue
+            <form id="delete-team-form" method="POST" action="?/deleteTeam" use:deleteTeamFormEnhance>
+              <Input type="hidden" name="teamId" bind:value={$deleteTeamFormData.teamId} />
+            </form>
+          </AlertDialog.Action>
+        </AlertDialog.Footer>
+      </AlertDialog.Content>
+    </AlertDialog.Root>
+  </div>
+{:else}
+  <form id="leave-team-form" method="POST" action="?/leaveTeam" use:leaveTeamFormEnhance>
+    <Input type="hidden" name="teamId" bind:value={data.team.id} />
+    <Input type="hidden" name="userId" value={data.user?.id ?? undefined} />
 
-      <Form.Button type="submit" variant="destructive" disabled={$leaveAccountFormDelayed} class="my-2 w-full">
-        {#if $leaveAccountFormDelayed}
-          <RotateCw size="16" class="mr-2 animate-spin" />
-        {/if}
-        Leave Account
-      </Form.Button>
-    </form>
-  {/if}
+    <Form.Button type="submit" variant="destructive" disabled={$leaveTeamFormDelayed} class="my-2 w-full">
+      {#if $leaveTeamFormDelayed}
+        <RotateCw size="16" class="mr-2 animate-spin" />
+      {/if}
+      Leave Team
+    </Form.Button>
+  </form>
 {/if}

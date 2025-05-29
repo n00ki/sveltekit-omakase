@@ -9,36 +9,36 @@ import { isRateLimited, setFormFail } from '$lib/utils/helpers/forms';
 import * as m from '$lib/utils/messages.json';
 
 // Schemas
-import { createAccountSchema } from '$lib/validations/account';
+import { createTeamSchema } from '$lib/validations/team';
 
 // Database
 import db from '$lib/server/database';
-import { Account, UsersAccounts } from '$models/account';
-import { getAccountsByUserIdQuery, type GetAccountsByUserId } from '$queries/account';
+import { Team, UsersTeams } from '$models/team';
+import { getTeamsByUserIdQuery, type GetTeamsByUserId } from '$queries/team';
 import { getUserPendingInvitesByEmailQuery, type GetUserPendingInvitesByEmail } from '$queries/invite';
 
 export async function load(event) {
-  const getUserAccounts = (await getAccountsByUserIdQuery.execute({
+  const getUserTeams = (await getTeamsByUserIdQuery.execute({
     id: event.locals.user!.id
-  })) as GetAccountsByUserId;
+  })) as GetTeamsByUserId;
 
   const getUserPendingInvites = (await getUserPendingInvitesByEmailQuery.execute({
     email: event.locals.user!.email
   })) as GetUserPendingInvitesByEmail;
 
-  const uniqueAccountInvites = getUserPendingInvites.reduce((unique, invite) => {
-    const existingInvite = unique.find((i) => i.accountId === invite.accountId);
+  const uniqueTeamInvites = getUserPendingInvites.reduce((unique, invite) => {
+    const existingInvite = unique.find((i) => i.teamId === invite.teamId);
     if (!existingInvite) {
       unique.push(invite);
     }
     return unique;
   }, [] as GetUserPendingInvitesByEmail);
 
-  const form = await superValidate(zod(createAccountSchema));
+  const form = await superValidate(zod(createTeamSchema));
 
   return {
     metadata: {
-      title: 'Team Accounts',
+      title: 'Teams',
       breadcrumbs: [
         {
           title: 'Dashboard',
@@ -46,41 +46,41 @@ export async function load(event) {
         },
         {
           title: 'Teams',
-          href: '/settings/accounts'
+          href: '/settings/teams'
         }
       ]
     },
     form,
-    userAccounts: getUserAccounts?.userAccounts,
-    pendingInvites: uniqueAccountInvites
+    userTeams: getUserTeams?.userTeams,
+    pendingInvites: uniqueTeamInvites
   };
 }
 
-const createAccount: Action = async (event) => {
-  const createAccountForm = await superValidate(event.request, zod(createAccountSchema));
+const createTeam: Action = async (event) => {
+  const createTeamForm = await superValidate(event.request, zod(createTeamSchema));
 
-  await isRateLimited(createAccountForm, event, { field: 'name' });
+  await isRateLimited(createTeamForm, event, { field: 'name' });
 
-  if (!createAccountForm.valid) {
-    return setFormFail(createAccountForm);
+  if (!createTeamForm.valid) {
+    return setFormFail(createTeamForm);
   }
 
-  const { userId, name } = createAccountForm.data;
-  let account: Account;
+  const { userId, name } = createTeamForm.data;
+  let team: Team;
 
   try {
-    const createAccount = await db
-      .insert(Account)
+    const createdTeam = await db
+      .insert(Team)
       .values({
         name
       })
       .returning();
 
-    account = createAccount[0];
+    team = createdTeam[0];
 
-    if (account) {
-      await db.insert(UsersAccounts).values({
-        accountId: account.id,
+    if (team) {
+      await db.insert(UsersTeams).values({
+        teamId: team.id,
         userId: userId,
         role: 'admin'
       });
@@ -98,13 +98,13 @@ const createAccount: Action = async (event) => {
   }
 
   redirect(
-    `/settings/accounts/${account.publicId}`,
+    `/settings/teams/${team.publicId}`,
     {
       type: 'success',
-      message: m.accounts.create.success
+      message: m.teams.create.success
     },
     event
   );
 };
 
-export const actions: Actions = { createAccount };
+export const actions: Actions = { createTeam };

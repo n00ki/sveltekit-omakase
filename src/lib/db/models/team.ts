@@ -5,34 +5,31 @@ import { generateNanoId } from '../../utils/helpers/generate';
 import { User } from './user';
 import { Invite } from './invite';
 
-export const Account = sqliteTable('accounts', {
+export const Team = sqliteTable('teams', {
   id: integer({ mode: 'number' }).primaryKey({ autoIncrement: true }),
   publicId: text('public_id')
     .notNull()
     .unique()
     .$default(() => generateNanoId()),
-  type: text({ enum: ['personal', 'team'] })
-    .notNull()
-    .default('team'),
-  name: text().notNull(),
-  avatar: text(),
+  name: text('name').notNull(),
+  avatar: text('avatar'),
   createdAt: integer('created_at', { mode: 'timestamp_ms' })
     .notNull()
     .default(sql`(CURRENT_TIMESTAMP)`),
   updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
 });
 
-export const AccountRelations = relations(Account, ({ many }) => ({
-  members: many(UsersAccounts),
+export const TeamRelations = relations(Team, ({ many }) => ({
+  members: many(UsersTeams),
   invites: many(Invite)
 }));
 
-export const UsersAccounts = sqliteTable(
-  'users_accounts',
+export const UsersTeams = sqliteTable(
+  'users_teams',
   {
-    accountId: integer('account_id')
+    teamId: integer('team_id')
       .notNull()
-      .references(() => Account.id, { onDelete: 'cascade' }),
+      .references(() => Team.id, { onDelete: 'cascade' }),
     userId: integer('user_id')
       .notNull()
       .references(() => User.id),
@@ -44,22 +41,22 @@ export const UsersAccounts = sqliteTable(
       .default(sql`(CURRENT_TIMESTAMP)`)
   },
   (t) => ({
-    pk: primaryKey({ columns: [t.accountId, t.userId] })
+    pk: primaryKey({ columns: [t.teamId, t.userId] })
   })
 );
 
-export const UsersAccountsRelations = relations(UsersAccounts, ({ one }) => ({
-  account: one(Account, {
-    fields: [UsersAccounts.accountId],
-    references: [Account.id]
+export const UsersTeamsRelations = relations(UsersTeams, ({ one }) => ({
+  team: one(Team, {
+    fields: [UsersTeams.teamId],
+    references: [Team.id]
   }),
   user: one(User, {
-    fields: [UsersAccounts.userId],
+    fields: [UsersTeams.userId],
     references: [User.id]
   })
 }));
 
-export type Account = typeof Account.$inferSelect;
-export type AccountWithRelations = Account & {
-  members: (typeof UsersAccounts.$inferSelect)[];
+export type Team = typeof Team.$inferSelect;
+export type TeamWithRelations = Team & {
+  members: (typeof UsersTeams.$inferSelect)[];
 } & { invites: Invite[] };

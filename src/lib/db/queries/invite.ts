@@ -14,7 +14,7 @@ import { Invite } from '$models/invite';
 export const getUserPendingInvitesByEmail = db.query.Invite.findMany({
   where: and(eq(Invite.email, sql.placeholder('email')), eq(Invite.status, 'pending')),
   with: {
-    account: {
+    team: {
       columns: {
         id: true,
         name: true
