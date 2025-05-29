@@ -34,7 +34,7 @@ export async function load(event) {
     return unique;
   }, [] as GetUserPendingInvitesByEmail);
 
-  const form = await superValidate(zod(createTeamSchema));
+  const createTeamForm = await superValidate(zod(createTeamSchema), { id: 'create-team-form' });
 
   return {
     metadata: {
@@ -50,7 +50,7 @@ export async function load(event) {
         }
       ]
     },
-    form,
+    createTeamForm,
     userTeams: getUserTeams?.userTeams,
     pendingInvites: uniqueTeamInvites
   };

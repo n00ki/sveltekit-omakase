@@ -19,7 +19,6 @@ import { registrationSchema } from '$lib/validations/auth';
 // Database
 import db from '$lib/server/database';
 import { User } from '$models/user';
-import { Team, UsersTeams } from '$models/team';
 
 export async function load({ locals }) {
   // redirect to `/` if logged in
@@ -81,45 +80,28 @@ const register: Action = async (event) => {
       );
     }
 
-    let userId = null;
     const userPublicId = generateNanoId();
     const userHashedPassword = await hashPassword(password);
 
     try {
-      await db.transaction(async (tx) => {
-        const createUser = await tx
-          .insert(User)
-          .values({
-            publicId: userPublicId,
-            email,
-            firstName,
-            lastName,
-            hashedPassword: userHashedPassword
-          })
-          .returning();
+      const createUser = await db
+        .insert(User)
+        .values({
+          publicId: userPublicId,
+          email,
+          firstName,
+          lastName,
+          hashedPassword: userHashedPassword
+        })
+        .returning();
 
-        const createTeam = await tx
-          .insert(Team)
-          .values({
-            name: `${firstName} ${lastName}`
-          })
-          .returning();
+      const user = createUser[0];
 
-        userId = createUser[0].id;
-        const teamId = createTeam[0].id;
-
-        await tx.insert(UsersTeams).values({
-          userId: createUser[0].id,
-          teamId: teamId,
-          role: 'admin'
-        });
-      });
-
-      if (userId) {
+      if (user) {
         // Automatically log in the user
         try {
           const sessionToken = generateSessionToken();
-          const session = await createSession(sessionToken, userId);
+          const session = await createSession(sessionToken, user.id);
           setSessionTokenCookie(event, sessionToken, session.expiresAt);
         } catch (e) {
           console.log(e);

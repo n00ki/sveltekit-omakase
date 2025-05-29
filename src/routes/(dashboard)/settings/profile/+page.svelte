@@ -149,7 +149,7 @@
         <AlertDialog.Header>
           <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
           <AlertDialog.Description>
-            {m.accounts.delete.destructiveOperation}
+            {m.teams.delete.destructiveOperation}
           </AlertDialog.Description>
         </AlertDialog.Header>
         <Input

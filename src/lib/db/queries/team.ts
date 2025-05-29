@@ -7,18 +7,17 @@ import { eq, sql } from 'drizzle-orm';
 
 // Database
 import db from '$lib/server/database';
-import { Team } from '$models/team'; // Renamed from Account
+import { Team } from '$models/team';
 import { User } from '$models/user';
 
 // SELECT * FROM teams
-export const getTeams = db.query.Team.findMany(); // Renamed from Account
+export const getTeams = db.query.Team.findMany();
 
 export const getTeamsQuery: SQLitePreparedQuery<PreparedQueryConfig> = getTeams.prepare();
 export type GetTeams = Awaited<ReturnType<typeof getTeams.execute>>;
 
 // SELECT * FROM teams WHERE id = ?
 export const getTeamById = db.query.Team.findFirst({
-  // Renamed from Account
   where: eq(Team.id, sql.placeholder('id'))
 });
 
@@ -27,7 +26,6 @@ export type GetTeamById = Awaited<ReturnType<typeof getTeamById.execute>>;
 
 // SELECT * FROM teams WHERE public_id = ?
 export const getTeamByPublicId = db.query.Team.findFirst({
-  // Renamed from Account
   where: eq(Team.publicId, sql.placeholder('publicId'))
 });
 
@@ -36,7 +34,6 @@ export type GetTeamByPublicId = Awaited<ReturnType<typeof getTeamByPublicId.exec
 
 // SELECT * FROM teams WHERE name = ?
 const getTeamByName = db.query.Team.findFirst({
-  // Renamed from Account
   where: eq(Team.name, sql.placeholder('name'))
 });
 
@@ -45,11 +42,9 @@ export type GetTeamByName = Awaited<ReturnType<typeof getTeamByName.execute>>;
 
 // SELECT * FROM teams public_id = ? WITH Relations
 const getTeamByPublicIdWithRelations = db.query.Team.findFirst({
-  // Renamed from Account
   where: eq(Team.publicId, sql.placeholder('publicId')),
   with: {
     members: {
-      // Relation name is still members as defined in TeamRelations
       with: {
         user: true
       },
@@ -63,18 +58,16 @@ export const getTeamByPublicIdWithRelationsQuery: SQLitePreparedQuery<PreparedQu
   getTeamByPublicIdWithRelations.prepare();
 export type GetTeamByPublicIdWithRelations = Awaited<ReturnType<typeof getTeamByPublicIdWithRelations.execute>>;
 
-// SELECT teams for a given user id (previously getAccountsByUserId)
+// SELECT teams for a given user id
 export const getTeamsByUserId = db.query.User.findFirst({
   // Querying through User to get their teams
   where: eq(User.id, sql.placeholder('id')),
   columns: {},
   with: {
     userTeams: {
-      // Updated relation name from userAccounts to userTeams (will need to update in User model)
       columns: {},
       with: {
         team: {
-          // Updated from account to team
           with: {
             members: {
               with: {

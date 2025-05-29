@@ -16,7 +16,7 @@
     },
     {
       title: 'Teams',
-      href: '/settings/accounts'
+      href: '/settings/teams'
     }
   ];
 </script>
@@ -24,7 +24,7 @@
 <div class="px-4 py-6">
   <div class="space-y-0.5">
     <h2 class="text-xl font-semibold tracking-tight">Settings</h2>
-    <p class="text-muted-foreground text-sm">Manage your profile and team accounts.</p>
+    <p class="text-muted-foreground text-sm">Manage your profile and teams.</p>
   </div>
   <Separator class="my-6" />
   <div class="flex flex-col space-y-8 md:space-y-0 lg:flex-row lg:space-y-0 lg:space-x-12">

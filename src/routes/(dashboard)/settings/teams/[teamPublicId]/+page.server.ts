@@ -28,11 +28,11 @@ export async function load(event) {
   })) as GetTeamByPublicIdWithRelations;
 
   if (!team) {
-    redirect('/', { type: 'error', message: m.accounts.notFound }, event);
+    redirect('/', { type: 'error', message: m.teams.notFound }, event);
   }
 
   if (!team.members.find((m) => m.userId === event.locals.user?.id)) {
-    redirect('/', { type: 'error', message: m.accounts.unauthorized }, event);
+    redirect('/', { type: 'error', message: m.teams.unauthorized }, event);
   }
 
   const createTeamInviteForm = await superValidate({ teamId: team.id }, zod(createTeamInviteSchema), {
@@ -91,7 +91,7 @@ const createTeamInvite: Action = async (event) => {
 
   if (teamId && email) {
     if (email === event.locals.user?.email) {
-      return setFormError(createTeamInviteFormValidated, m.accounts.invite.send.alreadyMember, {
+      return setFormError(createTeamInviteFormValidated, m.teams.invite.send.alreadyMember, {
         status: 500,
         field: 'email'
       });
@@ -109,7 +109,7 @@ const createTeamInvite: Action = async (event) => {
 
       const inviteUrl = `${PUBLIC_BASE_URL}/api/invites?team=${teamId}&token=${invite[0].token}`;
       try {
-        sendEmail(email, Emails.AccountInvite, {
+        sendEmail(email, Emails.TeamInvite, {
           url: inviteUrl,
           invitedBy: event.locals.user?.firstName + ' ' + event.locals.user?.lastName
         });
@@ -152,7 +152,7 @@ const editTeam: Action = async (event) => {
       );
     }
 
-    redirect({ type: 'success', message: m.accounts.edit.success }, event);
+    redirect({ type: 'success', message: m.teams.edit.success }, event);
   }
 };
 

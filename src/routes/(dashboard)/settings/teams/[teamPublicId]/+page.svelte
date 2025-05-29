@@ -21,22 +21,7 @@
   // Assets
   import { SquarePen, RotateCw } from '@lucide/svelte';
 
-  // Import the type for the team data
-  import type { GetTeamByPublicIdWithRelations } from '$queries/team';
-  import type { User } from '$models/user'; // Assuming User type is needed for data.user
-
-  // Define the type for the `data` prop
-  type PageData = {
-    user: User | null; // From locals
-    metadata: { title: string; breadcrumbs: { title: string; href: string }[] };
-    team: GetTeamByPublicIdWithRelations;
-    createTeamInviteForm: SuperValidated<typeof createTeamInviteSchema>;
-    editTeamForm: SuperValidated<typeof editTeamSchema>;
-    leaveTeamForm: SuperValidated<typeof leaveTeamSchema>;
-    deleteTeamForm: SuperValidated<typeof deleteTeamSchema>;
-  };
-
-  let { data = $bindable() }: { data: PageData } = $props();
+  let { data = $bindable() } = $props();
   let isEditMode = $state(false);
 
   const createTeamInviteForm = superForm(data.createTeamInviteForm, {
@@ -54,7 +39,7 @@
     validators: zodClient(editTeamSchema),
     invalidateAll: 'force',
     onSubmit: async ({ formData, cancel }) => {
-      if (formData.get('name') === data.team.name) {
+      if (formData.get('name') === data.team?.name) {
         cancel();
         isEditMode = false;
         toast.error(m.teams.edit.noChanges);
