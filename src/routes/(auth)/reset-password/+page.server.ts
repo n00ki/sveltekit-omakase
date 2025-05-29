@@ -88,7 +88,7 @@ const requestPasswordReset: Action = async (event) => {
 
     await invalidateUserSessions(user.id);
 
-    const url = new URL(`${PUBLIC_BASE_URL}/reset-password/${user.publicId}?token=${token?.key}`);
+    const url = new URL(`${PUBLIC_BASE_URL}/reset-password/update?user=${user.publicId}&token=${token?.key}`);
 
     await sendEmail(email, Emails.ResetPassword, {
       url: url.toString(),

@@ -19,11 +19,11 @@ import db from '$lib/server/database';
 import { User } from '$models/user';
 import { Token } from '$models/token';
 
-export async function load({ locals, params, url }) {
+export async function load({ locals, url }) {
   // redirect user if already logged in
   if (locals.user) redirect(302, '/');
 
-  const userPublicIdParam: string | null = params.userPublicId || null;
+  const userPublicIdParam: string | null = url.searchParams.get('user') || null;
   const tokenParam: string | null = url.searchParams.get('token') || null;
   let email: string | null = null;
 
