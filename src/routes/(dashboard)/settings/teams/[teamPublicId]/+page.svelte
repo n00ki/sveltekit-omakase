@@ -3,7 +3,7 @@
   import { PUBLIC_R2_BUCKET_URL } from '$env/static/public';
 
   // Utils
-  import { superForm, type SuperValidated } from 'sveltekit-superforms';
+  import { superForm } from 'sveltekit-superforms';
   import { zodClient } from 'sveltekit-superforms/adapters';
   import { createTeamInviteSchema, deleteTeamSchema, editTeamSchema, leaveTeamSchema } from '$lib/validations/team';
   import * as flashModule from 'sveltekit-flash-message/client';

@@ -1,6 +1,6 @@
 <script lang="ts">
   // Env Variables
-  import { PUBLIC_R2_BUCKET_URL, PUBLIC_BASE_URL } from '$env/static/public';
+  import { PUBLIC_R2_BUCKET_URL } from '$env/static/public';
 
   // Stores
   import { page } from '$app/state';
@@ -8,7 +8,6 @@
   // Utils
   import { superForm } from 'sveltekit-superforms';
   import { zodClient } from 'sveltekit-superforms/adapters';
-  import { enhance } from '$app/forms';
 
   // Components
   import * as Form from '$components/ui/form';
