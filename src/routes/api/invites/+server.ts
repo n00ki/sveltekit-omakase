@@ -40,7 +40,7 @@ async function handleInviteProcessing(event: RequestEvent, teamIdParam: string |
     redirect('/', { type: 'error', message: m.teams.invite.receive.claimed }, event);
   }
 
-  if (invite.expiresAt < new Date(Date.now())) {
+  if (invite.expiresAt < Date.now()) {
     await db.update(Invite).set({ status: 'expired' }).where(eq(Invite.id, invite.id));
 
     redirect('/', { type: 'error', message: m.teams.invite.receive.expiredUrl }, event);
@@ -51,7 +51,7 @@ async function handleInviteProcessing(event: RequestEvent, teamIdParam: string |
       teamId: invite.teamId,
       userId: event.locals.user?.id,
       role: 'member',
-      joinedAt: new Date(Date.now())
+      joinedAt: Date.now()
     });
 
     if (addUserToTeam) {

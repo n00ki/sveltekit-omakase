@@ -4,16 +4,16 @@ import { generateToken } from '../../utils/helpers/generate';
 
 import { User } from './user';
 
-export const Token = sqliteTable('tokens', {
-  id: integer({ mode: 'number' }).primaryKey({ autoIncrement: true }),
+export const Token = sqliteTable('token', {
+  id: integer().primaryKey({ autoIncrement: true }),
   key: text()
     .notNull()
     .unique()
     .$default(() => generateToken()),
-  userId: integer('user_id')
+  userId: integer()
     .references(() => User.id, { onDelete: 'cascade' })
     .unique(),
-  expiresAt: integer('expires_at', { mode: 'timestamp_ms' }).notNull()
+  expiresAt: integer().notNull()
 });
 
 export type Token = typeof Token.$inferSelect;

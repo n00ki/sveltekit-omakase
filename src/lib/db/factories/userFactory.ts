@@ -16,7 +16,7 @@ export const userFactory = async (instances: number): Promise<User[]> => {
     hashedPassword,
     avatar: faker.image.avatar(),
     admin: false,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: Date.now(),
+    updatedAt: Date.now()
   }));
 };

@@ -1,14 +1,14 @@
 import { text, integer, index, sqliteTable } from 'drizzle-orm/sqlite-core';
-import { sql, relations } from 'drizzle-orm';
+import { relations } from 'drizzle-orm';
 import { generateToken } from '../../utils/helpers/generate';
 
 import { Team } from './team';
 
 export const Invite = sqliteTable(
-  'invites',
+  'invite',
   {
-    id: integer({ mode: 'number' }).primaryKey({ autoIncrement: true }),
-    teamId: integer('team_id')
+    id: integer().primaryKey({ autoIncrement: true }),
+    teamId: integer()
       .notNull()
       .references(() => Team.id, { onDelete: 'cascade' }),
     email: text().notNull(),
@@ -19,10 +19,10 @@ export const Invite = sqliteTable(
     status: text({ enum: ['pending', 'accepted', 'expired'] })
       .notNull()
       .default('pending'),
-    expiresAt: integer('expires_at', { mode: 'timestamp_ms' }).notNull(),
-    createdAt: integer('created_at', { mode: 'timestamp_ms' })
+    expiresAt: integer().notNull(),
+    createdAt: integer()
       .notNull()
-      .default(sql`(CURRENT_TIMESTAMP)`)
+      .$default(() => Date.now())
   },
   (Invite) => {
     return {

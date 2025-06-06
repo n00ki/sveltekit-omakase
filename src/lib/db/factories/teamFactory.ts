@@ -8,7 +8,7 @@ export const teamFactory = async (instances: number): Promise<Team[]> => {
     publicId: generateNanoId(),
     name: faker.company.name(),
     avatar: faker.image.avatar(),
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: Date.now(),
+    updatedAt: Date.now()
   }));
 };

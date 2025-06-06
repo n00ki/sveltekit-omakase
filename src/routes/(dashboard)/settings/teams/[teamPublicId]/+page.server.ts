@@ -103,7 +103,7 @@ const createTeamInvite: Action = async (event) => {
         .values({
           teamId: teamId,
           email: email,
-          expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 168)
+          expiresAt: Date.now() + 1000 * 60 * 60 * 168
         })
         .returning();
 

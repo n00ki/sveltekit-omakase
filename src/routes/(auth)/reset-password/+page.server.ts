@@ -70,7 +70,7 @@ const requestPasswordReset: Action = async (event) => {
   }
 
   try {
-    const timestamp = new Date(Date.now() + 1000 * 60 * 10);
+    const timestamp = Date.now() + 1000 * 60 * 10;
 
     const createOrUpdateTokens = await db
       .insert(Token)

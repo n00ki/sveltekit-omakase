@@ -28,7 +28,7 @@ export async function createSession(token: string, userId: number) {
   const session: SessionType = {
     id: sessionId,
     userId,
-    expiresAt: new Date(Date.now() + DAY_IN_MS * 30)
+    expiresAt: Date.now() + DAY_IN_MS * 30
   };
   await db.insert(Session).values(session);
   return session;
@@ -57,16 +57,17 @@ export async function validateSessionToken(token: string) {
   }
   const { session, user } = result;
 
-  const sessionExpired = Date.now() >= session.expiresAt.getTime();
+  const sessionExpired = Date.now() >= session.expiresAt;
   if (sessionExpired) {
     await db.delete(Session).where(eq(Session.id, session.id));
     return { session: null, user: null };
   }
 
-  const renewSession = Date.now() >= session.expiresAt.getTime() - DAY_IN_MS * 15;
+  const renewSession = Date.now() >= session.expiresAt - DAY_IN_MS * 15;
   if (renewSession) {
-    session.expiresAt = new Date(Date.now() + DAY_IN_MS * 30);
-    await db.update(Session).set({ expiresAt: session.expiresAt }).where(eq(Session.id, session.id));
+    const newExpiresAt = Date.now() + DAY_IN_MS * 30;
+    session.expiresAt = newExpiresAt;
+    await db.update(Session).set({ expiresAt: newExpiresAt }).where(eq(Session.id, session.id));
   }
 
   return { session, user };
@@ -82,9 +83,9 @@ export async function invalidateUserSessions(userId: number) {
   await db.delete(Session).where(eq(Session.userId, userId));
 }
 
-export function setSessionTokenCookie(event: RequestEvent, token: string, expiresAt: Date) {
+export function setSessionTokenCookie(event: RequestEvent, token: string, expiresAt: number) {
   event.cookies.set(sessionCookieName, token, {
-    expires: expiresAt,
+    expires: new Date(expiresAt),
     path: '/'
   });
 }

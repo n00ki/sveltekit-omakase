@@ -48,7 +48,7 @@ export async function load({ locals, url }) {
         error(400, 'Invalid Token');
       }
 
-      if (token.expiresAt < new Date(Date.now())) {
+      if (token.expiresAt < Date.now()) {
         error(400, 'Expired Token');
       }
 

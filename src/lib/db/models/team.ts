@@ -1,23 +1,28 @@
 import { text, integer, primaryKey, sqliteTable } from 'drizzle-orm/sqlite-core';
-import { sql, relations } from 'drizzle-orm';
+import { relations } from 'drizzle-orm';
 import { generateNanoId } from '../../utils/helpers/generate';
 
 import { User } from './user';
 import { Invite } from './invite';
 
-export const Team = sqliteTable('teams', {
-  id: integer({ mode: 'number' }).primaryKey({ autoIncrement: true }),
-  publicId: text('public_id')
+export const Team = sqliteTable('team', {
+  id: integer().primaryKey({ autoIncrement: true }),
+  publicId: text()
     .notNull()
-    .unique()
-    .$default(() => generateNanoId()),
-  name: text('name').notNull(),
-  avatar: text('avatar'),
-  createdAt: integer('created_at', { mode: 'timestamp_ms' })
+    .$default(() => generateNanoId())
+    .unique(),
+  name: text().notNull(),
+  avatar: text(),
+  createdAt: integer()
     .notNull()
-    .default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
+    .$default(() => Date.now()),
+  updatedAt: integer()
+    .notNull()
+    .$default(() => Date.now())
+    .$onUpdate(() => Date.now())
 });
+
+export type Team = typeof Team.$inferSelect;
 
 export const TeamRelations = relations(Team, ({ many }) => ({
   members: many(UsersTeams),
@@ -27,18 +32,18 @@ export const TeamRelations = relations(Team, ({ many }) => ({
 export const UsersTeams = sqliteTable(
   'users_teams',
   {
-    teamId: integer('team_id')
+    teamId: integer()
       .notNull()
       .references(() => Team.id, { onDelete: 'cascade' }),
-    userId: integer('user_id')
+    userId: integer()
       .notNull()
       .references(() => User.id),
     role: text({ enum: ['admin', 'member'] })
       .notNull()
       .default('member'),
-    joinedAt: integer('joined_at', { mode: 'timestamp' })
+    joinedAt: integer()
       .notNull()
-      .default(sql`(CURRENT_TIMESTAMP)`)
+      .$default(() => Date.now())
   },
   (t) => ({
     pk: primaryKey({ columns: [t.teamId, t.userId] })
@@ -56,7 +61,6 @@ export const UsersTeamsRelations = relations(UsersTeams, ({ one }) => ({
   })
 }));
 
-export type Team = typeof Team.$inferSelect;
 export type TeamWithRelations = Team & {
   members: (typeof UsersTeams.$inferSelect)[];
 } & { invites: Invite[] };

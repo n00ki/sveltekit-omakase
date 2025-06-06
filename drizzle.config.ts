@@ -1,29 +1,14 @@
-import type { Config } from 'drizzle-kit';
+import { defineConfig } from 'drizzle-kit';
 import 'dotenv/config';
 
-const localConfig = {
+export default defineConfig({
   dialect: 'turso',
-  schema: './src/lib/db/models/*',
+  schema: './src/lib/db/models/index.ts',
   out: './src/lib/db/migrations',
   breakpoints: true,
   casing: 'snake_case',
-  verbose: true,
   dbCredentials: {
-    url: process.env.LOCAL_DATABASE_URL || ''
+    url: process.env.DATABASE_URL ?? '',
+    authToken: process.env.NODE_ENV === 'development' ? undefined : process.env.DATABASE_AUTH_TOKEN
   }
-} as Config;
-
-const remoteConfig = {
-  dialect: 'turso',
-  schema: './src/lib/db/models/*',
-  out: './src/lib/db/migrations',
-  breakpoints: true,
-  casing: 'snake_case',
-  verbose: true,
-  dbCredentials: {
-    url: process.env.DATABASE_URL || '',
-    authToken: process.env.DATABASE_AUTH_TOKEN || ''
-  }
-} as Config;
-
-export default process.env.NODE_ENV === 'production' ? remoteConfig : localConfig;
+});
