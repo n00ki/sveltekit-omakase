@@ -10,10 +10,10 @@
   bind:ref
   class={cn(
     buttonVariants({ variant: 'ghost' }),
-    'size-8 select-none p-0 font-normal',
+    'size-8 p-0 font-normal select-none',
     '[&[data-today]:not([data-selected])]:bg-accent [&[data-today]:not([data-selected])]:text-accent-foreground',
     // Selected
-    'data-selected:bg-primary data-selected:text-primary-foreground data-selected:hover:bg-primary data-selected:hover:text-primary-foreground data-selected:focus:bg-primary data-selected:focus:text-primary-foreground data-selected:opacity-100 dark:data-selected:hover:bg-primary dark:data-selected:focus:bg-primary',
+    'data-selected:bg-primary data-selected:text-primary-foreground data-selected:hover:bg-primary data-selected:hover:text-primary-foreground data-selected:focus:bg-primary data-selected:focus:text-primary-foreground dark:data-selected:hover:bg-primary dark:data-selected:focus:bg-primary data-selected:opacity-100',
     // Disabled
     'data-disabled:text-muted-foreground data-disabled:opacity-50',
     // Unavailable
