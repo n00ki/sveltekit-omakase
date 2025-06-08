@@ -1,4 +1,4 @@
-name: Lint & Test
+name: Test
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: ['main']
 
 jobs:
-  lint-and-test:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,8 +16,6 @@ jobs:
       # Set up pnpm
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 9 # Specify pnpm version if needed, otherwise latest
 
       # Set up Node.js
       - name: Set up Node.js
@@ -28,12 +26,8 @@ jobs:
 
       # Install dependencies
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
-      # Run linter
-      - name: Run linter
-        run: pnpm lint
-
-      # Run unit tests
-      - name: Run unit tests
+      # Run tests
+      - name: Run tests
         run: pnpm test:unit

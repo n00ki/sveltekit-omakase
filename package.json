@@ -17,9 +17,10 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --plugin prettier-plugin-svelte . --check . && eslint .",
-    "format": "prettier --write  --plugin prettier-plugin-svelte .",
+    "format": "prettier --write --plugin prettier-plugin-svelte .",
     "test:e2e": "pnpm db:clear && NODE_ENV=test playwright test",
-    "test:unit": "vitest"
+    "test:unit": "vitest",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@eslint/compat": "^1.2.9",
@@ -46,7 +47,9 @@
     "eslint-plugin-svelte": "^3.9.1",
     "formsnap": "2.0.1",
     "globals": "^16.2.0",
+    "husky": "^9.1.7",
     "layerchart": "2.0.0-next.6",
+    "lint-staged": "^16.1.0",
     "mode-watcher": "^1.0.7",
     "paneforge": "1.0.0-next.5",
     "prettier": "^3.5.3",
@@ -90,5 +93,8 @@
       "@tailwindcss/oxide",
       "esbuild"
     ]
+  },
+  "lint-staged": {
+    "*": "pnpm lint"
   }
 }
