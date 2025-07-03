@@ -43,8 +43,10 @@
         break;
     }
 
-    // Clear the flash message to avoid double-toasting.
-    $flash = undefined;
+    return () => {
+      // Clear the flash message to avoid double-toasting.
+      $flash = undefined;
+    };
   });
 
   // Reset file upload status store on navigation
