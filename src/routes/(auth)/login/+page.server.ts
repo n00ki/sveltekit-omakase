@@ -5,7 +5,7 @@ import type { Action, Actions } from './$types';
 import { generateSessionToken, createSession, setSessionTokenCookie } from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
 import { superValidate } from 'sveltekit-superforms/server';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import { setFormFail, setFormError, isRateLimited } from '$lib/utils/helpers/forms';
 import { eq } from 'drizzle-orm';
 import * as m from '$lib/utils/messages.json';
@@ -22,7 +22,7 @@ export async function load({ locals }) {
   // redirect to `/` if logged in
   if (locals.user) redirect(302, '/');
 
-  const form = await superValidate(zod(loginSchema));
+  const form = await superValidate(zod4(loginSchema));
 
   return {
     metadata: {
@@ -33,7 +33,7 @@ export async function load({ locals }) {
 }
 
 const login: Action = async (event) => {
-  const form = await superValidate(event.request, zod(loginSchema));
+  const form = await superValidate(event.request, zod4(loginSchema));
 
   await isRateLimited(form, event, { field: 'email', removeSensitiveData: ['password'] });
 

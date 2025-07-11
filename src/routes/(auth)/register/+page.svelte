@@ -1,7 +1,7 @@
 <script lang="ts">
   // Utils
   import { superForm } from 'sveltekit-superforms';
-  import { zodClient } from 'sveltekit-superforms/adapters';
+  import { zod4Client } from 'sveltekit-superforms/adapters';
   import { registrationSchema } from '$lib/validations/auth';
 
   // Components
@@ -16,7 +16,7 @@
   let { data } = $props();
 
   const form = superForm(data.form, {
-    validators: zodClient(registrationSchema)
+    validators: zod4Client(registrationSchema)
   });
 
   const { form: formData, enhance, delayed } = form;

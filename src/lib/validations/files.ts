@@ -1,4 +1,27 @@
-// Image file validations
+import { z } from 'zod';
+
+const MAX_AVATAR_SIZE = 2000000; // 2MB
+const MAX_IMAGE_SIZE = 4000000; // 4MB
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+
+const imageFileSchema = z
+  .instanceof(File)
+  .refine((file) => file.size <= MAX_IMAGE_SIZE, {
+    error: 'Image size must be less than 4MB.'
+  })
+  .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), {
+    error: 'Only .jpg, .jpeg, .png and .webp formats are supported.'
+  });
+
+export const avatarFileSchema = z
+  .instanceof(File)
+  .refine((file) => file.size <= MAX_AVATAR_SIZE, {
+    error: 'Avatar size must be less than 2MB.'
+  })
+  .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), {
+    error: 'Only .jpg, .jpeg, .png and .webp formats are supported.'
+  });
+
 export function validateImageFile(
   imageFile: File,
   type: string
@@ -6,41 +29,12 @@ export function validateImageFile(
   valid: boolean;
   errors: string[];
 } {
-  let valid = true;
-  const errors = [];
-
-  if (!imageFile) {
-    return {
-      valid: false,
-      errors: ['Image file is required']
-    };
-  }
-
-  if (type === 'avatar') {
-    if (imageFile.size > 2000000) {
-      valid = false;
-      errors.push('Avatar size must be less than 2MB');
-    }
-
-    if (!imageFile.type.includes('image')) {
-      valid = false;
-      errors.push('Avatar must be an image');
-    }
-  } else {
-    if (imageFile.size > 4000000) {
-      valid = false;
-      errors.push('Image size must be less than 4MB');
-    }
-
-    if (!imageFile.type.includes('image')) {
-      valid = false;
-      errors.push('Image must be an image');
-    }
-  }
+  const schema = type === 'avatar' ? avatarFileSchema : imageFileSchema;
+  const result = schema.safeParse(imageFile);
 
   return {
-    valid,
-    errors
+    valid: result.success,
+    errors: result.success ? [] : result.error.issues.map((e) => e.message)
   };
 }
 
@@ -49,59 +43,10 @@ export function validateAvatarFile(avatarFile: File): {
   valid: boolean;
   errors: string[];
 } {
-  let valid = true;
-  const errors = [];
-
-  if (!avatarFile) {
-    return {
-      valid: false,
-      errors: ['Avatar file is required']
-    };
-  }
-
-  if (avatarFile.size > 2000000) {
-    valid = false;
-    errors.push('Avatar file size must be less than 2MB');
-  }
-
-  if (!avatarFile.type.includes('image')) {
-    valid = false;
-    errors.push('Avatar file must be an image');
-  }
+  const result = avatarFileSchema.safeParse(avatarFile);
 
   return {
-    valid,
-    errors
-  };
-}
-
-// Artist image file validations
-export function validateArtistImageFile(imageFile: File): {
-  valid: boolean;
-  errors: string[];
-} {
-  let valid = true;
-  const errors = [];
-
-  if (!imageFile) {
-    return {
-      valid: false,
-      errors: ['Image file is required']
-    };
-  }
-
-  if (imageFile.size > 5000000) {
-    valid = false;
-    errors.push('Image file size must be less than 5MB');
-  }
-
-  if (!imageFile.type.includes('image')) {
-    valid = false;
-    errors.push('Image file must be an image');
-  }
-
-  return {
-    valid,
-    errors
+    valid: result.success,
+    errors: result.success ? [] : result.error.issues.map((e) => e.message)
   };
 }

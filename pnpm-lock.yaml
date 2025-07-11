@@ -193,8 +193,8 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@24.0.12)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.43.1)(yaml@2.8.0)
       zod:
-        specifier: ^3.25.71
-        version: 3.25.71
+        specifier: ^4.0.5
+        version: 4.0.5
 
 packages:
 
@@ -1751,6 +1751,9 @@ packages:
 
   '@types/node@24.0.12':
     resolution: {integrity: sha512-LtOrbvDf5ndC9Xi+4QZjVL0woFymF/xSTKZKPgrrl7H7XoeDvnD+E2IclKVDyaK9UM756W/3BXqSU+JEHopA9g==}
+
+  '@types/node@24.0.13':
+    resolution: {integrity: sha512-Qm9OYVOFHFYg3wJoTSrz80hoec5Lia/dPp84do3X7dZvLikQvM1YpmvTBEdIr/e+U8HTkFjLHLnl78K/qjf+jQ==}
 
   '@types/pg@8.11.10':
     resolution: {integrity: sha512-LczQUW4dbOQzsH2RQ5qoeJ6qJPdrcM/DcMLoqWQkMLMsq83J5lAX3LXjdkWdpscFy67JSOWDnh7Ny/sPFykmkg==}
@@ -4242,8 +4245,11 @@ packages:
     peerDependencies:
       zod: ^3.24.1
 
-  zod@3.25.71:
-    resolution: {integrity: sha512-BsBc/NPk7h8WsUWYWYL+BajcJPY8YhjelaWu2NMLuzgraKAz4Lb4/6K11g9jpuDetjMiqhZ6YaexFLOC0Ogi3Q==}
+  zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
+  zod@4.0.5:
+    resolution: {integrity: sha512-/5UuuRPStvHXu7RS+gmvRf4NXrNxpSllGwDnCBcJZtQsKrviYXm54yDGV2KYNLT5kq0lHGcl7lqWJLgSaG+tgA==}
 
 snapshots:
 
@@ -5198,7 +5204,7 @@ snapshots:
       date-fns: 4.1.0
       immer: 10.1.1
       lodash-es: 4.17.21
-      zod: 3.25.71
+      zod: 3.25.76
 
   '@layerstack/tailwind@2.0.0-next.4':
     dependencies:
@@ -6010,9 +6016,14 @@ snapshots:
     dependencies:
       undici-types: 7.8.0
 
+  '@types/node@24.0.13':
+    dependencies:
+      undici-types: 7.8.0
+    optional: true
+
   '@types/pg@8.11.10':
     dependencies:
-      '@types/node': 24.0.12
+      '@types/node': 24.0.13
       pg-protocol: 1.10.3
       pg-types: 4.0.2
     optional: true
@@ -8376,8 +8387,8 @@ snapshots:
       superstruct: 2.0.2
       valibot: 1.1.0(typescript@5.8.3)
       yup: 1.6.1
-      zod: 3.25.71
-      zod-to-json-schema: 3.24.6(zod@3.25.71)
+      zod: 3.25.76
+      zod-to-json-schema: 3.24.6(zod@3.25.76)
     transitivePeerDependencies:
       - '@types/json-schema'
       - esbuild
@@ -8686,9 +8697,11 @@ snapshots:
 
   zimmerframe@1.1.2: {}
 
-  zod-to-json-schema@3.24.6(zod@3.25.71):
+  zod-to-json-schema@3.24.6(zod@3.25.76):
     dependencies:
-      zod: 3.25.71
+      zod: 3.25.76
     optional: true
 
-  zod@3.25.71: {}
+  zod@3.25.76: {}
+
+  zod@4.0.5: {}

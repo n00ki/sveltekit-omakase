@@ -7,7 +7,7 @@
 
   // Utils
   import { superForm } from 'sveltekit-superforms';
-  import { zodClient } from 'sveltekit-superforms/adapters';
+  import { zod4Client } from 'sveltekit-superforms/adapters';
 
   // Components
   import * as Form from '$components/ui/form';
@@ -30,7 +30,7 @@
 
   const createTeamForm = superForm(data.createTeamForm, {
     id: 'create-team-form',
-    validators: zodClient(createTeamSchema),
+    validators: zod4Client(createTeamSchema),
     invalidateAll: 'force',
     resetForm: true
   });

@@ -4,7 +4,7 @@
 
   // Utils
   import { superForm } from 'sveltekit-superforms';
-  import { zodClient } from 'sveltekit-superforms/adapters';
+  import { zod4Client } from 'sveltekit-superforms/adapters';
   import { createTeamInviteSchema, deleteTeamSchema, editTeamSchema, leaveTeamSchema } from '$lib/validations/team';
   import * as flashModule from 'sveltekit-flash-message/client';
   import { toast } from 'svelte-sonner';
@@ -25,7 +25,7 @@
   let isEditMode = $state(false);
 
   const createTeamInviteForm = superForm(data.createTeamInviteForm, {
-    validators: zodClient(createTeamInviteSchema),
+    validators: zod4Client(createTeamInviteSchema),
     invalidateAll: 'force'
   });
 
@@ -36,7 +36,7 @@
   } = createTeamInviteForm;
 
   const editTeamForm = superForm(data.editTeamForm, {
-    validators: zodClient(editTeamSchema),
+    validators: zod4Client(editTeamSchema),
     invalidateAll: 'force',
     onSubmit: async ({ formData, cancel }) => {
       if (formData.get('name') === data.team?.name) {
@@ -55,7 +55,7 @@
   const { form: editTeamFormData, enhance: editTeamFormEnhance } = editTeamForm;
 
   const leaveTeamForm = superForm(data.leaveTeamForm, {
-    validators: zodClient(leaveTeamSchema),
+    validators: zod4Client(leaveTeamSchema),
     syncFlashMessage: false,
     flashMessage: {
       module: flashModule
@@ -65,7 +65,7 @@
   const { delayed: leaveTeamFormDelayed, enhance: leaveTeamFormEnhance } = leaveTeamForm;
 
   const deleteTeamForm = superForm(data.deleteTeamForm, {
-    validators: zodClient(deleteTeamSchema),
+    validators: zod4Client(deleteTeamSchema),
     invalidateAll: 'force'
   });
 

@@ -7,7 +7,7 @@ import { PUBLIC_BASE_URL } from '$env/static/public';
 // Utils
 import { invalidateUserSessions } from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
 import { setFormFail, setFormError, isRateLimited } from '$lib/utils/helpers/forms';
 import { eq } from 'drizzle-orm';
@@ -27,7 +27,7 @@ export async function load({ locals }) {
   // redirect user if already logged in
   if (locals.user) redirect(302, '/');
 
-  const form = await superValidate(zod(requestPasswordResetSchema));
+  const form = await superValidate(zod4(requestPasswordResetSchema));
 
   return {
     metadata: {
@@ -38,7 +38,7 @@ export async function load({ locals }) {
 }
 
 const requestPasswordReset: Action = async (event) => {
-  const form = await superValidate(event.request, zod(requestPasswordResetSchema));
+  const form = await superValidate(event.request, zod4(requestPasswordResetSchema));
 
   await isRateLimited(form, event, { field: 'email' });
 

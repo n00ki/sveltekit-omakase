@@ -6,7 +6,7 @@ import type { Action, Actions } from '@sveltejs/kit';
 
 // Utils
 import { redirect } from 'sveltekit-flash-message/server';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/client';
 import { setFormFail, setFormError } from '$lib/utils/helpers/forms';
 import { and, eq } from 'drizzle-orm';
@@ -35,21 +35,21 @@ export async function load(event) {
     redirect('/', { type: 'error', message: m.teams.unauthorized }, event);
   }
 
-  const createTeamInviteForm = await superValidate({ teamId: team.id }, zod(createTeamInviteSchema), {
+  const createTeamInviteForm = await superValidate({ teamId: team.id }, zod4(createTeamInviteSchema), {
     id: 'create-team-invite-form',
     errors: false
   });
 
-  const editTeamForm = await superValidate({ teamId: team.id, name: team.name }, zod(editTeamSchema), {
+  const editTeamForm = await superValidate({ teamId: team.id, name: team.name }, zod4(editTeamSchema), {
     id: 'edit-team-form',
     errors: false
   });
 
-  const leaveTeamForm = await superValidate(zod(leaveTeamSchema), {
+  const leaveTeamForm = await superValidate(zod4(leaveTeamSchema), {
     id: 'leave-team-form'
   });
 
-  const deleteTeamForm = await superValidate({ teamId: team.id }, zod(deleteTeamSchema), {
+  const deleteTeamForm = await superValidate({ teamId: team.id }, zod4(deleteTeamSchema), {
     id: 'delete-team-form',
     errors: false
   });
@@ -81,7 +81,7 @@ export async function load(event) {
 }
 
 const createTeamInvite: Action = async (event) => {
-  const createTeamInviteFormValidated = await superValidate(event.request, zod(createTeamInviteSchema));
+  const createTeamInviteFormValidated = await superValidate(event.request, zod4(createTeamInviteSchema));
 
   if (!createTeamInviteFormValidated.valid) {
     return setFormFail(createTeamInviteFormValidated);
@@ -129,7 +129,7 @@ const createTeamInvite: Action = async (event) => {
 };
 
 const editTeam: Action = async (event) => {
-  const editTeamFormValidated = await superValidate(event.request, zod(editTeamSchema));
+  const editTeamFormValidated = await superValidate(event.request, zod4(editTeamSchema));
 
   if (!editTeamFormValidated.valid) {
     return setFormFail(editTeamFormValidated);
@@ -157,7 +157,7 @@ const editTeam: Action = async (event) => {
 };
 
 const leaveTeam: Action = async (event) => {
-  const leaveTeamFormValidated = await superValidate(event.request, zod(leaveTeamSchema));
+  const leaveTeamFormValidated = await superValidate(event.request, zod4(leaveTeamSchema));
 
   if (!leaveTeamFormValidated.valid) {
     return setFormFail(leaveTeamFormValidated);
@@ -182,7 +182,7 @@ const leaveTeam: Action = async (event) => {
 };
 
 const deleteTeam: Action = async (event) => {
-  const deleteTeamFormValidated = await superValidate(event.request, zod(deleteTeamSchema));
+  const deleteTeamFormValidated = await superValidate(event.request, zod4(deleteTeamSchema));
 
   if (!deleteTeamFormValidated.valid) {
     return setFormFail(deleteTeamFormValidated);

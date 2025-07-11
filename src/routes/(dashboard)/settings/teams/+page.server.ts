@@ -3,7 +3,7 @@ import { type Action, type Actions } from '@sveltejs/kit';
 
 // Utils
 import { redirect } from 'sveltekit-flash-message/server';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
 import { isRateLimited, setFormFail } from '$lib/utils/helpers/forms';
 import * as m from '$lib/utils/messages.json';
@@ -34,7 +34,7 @@ export async function load(event) {
     return unique;
   }, [] as GetUserPendingInvitesByEmail);
 
-  const createTeamForm = await superValidate(zod(createTeamSchema), { id: 'create-team-form' });
+  const createTeamForm = await superValidate(zod4(createTeamSchema), { id: 'create-team-form' });
 
   return {
     metadata: {
@@ -57,7 +57,7 @@ export async function load(event) {
 }
 
 const createTeam: Action = async (event) => {
-  const createTeamForm = await superValidate(event.request, zod(createTeamSchema));
+  const createTeamForm = await superValidate(event.request, zod4(createTeamSchema));
 
   await isRateLimited(createTeamForm, event, { field: 'name' });
 
