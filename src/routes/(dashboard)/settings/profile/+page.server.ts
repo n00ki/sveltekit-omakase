@@ -5,7 +5,7 @@ import { type Action } from '@sveltejs/kit';
 import * as auth from '$lib/server/auth';
 import { redirect, setFlash } from 'sveltekit-flash-message/server';
 import { fail } from '@sveltejs/kit';
-import { zod } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms/server';
 import { eq } from 'drizzle-orm';
 import * as m from '$lib/utils/messages.json';
@@ -20,7 +20,7 @@ import { UsersTeams, Team } from '$models/team';
 import { Session } from '$models/session';
 
 export async function load() {
-  const form = await superValidate(zod(editUserSchema), {
+  const form = await superValidate(zod4(editUserSchema), {
     id: 'edit-user-form'
   });
 
@@ -37,7 +37,7 @@ export async function load() {
 }
 
 const editUser: Action = async (event) => {
-  const form = await superValidate(event.request, zod(editUserSchema));
+  const form = await superValidate(event.request, zod4(editUserSchema));
 
   if (!form.valid) {
     return fail(400, { form });
@@ -72,7 +72,7 @@ const editUser: Action = async (event) => {
       } catch (error) {
         console.log(error);
         setFlash({ status: 500, type: 'error', message: m.general.error }, event);
-        return fail(500, { form: await superValidate(zod(editUserSchema)) });
+        return fail(500, { form: await superValidate(zod4(editUserSchema)) });
       }
     }
 
@@ -113,7 +113,7 @@ const deleteUser: Action = async (event) => {
       auth.deleteSessionTokenCookie(event);
     } catch {
       setFlash({ status: 500, type: 'error', message: m.general.error }, event);
-      return fail(500, { form: await superValidate(zod(editUserSchema)) });
+      return fail(500, { form: await superValidate(zod4(editUserSchema)) });
     }
 
     if (user && userTeams.length > 0) {
@@ -140,7 +140,7 @@ const deleteUser: Action = async (event) => {
   } catch (error) {
     console.log(error);
     setFlash({ status: 500, type: 'error', message: m.general.error }, event);
-    return fail(500, { form: await superValidate(zod(editUserSchema)) });
+    return fail(500, { form: await superValidate(zod4(editUserSchema)) });
   }
 
   redirect('/', { type: 'success', message: m.settings.userProfile.delete.success }, event);
