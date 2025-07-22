@@ -3,8 +3,6 @@
   import { cn } from '$lib/utils/utils.js';
 
   let { ref = $bindable(null), class: className, ...restProps }: SheetPrimitive.OverlayProps = $props();
-
-  export { className as class };
 </script>
 
 <SheetPrimitive.Overlay

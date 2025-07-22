@@ -3,16 +3,15 @@
   import { page } from '$app/state';
 
   // Utils
-  import { onNavigate } from '$app/navigation';
   import { getFlash } from 'sveltekit-flash-message/client';
-  import { imageFileUploadState } from '$lib/utils/helpers/uploadFile.svelte';
+  import { imageFileUploader } from '$lib/utils/helpers/upload-file.svelte';
   import { ModeWatcher } from 'mode-watcher';
+  import { onNavigate } from '$app/navigation';
   import { toast } from 'svelte-sonner';
 
   // Components
-  import SEO from '$components/SEO.svelte';
+  import AppHead from '$components/app-head.svelte';
   import { Toaster } from '$lib/components/ui/sonner';
-  import ThemeSwitcher from '$components/ThemeSwitcher.svelte';
 
   // Styles
   import '../styles/app.css';
@@ -49,13 +48,13 @@
     };
   });
 
-  // Reset file upload status store on navigation
+  // Reset file upload status on navigation
   onNavigate(() => {
-    imageFileUploadState.reset();
+    imageFileUploader.reset();
   });
 </script>
 
-<SEO {...page.data.metadata} url={page.url.href} />
+<AppHead {...page.data.metadata} url={page.url.href} />
 
 <ModeWatcher />
 
@@ -63,8 +62,4 @@
 
 <main>
   {@render children?.()}
-
-  <div class="fixed right-5 bottom-5">
-    <ThemeSwitcher />
-  </div>
 </main>

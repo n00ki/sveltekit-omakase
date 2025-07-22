@@ -1,14 +1,18 @@
+// Types
 import type { RequestHandler } from '@sveltejs/kit';
+
+// Utils
+import { auth, requireLogin } from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
-import { invalidateSession, deleteSessionTokenCookie } from '$lib/server/auth';
 import * as m from '$lib/utils/messages.json';
 
 export const POST: RequestHandler = async (event) => {
-  if (!event.locals.session) redirect(302, '/');
+  await requireLogin(event.request);
 
   try {
-    await invalidateSession(event.locals.session.id);
-    deleteSessionTokenCookie(event);
+    await auth.api.signOut({
+      headers: event.request.headers
+    });
   } catch (error) {
     console.log(error);
     redirect(
@@ -21,10 +25,10 @@ export const POST: RequestHandler = async (event) => {
       event
     );
   }
-
   redirect(
     '/',
     {
+      status: 303,
       type: 'success',
       message: m.auth.logout.success
     },

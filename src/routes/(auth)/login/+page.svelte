@@ -1,14 +1,16 @@
 <script lang="ts">
   // Utils
+  import { buttonVariants } from '$components/ui/button';
   import { superForm } from 'sveltekit-superforms';
   import { zod4Client } from 'sveltekit-superforms/adapters';
+
+  // Schemas
   import { loginSchema } from '$lib/validations/auth';
-  import { buttonVariants } from '$components/ui/button';
 
   // Components
+  import * as Card from '$components/ui/card';
   import * as Form from '$components/ui/form';
   import { Input } from '$components/ui/input';
-  import * as Card from '$components/ui/card';
 
   // Assets
   import { RotateCw } from '@lucide/svelte';
@@ -31,7 +33,7 @@
   </Card.Header>
   <Card.Content>
     <div class="grid gap-4">
-      <form method="POST" action="?/login" use:enhance>
+      <form method="POST" use:enhance>
         <div class="grid gap-2">
           <Form.Field {form} name="email">
             {#snippet children({ constraints })}
@@ -61,7 +63,7 @@
                 {#snippet children({ props })}
                   <div class="flex items-center">
                     <Form.Label>Password</Form.Label>
-                    <a href="/reset-password" class="ml-auto inline-block text-sm underline"> Forgot your password? </a>
+                    <a href="/password" class="ml-auto inline-block text-sm underline"> Forgot your password? </a>
                   </div>
                   <Input
                     type="password"
@@ -100,6 +102,7 @@
         })}
         onclick={() => (isRedirecting = true)}
         href="/login/google"
+        data-sveltekit-reload
       >
         {#if isRedirecting}
           <RotateCw size="16" class="mr-2 animate-spin" />

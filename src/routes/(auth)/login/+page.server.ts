@@ -1,26 +1,20 @@
 // Types
-import type { Action, Actions } from './$types';
+import type { Actions, Action } from './$types';
 
 // Utils
-import { generateSessionToken, createSession, setSessionTokenCookie } from '$lib/server/auth';
+import { APIError as BetterAuthAPIError } from 'better-auth/api';
+import { auth, redirectIfLoggedIn } from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
+import { setFormFail, setFormError, isRateLimited } from '$lib/utils/helpers/forms';
 import { superValidate } from 'sveltekit-superforms/server';
 import { zod4 } from 'sveltekit-superforms/adapters';
-import { setFormFail, setFormError, isRateLimited } from '$lib/utils/helpers/forms';
-import { eq } from 'drizzle-orm';
 import * as m from '$lib/utils/messages.json';
 
 // Schemas
 import { loginSchema } from '$lib/validations/auth';
 
-// Database
-import db from '$lib/server/database';
-import { User } from '$models/user';
-import { verifyPassword } from '$lib/utils/helpers/password';
-
-export async function load({ locals }) {
-  // redirect to `/` if logged in
-  if (locals.user) redirect(302, '/');
+export async function load({ request }) {
+  await redirectIfLoggedIn(request);
 
   const form = await superValidate(zod4(loginSchema));
 
@@ -39,73 +33,42 @@ const login: Action = async (event) => {
 
   if (!form.valid) {
     return setFormFail(form, { removeSensitiveData: ['password'] });
-  } else {
-    const { password, email } = form.data;
+  }
 
-    try {
-      const user = await db.query.User.findFirst({
-        where: eq(User.email, email)
-      });
+  const { email, password } = form.data;
 
-      if (!user) {
+  try {
+    await auth.api.signInEmail({
+      body: {
+        email,
+        password
+      },
+      headers: event.request.headers
+    });
+  } catch (error) {
+    if (error instanceof BetterAuthAPIError) {
+      console.log(error);
+      if (error.body?.code === 'INVALID_EMAIL_OR_PASSWORD') {
         return setFormError(
           form,
           m.auth.login.error,
           {
-            status: 401,
             field: 'email',
-            removeSensitiveData: ['password']
+            removeSensitiveData: ['password', 'passwordConfirmation']
           },
           event
         );
       }
-
-      if (email && password && !user.hashedPassword && user.googleId) {
-        return setFormError(
-          form,
-          m.auth.login.registeredWithDifferentMethod,
-          {
-            status: 400,
-            removeSensitiveData: ['password']
-          },
-          event
-        );
-      }
-
-      const validPassword = await verifyPassword(user.hashedPassword!, password);
-
-      if (!validPassword) {
-        return setFormError(
-          form,
-          m.auth.login.error,
-          {
-            status: 401,
-            field: 'email',
-            removeSensitiveData: ['password']
-          },
-          event
-        );
-      }
-
-      const sessionToken = generateSessionToken();
-      const session = await createSession(sessionToken, user.id);
-      setSessionTokenCookie(event, sessionToken, session.expiresAt);
-    } catch {
-      return setFormError(
-        form,
-        m.general.error,
-        {
-          status: 500,
-          removeSensitiveData: ['password']
-        },
-        event
-      );
     }
+    return setFormFail(form, {
+      removeSensitiveData: ['password']
+    });
   }
 
   redirect(
     '/',
     {
+      status: 303,
       type: 'success',
       message: m.auth.login.success
     },
@@ -113,4 +76,6 @@ const login: Action = async (event) => {
   );
 };
 
-export const actions: Actions = { login };
+export const actions = {
+  default: login
+} satisfies Actions;

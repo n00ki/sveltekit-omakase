@@ -1,12 +1,41 @@
+# -------------------------
+# OS-specific files
+# -------------------------
 .DS_Store
-node_modules
+Thumbs.db
+
+# -------------------------
+# Node.js dependencies
+# -------------------------
+node_modules/
+
+# -------------------------
+# Build output
+# -------------------------
 /build
 /.svelte-kit
 /package
+/dist
+
+# -------------------------
+# Environment & secrets
+# -------------------------
 .env
 .env.*
 !.env.example
+
+# -------------------------
+# Databases & local data
+# -------------------------
 dev.db
-/test-results
-/.vscode
 *.db
+
+# -------------------------
+# Test results
+# -------------------------
+/test-results
+
+# -------------------------
+# Editor-specific files
+# -------------------------
+.vscode/

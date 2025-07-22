@@ -1,6 +1,5 @@
-import { redirect } from '@sveltejs/kit';
+import { redirectIfLoggedIn } from '$lib/server/auth';
 
-export async function load({ locals }) {
-  // redirect to `/dashboard` if logged in
-  if (locals.user) redirect(302, '/dashboard');
+export async function load({ request }) {
+  await redirectIfLoggedIn(request);
 }

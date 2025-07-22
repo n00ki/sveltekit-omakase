@@ -1,33 +1,27 @@
-import { text, integer, sqliteTable } from 'drizzle-orm/sqlite-core';
-import { relations } from 'drizzle-orm';
+import { text, integer, sqliteTable, uniqueIndex } from 'drizzle-orm/sqlite-core';
 import { generateNanoId } from '../../utils/helpers/generate';
 
-import { UsersTeams } from './team';
-
-export const User = sqliteTable('user', {
-  id: integer().notNull().primaryKey({ autoIncrement: true }),
-  publicId: text()
-    .notNull()
-    .$default(() => generateNanoId())
-    .unique(),
-  email: text().unique(),
-  googleId: integer().unique(),
-  firstName: text().notNull(),
-  lastName: text().notNull(),
-  hashedPassword: text(),
-  avatar: text(),
-  admin: integer({ mode: 'boolean' }).notNull().default(false),
-  createdAt: integer()
-    .notNull()
-    .$default(() => Date.now()),
-  updatedAt: integer()
-    .notNull()
-    .$default(() => Date.now())
-    .$onUpdate(() => Date.now())
-});
-
-export type User = typeof User.$inferSelect;
-
-export const UserRelations = relations(User, ({ many }) => ({
-  userTeams: many(UsersTeams)
-}));
+export const User = sqliteTable(
+  'user',
+  {
+    id: integer().primaryKey({ autoIncrement: true }),
+    publicId: text()
+      .$defaultFn(() => generateNanoId())
+      .unique(),
+    email: text().notNull().unique(),
+    emailVerified: integer({ mode: 'boolean' }).notNull().default(false),
+    firstName: text().notNull(),
+    lastName: text().notNull(),
+    name: text().notNull(),
+    avatar: text(),
+    image: text(),
+    createdAt: integer({ mode: 'timestamp' })
+      .notNull()
+      .$defaultFn(() => new Date()),
+    updatedAt: integer({ mode: 'timestamp' })
+      .notNull()
+      .$defaultFn(() => new Date())
+      .$onUpdateFn(() => new Date())
+  },
+  (User) => [uniqueIndex('public_id_index').on(User.publicId)]
+);

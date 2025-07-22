@@ -12,20 +12,17 @@ import { Resend } from 'resend';
 import { previewEmail, renderEmail } from 'sailkit';
 
 // Templates
-import WelcomeTemplate from './templates/Welcome.svelte';
-import ResetPasswordTemplate from './templates/ResetPassword.svelte';
-import TeamInviteTemplate from './templates/TeamInvite.svelte';
+import WelcomeTemplate from './templates/welcome.svelte';
+import ResetPasswordTemplate from './templates/reset-password.svelte';
 
 export enum Emails {
   Welcome = 'Welcome',
-  ResetPassword = 'ResetPassword',
-  TeamInvite = 'TeamInvite'
+  ResetPassword = 'ResetPassword'
 }
 
 type Data = {
   url?: string;
   userFirstName?: string;
-  invitedBy?: string;
   releaseTitle?: string;
 };
 
@@ -45,11 +42,6 @@ const TEMPLATES: Record<Emails, Config> = {
     component: ResetPasswordTemplate as Component,
     requiredProps: ['userFirstName'],
     subject: '🔒 Reset Your Password'
-  },
-  [Emails.TeamInvite]: {
-    component: TeamInviteTemplate as Component,
-    requiredProps: ['invitedBy', 'url'],
-    subject: "👥 You're Invited to Collaborate on SvelteKit Omakase!"
   }
 };
 
@@ -89,7 +81,7 @@ export const sendEmail = async (
     const mailOptions = { from: EMAIL_SENDER, to, subject: emailSubject, html };
 
     if (dev) {
-      await previewEmail(config.component, templateData);
+      await previewEmail(config.component, templateData, 'console');
       console.log(`Email preview generated for ${to}`);
       return;
     }

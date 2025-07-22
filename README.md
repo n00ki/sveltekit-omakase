@@ -22,6 +22,7 @@ Whether you're a seasoned developer or just starting out, this starter kit is ca
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
   - [Installation](#installation)
+  - [Environment Variables](#environment-variables)
 - [Project Structure](#project-structure)
 - [Documentation](#documentation)
 - [Contributing](#contributing)
@@ -31,7 +32,6 @@ Whether you're a seasoned developer or just starting out, this starter kit is ca
 
 - 🎨 **Modern, Responsive & Accessible UI**
 - 🔒 **Robust Authentication**
-- 👥 **Teams/Accounts Management**
 - 🎛️ **Customizable Dashboard**
 - 📁 **File Storage**
 - 📧 **Transactional Email**
@@ -43,15 +43,15 @@ Whether you're a seasoned developer or just starting out, this starter kit is ca
 - [👍 SvelteKit](https://kit.svelte.dev/)
 - [💨 TailwindCSS](https://tailwindcss.com/)
 - [💾 Drizzle ORM](https://orm.drizzle.team/)
-- [🐂 Turso](https://turso.tech/)
+- [💂 Better-Auth](https://www.better-auth.com/)
 - [🎨 shadcn-svelte](https://www.shadcn-svelte.com/)
-- [🇳🇴 Oslo](https://oslojs.dev/)
-- [🇦🇶 Arctic](https://arcticjs.dev/)
 - [⛵ SailKit](https://sailkit.xyz/)
 - [📬 Resend](https://resend.com/)
 - [⛔ Zod](https://zod.dev/)
 - [📄 SuperForms](https://superforms.rocks/)
+- [🐂 Turso](https://turso.tech/)
 - [📁 Cloudflare R2](https://www.cloudflare.com/r2/)
+- [🐶 Husky](https://typicode.github.io/husky/)
 
 ## Getting Started
 
@@ -80,15 +80,35 @@ pnpm dev
 
 ```
 src/
-├── lib/             # Library code
-│   ├── components/  # UI components
-│   ├── db/          # Database models and queries
-│   ├── server/      # Server-only code
-│   └── utils/       # Utility functions
-├── routes/          # SvelteKit routes
-│   ├── (auth)/      # Authentication routes
-│   └── (dashboard)/ # Protected dashboard routes
-└── styles/          # Global styles
+├── lib/
+│   ├── assets/                # Static assets used in-app
+│   ├── components/            # Components
+│   │   └── ui/                # Primitive/UI building blocks (shadcn-svelte)
+│   ├── db/                    # DB models, migrations and utils
+│   │   ├── migrations/
+│   │   ├── models/
+│   │   └── clear.ts
+│   ├── hooks/                 # Hooks
+│   ├── server/                # Server-only code
+│   │   ├── auth.ts            # Auth config
+│   │   ├── database.ts        # DB config
+│   │   └── storage.ts         # Storage config
+│   ├── utils/                 # General utilities
+│   │   ├── helpers/
+│   │   └── mail/              # Email
+│   │       ├── templates/
+│   │       └── mailer.ts
+│   └── validations/           # Zod schemas
+├── routes/                    # Routes
+│   ├── (auth)/                # Auth flows
+│   ├── (app)/                 # Protected application routes
+│   │   ├── dashboard/
+│   │   └── settings/
+│   ├── api/
+│   │   └── upload/            # file upload endpoint
+│   ├── +layout.svelte         # root layout
+│   └── +page.svelte           # landing page
+└── styles/                    # Global styles
 ```
 
 ## Documentation
@@ -105,4 +125,4 @@ Special thanks to these incredible contributors to the open-source community:
 
 - [Hunter Johnston (huntabyte)](https://github.com/huntabyte)
 - [Andreas Söderlund (ciscoheat)](https://github.com/ciscoheat)
-- [pilcrow](https://github.com/pilcrowOnPaper)
+- [Bereket Engida (Bekacru)](https://github.com/Bekacru)

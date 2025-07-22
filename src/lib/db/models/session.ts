@@ -3,11 +3,14 @@ import { text, integer, sqliteTable } from 'drizzle-orm/sqlite-core';
 import { User } from './user';
 
 export const Session = sqliteTable('session', {
-  id: text().notNull().primaryKey(),
-  userId: integer()
+  id: integer().primaryKey({ autoIncrement: true }),
+  token: text().notNull().unique(),
+  createdAt: integer({ mode: 'timestamp' }).notNull(),
+  updatedAt: integer({ mode: 'timestamp' }).notNull(),
+  expiresAt: integer({ mode: 'timestamp' }).notNull(),
+  ipAddress: text(),
+  userAgent: text(),
+  userId: text()
     .notNull()
-    .references(() => User.id),
-  expiresAt: integer().notNull()
+    .references(() => User.id, { onDelete: 'cascade' })
 });
-
-export type Session = typeof Session.$inferSelect;

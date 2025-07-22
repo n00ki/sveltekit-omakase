@@ -1,24 +1,25 @@
 <script>
   // Components
   import { Button } from '$components/ui/button';
+  import ThemeSwitch from '$components/theme-switch.svelte';
 
   // Assets
-  import logo from '$lib/assets/logo.png';
-  import { Github } from '@lucide/svelte';
   import {
     Database,
+    Dog,
+    Github,
     HardDrive,
     Mail,
-    Mountain,
+    DoorClosedLocked,
     Paintbrush,
     Palette,
     Rocket,
     Shield,
     Ship,
-    Snowflake,
     Sparkles,
     Zap
   } from '@lucide/svelte';
+  import logo from '$lib/assets/logo.png';
 </script>
 
 <div class="flex min-h-screen flex-col items-center gap-8 px-4 py-8">
@@ -93,22 +94,13 @@
           <span class="font-medium">shadcn-svelte</span>
         </a>
         <a
-          href="https://oslojs.dev/"
+          href="https://www.better-auth.com/"
           target="_blank"
           rel="noopener noreferrer"
           class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 transition-colors hover:shadow-sm"
         >
-          <Mountain size="18" class="text-muted-foreground group-hover:text-orange-400" />
-          <span class="font-medium">Oslo</span>
-        </a>
-        <a
-          href="https://arcticjs.dev/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 transition-colors hover:shadow-sm"
-        >
-          <Snowflake size="18" class="text-muted-foreground group-hover:text-orange-400" />
-          <span class="font-medium">Arctic</span>
+          <DoorClosedLocked size="18" class="text-muted-foreground group-hover:text-orange-400" />
+          <span class="font-medium">Better-Auth</span>
         </a>
         <a
           href="https://sailkit.xyz/"
@@ -155,6 +147,15 @@
           <HardDrive size="18" class="text-muted-foreground group-hover:text-orange-400" />
           <span class="font-medium">Cloudflare R2</span>
         </a>
+        <a
+          href="https://typicode.github.io/husky/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 transition-colors hover:shadow-sm"
+        >
+          <Dog size="18" class="text-muted-foreground group-hover:text-orange-400" />
+          <span class="font-medium">Husky</span>
+        </a>
       </div>
     </section>
 
@@ -173,4 +174,8 @@
       </h2>
     </section>
   </div>
+</div>
+
+<div class="fixed right-5 bottom-5">
+  <ThemeSwitch />
 </div>

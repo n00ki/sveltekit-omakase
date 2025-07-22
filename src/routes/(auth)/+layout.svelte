@@ -1,6 +1,8 @@
 <script lang="ts">
-  import Wrapper from '$components/Wrapper.svelte';
+  // Components
   import { Button } from '$components/ui/button';
+  import ThemeSwitch from '$components/theme-switch.svelte';
+
   interface Props {
     children?: import('svelte').Snippet;
   }
@@ -15,7 +17,13 @@
 </nav>
 
 <div class="flex min-h-screen items-center justify-center">
-  <Wrapper>
-    {@render children?.()}
-  </Wrapper>
+  <div class="w-full px-2 md:px-0">
+    <div class="bg-accent/30 mx-auto max-w-lg rounded-2xl border p-1.5 outline-none">
+      {@render children?.()}
+    </div>
+  </div>
+</div>
+
+<div class="fixed right-5 bottom-5">
+  <ThemeSwitch />
 </div>

@@ -1,14 +1,14 @@
 <script lang="ts">
   // Utils
+  import { registrationSchema } from '$lib/validations/auth';
   import { superForm } from 'sveltekit-superforms';
   import { zod4Client } from 'sveltekit-superforms/adapters';
-  import { registrationSchema } from '$lib/validations/auth';
 
   // Components
-  import * as Form from '$components/ui/form';
+  import { buttonVariants } from '$components/ui/button';
   import { Input } from '$components/ui/input';
   import * as Card from '$components/ui/card';
-  import { buttonVariants } from '$components/ui/button';
+  import * as Form from '$components/ui/form';
 
   // Assets
   import { RotateCw } from '@lucide/svelte';
@@ -20,6 +20,8 @@
   });
 
   const { form: formData, enhance, delayed } = form;
+
+  let isRedirecting = $state(false);
 </script>
 
 <Card.Root>
@@ -29,7 +31,7 @@
   </Card.Header>
   <Card.Content>
     <div class="grid gap-4">
-      <form method="POST" action="?/register" use:enhance>
+      <form method="POST" use:enhance>
         <div class="grid grid-cols-2 gap-4">
           <div class="grid gap-2">
             <Form.Field {form} name="firstName">
@@ -156,10 +158,16 @@
 
       <a
         class={buttonVariants({
-          variant: 'outline'
+          variant: 'outline',
+          class: isRedirecting ? 'pointer-events-none cursor-not-allowed opacity-50' : ''
         })}
+        onclick={() => (isRedirecting = true)}
         href="/login/google"
+        data-sveltekit-reload
       >
+        {#if isRedirecting}
+          <RotateCw size="16" class="mr-2 animate-spin" />
+        {/if}
         Google
       </a>
     </div>

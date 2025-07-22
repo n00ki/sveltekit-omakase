@@ -1,0 +1,66 @@
+// Types
+import type { Action, Actions } from './$types';
+
+// Utils
+import { auth, redirectIfLoggedIn } from '$lib/server/auth';
+import { redirect } from 'sveltekit-flash-message/server';
+import { setFormFail, setFormError, isRateLimited } from '$lib/utils/helpers/forms';
+import { superValidate } from 'sveltekit-superforms/server';
+import { zod4 } from 'sveltekit-superforms/adapters';
+import * as m from '$lib/utils/messages.json';
+
+// Schemas
+import { requestPasswordResetSchema } from '$lib/validations/auth';
+
+export async function load({ request }) {
+  await redirectIfLoggedIn(request);
+
+  const form = await superValidate(zod4(requestPasswordResetSchema));
+
+  return {
+    metadata: {
+      title: 'Request Password Reset'
+    },
+    form
+  };
+}
+
+const requestPasswordReset: Action = async (event) => {
+  const form = await superValidate(event.request, zod4(requestPasswordResetSchema));
+
+  await isRateLimited(form, event, { field: 'email' });
+
+  if (!form.valid) {
+    return setFormFail(form);
+  }
+
+  const { email } = form.data;
+
+  try {
+    await auth.api.requestPasswordReset({
+      body: {
+        email,
+        redirectTo: `/password/reset?email=${email}`
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    return setFormError(form, m.general.error, {
+      status: 500
+    });
+  }
+
+  // we send a success message even if the user doesn't exist to prevent email enumeration
+  redirect(
+    '/',
+    {
+      type: 'success',
+      message: m.auth.requestResetPassword.success
+    },
+    event
+  );
+};
+
+export const actions = {
+  default: requestPasswordReset
+} satisfies Actions;

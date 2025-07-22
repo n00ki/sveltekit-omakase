@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Html, Head, Body, Column, Section, Text } from 'sailkit';
-  import { mailTheme } from './mailTheme';
+  import { mailTheme } from './mail-theme';
 
   interface WelcomeEmailProps {
     userFirstName: string;

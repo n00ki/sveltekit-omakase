@@ -28,6 +28,7 @@
     },
     "resetPassword": {
       "success": "All set! Your password has been reset successfully. You can now log in with your new password.",
+      "invalidToken": "Your password reset link is invalid or has expired. Please request a new one.",
       "passwordsMismatch": "The passwords don't match. Please try again."
     }
   },
@@ -41,37 +42,11 @@
         "success": "Your user account has been permanently deleted.",
         "destructiveOperation": "Are you sure you want to delete your user account? This cannot be undone."
       }
-    }
-  },
-  "teams": {
-    "notFound": "We couldn't locate the team you're searching for.",
-    "unauthorized": "You don't have access to this team.",
-    "create": {
-      "success": "Team created successfully!"
     },
-    "edit": {
-      "success": "Team details updated successfully.",
-      "noChanges": "No updates were made as there were no changes."
-    },
-    "invite": {
-      "send": {
-        "success": "Invite sent! Check back to see when they join.",
-        "alreadyMember": "This user is already part of this team."
-      },
-      "receive": {
-        "success": "Welcome aboard! You've joined the team successfully.",
-        "mustLogin": "You have to be logged in to accept this invite. Could you do that and try again?",
-        "invalidUrl": "This invite link isn't right. Could you check it?",
-        "expiredUrl": "This invite has expired. Ask for a new one?",
-        "claimed": "This invite has already been used."
+    "password": {
+      "edit": {
+        "success": "Your password has been updated successfully. Please log in with your new password."
       }
-    },
-    "leave": {
-      "success": "You are no longer a member of this team."
-    },
-    "delete": {
-      "success": "Team deleted successfully.",
-      "destructiveOperation": "Deleting this team cannot be undone. Are you sure?"
     }
   }
 }
