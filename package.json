@@ -93,6 +93,9 @@
     "ignoredBuiltDependencies": []
   },
   "lint-staged": {
-    "*": "pnpm lint"
+    "*": [
+      "pnpm lint",
+      "pnpm check"
+    ]
   }
 }
