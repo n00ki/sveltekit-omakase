@@ -94,8 +94,8 @@
   },
   "lint-staged": {
     "*": [
-      "pnpm lint",
-      "pnpm check"
+      "prettier --check",
+      "eslint"
     ]
   }
 }
