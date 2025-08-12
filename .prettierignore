@@ -44,6 +44,18 @@ dev.db
 # -------------------------
 # Lockfiles
 # -------------------------
-pnpm-lock.yaml
 package-lock.json
+pnpm-lock.yaml
 yarn.lock
+bun.lock
+bun.lockb
+
+# -------------------------
+# Miscellaneous
+# -------------------------
+.gitignore
+.prettierrc
+.prettierignore
+.husky/
+.npmrc
+/static/

@@ -69,7 +69,7 @@
 </script>
 
 <div class="flex w-full flex-1 flex-col justify-center">
-  <div class="ring-accent mx-auto my-2 flex size-32 rounded-full p-1 ring-4 drop-shadow-xs">
+  <div class="mx-auto my-2 flex size-32 rounded-full p-1 ring-4 ring-accent drop-shadow-xs">
     <div class="flex size-full items-center justify-center overflow-hidden rounded-full">
       {#if imageFileUploader.isUploading}
         <RefreshCw size="24" class="animate-spin" />

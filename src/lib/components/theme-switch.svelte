@@ -50,7 +50,7 @@
       <Tooltip.Content side="left">
         <span class="flex items-center gap-1.5 text-xs">
           <p>switch theme</p>
-          <p class="bg-muted text-foreground rounded-sm px-1 py-0.5 font-semibold">T</p>
+          <p class="rounded-sm bg-muted px-1 py-0.5 font-semibold text-foreground">T</p>
         </span>
       </Tooltip.Content>
     </Tooltip.Root>

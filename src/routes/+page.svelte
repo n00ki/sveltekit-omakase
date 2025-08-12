@@ -38,7 +38,7 @@
   <div class="flex w-full max-w-3xl flex-1 flex-col items-center justify-center gap-8">
     <section class="text-center">
       <img src={logo} alt="logo" class="mx-auto size-16 md:size-24" />
-      <h1 class="font-secondary mb-1.5 text-3xl font-black md:text-6xl">SvelteKit Omakase</h1>
+      <h1 class="mb-1.5 font-secondary text-3xl font-black md:text-6xl">SvelteKit Omakase</h1>
       <h2 class="text-base font-medium tracking-tight md:text-lg">
         the ultimate <span class=" bg-gradient-to-r from-rose-500 to-orange-400 bg-clip-text text-transparent"
           >mise en place</span
@@ -52,7 +52,7 @@
           href="https://svelte.dev/"
           target="_blank"
           rel="noopener noreferrer"
-          class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 transition-colors hover:shadow-sm"
+          class="group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary"
         >
           <Sparkles size="18" class="text-muted-foreground group-hover:text-orange-400" />
           <span class="font-medium">Svelte 5</span>
@@ -61,7 +61,7 @@
           href="https://tailwindcss.com/"
           target="_blank"
           rel="noopener noreferrer"
-          class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 transition-colors hover:shadow-sm"
+          class="group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary"
         >
           <Palette size="18" class="text-muted-foreground group-hover:text-orange-400" />
           <span class="font-medium">TailwindCSS 4</span>
@@ -70,7 +70,7 @@
           href="https://orm.drizzle.team/"
           target="_blank"
           rel="noopener noreferrer"
-          class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 transition-colors hover:shadow-sm"
+          class="group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary"
         >
           <Database size="18" class="text-muted-foreground group-hover:text-orange-400" />
           <span class="font-medium">Drizzle ORM</span>
@@ -79,7 +79,7 @@
           href="https://turso.tech/"
           target="_blank"
           rel="noopener noreferrer"
-          class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 transition-colors hover:shadow-sm"
+          class="group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary"
         >
           <Zap size="18" class="text-muted-foreground group-hover:text-orange-400" />
           <span class="font-medium">Turso</span>
@@ -88,7 +88,7 @@
           href="https://www.shadcn-svelte.com/"
           target="_blank"
           rel="noopener noreferrer"
-          class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 transition-colors hover:shadow-sm"
+          class="group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary"
         >
           <Paintbrush size="18" class="text-muted-foreground group-hover:text-orange-400" />
           <span class="font-medium">shadcn-svelte</span>
@@ -97,7 +97,7 @@
           href="https://www.better-auth.com/"
           target="_blank"
           rel="noopener noreferrer"
-          class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 transition-colors hover:shadow-sm"
+          class="group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary"
         >
           <DoorClosedLocked size="18" class="text-muted-foreground group-hover:text-orange-400" />
           <span class="font-medium">Better-Auth</span>
@@ -106,7 +106,7 @@
           href="https://sailkit.xyz/"
           target="_blank"
           rel="noopener noreferrer"
-          class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 transition-colors hover:shadow-sm"
+          class="group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary"
         >
           <Ship size="18" class="text-muted-foreground group-hover:text-orange-400" />
           <span class="font-medium">SailKit</span>
@@ -115,7 +115,7 @@
           href="https://resend.com/home"
           target="_blank"
           rel="noopener noreferrer"
-          class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 transition-colors hover:shadow-sm"
+          class="group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary"
         >
           <Mail size="18" class="text-muted-foreground group-hover:text-orange-400" />
           <span class="font-medium">Resend</span>
@@ -124,7 +124,7 @@
           href="https://zod.dev/"
           target="_blank"
           rel="noopener noreferrer"
-          class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 transition-colors hover:shadow-sm"
+          class="group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary"
         >
           <Shield size="18" class="text-muted-foreground group-hover:text-orange-400" />
           <span class="font-medium">Zod</span>
@@ -133,7 +133,7 @@
           href="https://superforms.rocks/"
           target="_blank"
           rel="noopener noreferrer"
-          class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 transition-colors hover:shadow-sm"
+          class="group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary"
         >
           <Rocket size="18" class="text-muted-foreground group-hover:text-orange-400" />
           <span class="font-medium">SuperForms</span>
@@ -142,7 +142,7 @@
           href="https://www.cloudflare.com/r2/"
           target="_blank"
           rel="noopener noreferrer"
-          class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 transition-colors hover:shadow-sm"
+          class="group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary"
         >
           <HardDrive size="18" class="text-muted-foreground group-hover:text-orange-400" />
           <span class="font-medium">Cloudflare R2</span>
@@ -151,7 +151,7 @@
           href="https://typicode.github.io/husky/"
           target="_blank"
           rel="noopener noreferrer"
-          class="group border-border hover:bg-muted focus-visible:outline-primary flex items-center gap-3 rounded-lg border p-4 transition-colors hover:shadow-sm"
+          class="group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary"
         >
           <Dog size="18" class="text-muted-foreground group-hover:text-orange-400" />
           <span class="font-medium">Husky</span>

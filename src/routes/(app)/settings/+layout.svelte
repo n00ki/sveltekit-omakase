@@ -24,7 +24,7 @@
 <div class="px-4 py-6">
   <div class="space-y-0.5">
     <h2 class="text-xl font-semibold tracking-tight">Settings</h2>
-    <p class="text-muted-foreground text-sm">Manage your account settings and preferences.</p>
+    <p class="text-sm text-muted-foreground">Manage your account settings and preferences.</p>
   </div>
   <Separator class="my-6" />
   <div class="flex flex-col space-y-8 md:space-y-0 lg:flex-row lg:space-y-0 lg:space-x-12">

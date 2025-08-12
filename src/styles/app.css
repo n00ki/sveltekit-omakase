@@ -146,7 +146,7 @@
   }
 
   *:focus-visible {
-    @apply ring-ring ring-1 outline-none;
+    @apply ring-1 ring-ring outline-none;
   }
 
   html {
@@ -167,7 +167,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-muted-foreground/30 rounded-sm;
+    @apply rounded-sm bg-muted-foreground/30;
   }
 
   .hide-scrollbar {

@@ -18,7 +18,7 @@
 
 <div class="flex min-h-screen items-center justify-center">
   <div class="w-full px-2 md:px-0">
-    <div class="bg-accent/30 mx-auto max-w-lg rounded-2xl border p-1.5 outline-none">
+    <div class="mx-auto max-w-lg rounded-2xl border bg-accent/30 p-1.5 outline-none">
       {@render children?.()}
     </div>
   </div>

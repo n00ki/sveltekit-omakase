@@ -9,5 +9,6 @@
       "files": "*.svelte",
       "options": { "parser": "svelte" }
     }
-  ]
+  ],
+  "tailwindStylesheet": "./src/styles/app.css"
 }
