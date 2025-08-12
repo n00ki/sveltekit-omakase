@@ -63,18 +63,18 @@ git clone https://github.com/n00ki/sveltekit-omakase.git my-app
 cd my-app
 
 # Install dependencies using your preferred package manager
-npm install
-# or: pnpm/bun/yarn install
+pnpm install
+# or: npm/bun/yarn install
 
 # Setup environment variables
 cp .env.example .env
 # Edit .env with your configuration
 
 # Initialize the database locally
-npm run db:push
+pnpm db:push
 
 # Start the development server
-npm run dev
+pnpm dev
 ```
 
 ## Project Structure
