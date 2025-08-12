@@ -82,20 +82,20 @@ export const auth = betterAuth({
 export type User = typeof auth.$Infer.Session.user;
 export type Session = typeof auth.$Infer.Session.session;
 
-export async function requireLogin(request: Request) {
-  const session = await auth.api.getSession(request);
+export function requireLogin() {
+  const { locals } = getRequestEvent();
 
-  if (!session) {
-    redirect(302, '/login');
+  if (!locals.user) {
+    // Ensure GET to login even if original request was a POST
+    redirect(303, '/login');
   }
 
-  return session;
+  return { user: locals.user, session: locals.session };
 }
 
-export async function redirectIfLoggedIn(request: Request) {
-  const session = await auth.api.getSession(request);
-
-  if (session) {
+export function redirectIfLoggedIn() {
+  const { locals } = getRequestEvent();
+  if (locals.user) {
     redirect(302, '/dashboard');
   }
 }

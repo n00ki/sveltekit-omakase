@@ -7,7 +7,7 @@ import { redirect } from 'sveltekit-flash-message/server';
 import * as m from '$lib/utils/messages.json';
 
 export const POST: RequestHandler = async (event) => {
-  await requireLogin(event.request);
+  requireLogin();
 
   try {
     await auth.api.signOut({

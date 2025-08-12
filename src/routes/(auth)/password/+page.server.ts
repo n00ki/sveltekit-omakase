@@ -12,8 +12,8 @@ import * as m from '$lib/utils/messages.json';
 // Schemas
 import { requestPasswordResetSchema } from '$lib/validations/auth';
 
-export async function load({ request }) {
-  await redirectIfLoggedIn(request);
+export async function load() {
+  redirectIfLoggedIn();
 
   const form = await superValidate(zod4(requestPasswordResetSchema));
 

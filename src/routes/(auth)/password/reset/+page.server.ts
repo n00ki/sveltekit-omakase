@@ -13,7 +13,7 @@ import * as m from '$lib/utils/messages.json';
 import { passwordResetSchema } from '$lib/validations/auth';
 
 export async function load(event) {
-  await redirectIfLoggedIn(event.request);
+  redirectIfLoggedIn();
 
   const token = event.url.searchParams.get('token');
   const email = event.url.searchParams.get('email');

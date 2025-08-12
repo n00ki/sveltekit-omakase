@@ -13,8 +13,8 @@ import * as m from '$lib/utils/messages.json';
 // Schemas
 import { loginSchema } from '$lib/validations/auth';
 
-export async function load({ request }) {
-  await redirectIfLoggedIn(request);
+export async function load() {
+  redirectIfLoggedIn();
 
   const form = await superValidate(zod4(loginSchema));
 
