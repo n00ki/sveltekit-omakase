@@ -9,7 +9,6 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "strictNullChecks": false, // TODO: remove this once we deal with Better-Auth sveltekitCookies type issues
     "moduleResolution": "bundler"
   }
 }
