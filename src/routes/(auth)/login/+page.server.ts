@@ -1,16 +1,18 @@
-// Types
-import type { Actions, Action } from './$types';
+import type { Action, Actions } from './$types';
 
-// Utils
 import { APIError as BetterAuthAPIError } from 'better-auth/api';
-import { auth, redirectIfLoggedIn } from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
-import { setFormFail, setFormError, isRateLimited } from '$lib/utils/helpers/forms';
-import { superValidate } from 'sveltekit-superforms/server';
 import { zod4 } from 'sveltekit-superforms/adapters';
-import * as m from '$lib/utils/messages.json';
+import { superValidate } from 'sveltekit-superforms/server';
 
-// Schemas
+import { auth, redirectIfLoggedIn } from '$lib/server/auth';
+import { isRateLimited, setFormError, setFormFail } from '$lib/utils/helpers/forms';
+import * as m from '$lib/utils/messages.json';
+import { loginSchema } from '$lib/validations/auth';
+
+import { auth, redirectIfLoggedIn } from '$lib/server/auth';
+import { isRateLimited, setFormError, setFormFail } from '$lib/utils/helpers/forms';
+import * as m from '$lib/utils/messages.json';
 import { loginSchema } from '$lib/validations/auth';
 
 export async function load() {

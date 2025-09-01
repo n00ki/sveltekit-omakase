@@ -1,16 +1,20 @@
 <script lang="ts">
   // Utils
-  import { getAvatarUrl } from '$lib/utils/helpers/image';
-  import { getInitials } from '$lib/utils/helpers/name';
-  import { useSidebar } from '$lib/components/ui/sidebar';
-
-  // Components
-  import * as Avatar from '$lib/components/ui/avatar';
-  import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-  import * as Sidebar from '$lib/components/ui/sidebar';
 
   // Assets
-  import { ChevronsUpDown, Settings, LogOut, RotateCw } from '@lucide/svelte';
+  import { ChevronsUpDown, LogOut, RotateCw, Settings } from '@lucide/svelte';
+
+  import { getAvatarUrl } from '$lib/utils/helpers/image';
+  import { getInitials } from '$lib/utils/helpers/name';
+
+  // Components
+  import * as Avatar from '$components/ui/avatar';
+  import * as DropdownMenu from '$components/ui/dropdown-menu';
+  import { useSidebar } from '$components/ui/sidebar';
+  import * as Sidebar from '$components/ui/sidebar';
+
+  import { getAvatarUrl } from '$lib/utils/helpers/image';
+  import { getInitials } from '$lib/utils/helpers/name';
 
   interface Props {
     user: User;

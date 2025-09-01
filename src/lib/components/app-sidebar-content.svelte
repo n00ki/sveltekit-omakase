@@ -1,15 +1,11 @@
 <script lang="ts">
-  // Types
-  import { type Component } from '@lucide/svelte';
+  import type { Component } from '@lucide/svelte';
 
-  // Stores
   import { page } from '$app/state';
 
-  // Components
-  import * as Sidebar from '$lib/components/ui/sidebar';
-
-  // Assets
   import { Github } from '@lucide/svelte';
+
+  import * as Sidebar from '$components/ui/sidebar';
 
   let {
     items

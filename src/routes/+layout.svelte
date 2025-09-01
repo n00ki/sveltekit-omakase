@@ -1,17 +1,19 @@
 <script>
   // Stores
+  import { onNavigate } from '$app/navigation';
   import { page } from '$app/state';
-
+  import { ModeWatcher } from 'mode-watcher';
+  import { toast } from 'svelte-sonner';
   // Utils
   import { getFlash } from 'sveltekit-flash-message/client';
+
   import { imageFileUploader } from '$lib/utils/helpers/upload-file.svelte';
-  import { ModeWatcher } from 'mode-watcher';
-  import { onNavigate } from '$app/navigation';
-  import { toast } from 'svelte-sonner';
 
   // Components
   import AppHead from '$components/app-head.svelte';
-  import { Toaster } from '$lib/components/ui/sonner';
+  import { Toaster } from '$components/ui/sonner';
+
+  import { imageFileUploader } from '$lib/utils/helpers/upload-file.svelte';
 
   // Styles
   import '../styles/app.css';

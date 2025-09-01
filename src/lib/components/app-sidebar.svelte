@@ -2,14 +2,14 @@
   // Types
   import type { ComponentProps } from 'svelte';
 
-  // Components
-  import * as Sidebar from '$lib/components/ui/sidebar';
-  import SidebarHeader from '$components/app-sidebar-header.svelte';
-  import SidebarContent from '$components/app-sidebar-content.svelte';
-  import SidebarFooter from '$components/app-sidebar-footer.svelte';
-
   // Assets
   import { LayoutGrid } from '@lucide/svelte';
+
+  import SidebarContent from '$components/app-sidebar-content.svelte';
+  import SidebarFooter from '$components/app-sidebar-footer.svelte';
+  import SidebarHeader from '$components/app-sidebar-header.svelte';
+  // Components
+  import * as Sidebar from '$components/ui/sidebar';
 
   interface Props {
     user: User;

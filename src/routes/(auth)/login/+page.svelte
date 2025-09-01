@@ -1,18 +1,14 @@
 <script lang="ts">
-  // Utils
-  import { buttonVariants } from '$components/ui/button';
   import { superForm } from 'sveltekit-superforms';
   import { zod4Client } from 'sveltekit-superforms/adapters';
 
-  // Schemas
   import { loginSchema } from '$lib/validations/auth';
 
-  // Components
+  import { buttonVariants } from '$components/ui/button';
   import * as Card from '$components/ui/card';
   import * as Form from '$components/ui/form';
   import { Input } from '$components/ui/input';
 
-  // Assets
   import { RotateCw } from '@lucide/svelte';
 
   let { data } = $props();
@@ -20,7 +16,7 @@
   const form = superForm(data.form, {
     validators: zod4Client(loginSchema)
   });
-
+  i;
   const { form: formData, enhance, delayed } = form;
 
   let isRedirecting = $state(false);

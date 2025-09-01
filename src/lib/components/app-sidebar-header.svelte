@@ -1,8 +1,6 @@
 <script lang="ts">
-  // Components
-  import * as Sidebar from '$lib/components/ui/sidebar';
+  import * as Sidebar from '$components/ui/sidebar';
 
-  // Assets
   import logo from '$lib/assets/logo.png';
 </script>
 

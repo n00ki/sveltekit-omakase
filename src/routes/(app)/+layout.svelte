@@ -2,12 +2,12 @@
   // Stores
   import { page } from '$app/state';
 
-  // Components
-  import { Separator } from '$lib/components/ui/separator';
-  import * as Breadcrumb from '$lib/components/ui/breadcrumb';
-  import * as Sidebar from '$lib/components/ui/sidebar';
   import AppSidebar from '$components/app-sidebar.svelte';
-  import ThemeDropdown from '$lib/components/theme-dropdown.svelte';
+  import ThemeDropdown from '$components/theme-dropdown.svelte';
+  import * as Breadcrumb from '$components/ui/breadcrumb';
+  // Components
+  import { Separator } from '$components/ui/separator';
+  import * as Sidebar from '$components/ui/sidebar';
 
   let { data, children } = $props();
 
