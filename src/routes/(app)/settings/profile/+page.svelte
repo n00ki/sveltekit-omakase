@@ -1,26 +1,22 @@
 <script lang="ts">
-  // Utils
-  import { getAvatarUrl } from '$lib/utils/helpers/image';
-  import { superForm } from 'sveltekit-superforms';
-  import { imageFileUploader } from '$lib/utils/helpers/upload-file.svelte';
-  import { zod4Client } from 'sveltekit-superforms/adapters';
   import { toast } from 'svelte-sonner';
-  import * as m from '$lib/utils/messages.json';
+  import { superForm } from 'sveltekit-superforms';
+  import { zod4Client } from 'sveltekit-superforms/adapters';
 
-  // Components
-  import { buttonVariants } from '$components/ui/button';
-  import { Input } from '$components/ui/input';
-  import { Separator } from '$components/ui/separator';
+  import { getAvatarUrl } from '$lib/utils/helpers/image';
+  import { imageFileUploader } from '$lib/utils/helpers/upload-file.svelte';
+  import * as m from '$lib/utils/messages.json';
+  import { editUserSchema } from '$lib/validations/auth';
+
   import * as Alert from '$components/ui/alert';
   import * as AlertDialog from '$components/ui/alert-dialog';
   import * as Avatar from '$components/ui/avatar';
+  import { buttonVariants } from '$components/ui/button';
   import * as Form from '$components/ui/form';
+  import { Input } from '$components/ui/input';
+  import { Separator } from '$components/ui/separator';
 
-  // Schemas
-  import { editUserSchema } from '$lib/validations/auth';
-
-  // Assets
-  import { RotateCw, RefreshCw, CircleX } from '@lucide/svelte';
+  import { CircleX, RefreshCw, RotateCw } from '@lucide/svelte';
 
   let { data } = $props();
 

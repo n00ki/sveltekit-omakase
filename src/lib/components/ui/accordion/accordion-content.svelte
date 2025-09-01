@@ -1,6 +1,9 @@
 <script lang="ts">
+  import type { WithoutChild } from '$lib/utils/utils.js';
+
   import { Accordion as AccordionPrimitive } from 'bits-ui';
-  import { cn, type WithoutChild } from '$lib/utils/utils.js';
+
+  import { cn } from '$lib/utils/utils.js';
 
   let {
     ref = $bindable(null),

@@ -1,15 +1,12 @@
-// Types
-import { type Action, type Actions } from '@sveltejs/kit';
+import type { Action, Actions } from '@sveltejs/kit';
 
-// Utils
-import { auth } from '$lib/server/auth';
 import { fail } from '@sveltejs/kit';
 import { redirect, setFlash } from 'sveltekit-flash-message/server';
-import { superValidate } from 'sveltekit-superforms/server';
 import { zod4 } from 'sveltekit-superforms/adapters';
-import * as m from '$lib/utils/messages.json';
+import { superValidate } from 'sveltekit-superforms/server';
 
-// Schemas
+import { auth } from '$lib/server/auth';
+import * as m from '$lib/utils/messages.json';
 import { editUserSchema } from '$lib/validations/auth';
 
 export async function load() {

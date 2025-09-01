@@ -1,4 +1,4 @@
-import { setMode, resetMode, userPrefersMode } from 'mode-watcher';
+import { resetMode, setMode, userPrefersMode } from 'mode-watcher';
 
 /**
  * Cycles through theme modes: system → light → dark → system

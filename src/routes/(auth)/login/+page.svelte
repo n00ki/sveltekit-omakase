@@ -16,7 +16,7 @@
   const form = superForm(data.form, {
     validators: zod4Client(loginSchema)
   });
-  i;
+
   const { form: formData, enhance, delayed } = form;
 
   let isRedirecting = $state(false);

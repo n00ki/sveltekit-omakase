@@ -1,8 +1,12 @@
 <script lang="ts">
+  import type { WithoutChild } from '$lib/utils/utils.js';
+
   import { Select as SelectPrimitive } from 'bits-ui';
-  import SelectScrollUpButton from './select-scroll-up-button.svelte';
+
+  import { cn } from '$lib/utils/utils.js';
+
   import SelectScrollDownButton from './select-scroll-down-button.svelte';
-  import { cn, type WithoutChild } from '$lib/utils/utils.js';
+  import SelectScrollUpButton from './select-scroll-up-button.svelte';
 
   let {
     ref = $bindable(null),

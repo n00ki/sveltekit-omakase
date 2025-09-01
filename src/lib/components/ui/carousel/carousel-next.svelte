@@ -4,11 +4,9 @@
 
   import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
 
-  import { cn } from '$lib/utils/utils.js';
+  import { cn, cn } from '$lib/utils/utils.js';
 
   import { Button } from '$components/ui/button/index.js';
-
-  import { cn } from '$lib/utils/utils.js';
 
   import { getEmblaContext } from './context.js';
 

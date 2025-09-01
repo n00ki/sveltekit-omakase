@@ -1,7 +1,6 @@
 <script lang="ts">
-  // Components
-  import { Button } from '$components/ui/button';
   import ThemeSwitch from '$components/theme-switch.svelte';
+  import { Button } from '$components/ui/button';
 
   interface Props {
     children?: import('svelte').Snippet;

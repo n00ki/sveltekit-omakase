@@ -1,5 +1,4 @@
 <script>
-  // Stores
   import { page } from '$app/state';
 </script>
 

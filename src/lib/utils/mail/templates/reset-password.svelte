@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { Html, Head, Body, Column, Section, Text } from 'sailkit';
+  import { Body, Column, Head, Html, Section, Text } from 'sailkit';
+
   import { mailTheme } from './mail-theme';
 
   interface ResetPasswordEmailProps {

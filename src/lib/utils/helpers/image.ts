@@ -1,4 +1,5 @@
 import { PUBLIC_R2_BUCKET_URL } from '$env/static/public';
+
 import avatarPlaceholder from '$lib/assets/avatar.png';
 
 /**

@@ -1,8 +1,7 @@
-// Env Variables
 import { PUBLIC_R2_BUCKET_URL } from '$env/static/public';
 
-// Utils
 import { toast } from 'svelte-sonner';
+
 import { validateImageFile } from '$lib/validations/files';
 
 /**

@@ -1,14 +1,13 @@
-// Utils
+import { getRequestEvent } from '$app/server';
+
+import { redirect } from '@sveltejs/kit';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { Emails, sendEmail } from '$lib/utils/mail/mailer';
-import { getRequestEvent } from '$app/server';
-import { redirect } from '@sveltejs/kit';
 import { sveltekitCookies } from 'better-auth/svelte-kit';
 
-// Database
-import db from './database';
-import { User, Session, Account, Verification } from '../db/models';
+import { Account, Session, User, Verification } from '$lib/db/models';
+import db from '$lib/server/database';
+import { Emails, sendEmail } from '$lib/utils/mail/mailer';
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {

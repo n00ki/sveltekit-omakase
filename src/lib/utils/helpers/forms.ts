@@ -1,11 +1,10 @@
-// Types
-import { type NumericRange, type RequestEvent } from '@sveltejs/kit';
+import type { NumericRange, RequestEvent } from '@sveltejs/kit';
+import type { SuperValidated } from 'sveltekit-superforms/server';
 
-// Utils
 import { fail } from '@sveltejs/kit';
-import { RetryAfterRateLimiter } from 'sveltekit-rate-limiter/server';
-import { setError, type SuperValidated } from 'sveltekit-superforms/server';
 import { setFlash } from 'sveltekit-flash-message/server';
+import { RetryAfterRateLimiter } from 'sveltekit-rate-limiter/server';
+import { setError } from 'sveltekit-superforms/server';
 
 /**
  * Handles generic form failures with automatic cleanup and user feedback.

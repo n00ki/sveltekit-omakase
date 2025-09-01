@@ -1,13 +1,11 @@
 <script lang="ts">
-  // Stores
   import { page } from '$app/state';
 
-  // Utils
-  import { cn } from '$lib/utils/utils';
-  import { crossfade } from 'svelte/transition';
   import { cubicInOut } from 'svelte/easing';
+  import { crossfade } from 'svelte/transition';
 
-  // Components
+  import { cn } from '$lib/utils/utils';
+
   import { Button } from '$components/ui/button';
 
   interface Props {

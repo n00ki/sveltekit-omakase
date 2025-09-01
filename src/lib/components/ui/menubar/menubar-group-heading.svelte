@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { cn } from '$lib/utils/utils.js';
-  import { Menubar as MenubarPrimitive } from 'bits-ui';
   import type { ComponentProps } from 'svelte';
+
+  import { Menubar as MenubarPrimitive } from 'bits-ui';
+
+  import { cn } from '$lib/utils/utils.js';
 
   let {
     ref = $bindable(null),

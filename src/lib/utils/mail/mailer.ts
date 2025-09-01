@@ -1,19 +1,14 @@
-// Env Variables
-import { RESEND_API_KEY, EMAIL_SENDER } from '$env/static/private';
+import { EMAIL_SENDER, RESEND_API_KEY } from '$env/static/private';
 
-// Types
 import type { Component } from 'svelte';
 
-// Stores
 import { dev } from '$app/environment';
 
-// Utils
 import { Resend } from 'resend';
 import { previewEmail, renderEmail } from 'sailkit';
 
-// Templates
-import WelcomeTemplate from './templates/welcome.svelte';
 import ResetPasswordTemplate from './templates/reset-password.svelte';
+import WelcomeTemplate from './templates/welcome.svelte';
 
 export enum Emails {
   Welcome = 'Welcome',

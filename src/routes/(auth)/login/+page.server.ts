@@ -10,11 +10,6 @@ import { isRateLimited, setFormError, setFormFail } from '$lib/utils/helpers/for
 import * as m from '$lib/utils/messages.json';
 import { loginSchema } from '$lib/validations/auth';
 
-import { auth, redirectIfLoggedIn } from '$lib/server/auth';
-import { isRateLimited, setFormError, setFormFail } from '$lib/utils/helpers/forms';
-import * as m from '$lib/utils/messages.json';
-import { loginSchema } from '$lib/validations/auth';
-
 export async function load() {
   redirectIfLoggedIn();
 

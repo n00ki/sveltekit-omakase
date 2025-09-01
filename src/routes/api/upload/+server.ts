@@ -1,16 +1,14 @@
-// Env Variables
 import { PUBLIC_R2_BUCKET_NAME } from '$env/static/public';
 
-// Types
-import { type RequestHandler } from '@sveltejs/kit';
+import type { RequestHandler } from '@sveltejs/kit';
 
-// Utils
-import { auth } from '$lib/server/auth';
-import { error, json } from '@sveltejs/kit';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
-import { s3 } from '$lib/server/storage';
 import crypto from 'crypto';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { error, json } from '@sveltejs/kit';
+
+import { auth } from '$lib/server/auth';
+import { s3 } from '$lib/server/storage';
 
 export const POST: RequestHandler = async ({ request }) => {
   const session = await auth.api.getSession(request);

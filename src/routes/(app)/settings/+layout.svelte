@@ -1,7 +1,6 @@
 <script lang="ts">
-  // Components
-  import { Separator } from '$components/ui/separator';
   import SettingsNavbar from '$components/settings-navbar.svelte';
+  import { Separator } from '$components/ui/separator';
 
   interface Props {
     children?: import('svelte').Snippet;

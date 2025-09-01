@@ -1,14 +1,12 @@
 <script lang="ts">
-  // Components
+  import { resetMode, setMode, userPrefersMode } from 'mode-watcher';
+
+  import { useTheme } from '$lib/hooks/use-theme';
+
   import { Button } from '$components/ui/button';
   import * as DropdownMenu from '$components/ui/dropdown-menu';
   import * as Tooltip from '$components/ui/tooltip';
 
-  // Utils
-  import { setMode, resetMode, userPrefersMode } from 'mode-watcher';
-  import { useTheme } from '$lib/hooks/use-theme';
-
-  // Assets
   import { Monitor, Moon, Sun } from '@lucide/svelte';
 
   const { setupKeyListener } = useTheme();

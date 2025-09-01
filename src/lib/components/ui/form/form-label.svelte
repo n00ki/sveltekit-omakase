@@ -3,11 +3,9 @@
 
   import * as FormPrimitive from 'formsnap';
 
-  import { cn } from '$lib/utils/utils.js';
+  import { cn, cn } from '$lib/utils/utils.js';
 
   import { Label } from '$components/ui/label/index.js';
-
-  import { cn } from '$lib/utils/utils.js';
 
   let {
     ref = $bindable(null),

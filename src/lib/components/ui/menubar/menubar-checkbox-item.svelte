@@ -1,9 +1,12 @@
 <script lang="ts">
-  import { Menubar as MenubarPrimitive } from 'bits-ui';
+  import type { WithoutChildrenOrChild } from '$lib/utils/utils.js';
+  import type { Snippet } from 'svelte';
+
   import CheckIcon from '@lucide/svelte/icons/check';
   import MinusIcon from '@lucide/svelte/icons/minus';
-  import { cn, type WithoutChildrenOrChild } from '$lib/utils/utils.js';
-  import type { Snippet } from 'svelte';
+  import { Menubar as MenubarPrimitive } from 'bits-ui';
+
+  import { cn } from '$lib/utils/utils.js';
 
   let {
     ref = $bindable(null),

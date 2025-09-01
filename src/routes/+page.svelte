@@ -1,16 +1,14 @@
 <script>
-  // Components
-  import { Button } from '$components/ui/button';
   import ThemeSwitch from '$components/theme-switch.svelte';
+  import { Button } from '$components/ui/button';
 
-  // Assets
   import {
     Database,
     Dog,
+    DoorClosedLocked,
     Github,
     HardDrive,
     Mail,
-    DoorClosedLocked,
     Paintbrush,
     Palette,
     Rocket,

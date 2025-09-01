@@ -2,11 +2,9 @@
   import type { WithElementRef } from '$lib/utils/utils.js';
   import type { HTMLAttributes } from 'svelte/elements';
 
-  import { cn } from '$lib/utils/utils.js';
+  import { cn, cn } from '$lib/utils/utils.js';
 
   import * as Tooltip from '$components/ui/tooltip/index.js';
-
-  import { cn } from '$lib/utils/utils.js';
 
   import { SIDEBAR_COOKIE_MAX_AGE, SIDEBAR_COOKIE_NAME, SIDEBAR_WIDTH, SIDEBAR_WIDTH_ICON } from './constants.js';
   import { setSidebar } from './context.svelte.js';

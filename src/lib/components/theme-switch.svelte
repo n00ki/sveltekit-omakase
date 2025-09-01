@@ -1,15 +1,13 @@
 <script lang="ts">
-  // Utils
-  import { fade, fly } from 'svelte/transition';
   import { mode, userPrefersMode } from 'mode-watcher';
+  import { fade, fly } from 'svelte/transition';
+
   import { useTheme } from '$lib/hooks/use-theme';
 
-  // Components
-  import * as Tooltip from '$components/ui/tooltip';
   import { Button } from '$components/ui/button';
+  import * as Tooltip from '$components/ui/tooltip';
 
-  // Assets
-  import { Sun, Moon, Monitor } from '@lucide/svelte';
+  import { Monitor, Moon, Sun } from '@lucide/svelte';
 
   const { cycleMode, setupKeyListener } = useTheme();
 

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { LinkPreview as HoverCardPrimitive } from 'bits-ui';
+
   import { cn } from '$lib/utils/utils.js';
 
   let {

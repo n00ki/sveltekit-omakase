@@ -1,16 +1,12 @@
 <script lang="ts">
-  // Utils
   import { superForm } from 'sveltekit-superforms';
   import { zod4Client } from 'sveltekit-superforms/adapters';
 
-  // Components
-  import { Input } from '$components/ui/input';
-  import * as Form from '$components/ui/form';
-
-  // Schemas
   import { editPasswordSchema } from '$lib/validations/auth';
 
-  // Assets
+  import * as Form from '$components/ui/form';
+  import { Input } from '$components/ui/input';
+
   import { RotateCw } from '@lucide/svelte';
 
   let { data } = $props();

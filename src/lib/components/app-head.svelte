@@ -1,8 +1,6 @@
 <script lang="ts">
-  // Env Variables
   import { PUBLIC_BASE_URL } from '$env/static/public';
 
-  // Assets
   import metaImage from '$lib/assets/meta_image.png';
 
   interface Props {

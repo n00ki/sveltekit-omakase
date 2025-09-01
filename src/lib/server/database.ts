@@ -1,9 +1,10 @@
-// Utils
 import 'dotenv/config';
-import { createClient, type Client } from '@libsql/client';
+
+import type { Client } from '@libsql/client';
+
+import { createClient } from '@libsql/client';
 import { drizzle } from 'drizzle-orm/libsql';
 
-// Schemas
 import * as schema from '$lib/db/models/index';
 
 export const client: Client = createClient({

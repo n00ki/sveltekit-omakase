@@ -1,20 +1,13 @@
 <script lang="ts">
-  // Utils
+  import { getAvatarUrl, getAvatarUrl } from '$lib/utils/helpers/image';
+  import { getInitials, getInitials } from '$lib/utils/helpers/name';
 
-  // Assets
-  import { ChevronsUpDown, LogOut, RotateCw, Settings } from '@lucide/svelte';
-
-  import { getAvatarUrl } from '$lib/utils/helpers/image';
-  import { getInitials } from '$lib/utils/helpers/name';
-
-  // Components
   import * as Avatar from '$components/ui/avatar';
   import * as DropdownMenu from '$components/ui/dropdown-menu';
   import { useSidebar } from '$components/ui/sidebar';
   import * as Sidebar from '$components/ui/sidebar';
 
-  import { getAvatarUrl } from '$lib/utils/helpers/image';
-  import { getInitials } from '$lib/utils/helpers/name';
+  import { ChevronsUpDown, LogOut, RotateCw, Settings } from '@lucide/svelte';
 
   interface Props {
     user: User;

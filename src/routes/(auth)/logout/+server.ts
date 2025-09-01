@@ -1,9 +1,8 @@
-// Types
 import type { RequestHandler } from '@sveltejs/kit';
 
-// Utils
-import { auth, requireLogin } from '$lib/server/auth';
 import { redirect } from 'sveltekit-flash-message/server';
+
+import { auth, requireLogin } from '$lib/server/auth';
 import * as m from '$lib/utils/messages.json';
 
 export const POST: RequestHandler = async (event) => {

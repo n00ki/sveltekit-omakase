@@ -3,9 +3,9 @@
 
   import { page } from '$app/state';
 
-  import { Github } from '@lucide/svelte';
-
   import * as Sidebar from '$components/ui/sidebar';
+
+  import { Github } from '@lucide/svelte';
 
   let {
     items

@@ -1,11 +1,9 @@
 <script lang="ts">
-  // Stores
   import { page } from '$app/state';
 
   import AppSidebar from '$components/app-sidebar.svelte';
   import ThemeDropdown from '$components/theme-dropdown.svelte';
   import * as Breadcrumb from '$components/ui/breadcrumb';
-  // Components
   import { Separator } from '$components/ui/separator';
   import * as Sidebar from '$components/ui/sidebar';
 

@@ -3,11 +3,9 @@
 
   import { ToggleGroup as ToggleGroupPrimitive } from 'bits-ui';
 
-  import { cn } from '$lib/utils/utils.js';
+  import { cn, cn } from '$lib/utils/utils.js';
 
   import { toggleVariants } from '$components/ui/toggle/index.js';
-
-  import { cn } from '$lib/utils/utils.js';
 
   import { getToggleGroupCtx } from './toggle-group.svelte';
 
