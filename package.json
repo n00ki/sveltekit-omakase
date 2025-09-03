@@ -19,8 +19,7 @@
     "lint:fix": "prettier --write . && eslint . --fix",
     "test:e2e": "playwright test",
     "test:unit": "vitest",
-    "test": "playwright test && vitest",
-    "prepare": "husky"
+    "test": "playwright test && vitest"
   },
   "devDependencies": {
     "@eslint/compat": "^1.3.2",
@@ -49,7 +48,6 @@
     "eslint-plugin-unicorn": "^60.0.0",
     "formsnap": "2.0.1",
     "globals": "^16.3.0",
-    "husky": "^9.1.7",
     "layerchart": "2.0.0-next.27",
     "lint-staged": "^16.1.5",
     "mode-watcher": "^1.1.0",
@@ -57,6 +55,7 @@
     "prettier": "^3.6.2",
     "prettier-plugin-svelte": "^3.4.0",
     "prettier-plugin-tailwindcss": "^0.6.14",
+    "simple-git-hooks": "^2.13.1",
     "svelte": "5.38.6",
     "svelte-check": "^4.3.1",
     "svelte-sonner": "^1.0.5",
@@ -90,8 +89,11 @@
   "engines": {
     "node": ">=18.0.0"
   },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
   "lint-staged": {
-    "*": [
+    "*.{js,jsx,ts,tsx,svelte,json,css,md}": [
       "prettier --write",
       "eslint --fix"
     ]
