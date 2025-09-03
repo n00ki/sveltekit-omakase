@@ -10,6 +10,15 @@ Thumbs.db
 node_modules/
 
 # -------------------------
+# Package manager lockfiles
+# -------------------------
+# package-lock.json
+# pnpm-lock.yaml
+# yarn.lock
+# bun.lockb
+# bun.lock
+
+# -------------------------
 # Build output
 # -------------------------
 /build
