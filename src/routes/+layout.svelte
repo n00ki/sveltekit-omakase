@@ -6,7 +6,7 @@
   import { toast } from 'svelte-sonner';
   import { getFlash } from 'sveltekit-flash-message/client';
 
-  import { imageFileUploader, imageFileUploader } from '$lib/utils/helpers/upload-file.svelte';
+  import { imageFileUploader } from '$lib/utils/helpers/upload-file.svelte';
 
   import AppHead from '$components/app-head.svelte';
   import { Toaster } from '$components/ui/sonner';

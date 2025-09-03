@@ -34,7 +34,7 @@
 
   import { mergeProps } from 'bits-ui';
 
-  import { cn, cn } from '$lib/utils/utils.js';
+  import { cn } from '$lib/utils/utils.js';
 
   import * as Tooltip from '$components/ui/tooltip/index.js';
 

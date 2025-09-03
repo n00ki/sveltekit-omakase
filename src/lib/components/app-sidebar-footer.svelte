@@ -1,6 +1,8 @@
 <script lang="ts">
-  import { getAvatarUrl, getAvatarUrl } from '$lib/utils/helpers/image';
-  import { getInitials, getInitials } from '$lib/utils/helpers/name';
+  import type { User } from '$lib/server/auth';
+
+  import { getAvatarUrl } from '$lib/utils/helpers/image';
+  import { getInitials } from '$lib/utils/helpers/name';
 
   import * as Avatar from '$components/ui/avatar';
   import * as DropdownMenu from '$components/ui/dropdown-menu';

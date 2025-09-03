@@ -7,7 +7,7 @@
   import { isEqualMonth } from '@internationalized/date';
   import { RangeCalendar as RangeCalendarPrimitive } from 'bits-ui';
 
-  import { cn, cn } from '$lib/utils/utils.js';
+  import { cn } from '$lib/utils/utils.js';
 
   import * as RangeCalendar from './index.js';
 

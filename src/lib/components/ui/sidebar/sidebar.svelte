@@ -2,7 +2,7 @@
   import type { WithElementRef } from '$lib/utils/utils.js';
   import type { HTMLAttributes } from 'svelte/elements';
 
-  import { cn, cn } from '$lib/utils/utils.js';
+  import { cn } from '$lib/utils/utils.js';
 
   import * as Sheet from '$components/ui/sheet/index.js';
 

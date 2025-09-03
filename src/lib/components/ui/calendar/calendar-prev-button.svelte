@@ -4,7 +4,7 @@
   import ChevronLeftIcon from '@lucide/svelte/icons/chevron-left';
   import { Calendar as CalendarPrimitive } from 'bits-ui';
 
-  import { cn, cn } from '$lib/utils/utils.js';
+  import { cn } from '$lib/utils/utils.js';
 
   import { buttonVariants } from '$components/ui/button/index.js';
 

@@ -4,7 +4,7 @@
 
   import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
 
-  import { cn, cn } from '$lib/utils/utils.js';
+  import { cn } from '$lib/utils/utils.js';
 
   import { Button } from '$components/ui/button/index.js';
 

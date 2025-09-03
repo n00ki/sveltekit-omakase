@@ -3,7 +3,7 @@
 
   import { ToggleGroup as ToggleGroupPrimitive } from 'bits-ui';
 
-  import { cn, cn } from '$lib/utils/utils.js';
+  import { cn } from '$lib/utils/utils.js';
 
   import { toggleVariants } from '$components/ui/toggle/index.js';
 

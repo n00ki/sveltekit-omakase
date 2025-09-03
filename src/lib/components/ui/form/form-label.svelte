@@ -3,7 +3,7 @@
 
   import * as FormPrimitive from 'formsnap';
 
-  import { cn, cn } from '$lib/utils/utils.js';
+  import { cn } from '$lib/utils/utils.js';
 
   import { Label } from '$components/ui/label/index.js';
 

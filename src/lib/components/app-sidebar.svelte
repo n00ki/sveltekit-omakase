@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { User } from '$lib/server/auth';
   import type { ComponentProps } from 'svelte';
 
   import SidebarContent from '$components/app-sidebar-content.svelte';
