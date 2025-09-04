@@ -23,7 +23,15 @@ export default defineConfig(
     languageOptions: {
       globals: { ...globals.browser, ...globals.node }
     },
-    rules: { 'no-undef': 'off' }
+    rules: {
+      'no-undef': 'off',
+      'svelte/no-navigation-without-resolve': [
+        'error',
+        {
+          ignoreLinks: true
+        }
+      ]
+    }
   },
   {
     files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
