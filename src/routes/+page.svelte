@@ -4,7 +4,6 @@
 
   import {
     Database,
-    Dog,
     DoorClosedLocked,
     Github,
     HardDrive,
@@ -15,6 +14,7 @@
     Shield,
     Ship,
     Sparkles,
+    Webhook,
     Zap
   } from '@lucide/svelte';
   import logo from '$lib/assets/logo.png';
@@ -146,13 +146,13 @@
           <span class="font-medium">Cloudflare R2</span>
         </a>
         <a
-          href="https://typicode.github.io/husky/"
+          href="https://github.com/toplenboren/simple-git-hooks"
           target="_blank"
           rel="noopener noreferrer"
           class="group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary"
         >
-          <Dog size="18" class="text-muted-foreground group-hover:text-orange-400" />
-          <span class="font-medium">Husky</span>
+          <Webhook size="18" class="text-muted-foreground group-hover:text-orange-400" />
+          <span class="font-medium">Git Hooks</span>
         </a>
       </div>
     </section>

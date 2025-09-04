@@ -51,7 +51,7 @@ Whether you're a seasoned developer or just starting out, this starter kit is ca
 - [📄 SuperForms](https://superforms.rocks/)
 - [🐂 Turso](https://turso.tech/)
 - [📁 Cloudflare R2](https://www.cloudflare.com/r2/)
-- [🐶 Husky](https://typicode.github.io/husky/)
+- [🪝 Git Hooks](https://github.com/toplenboren/simple-git-hooks)
 
 ## Getting Started
 
