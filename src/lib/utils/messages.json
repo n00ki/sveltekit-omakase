@@ -45,7 +45,10 @@
     },
     "password": {
       "edit": {
-        "success": "Your password has been updated successfully. Please log in with your new password."
+        "success": {
+          "set": "Password set successfully! You can now log in using your email and password in addition to your existing login method.",
+          "update": "Your password has been updated successfully."
+        }
       }
     }
   }

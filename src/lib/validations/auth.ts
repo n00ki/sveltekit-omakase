@@ -93,14 +93,30 @@ export const editUserSchema = z.object({
     .optional()
 });
 
-export const editPasswordSchema = z.object({
-  password: z
-    .string()
-    .trim()
-    .min(8, { error: 'Password must be at least 8 characters' })
-    .max(32, { error: 'Password must be less than 32 characters' })
-    .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, {
-      error: 'Password must contain at least one letter and one number'
-    }),
-  passwordConfirmation: z.string().trim()
-});
+export const editPasswordSchema = z
+  .object({
+    currentPassword: z.string().trim().optional(),
+    password: z
+      .string()
+      .trim()
+      .min(8, { error: 'Password must be at least 8 characters' })
+      .max(32, { error: 'Password must be less than 32 characters' })
+      .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, {
+        error: 'Password must contain at least one letter and one number'
+      }),
+    passwordConfirmation: z.string().trim(),
+    hasCredentialAccount: z.boolean().optional()
+  })
+  .refine(
+    (data) => {
+      // If the user has a credential account, current password is required
+      if (data.hasCredentialAccount && !data.currentPassword) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: 'Current password is required',
+      path: ['currentPassword']
+    }
+  );
