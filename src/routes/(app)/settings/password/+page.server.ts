@@ -18,7 +18,7 @@ export async function load() {
       title: 'Update Password',
       breadcrumbs: [
         { title: 'Dashboard', href: '/dashboard' },
-        { title: 'Update Password', href: '/settings/password' }
+        { title: 'Password Settings', href: '/settings/password' }
       ]
     },
     form

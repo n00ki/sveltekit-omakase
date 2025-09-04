@@ -19,7 +19,7 @@ export async function load() {
       title: 'User Profile',
       breadcrumbs: [
         { title: 'Dashboard', href: '/dashboard' },
-        { title: 'User Profile', href: '/settings/profile' }
+        { title: 'Profile Settings', href: '/settings/profile' }
       ]
     },
     form

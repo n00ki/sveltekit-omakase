@@ -18,7 +18,12 @@
   const { form: formData, delayed, enhance } = form;
 </script>
 
-<div class="flex w-full flex-1 flex-col justify-center">
+<div class="flex w-full flex-1 flex-col justify-center gap-4">
+  <header>
+    <h3 class="mb-0.5 text-base font-medium">Password Settings</h3>
+    <p class="text-xs tracking-tight text-muted-foreground">Update your password</p>
+  </header>
+
   <form id="edit-password-form" method="POST" use:enhance>
     <div class="grid gap-2">
       <Form.Field {form} name="password">

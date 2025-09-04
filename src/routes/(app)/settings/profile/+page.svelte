@@ -64,7 +64,12 @@
   }
 </script>
 
-<div class="flex w-full flex-1 flex-col justify-center">
+<div class="flex w-full flex-1 flex-col justify-center gap-4">
+  <header>
+    <h3 class="mb-0.5 text-base font-medium">Profile Settings</h3>
+    <p class="text-xs tracking-tight text-muted-foreground">Update your profile information</p>
+  </header>
+
   <div class="mx-auto my-2 flex size-32 rounded-full p-1 ring-4 ring-accent drop-shadow-xs">
     <div class="flex size-full items-center justify-center overflow-hidden rounded-full">
       {#if imageFileUploader.isUploading}
