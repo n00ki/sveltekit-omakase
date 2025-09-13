@@ -12,7 +12,7 @@ import svelteConfig from './svelte.config.js';
 
 const gitignorePath = fileURLToPath(new URL('./.gitignore', import.meta.url));
 
-export default defineConfig(
+export default defineConfig([
   includeIgnoreFile(gitignorePath),
   js.configs.recommended,
   ...ts.configs.recommended,
@@ -20,15 +20,19 @@ export default defineConfig(
   prettier,
   ...svelte.configs.prettier,
   {
+    plugins: {
+      unicorn
+    },
     languageOptions: {
       globals: { ...globals.browser, ...globals.node }
     },
     rules: {
       'no-undef': 'off',
-      'svelte/no-navigation-without-resolve': [
+      'unicorn/filename-case': [
         'error',
         {
-          ignoreLinks: true
+          case: 'kebabCase',
+          ignore: ['^\\.[a-z]+rc\\.(js|ts|json)$', '^[A-Z]+\\.(md|txt)$']
         }
       ]
     }
@@ -42,23 +46,18 @@ export default defineConfig(
         parser: ts.parser,
         svelteConfig
       }
-    }
-  },
-  {
-    plugins: {
-      unicorn
     },
     rules: {
-      'unicorn/filename-case': [
+      'svelte/no-navigation-without-resolve': [
         'error',
         {
-          case: 'kebabCase',
-          ignore: ['^\\.[a-z]+rc\\.(js|ts|json)$', '^[A-Z]+\\.(md|txt)$']
+          ignoreLinks: true
         }
       ]
     }
   },
+  // Disable rules for shadcn-svelte UI components
   {
-    ignores: ['*.env', 'node_modules/', 'build/', '.svelte-kit/', 'src/lib/components/ui/**']
+    ignores: ['src/lib/components/ui/**']
   }
-);
+]);
