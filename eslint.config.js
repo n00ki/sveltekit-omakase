@@ -55,9 +55,9 @@ export default defineConfig([
         }
       ]
     }
-  },
-  // Disable rules for shadcn-svelte UI components
-  {
-    ignores: ['src/lib/components/ui/**']
   }
+  // Disable rules for shadcn-svelte UI components (OPTIONAL)
+  // {
+  //   ignores: ['src/lib/components/ui/**']
+  // }
 ]);
