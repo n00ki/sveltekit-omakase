@@ -7,44 +7,78 @@ on:
     branches: [main]
 
 env:
-  NODE_VERSION: 'lts/*'
   BUN_VERSION: 'latest'
 
 jobs:
-  quality-checks:
-    name: Quality Checks
+  quality:
+    name: Code Quality
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup bun
+      - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: ${{ env.BUN_VERSION }}
 
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.bun/install/cache
+            ./.bun
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+          restore-keys: ${{ runner.os }}-bun-
+
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: |
+          if [ -f bun.lock ]; then
+            bun install --frozen-lockfile
+          else
+            echo "⚠️ No bun.lock found — installing without frozen lockfile"
+            bun install
+          fi
 
-      - name: Run linter
-        run: bun run prettier --check . && bun run eslint .
+      - name: Run Prettier
+        run: bun run prettier --check .
 
-  test:
-    name: Test
+      - name: Run ESLint
+        run: bun run eslint .
+
+  tests:
+    name: Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup bun
+      - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: ${{ env.BUN_VERSION }}
 
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.bun/install/cache
+            ./.bun
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+          restore-keys: ${{ runner.os }}-bun-
+
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: |
+          if [ -f bun.lock ]; then
+            bun install --frozen-lockfile
+          else
+            echo "⚠️ No bun.lock found — installing without frozen lockfile"
+            bun install
+          fi
 
       - name: Run unit tests
         run: bun run test:unit
