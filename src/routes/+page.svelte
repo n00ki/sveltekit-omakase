@@ -23,7 +23,12 @@
 <div class="flex min-h-screen flex-col items-center gap-8 px-4 py-8">
   <nav class="flex w-full max-w-3xl items-center justify-between">
     <div>
-      <Button href="https://github.com/n00ki/sveltekit-omakase" target="_blank" variant="outline">
+      <Button
+        href="https://github.com/n00ki/sveltekit-omakase"
+        target="_blank"
+        variant="outline"
+        aria-label="GitHub repository"
+      >
         <Github size="16" />
       </Button>
     </div>
