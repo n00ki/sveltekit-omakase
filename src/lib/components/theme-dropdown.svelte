@@ -5,6 +5,7 @@
 
   import { Button } from '$components/ui/button';
   import * as DropdownMenu from '$components/ui/dropdown-menu';
+  import * as Kbd from '$components/ui/kbd';
   import * as Tooltip from '$components/ui/tooltip';
 
   import { Monitor, Moon, Sun } from '@lucide/svelte';
@@ -49,7 +50,7 @@
         <Tooltip.Content side="left">
           <span class="flex items-center gap-1.5 text-xs">
             <p>toggle theme</p>
-            <p class="rounded-sm bg-muted px-1 py-0.5 font-semibold text-foreground">T</p>
+            <Kbd.Root>T</Kbd.Root>
           </span>
         </Tooltip.Content>
       </Tooltip.Root>
