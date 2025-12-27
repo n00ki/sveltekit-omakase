@@ -11,7 +11,7 @@
 
 <nav class="fixed w-full p-2">
   <div>
-    <Button href="/" variant="ghost" class="font-secondary text-lg font-semibold">SvelteKit Omakase</Button>
+    <Button href="/" variant="ghost" class="font-secondary text-lg font-semibold">kumbaya.dev</Button>
   </div>
 </nav>
 

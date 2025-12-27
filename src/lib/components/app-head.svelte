@@ -1,7 +1,7 @@
 <script lang="ts">
   import { PUBLIC_BASE_URL } from '$env/static/public';
 
-  import metaImage from '$lib/assets/meta_image.png';
+  const META_IMAGE_URL = 'https://res.cloudinary.com/nshemesh/image/upload/v1766678893/kumbaya/meta.png';
 
   interface Props {
     title: string;
@@ -12,12 +12,12 @@
 
   let {
     title = $bindable(),
-    description = $bindable('a starter project designed to get you up and running with SvelteKit 🚀'),
-    image = $bindable(metaImage),
+    description = $bindable('Light a Fire. Gather Around. Build Together.'),
+    image = $bindable(META_IMAGE_URL),
     url = $bindable(PUBLIC_BASE_URL)
   }: Props = $props();
 
-  let displayTitle = $derived(title ? `${title} | SvelteKit Omakase` : 'SvelteKit Omakase');
+  let displayTitle = $derived(title ? `${title} | Kumbaya` : 'Kumbaya');
 </script>
 
 <svelte:head>

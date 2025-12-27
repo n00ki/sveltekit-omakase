@@ -1,70 +1,41 @@
-# SvelteKit Omakase
+# kumbaya.dev
 
-<div align="center">
-  <img src="https://res.cloudinary.com/nshemesh/image/upload/v1745329712/Sveltekit%20Omakase/meta_new.png" alt="SvelteKit Omakase" width="600">
-
-<a href="https://demo.somakase.dev">View Demo</a> ·
-<a href="#getting-started">Quick Start</a> ·
-<a href="#features">Features</a>
-
-</div>
+_Light a Fire. Gather Around. Build Together._
 
 ## Overview
 
-#### Welcome to SvelteKit Omakase, the ultimate mise en place for your next SvelteKit project 🚀.
+**kumbaya.dev** is a positive‑energy, community-driven accountability platform for indie hackers, solopreneurs, and builders. It celebrates the art of showing up - turning consistent progress into a shared and celebrated practice, helping indie hackers, solopreneurs, and creatives stay accountable through _public intention_, _supportive peers_, and _visible progress_.
 
-Inspired by the [Rails doctrine](https://rubyonrails.org/doctrine#omakase), this project embraces an **_omakase_** approach—offering an opinionated selection of tools and a structured foundation while giving you the freedom to customize and extend as needed.
-Whether you're a seasoned developer or just starting out, this starter kit is carefully curated to get you up and running with SvelteKit by providing everything you need to build modern, scalable web applications with ease.
+Its mission is to replace toxic hustle culture with _positive accountability_—a sense of _warmth, belonging,_ and _shared purpose._
 
-## Table of Contents
+## The Campfire Metaphor
 
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-  - [Installation](#installation)
-  - [Environment Variables](#environment-variables)
-- [Project Structure](#project-structure)
-- [Documentation](#documentation)
-- [Contributing](#contributing)
-- [Acknowledgments](#acknowledgments)
+Everything in Kumbaya is framed through the metaphor of **a campfire in the dark, surrounded by people creating warmth together.**
 
-## Features
-
-- 🎨 **Modern, Responsive & Accessible UI**
-- 🔒 **Robust Authentication**
-- 🎛️ **Customizable Dashboard**
-- 📁 **File Storage**
-- 📧 **Transactional Email**
-- 🛠️ **Developer Utilities & DX Enhancements**
+| Element         | Platform Role                               |
+| --------------- | ------------------------------------------- |
+| **Campfire**    | A user's public pledge or project goal      |
+| **Sparks**      | Updates, reflections, or progress notes     |
+| **Singers**     | Supporters who follow, cheer, and encourage |
+| **Firekeepers** | Trusted accountability partners             |
+| **Embers**      | Completed or cooled projects                |
 
 ## Tech Stack
 
-- [🟠 Svelte 5](https://svelte.dev/)
-- [👍 SvelteKit](https://kit.svelte.dev/)
-- [💨 TailwindCSS](https://tailwindcss.com/)
-- [💾 Drizzle ORM](https://orm.drizzle.team/)
-- [💂 Better-Auth](https://www.better-auth.com/)
-- [🎨 shadcn-svelte](https://www.shadcn-svelte.com/)
-- [⛵ SailKit](https://sailkit.xyz/)
-- [📬 Resend](https://resend.com/)
-- [⛔ Zod](https://zod.dev/)
-- [📄 SuperForms](https://superforms.rocks/)
-- [🐂 Turso](https://turso.tech/)
-- [📁 Cloudflare R2](https://www.cloudflare.com/r2/)
-- [🪝 Git Hooks](https://github.com/toplenboren/simple-git-hooks)
+Built on the [SvelteKit Omakase](https://github.com/n00ki/sveltekit-omakase) starter kit:
+
+- [Svelte 5](https://svelte.dev/)
+- [SvelteKit](https://kit.svelte.dev/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Drizzle ORM](https://orm.drizzle.team/)
+- [Better-Auth](https://www.better-auth.com/)
+- [shadcn-svelte](https://www.shadcn-svelte.com/)
 
 ## Getting Started
 
-### Installation
-
 ```bash
-# Clone the repository
-git clone https://github.com/n00ki/sveltekit-omakase.git my-app
-cd my-app
-
-# Install dependencies using your preferred package manager
+# Install dependencies
 bun install
-# or: npm/pnpm/yarn install
 
 # Setup environment variables
 cp .env.example .env
@@ -77,53 +48,6 @@ bun db:push
 bun dev
 ```
 
-## Project Structure
+## License
 
-```
-src/
-├── lib/
-│   ├── assets/                # Static assets used in-app
-│   ├── components/            # Components
-│   │   └── ui/                # Primitive/UI building blocks (shadcn-svelte)
-│   ├── db/                    # DB models, migrations and utils
-│   │   ├── migrations/
-│   │   ├── models/
-│   │   └── clear.ts
-│   ├── hooks/                 # Hooks
-│   ├── server/                # Server-only code
-│   │   ├── auth.ts            # Auth config
-│   │   ├── database.ts        # DB config
-│   │   └── storage.ts         # Storage config
-│   ├── utils/                 # General utilities
-│   │   ├── helpers/
-│   │   └── mail/              # Email
-│   │       ├── templates/
-│   │       └── mailer.ts
-│   └── validations/           # Zod schemas
-├── routes/                    # Routes
-│   ├── (auth)/                # Auth flows
-│   ├── (app)/                 # Protected application routes
-│   │   ├── dashboard/
-│   │   └── settings/
-│   ├── api/
-│   │   └── upload/            # file upload endpoint
-│   ├── +layout.svelte         # root layout
-│   └── +page.svelte           # landing page
-└── styles/                    # Global styles
-```
-
-## Documentation
-
-Comprehensive documentation is in the works. In the meantime, we encourage you to dive into the codebase and explore. Should you encounter any difficulties or have questions, please don't hesitate to reach out. Your contributions towards improving documentation are also welcome!
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request 💪
-
-## Acknowledgments
-
-Special thanks to these incredible contributors to the open-source community:
-
-- [Hunter Johnston (huntabyte)](https://github.com/huntabyte)
-- [Andreas Söderlund (ciscoheat)](https://github.com/ciscoheat)
-- [Bereket Engida (Bekacru)](https://github.com/Bekacru)
+TBD

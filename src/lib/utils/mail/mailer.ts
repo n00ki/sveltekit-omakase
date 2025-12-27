@@ -31,7 +31,7 @@ const TEMPLATES: Record<Emails, Config> = {
   [Emails.Welcome]: {
     component: WelcomeTemplate as Component,
     requiredProps: ['userFirstName'],
-    subject: '🥋 Welcome to SvelteKit Omakase!'
+    subject: 'Welcome to kumbaya.dev!'
   },
   [Emails.ResetPassword]: {
     component: ResetPasswordTemplate as Component,

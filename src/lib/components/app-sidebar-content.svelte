@@ -45,7 +45,7 @@
       <Sidebar.MenuItem>
         <Sidebar.MenuButton size="sm">
           {#snippet child({ props })}
-            <a href="https://github.com/n00ki/sveltekit-omakase" target="_blank" rel="noopener noreferrer" {...props}>
+            <a href="https://github.com/noams/kumbaya.dev" target="_blank" rel="noopener noreferrer" {...props}>
               <Github class="size-4 shrink-0" />
               <span>GitHub</span>
             </a>

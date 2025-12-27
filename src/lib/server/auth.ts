@@ -21,7 +21,7 @@ export const auth = betterAuth({
   }),
   plugins: [sveltekitCookies(getRequestEvent)],
   advanced: {
-    cookiePrefix: 'somakase',
+    cookiePrefix: 'kumbaya',
     database: {
       generateId: false
     }
