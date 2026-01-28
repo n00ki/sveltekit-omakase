@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
     <link rel="icon" href="%sveltekit.assets%/favicon.png" />
-
-    <!-- Kumbaya brand fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Tiny5&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="%sveltekit.assets%/fonts/Montserrat-VariableFont.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
     />
+    <link rel="preload" href="%sveltekit.assets%/fonts/Sora-VariableFont.ttf" as="font" type="font/ttf" crossorigin />
 
     %sveltekit.head%
   </head>

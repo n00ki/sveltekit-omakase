@@ -11,12 +11,16 @@
 </script>
 
 <Html>
-  <Head subject="Welcome to kumbaya.dev!" preview="We are thrilled to have you onboard. ⭐" theme={mailTheme} />
+  <Head
+    subject="🥋 Welcome to SvelteKit Omakase!"
+    preview="We are thrilled to have you onboard. ⭐"
+    theme={mailTheme}
+  />
   <Body>
     <Section>
       <Column>
         <Text paddingBottom="0px">
-          <h1>Welcome to <span style="color: #f59e0b">kumbaya.dev</span></h1>
+          <h1>Welcome to <span style="color: #f59e0b">SvelteKit Omakase</span></h1>
         </Text>
         <Text>
           <p>Hey, {userFirstName}!</p>
@@ -25,7 +29,7 @@
         <Column.Divider />
         <Text>
           <p>
-            Need help? we are just an <a href="mailto:hello@kumbaya.dev">email</a> away.
+            Need help? we are just an <a href="https://mailto:noams+sko@hey.com">email</a> away.
           </p>
         </Text>
       </Column>

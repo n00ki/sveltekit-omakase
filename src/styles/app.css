@@ -1,6 +1,18 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/Montserrat-VariableFont.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sora';
+  src: url('/fonts/Sora-VariableFont.ttf') format('truetype');
+  font-display: swap;
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
@@ -33,10 +45,9 @@
   --sidebar-border: var(--color-stone-200);
   --sidebar-ring: var(--ring);
 
-  --brand-primary: var(--color-orange-500);
-  --brand-secondary: var(--color-indigo-600);
-  --brand-tertiary: var(--color-indigo-800);
-  --brand-accent: var(--color-amber-500);
+  --brand-primary: var(--color-yellow-300);
+  --brand-secondary: var(--color-teal-300);
+  --brand-tertiary: var(--color-rose-400);
 }
 
 .dark {
@@ -68,16 +79,15 @@
   --sidebar-border: var(--color-stone-800);
   --sidebar-ring: var(--ring);
 
-  --brand-primary: var(--color-orange-400);
-  --brand-secondary: var(--color-indigo-400);
-  --brand-tertiary: var(--color-indigo-600);
-  --brand-accent: var(--color-amber-400);
+  --brand-primary: var(--color-teal-300);
+  --brand-secondary: var(--color-yellow-300);
+  --brand-tertiary: var(--color-rose-400);
 }
 
 @theme {
   /* Fonts */
-  --font-primary: 'Quicksand', sans-serif;
-  --font-secondary: 'Tiny5', cursive;
+  --font-primary: 'Montserrat', sans-serif;
+  --font-secondary: 'Sora', sans-serif;
   --font-sans:
     'Inter Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji';
@@ -122,7 +132,6 @@
   --color-brand-primary: var(--brand-primary);
   --color-brand-secondary: var(--brand-secondary);
   --color-brand-tertiary: var(--brand-tertiary);
-  --color-brand-accent: var(--brand-accent);
 
   /* Border */
   --radius-xl: calc(var(--radius) + 4px);
