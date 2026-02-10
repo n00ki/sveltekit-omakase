@@ -48,3 +48,5 @@ dev.db
 # Editor-specific files
 # -------------------------
 .vscode/
+.zed/
+.cusor/

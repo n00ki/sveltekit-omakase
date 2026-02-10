@@ -133,13 +133,13 @@
           <span class="font-medium">Zod</span>
         </a>
         <a
-          href="https://superforms.rocks/"
+          href="https://svelte.dev/docs/kit/remote-functions"
           target="_blank"
           rel="noopener noreferrer"
           class="group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary"
         >
           <Rocket size="18" class="text-muted-foreground group-hover:text-orange-400" />
-          <span class="font-medium">SuperForms</span>
+          <span class="font-medium">Remote Functions</span>
         </a>
         <a
           href="https://www.cloudflare.com/r2/"

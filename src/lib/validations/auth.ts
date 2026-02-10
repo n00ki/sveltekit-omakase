@@ -1,122 +1,65 @@
 import { z } from 'zod';
 
-// Registration Form Validation
-export const registrationSchema = z.object({
-  email: z
-    .email({ error: 'Invalid email address' })
-    .trim()
-    .max(64, { error: 'Email must be less than 64 characters' })
-    .refine(
-      (value) => {
-        return !value.includes('test');
-      },
-      { error: 'Test emails are not allowed' }
-    )
-    .refine(
-      (value) => {
-        return !value.includes('+');
-      },
-      { error: 'Email address tagging is not allowed' }
-    ),
-  firstName: z
-    .string()
-    .trim()
-    .regex(/^[a-zA-Z\s]*$/, { error: 'First name can only contain english letters' })
-    .max(64, { error: 'First name must be less than 64 characters' })
-    .transform((value) => {
-      return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-    }),
-  lastName: z
-    .string()
-    .trim()
-    .regex(/^[a-zA-Z\s]*$/, { error: 'Last name can only contain english letters' })
-    .max(64, { error: 'Last name must be less than 64 characters' })
-    .transform((value) => {
-      return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-    }),
-  password: z
-    .string()
-    .trim()
-    .min(8, { error: 'Password must be at least 8 characters' })
-    .max(32, { error: 'Password must be less than 32 characters' })
-    .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, {
-      error: 'Password must contain at least one letter and one number'
-    }),
-  passwordConfirmation: z.string().trim()
-});
+import { emailSchema, firstNameSchema, lastNameSchema, passwordSchema } from '$lib/validations/shared';
 
-// Login Form Validation
-export const loginSchema = z.object({
-  email: z.email({ error: 'Invalid email address' }).trim().max(64, { error: 'Email must be less than 64 characters' }),
-  password: z.string().trim()
-});
-
-// Request Password Reset Form Validation
-export const requestPasswordResetSchema = z.object({
-  email: z.email({ error: 'Invalid email address' }).trim()
-});
-
-// Reset Password Form Validation
-export const passwordResetSchema = z.object({
-  email: z.email().optional(),
-  token: z.string().trim(),
-  password: z
-    .string()
-    .trim()
-    .min(8, { error: 'Password must be at least 8 characters' })
-    .max(32, { error: 'Password must be less than 32 characters' })
-    .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, {
-      error: 'Password must contain at least one letter and one number'
-    }),
-  passwordConfirmation: z.string().trim()
-});
-
-export const editUserSchema = z.object({
-  avatarFileId: z.string().optional(),
-  firstName: z
-    .string()
-    .trim()
-    .regex(/^[a-zA-Z\s]*$/, { error: 'First name can only contain english letters' })
-    .max(64, { error: 'First name must be less than 64 characters' })
-    .transform((value) => {
-      return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-    })
-    .optional(),
-  lastName: z
-    .string()
-    .trim()
-    .regex(/^[a-zA-Z\s]*$/, { error: 'Last name can only contain english letters' })
-    .max(64, { error: 'Last name must be less than 64 characters' })
-    .transform((value) => {
-      return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-    })
-    .optional()
-});
-
-export const editPasswordSchema = z
+export const createUserSchema = z
   .object({
-    currentPassword: z.string().trim().optional(),
-    password: z
-      .string()
-      .trim()
-      .min(8, { error: 'Password must be at least 8 characters' })
-      .max(32, { error: 'Password must be less than 32 characters' })
-      .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, {
-        error: 'Password must contain at least one letter and one number'
-      }),
-    passwordConfirmation: z.string().trim(),
-    hasCredentialAccount: z.boolean().optional()
+    email: emailSchema,
+    firstName: firstNameSchema,
+    lastName: lastNameSchema,
+    _password: passwordSchema,
+    _passwordConfirmation: z.string().trim()
   })
-  .refine(
-    (data) => {
-      // If the user has a credential account, current password is required
-      if (data.hasCredentialAccount && !data.currentPassword) {
-        return false;
-      }
-      return true;
-    },
-    {
-      message: 'Current password is required',
-      path: ['currentPassword']
-    }
-  );
+  .refine((data) => data._password === data._passwordConfirmation, {
+    error: 'Passwords do not match',
+    path: ['_passwordConfirmation']
+  });
+
+export const loginSchema = z.object({
+  email: emailSchema,
+  _password: z.string().trim()
+});
+
+export const requestPasswordResetSchema = z.object({
+  email: emailSchema
+});
+
+export const resetUserPasswordSchema = z
+  .object({
+    email: z.email().optional(),
+    token: z.string().trim(),
+    _password: passwordSchema,
+    _passwordConfirmation: z.string().trim()
+  })
+  .refine((data) => data._password === data._passwordConfirmation, {
+    error: 'Passwords do not match',
+    path: ['_passwordConfirmation']
+  });
+
+export const updateUserSchema = z.object({
+  imageFileId: z.string().trim().optional(),
+  firstName: firstNameSchema.optional(),
+  lastName: lastNameSchema.optional()
+});
+
+export const updateUserPasswordSchema = z
+  .object({
+    _currentPassword: z.string().trim().optional(),
+    _password: passwordSchema,
+    _passwordConfirmation: z.string().trim()
+  })
+  .refine((data) => data._password === data._passwordConfirmation, {
+    error: 'Passwords do not match',
+    path: ['_passwordConfirmation']
+  });
+
+const CONFIRMATION_PHRASE = 'DELETE';
+
+export const deleteUserSchema = z
+  .object({
+    _confirmation: z.string().trim()
+  })
+  .refine((data) => data._confirmation === CONFIRMATION_PHRASE, {
+    error: `You must type "${CONFIRMATION_PHRASE}" exactly to confirm`,
+    path: ['_confirmation']
+  });

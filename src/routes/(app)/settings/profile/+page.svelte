@@ -1,18 +1,19 @@
 <script lang="ts">
   import { toast } from 'svelte-sonner';
-  import { superForm } from 'sveltekit-superforms';
-  import { zod4Client } from 'sveltekit-superforms/adapters';
 
-  import { getAvatarUrl } from '$lib/utils/helpers/image';
-  import { imageFileUploader } from '$lib/utils/helpers/upload-file.svelte';
-  import * as m from '$lib/utils/messages.json';
-  import { editUserSchema } from '$lib/validations/auth';
+  import { deleteUser, updateUser } from '$remote/user.remote';
+
+  import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
+  import { imageFileUploader } from '$lib/state/upload-file.svelte';
+  import { getAvatarUrl } from '$lib/utils/helpers/display';
+  import { deleteUserSchema, updateUserSchema } from '$lib/validations/auth';
+  import * as m from '$lib/messages';
 
   import * as Alert from '$components/ui/alert';
   import * as AlertDialog from '$components/ui/alert-dialog';
   import * as Avatar from '$components/ui/avatar';
   import { buttonVariants } from '$components/ui/button';
-  import * as Form from '$components/ui/form';
+  import * as Field from '$components/ui/field';
   import { Input } from '$components/ui/input';
   import { Separator } from '$components/ui/separator';
 
@@ -20,10 +21,9 @@
 
   let { data } = $props();
 
-  let avatarFileId: string | null = null;
-
-  let userAvatarPreview = $state(getAvatarUrl(data.user?.avatar));
-  let isDeleting = $state(false);
+  let avatarFileId = $state<string | null>(null);
+  let userAvatarPreview = $derived(getAvatarUrl(data.user?.avatar));
+  let deleteDialogOpen = $state(false);
 
   async function uploadAvatar(event: Event) {
     const avatarInputField: HTMLInputElement = event.target as HTMLInputElement;
@@ -39,27 +39,36 @@
     }
   }
 
-  const form = superForm(data.form, {
-    validators: zod4Client(editUserSchema),
-    onSubmit: async ({ formData }) => {
-      if (avatarFileId) {
-        formData.set('avatarFileId', avatarFileId);
-      } else {
-        formData.delete('avatarFileId');
-      }
-    }
-  });
+  async function checkForChanges({
+    data: formData,
+    submit
+  }: {
+    data: { firstName?: string; lastName?: string; imageFileId?: string };
+    submit: () => Promise<void>;
+  }) {
+    const firstName = formData.firstName?.trim();
+    const lastName = formData.lastName?.trim();
 
-  const { form: formData, delayed, enhance } = form;
+    const firstNameChanged = !!firstName && firstName !== data.user?.firstName;
+    const lastNameChanged = !!lastName && lastName !== data.user?.lastName;
+    const avatarChanged = !!formData.imageFileId;
+
+    if (!firstNameChanged && !lastNameChanged && !avatarChanged) {
+      toast.warning(m.settings.userProfile.edit.noChanges);
+      return;
+    }
+
+    return submit();
+  }
 
   const CONFIRMATION_PHRASE = 'DELETE';
   let deleteConfirmationPhrase = $state('');
   let isDeleteConfirmed = $derived(deleteConfirmationPhrase === CONFIRMATION_PHRASE);
 
   function handleDeleteConfirmationKeydown(event: KeyboardEvent) {
-    if (event.key === 'Enter' && isDeleteConfirmed) {
+    if (event.key === 'Enter') {
       event.preventDefault();
-      toast.info('Mysterious are the ways of the keyboard 🤷 Please click the button for confirmation.');
+      toast.info('Mysterious are the ways of the keyboard. Please click the button for confirmation.');
     }
   }
 </script>
@@ -82,76 +91,50 @@
     </div>
   </div>
 
-  <form id="edit-user-form" method="POST" action="?/edit-user" enctype="multipart/form-data" use:enhance>
-    <Form.Field {form} name="avatarFileId">
-      {#snippet children({ constraints })}
-        <Form.Control>
-          {#snippet children({ props })}
-            <Form.Label>Avatar</Form.Label>
-            <Input
-              type="file"
-              accept="image/*"
-              onchange={uploadAvatar}
-              disabled={imageFileUploader.isUploading}
-              {...props}
-              {...constraints}
-            />
-            <Form.FieldErrors />
-          {/snippet}
-        </Form.Control>
-      {/snippet}
-    </Form.Field>
+  <form {...updateUser.preflight(updateUserSchema).enhance(checkForChanges)} {...useFormValidation(updateUser)}>
+    <input type="hidden" name="imageFileId" value={avatarFileId ?? ''} />
+
+    <Field.Field>
+      <Field.Label>Avatar</Field.Label>
+      <Input type="file" accept="image/*" onchange={uploadAvatar} disabled={imageFileUploader.isUploading} />
+    </Field.Field>
 
     <div class="grid grid-cols-2 gap-4">
-      <div class="grid gap-2">
-        <Form.Field {form} name="firstName">
-          {#snippet children({ constraints })}
-            <Form.Control>
-              {#snippet children({ props })}
-                <Form.Label>First name</Form.Label>
-                <Input
-                  type="text"
-                  autocomplete="given-name"
-                  placeholder={data.user?.firstName}
-                  bind:value={$formData.firstName}
-                  {...props}
-                  {...constraints}
-                />
-                <Form.FieldErrors />
-              {/snippet}
-            </Form.Control>
-          {/snippet}
-        </Form.Field>
+      <div>
+        <Field.Field>
+          <Field.Label>First name</Field.Label>
+          <Input
+            autocomplete="given-name"
+            placeholder={data.user?.firstName}
+            {...updateUser.fields.firstName.as('text')}
+          />
+          <Field.Error errors={updateUser.fields.firstName.issues()} />
+        </Field.Field>
       </div>
 
-      <div class="grid gap-2">
-        <Form.Field {form} name="lastName">
-          {#snippet children({ constraints })}
-            <Form.Control>
-              {#snippet children({ props })}
-                <Form.Label>Last name</Form.Label>
-                <Input
-                  type="text"
-                  autocomplete="family-name"
-                  placeholder={data.user?.lastName}
-                  bind:value={$formData.lastName}
-                  {...props}
-                  {...constraints}
-                />
-                <Form.FieldErrors />
-              {/snippet}
-            </Form.Control>
-          {/snippet}
-        </Form.Field>
+      <div>
+        <Field.Field>
+          <Field.Label>Last name</Field.Label>
+          <Input
+            autocomplete="family-name"
+            placeholder={data.user?.lastName}
+            {...updateUser.fields.lastName.as('text')}
+          />
+          <Field.Error errors={updateUser.fields.lastName.issues()} />
+        </Field.Field>
       </div>
     </div>
 
-    <Form.Button disabled={$delayed} variant="secondary" class="my-2 w-full">
-      {#if $delayed}
+    <button
+      type="submit"
+      disabled={!!updateUser.pending}
+      class={buttonVariants({ variant: 'secondary', class: 'my-2 w-full' })}
+    >
+      {#if updateUser.pending}
         <RotateCw size="16" class="mr-2 animate-spin" />
       {/if}
       Update Profile
-    </Form.Button>
+    </button>
   </form>
 
   {#if imageFileUploader.isFailed}
@@ -175,42 +158,37 @@
       <p class="font-medium">Warning</p>
       <p class="text-sm">Please proceed with caution, this cannot be undone.</p>
     </div>
-    <AlertDialog.Root>
+    <AlertDialog.Root bind:open={deleteDialogOpen}>
       <AlertDialog.Trigger class={buttonVariants({ variant: 'destructive' })}>Delete account</AlertDialog.Trigger>
       <AlertDialog.Content>
-        <AlertDialog.Header>
-          <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
-          <AlertDialog.Description>
-            {m.settings.userProfile.delete.destructiveOperation}
-          </AlertDialog.Description>
-        </AlertDialog.Header>
-        <Input
-          type="text"
-          bind:value={deleteConfirmationPhrase}
-          placeholder={`Type "${CONFIRMATION_PHRASE}" to confirm`}
-          onkeydown={handleDeleteConfirmationKeydown}
-        />
-        <AlertDialog.Footer>
-          <AlertDialog.Cancel>Back to safety</AlertDialog.Cancel>
-          <AlertDialog.Action
-            type="submit"
-            form="delete-user-form"
-            disabled={!isDeleteConfirmed}
-            onclick={() => (isDeleting = true)}
-            class="bg-destructive/90 text-destructive-foreground hover:bg-destructive"
-          >
-            {#if isDeleting}
-              <RotateCw size="16" class="mr-2 animate-spin" />
-            {/if}
-            Continue
-            <form
-              id="delete-user-form"
-              action="?/delete-user"
-              method="POST"
-              class="mx-auto flex w-full flex-col items-center justify-center"
-            ></form>
-          </AlertDialog.Action>
-        </AlertDialog.Footer>
+        <form {...deleteUser.preflight(deleteUserSchema)}>
+          <AlertDialog.Header>
+            <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
+            <AlertDialog.Description>
+              {m.settings.userProfile.delete.destructiveOperation}
+            </AlertDialog.Description>
+          </AlertDialog.Header>
+          <input type="hidden" name="_confirmation" value={deleteConfirmationPhrase} />
+          <Input
+            type="text"
+            bind:value={deleteConfirmationPhrase}
+            placeholder={`Type "${CONFIRMATION_PHRASE}" to confirm`}
+            onkeydown={handleDeleteConfirmationKeydown}
+          />
+          <AlertDialog.Footer>
+            <AlertDialog.Cancel>Back to safety</AlertDialog.Cancel>
+            <button
+              type="submit"
+              disabled={!isDeleteConfirmed || !!deleteUser.pending}
+              class={buttonVariants({ variant: 'destructive' })}
+            >
+              {#if deleteUser.pending}
+                <RotateCw size="16" class="mr-2 animate-spin" />
+              {/if}
+              Continue
+            </button>
+          </AlertDialog.Footer>
+        </form>
       </AlertDialog.Content>
     </AlertDialog.Root>
   </div>

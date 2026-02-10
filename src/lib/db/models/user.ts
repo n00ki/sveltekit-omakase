@@ -1,11 +1,13 @@
 import { integer, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
 
-import { generateNanoId } from '../../utils/helpers/generate';
+import { generateNanoId, generateUUIDv7 } from '../../utils/helpers/generate';
 
 export const User = sqliteTable(
   'user',
   {
-    id: integer().primaryKey({ autoIncrement: true }),
+    id: text()
+      .primaryKey()
+      .$defaultFn(() => generateUUIDv7()),
     publicId: text()
       .$defaultFn(() => generateNanoId())
       .unique(),

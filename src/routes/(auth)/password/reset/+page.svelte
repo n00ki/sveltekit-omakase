@@ -1,75 +1,46 @@
 <script lang="ts">
-  import { superForm } from 'sveltekit-superforms';
-  import { zod4Client } from 'sveltekit-superforms/adapters';
+  import { resetUserPassword } from '$remote/auth.remote';
 
-  import { passwordResetSchema } from '$lib/validations/auth';
+  import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
+  import { resetUserPasswordSchema } from '$lib/validations/auth';
 
+  import { buttonVariants } from '$components/ui/button';
   import * as Card from '$components/ui/card';
-  import * as Form from '$components/ui/form';
+  import * as Field from '$components/ui/field';
   import { Input } from '$components/ui/input';
 
   import { RotateCw } from '@lucide/svelte';
 
   let { data } = $props();
-
-  const form = superForm(data.form, {
-    validators: zod4Client(passwordResetSchema)
-  });
-
-  const { form: formData, enhance, delayed } = form;
 </script>
 
 <Card.Root>
   <Card.Header class="space-y-1">
     <Card.Title class="font-secondary text-xl">Reset Your Password</Card.Title>
-    <Card.Description>Enter a new password for <strong>{$formData.email}</strong></Card.Description>
+    <Card.Description>Enter a new password for <strong>{data.email}</strong></Card.Description>
   </Card.Header>
   <Card.Content class="grid gap-4">
-    <form method="POST" use:enhance>
-      <Input name="token" type="hidden" aria-hidden="true" bind:value={$formData.token} />
+    <form {...resetUserPassword.preflight(resetUserPasswordSchema)} {...useFormValidation(resetUserPassword)}>
+      <input type="hidden" name="token" value={data.token} />
 
-      <Form.Field {form} name="password">
-        {#snippet children({ constraints })}
-          <Form.Control>
-            {#snippet children({ props })}
-              <Form.Label>Password</Form.Label>
-              <Input
-                type="password"
-                autocomplete="new-password"
-                bind:value={$formData.password}
-                {...props}
-                {...constraints}
-              />
-              <Form.FieldErrors />
-            {/snippet}
-          </Form.Control>
-        {/snippet}
-      </Form.Field>
+      <Field.Field>
+        <Field.Label>Password</Field.Label>
+        <Input autocomplete="new-password" {...resetUserPassword.fields._password.as('password')} />
+        <Field.Error errors={resetUserPassword.fields._password.issues()} />
+      </Field.Field>
 
-      <Form.Field {form} name="passwordConfirmation">
-        {#snippet children({ constraints })}
-          <Form.Control>
-            {#snippet children({ props })}
-              <Form.Label>Password Confirmation</Form.Label>
-              <Input
-                type="password"
-                autocomplete="new-password"
-                bind:value={$formData.passwordConfirmation}
-                {...props}
-                {...constraints}
-              />
-              <Form.FieldErrors />
-            {/snippet}
-          </Form.Control>
-        {/snippet}
-      </Form.Field>
+      <Field.Field>
+        <Field.Label>Password Confirmation</Field.Label>
+        <Input autocomplete="new-password" {...resetUserPassword.fields._passwordConfirmation.as('password')} />
+        <Field.Error errors={resetUserPassword.fields._passwordConfirmation.issues()} />
+      </Field.Field>
 
-      <Form.Button disabled={$delayed} class="my-2 w-full">
-        {#if $delayed}
+      <button type="submit" disabled={!!resetUserPassword.pending} class={buttonVariants({ class: 'my-2 w-full' })}>
+        {#if resetUserPassword.pending}
           <RotateCw size="16" class="mr-2 animate-spin" />
         {/if}
         Reset
-      </Form.Button>
+      </button>
     </form>
   </Card.Content>
 </Card.Root>

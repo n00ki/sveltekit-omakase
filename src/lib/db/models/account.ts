@@ -1,9 +1,12 @@
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
+import { generateUUIDv7 } from '../../utils/helpers/generate';
 import { User } from './user';
 
 export const Account = sqliteTable('account', {
-  id: integer().primaryKey({ autoIncrement: true }),
+  id: text()
+    .primaryKey()
+    .$defaultFn(() => generateUUIDv7()),
   accountId: text().notNull(),
   providerId: text().notNull(),
   userId: text()

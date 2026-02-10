@@ -1,10 +1,12 @@
+import type { Handle } from '@sveltejs/kit';
+
 import { building } from '$app/environment';
 
 import { svelteKitHandler } from 'better-auth/svelte-kit';
 
 import { auth } from '$lib/server/auth';
 
-export async function handle({ event, resolve }) {
+export const handle: Handle = async ({ event, resolve }) => {
   const session = await auth.api.getSession(event.request);
   if (session) {
     event.locals.session = session.session;
@@ -12,4 +14,4 @@ export async function handle({ event, resolve }) {
   }
 
   return svelteKitHandler({ event, resolve, auth, building });
-}
+};

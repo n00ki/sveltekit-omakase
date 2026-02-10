@@ -1,5 +1,7 @@
 import { PUBLIC_R2_BUCKET_URL } from '$env/static/public';
 
+import { browser } from '$app/environment';
+
 import { toast } from 'svelte-sonner';
 
 import { validateImageFile } from '$lib/validations/files';
@@ -89,6 +91,11 @@ export class FileUploader {
     uploadDestinationDirectory: string,
     uploadType?: 'avatar'
   ): Promise<UploadResult> {
+    // Ensure we're in the browser
+    if (!browser) {
+      return { errors: ['Upload is only available in the browser'] };
+    }
+
     // Reset state for new upload
     this.reset();
 

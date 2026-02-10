@@ -1,6 +1,6 @@
-import { requireLogin } from '$lib/server/auth';
+import { requireAuth } from '$lib/server/auth';
 
-export async function load() {
-  const { user, session } = requireLogin();
+export function load() {
+  const { user, session } = requireAuth();
   return { user, session };
 }

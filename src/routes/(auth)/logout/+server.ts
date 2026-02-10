@@ -2,11 +2,11 @@ import type { RequestHandler } from '@sveltejs/kit';
 
 import { redirect } from 'sveltekit-flash-message/server';
 
-import { auth, requireLogin } from '$lib/server/auth';
-import * as m from '$lib/utils/messages.json';
+import { auth, requireAuth } from '$lib/server/auth';
+import * as m from '$lib/messages';
 
 export const POST: RequestHandler = async (event) => {
-  requireLogin();
+  requireAuth();
 
   try {
     await auth.api.signOut({

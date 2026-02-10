@@ -1,25 +1,20 @@
 <script lang="ts">
-  import { superForm } from 'sveltekit-superforms';
-  import { zod4Client } from 'sveltekit-superforms/adapters';
+  import { login } from '$remote/auth.remote';
 
+  import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
+  import { useRateLimitCountdown } from '$lib/hooks/use-rate-limit-countdown.svelte';
   import { loginSchema } from '$lib/validations/auth';
 
   import { buttonVariants } from '$components/ui/button';
   import * as Card from '$components/ui/card';
-  import * as Form from '$components/ui/form';
+  import * as Field from '$components/ui/field';
   import { Input } from '$components/ui/input';
 
   import { RotateCw } from '@lucide/svelte';
 
-  let { data } = $props();
-
-  const form = superForm(data.form, {
-    validators: zod4Client(loginSchema)
-  });
-
-  const { form: formData, enhance, delayed } = form;
-
   let isRedirecting = $state(false);
+
+  const emailErrors = useRateLimitCountdown(() => login.fields.email.issues());
 </script>
 
 <Card.Root>
@@ -29,58 +24,37 @@
   </Card.Header>
   <Card.Content>
     <div class="grid gap-4">
-      <form method="POST" use:enhance>
-        <div class="grid gap-2">
-          <Form.Field {form} name="email">
-            {#snippet children({ constraints })}
-              <Form.Control>
-                {#snippet children({ props })}
-                  <Form.Label>Email</Form.Label>
-                  <Input
-                    type="email"
-                    autocapitalize="none"
-                    autocorrect="off"
-                    autocomplete="username"
-                    placeholder="email@example.com"
-                    bind:value={$formData.email}
-                    {...props}
-                    {...constraints}
-                  />
-                  <Form.FieldErrors />
-                {/snippet}
-              </Form.Control>
-            {/snippet}
-          </Form.Field>
+      <form {...login.preflight(loginSchema)} {...useFormValidation(login)}>
+        <div>
+          <Field.Field>
+            <Field.Label>Email</Field.Label>
+            <Input
+              autocapitalize="none"
+              autocorrect="off"
+              autocomplete="username"
+              placeholder="email@example.com"
+              {...login.fields.email.as('email')}
+            />
+            <Field.Error errors={emailErrors()} />
+          </Field.Field>
         </div>
-        <div class="grid gap-2">
-          <Form.Field {form} name="password">
-            {#snippet children({ constraints })}
-              <Form.Control>
-                {#snippet children({ props })}
-                  <div class="flex items-center">
-                    <Form.Label>Password</Form.Label>
-                    <a href="/password" class="ml-auto inline-block text-sm underline"> Forgot your password? </a>
-                  </div>
-                  <Input
-                    type="password"
-                    autocomplete="current-password"
-                    bind:value={$formData.password}
-                    {...props}
-                    {...constraints}
-                  />
-                  <Form.FieldErrors />
-                {/snippet}
-              </Form.Control>
-            {/snippet}
-          </Form.Field>
+        <div>
+          <Field.Field>
+            <div class="flex items-center">
+              <Field.Label>Password</Field.Label>
+              <a href="/password" class="ml-auto inline-block text-sm underline">Forgot your password?</a>
+            </div>
+            <Input autocomplete="current-password" {...login.fields._password.as('password')} />
+            <Field.Error errors={login.fields._password.issues()} />
+          </Field.Field>
         </div>
 
-        <Form.Button disabled={$delayed} class="my-2 w-full">
-          {#if $delayed}
+        <button type="submit" disabled={!!login.pending} class={buttonVariants({ class: 'my-2 w-full' })}>
+          {#if login.pending}
             <RotateCw size="16" class="mr-2 animate-spin" />
           {/if}
           Login
-        </Form.Button>
+        </button>
       </form>
 
       <div class="relative">

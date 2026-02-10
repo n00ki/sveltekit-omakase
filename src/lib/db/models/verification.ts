@@ -1,7 +1,11 @@
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
+import { generateUUIDv7 } from '../../utils/helpers/generate';
+
 export const Verification = sqliteTable('verification', {
-  id: integer().primaryKey({ autoIncrement: true }),
+  id: text()
+    .primaryKey()
+    .$defaultFn(() => generateUUIDv7()),
   identifier: text().notNull(),
   value: text().notNull(),
   expiresAt: integer().notNull(),

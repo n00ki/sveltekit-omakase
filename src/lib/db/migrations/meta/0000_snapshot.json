@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "f216ea04-2046-41a6-ae44-4a3ced40f5e6",
+  "id": "000c49cf-851a-455a-be62-4bf79eb77c25",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "account": {
@@ -9,10 +9,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": true
+          "autoincrement": false
         },
         "account_id": {
           "name": "account_id",
@@ -124,10 +124,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": true
+          "autoincrement": false
         },
         "token": {
           "name": "token",
@@ -212,10 +212,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": true
+          "autoincrement": false
         },
         "public_id": {
           "name": "public_id",
@@ -322,10 +322,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": true
+          "autoincrement": false
         },
         "identifier": {
           "name": "identifier",

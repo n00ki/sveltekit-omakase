@@ -4,10 +4,10 @@
   import metaImage from '$lib/assets/meta_image.png';
 
   interface Props {
-    title: string;
-    description: string;
-    image: string;
-    url: string;
+    title?: string;
+    description?: string;
+    image?: string;
+    url?: string;
   }
 
   let {

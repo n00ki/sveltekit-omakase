@@ -48,7 +48,7 @@ Whether you're a seasoned developer or just starting out, this starter kit is ca
 - [⛵ SailKit](https://sailkit.xyz/)
 - [📬 Resend](https://resend.com/)
 - [⛔ Zod](https://zod.dev/)
-- [📄 SuperForms](https://superforms.rocks/)
+- [🚀 Remote Functions](https://svelte.dev/docs/kit/remote-functions)
 - [🐂 Turso](https://turso.tech/)
 - [📁 Cloudflare R2](https://www.cloudflare.com/r2/)
 - [🪝 Git Hooks](https://github.com/toplenboren/simple-git-hooks)
@@ -82,39 +82,47 @@ bun dev
 ```
 src/
 ├── lib/
-│   ├── assets/                # Static assets used in-app
-│   ├── components/            # Components
-│   │   └── ui/                # Primitive/UI building blocks (shadcn-svelte)
-│   ├── db/                    # DB models, migrations and utils
-│   │   ├── migrations/
-│   │   ├── models/
-│   │   └── clear.ts
-│   ├── hooks/                 # Hooks
+│   ├── assets/                # Static assets (logo, images)
+│   ├── components/            # Svelte components
+│   │   └── ui/                # shadcn-svelte primitives
+│   ├── constants/             # Domain constants and enums
+│   ├── db/
+│   │   ├── models/            # Drizzle schemas (User, Session, etc.)
+│   │   ├── queries/           # Pure data queries
+│   │   └── migrations/        # SQL migrations
+│   ├── hooks/                 # Svelte hooks
+│   ├── mail/                  # Email (Resend + SailKit templates)
+│   ├── messages/              # User-facing messages (i18n)
+│   ├── remote/                # Remote functions (*.remote.ts)
 │   ├── server/                # Server-only code
-│   │   ├── auth.ts            # Auth config
-│   │   ├── database.ts        # DB config
-│   │   └── storage.ts         # Storage config
-│   ├── utils/                 # General utilities
-│   │   ├── helpers/
-│   │   └── mail/              # Email
-│   │       ├── templates/
-│   │       └── mailer.ts
+│   │   ├── auth.ts            # Better-Auth config + helpers
+│   │   ├── database.ts        # Drizzle connection (default export)
+│   │   ├── flash.ts           # Flash message helpers
+│   │   ├── rate-limit.ts      # Rate limit helper
+│   │   └── storage.ts         # R2/S3 client
+│   ├── state/                 # Global state (*.svelte.ts)
+│   ├── utils/                 # Shared utilities
 │   └── validations/           # Zod schemas
-├── routes/                    # Routes
-│   ├── (auth)/                # Auth flows
-│   ├── (app)/                 # Protected application routes
-│   │   ├── dashboard/
-│   │   └── settings/
-│   ├── api/
-│   │   └── upload/            # file upload endpoint
-│   ├── +layout.svelte         # root layout
-│   └── +page.svelte           # landing page
-└── styles/                    # Global styles
+├── routes/
+│   ├── (auth)/                # Auth flows (login, register, password)
+│   ├── (app)/                 # Protected routes (dashboard, settings)
+│   └── api/                   # API endpoints
+└── styles/
+    └── app.css                # Global styles + Tailwind config
+```
+
+### Path Aliases
+
+```typescript
+$components   → src/lib/components
+$models       → src/lib/db/models
+$queries      → src/lib/db/queries
+$remote       → src/lib/remote
 ```
 
 ## Documentation
 
-Comprehensive documentation is in the works. In the meantime, we encourage you to dive into the codebase and explore. Should you encounter any difficulties or have questions, please don't hesitate to reach out. Your contributions towards improving documentation are also welcome!
+Start with `docs/architecture.md` for project structure, rules of the road, remote function patterns, and common commands.
 
 ## Contributing
 

@@ -6,6 +6,10 @@ const config = {
   kit: {
     adapter: adapter(),
 
+    experimental: {
+      remoteFunctions: true
+    },
+
     alias: {
       $components: 'src/lib/components',
       '$components/*': 'src/lib/components/*',
@@ -13,8 +17,17 @@ const config = {
       $models: 'src/lib/db/models',
       '$models/*': 'src/lib/db/models/*',
 
+      $remote: 'src/lib/remote',
+      '$remote/*': 'src/lib/remote/*',
+
       $queries: 'src/lib/db/queries',
       '$queries/*': 'src/lib/db/queries/*'
+    }
+  },
+
+  compilerOptions: {
+    experimental: {
+      async: true
     }
   },
 

@@ -1,6 +1,8 @@
 {
   "general": {
-    "error": "Something went wrong. Please try again."
+    "error": "Something went wrong. Please try again.",
+    "notFound": "The resource you're looking for doesn't exist.",
+    "forbidden": "You don't have permission to perform this action."
   },
   "pages": {
     "notFound": {

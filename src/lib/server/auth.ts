@@ -6,8 +6,8 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { sveltekitCookies } from 'better-auth/svelte-kit';
 
 import { Account, Session, User, Verification } from '$lib/db/models';
+import { Emails, sendEmail } from '$lib/mail/mailer';
 import db from '$lib/server/database';
-import { Emails, sendEmail } from '$lib/utils/mail/mailer';
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -77,22 +77,20 @@ export const auth = betterAuth({
   }
 });
 
-// Export individual types for convenience
 export type User = typeof auth.$Infer.Session.user;
 export type Session = typeof auth.$Infer.Session.session;
 
-export function requireLogin() {
+export function requireAuth() {
   const { locals } = getRequestEvent();
 
-  if (!locals.user) {
-    // Ensure GET to login even if original request was a POST
+  if (!locals.user || !locals.session) {
     redirect(303, '/login');
   }
 
   return { user: locals.user, session: locals.session };
 }
 
-export function redirectIfLoggedIn() {
+export function requireGuest() {
   const { locals } = getRequestEvent();
   if (locals.user) {
     redirect(302, '/dashboard');
