@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { emailSchema, firstNameSchema, lastNameSchema, passwordSchema } from '$lib/validations/shared';
+import { emailSchema, firstNameSchema, lastNameSchema, optionalString, passwordSchema } from '$lib/validations/shared';
 
 export const createUserSchema = z
   .object({
@@ -38,8 +38,8 @@ export const resetUserPasswordSchema = z
 
 export const updateUserSchema = z.object({
   imageFileId: z.string().trim().optional(),
-  firstName: firstNameSchema.optional(),
-  lastName: lastNameSchema.optional()
+  firstName: optionalString.pipe(firstNameSchema.optional()),
+  lastName: optionalString.pipe(lastNameSchema.optional())
 });
 
 export const updateUserPasswordSchema = z

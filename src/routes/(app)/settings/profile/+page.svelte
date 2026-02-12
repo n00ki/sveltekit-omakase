@@ -39,15 +39,17 @@
     }
   }
 
-  async function checkForChanges({
+  async function handleSubmit({
+    form,
     data: formData,
     submit
   }: {
+    form: HTMLFormElement;
     data: { firstName?: string; lastName?: string; imageFileId?: string };
     submit: () => Promise<void>;
   }) {
-    const firstName = formData.firstName?.trim();
-    const lastName = formData.lastName?.trim();
+    const firstName = formData.firstName?.trim() || undefined;
+    const lastName = formData.lastName?.trim() || undefined;
 
     const firstNameChanged = !!firstName && firstName !== data.user?.firstName;
     const lastNameChanged = !!lastName && lastName !== data.user?.lastName;
@@ -58,7 +60,15 @@
       return;
     }
 
-    return submit();
+    await submit();
+
+    form.reset();
+    updateUser.fields.set({
+      firstName: '',
+      lastName: '',
+      imageFileId: ''
+    });
+    avatarFileId = null;
   }
 
   const CONFIRMATION_PHRASE = 'DELETE';
@@ -91,7 +101,7 @@
     </div>
   </div>
 
-  <form {...updateUser.preflight(updateUserSchema).enhance(checkForChanges)} {...useFormValidation(updateUser)}>
+  <form {...updateUser.preflight(updateUserSchema).enhance(handleSubmit)} {...useFormValidation(updateUser)}>
     <input type="hidden" name="imageFileId" value={avatarFileId ?? ''} />
 
     <Field.Field>

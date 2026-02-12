@@ -14,6 +14,11 @@ const normalizeName = (value: string) => {
 
 export const nonEmptyString = z.string().trim().min(1);
 
+export const optionalString = z
+  .string()
+  .optional()
+  .transform((value) => (value?.trim() === '' || value === undefined ? undefined : value.trim()));
+
 export const emailSchema = z
   .email({ error: 'Invalid email address' })
   .trim()

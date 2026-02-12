@@ -13,6 +13,16 @@
   let { data } = $props();
 
   const hasCredential = $derived(data.hasCredentialAccount);
+
+  async function handleSubmit({ form, submit }: { form: HTMLFormElement; submit: () => Promise<void> }) {
+    await submit();
+    form.reset();
+    updateUserPassword.fields.set({
+      _currentPassword: '',
+      _password: '',
+      _passwordConfirmation: ''
+    });
+  }
 </script>
 
 <div class="flex w-full flex-1 flex-col justify-center gap-4">
@@ -23,7 +33,10 @@
     </p>
   </header>
 
-  <form {...updateUserPassword.preflight(updateUserPasswordSchema)} {...useFormValidation(updateUserPassword)}>
+  <form
+    {...updateUserPassword.preflight(updateUserPasswordSchema).enhance(handleSubmit)}
+    {...useFormValidation(updateUserPassword)}
+  >
     {#if hasCredential}
       <div>
         <Field.Field>
