@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { User } from '$lib/server/auth';
 
-  import { getAvatarUrl, getInitials } from '$lib/utils/helpers/display';
+  import { getAvatarUrl, getInitials } from '$lib/utils/display';
 
   import * as Avatar from '$components/ui/avatar';
   import * as DropdownMenu from '$components/ui/dropdown-menu';

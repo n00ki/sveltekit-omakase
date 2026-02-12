@@ -5,7 +5,7 @@
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
   import { imageFileUploader } from '$lib/state/upload-file.svelte';
-  import { getAvatarUrl } from '$lib/utils/helpers/display';
+  import { getAvatarUrl } from '$lib/utils/display';
   import { deleteUserSchema, updateUserSchema } from '$lib/validations/auth';
   import * as m from '$lib/messages';
 

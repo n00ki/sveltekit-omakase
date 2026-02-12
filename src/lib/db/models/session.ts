@@ -1,6 +1,6 @@
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-import { generateUUIDv7 } from '../../utils/helpers/generate';
+import { generateUUIDv7 } from '../../utils/generate';
 import { User } from './user';
 
 export const Session = sqliteTable('session', {

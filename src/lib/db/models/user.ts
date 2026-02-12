@@ -1,6 +1,6 @@
 import { integer, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
 
-import { generateNanoId, generateUUIDv7 } from '../../utils/helpers/generate';
+import { generateNanoId, generateUUIDv7 } from '../../utils/generate';
 
 export const User = sqliteTable(
   'user',
