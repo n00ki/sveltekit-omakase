@@ -13,6 +13,12 @@ import avatarPlaceholder from '$lib/assets/avatar.png';
 export function getAvatarUrl(image: string | null | undefined): string {
   if (!image) return avatarPlaceholder;
 
+  // If it's already a full URL (e.g., from OAuth provider), use it directly
+  if (image.startsWith('http://') || image.startsWith('https://')) {
+    return image;
+  }
+
+  // Otherwise, it's a file ID from our R2 storage
   return `${PUBLIC_R2_BUCKET_URL}/images/avatars/${image}`;
 }
 
