@@ -2,8 +2,8 @@ import { fileURLToPath } from 'node:url';
 import { includeIgnoreFile } from '@eslint/compat';
 import js from '@eslint/js';
 import prettier from 'eslint-config-prettier';
+import checkFile from 'eslint-plugin-check-file';
 import svelte from 'eslint-plugin-svelte';
-import unicorn from 'eslint-plugin-unicorn';
 import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import ts from 'typescript-eslint';
@@ -20,21 +20,21 @@ export default defineConfig([
   prettier,
   ...svelte.configs.prettier,
   {
-    plugins: {
-      unicorn
-    },
     languageOptions: {
       globals: { ...globals.browser, ...globals.node }
     },
     rules: {
-      'no-undef': 'off',
-      'unicorn/filename-case': [
-        'error',
-        {
-          case: 'kebabCase',
-          ignore: ['^\\.[a-z]+rc\\.(js|ts|json)$', '^[A-Z]+\\.(md|txt)$']
-        }
-      ]
+      'no-undef': 'off'
+    }
+  },
+  {
+    files: ['**/*.{js,ts,svelte}'],
+    ignores: ['**/+*', '**/db/migrations/**'],
+    plugins: {
+      'check-file': checkFile
+    },
+    rules: {
+      'check-file/filename-naming-convention': ['error', { '**/*': 'KEBAB_CASE' }, { ignoreMiddleExtensions: true }]
     }
   },
   {
