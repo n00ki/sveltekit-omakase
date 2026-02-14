@@ -1,6 +1,7 @@
 import { getRequestEvent } from '$app/server';
 
 import { redirect } from '@sveltejs/kit';
+import { hasCredentialAccountByUserId, setUserAvatarFromOAuth } from '$queries';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { sveltekitCookies } from 'better-auth/svelte-kit';
@@ -8,6 +9,31 @@ import { sveltekitCookies } from 'better-auth/svelte-kit';
 import { Account, Session, User, Verification } from '$lib/db/models';
 import { Emails, sendEmail } from '$lib/mail/mailer';
 import db from '$lib/server/database';
+
+type GoogleIdTokenPayload = {
+  picture?: string;
+};
+
+function getGoogleAvatarFromIdToken(idToken: string | null | undefined): string | null {
+  if (!idToken) {
+    return null;
+  }
+
+  const payload = idToken.split('.')[1];
+
+  if (!payload) {
+    return null;
+  }
+
+  try {
+    const decodedPayload = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as GoogleIdTokenPayload;
+    return typeof decodedPayload.picture === 'string' && decodedPayload.picture.length > 0
+      ? decodedPayload.picture
+      : null;
+  } catch {
+    return null;
+  }
+}
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -28,6 +54,35 @@ export const auth = betterAuth({
   },
   session: {
     expiresIn: 60 * 60 * 24 * 7 // 7 days
+  },
+  databaseHooks: {
+    account: {
+      create: {
+        after: async (account) => {
+          if (account.providerId !== 'google') {
+            return;
+          }
+
+          const hasCredentialAccount = await hasCredentialAccountByUserId(account.userId);
+
+          if (!hasCredentialAccount) {
+            return;
+          }
+
+          const googleAvatar = getGoogleAvatarFromIdToken(account.idToken);
+
+          if (!googleAvatar) {
+            return;
+          }
+
+          try {
+            await setUserAvatarFromOAuth(account.userId, googleAvatar);
+          } catch (error) {
+            console.error('Failed to sync Google avatar:', error);
+          }
+        }
+      }
+    }
   },
   emailAndPassword: {
     enabled: true,

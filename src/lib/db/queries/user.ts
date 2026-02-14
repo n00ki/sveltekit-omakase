@@ -1,6 +1,6 @@
-import { and, eq } from 'drizzle-orm';
+import { and, eq, isNull, or } from 'drizzle-orm';
 
-import { Account } from '$lib/db/models';
+import { Account, User } from '$lib/db/models';
 import db from '$lib/server/database';
 
 export async function hasCredentialAccountByUserId(userId: string): Promise<boolean> {
@@ -11,4 +11,12 @@ export async function hasCredentialAccountByUserId(userId: string): Promise<bool
     .limit(1);
 
   return credentialAccount.length > 0;
+}
+
+export async function setUserAvatarFromOAuth(userId: string, avatar: string): Promise<void> {
+  await db
+    .update(User)
+    .set({ avatar })
+    // Keep user-selected avatars intact.
+    .where(and(eq(User.id, userId), or(isNull(User.avatar), eq(User.avatar, ''))));
 }
