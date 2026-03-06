@@ -26,6 +26,7 @@ Whether you're a seasoned developer or just starting out, this starter kit is ca
 - [Project Structure](#project-structure)
 - [Documentation](#documentation)
 - [Contributing](#contributing)
+- [License](#license)
 - [Acknowledgments](#acknowledgments)
 
 ## Features
@@ -128,7 +129,13 @@ Start with `docs/architecture.md` for project structure, rules of the road, remo
 
 Contributions are welcome! Please feel free to submit a Pull Request 💪
 
+## License
+
+This project is licensed under the [MIT License](LICENSE). Dependencies are subject to their own licenses.
+
 ## Acknowledgments
+
+This starter kit relies on many open source projects. See [Tech Stack](#tech-stack) for the main technologies used.
 
 Special thanks to these incredible contributors to the open-source community:
 
