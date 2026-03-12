@@ -70,10 +70,10 @@
     "zod": "4.3.6"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1006.0",
-    "@aws-sdk/s3-request-presigner": "^3.1006.0",
+    "@aws-sdk/client-s3": "^3.1007.0",
+    "@aws-sdk/s3-request-presigner": "^3.1007.0",
     "@libsql/client": "^0.17.0",
-    "better-auth": "^1.5.4",
+    "better-auth": "^1.5.5",
     "drizzle-orm": "^0.45.1",
     "mjml": "^4.18.0",
     "nanoid": "^5.1.6",
