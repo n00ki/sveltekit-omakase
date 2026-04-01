@@ -5,7 +5,7 @@
   import {
     Database,
     DoorClosedLocked,
-    Github,
+    FolderGit2,
     HardDrive,
     Mail,
     Paintbrush,
@@ -29,7 +29,7 @@
         variant="outline"
         aria-label="GitHub repository"
       >
-        <Github size="16" />
+        <FolderGit2 size="16" />
       </Button>
     </div>
     <div class="flex items-center gap-2">

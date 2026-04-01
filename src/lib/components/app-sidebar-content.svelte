@@ -5,7 +5,7 @@
 
   import * as Sidebar from '$components/ui/sidebar';
 
-  import { Github } from '@lucide/svelte';
+  import { FolderGit2 } from '@lucide/svelte';
 
   let {
     items
@@ -46,7 +46,7 @@
         <Sidebar.MenuButton size="sm">
           {#snippet child({ props })}
             <a href="https://github.com/n00ki/sveltekit-omakase" target="_blank" rel="noopener noreferrer" {...props}>
-              <Github class="size-4 shrink-0" />
+              <FolderGit2 class="size-4 shrink-0" />
               <span>GitHub</span>
             </a>
           {/snippet}
