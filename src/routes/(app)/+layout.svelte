@@ -76,3 +76,10 @@
     </Sidebar.Inset>
   </Sidebar.Provider>
 {/if}
+
+<style>
+  :global(html),
+  :global(body) {
+    background-color: var(--color-sidebar);
+  }
+</style>
