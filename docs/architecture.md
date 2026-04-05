@@ -8,7 +8,7 @@
 | **Frontend** | Svelte 5, TypeScript, TailwindCSS v4, shadcn-svelte |
 | **Database** | Turso/LibSQL                                        |
 | **Forms**    | Remote Functions, Zod                               |
-| **Email**    | Resend, SailKit                                     |
+| **Email**    | Resend, Better Svelte Email                         |
 | **Storage**  | Cloudflare R2                                       |
 
 ---
@@ -27,7 +27,7 @@ src/
 │   │   ├── queries/           # Pure data queries
 │   │   └── migrations/        # SQL migrations
 │   ├── hooks/                 # Svelte hooks
-│   ├── mail/                  # Email (Resend + SailKit templates)
+│   ├── mail/                  # Email (Resend + Better Svelte Email templates)
 │   ├── messages/              # User-facing messages (i18n)
 │   ├── remote/                # Remote functions (*.remote.ts)
 │   ├── server/                # Server-only code

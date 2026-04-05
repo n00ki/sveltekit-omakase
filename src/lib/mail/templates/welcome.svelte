@@ -1,7 +1,5 @@
 <script lang="ts">
-  import { Body, Column, Head, Html, Section, Text } from 'sailkit';
-
-  import { mailTheme } from './mail-theme';
+  import { Body, Container, Head, Heading, Hr, Html, Preview, Section, Text } from '@better-svelte-email/components';
 
   interface WelcomeEmailProps {
     userFirstName: string;
@@ -11,28 +9,23 @@
 </script>
 
 <Html>
-  <Head
-    subject="🥋 Welcome to SvelteKit Omakase!"
-    preview="We are thrilled to have you onboard. ⭐"
-    theme={mailTheme}
-  />
-  <Body>
-    <Section>
-      <Column>
-        <Text paddingBottom="0px">
-          <h1>Welcome to <span style="color: #f59e0b">SvelteKit Omakase</span></h1>
+  <Head />
+  <Body class="m-0 bg-stone-800 px-4 py-8 font-sans">
+    <Preview preview="We are thrilled to have you onboard. ⭐" />
+    <Container class="max-w-[600px] rounded-3xl bg-slate-100 px-8 py-10">
+      <Section>
+        <Heading as="h1" class="m-0 text-[30px] leading-[1.2] font-bold text-slate-900">
+          Welcome to <span class="text-amber-500">SvelteKit Omakase</span>
+        </Heading>
+        <Text class="mt-6 mb-0 text-base leading-[1.7] text-slate-700">Hey, {userFirstName}!</Text>
+        <Text class="mt-3 mb-0 text-base leading-[1.7] text-slate-700">
+          We're thrilled to have you onboard and can't wait to see what you build.
         </Text>
-        <Text>
-          <p>Hey, {userFirstName}!</p>
-          <p>We're thrilled to have you onboard. ⭐</p>
-        </Text>
-        <Column.Divider />
-        <Text>
-          <p>
-            Need help? we are just an <a href="https://mailto:noams+sko@hey.com">email</a> away.
-          </p>
-        </Text>
-      </Column>
-    </Section>
+        <Hr class="my-8 border-slate-200" />
+        <Text class="m-0 text-sm leading-[1.7] text-slate-600"
+          >Need help? Reply to this email and we'll take a look.</Text
+        >
+      </Section>
+    </Container>
   </Body>
 </Html>

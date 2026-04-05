@@ -3,7 +3,7 @@ import { form } from '$app/server';
 import { error, invalid } from '@sveltejs/kit';
 import { APIError as BetterAuthAPIError } from 'better-auth/api';
 
-import { Emails, sendEmail } from '$lib/mail/mailer';
+import { EMAILS, sendEmail } from '$lib/mail/mailer';
 import { auth, requireGuest } from '$lib/server/auth';
 import { flashAndRedirect } from '$lib/server/flash';
 import { checkRateLimit } from '$lib/server/rate-limit';
@@ -64,7 +64,7 @@ export const createUser = form(createUserSchema, async ({ email, firstName, last
 
   // Send welcome email
   try {
-    await sendEmail(email, Emails.Welcome, {
+    await sendEmail(email, EMAILS.welcome, {
       userFirstName: firstName
     });
   } catch (e) {

@@ -7,12 +7,28 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { sveltekitCookies } from 'better-auth/svelte-kit';
 
 import { Account, Session, User, Verification } from '$lib/db/models';
-import { Emails, sendEmail } from '$lib/mail/mailer';
+import { EMAILS, sendEmail } from '$lib/mail/mailer';
 import db from '$lib/server/database';
 
 type GoogleIdTokenPayload = {
   picture?: string;
 };
+
+function getUserFirstName(user: { firstName?: string | null; name?: string | null }): string {
+  const firstName = user.firstName?.trim();
+
+  if (firstName) {
+    return firstName;
+  }
+
+  const name = user.name?.trim();
+
+  if (!name) {
+    return 'there';
+  }
+
+  return name.split(/\s+/)[0] ?? 'there';
+}
 
 function getGoogleAvatarFromIdToken(idToken: string | null | undefined): string | null {
   if (!idToken) {
@@ -88,8 +104,8 @@ export const auth = betterAuth({
     enabled: true,
     autoSignIn: true,
     sendResetPassword: async ({ user, url }) => {
-      await sendEmail(user?.email, Emails.ResetPassword, {
-        userFirstName: user.name.split(' ')[0],
+      await sendEmail(user?.email, EMAILS.resetPassword, {
+        userFirstName: getUserFirstName(user),
         url
       });
     }

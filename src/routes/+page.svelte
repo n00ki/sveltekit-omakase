@@ -106,13 +106,13 @@
           <span class="font-medium">Better-Auth</span>
         </a>
         <a
-          href="https://sailkit.xyz/"
+          href="https://better-svelte-email.konixy.dev/"
           target="_blank"
           rel="noopener noreferrer"
           class="group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary"
         >
           <Ship size="18" class="text-muted-foreground group-hover:text-orange-400" />
-          <span class="font-medium">SailKit</span>
+          <span class="font-medium">Better Svelte Email</span>
         </a>
         <a
           href="https://resend.com/home"

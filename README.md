@@ -46,7 +46,7 @@ Whether you're a seasoned developer or just starting out, this starter kit is ca
 - [💾 Drizzle ORM](https://orm.drizzle.team/)
 - [💂 Better-Auth](https://www.better-auth.com/)
 - [🎨 shadcn-svelte](https://www.shadcn-svelte.com/)
-- [⛵ SailKit](https://sailkit.xyz/)
+- [✉️ Better Svelte Email](https://better-svelte-email.konixy.dev/)
 - [📬 Resend](https://resend.com/)
 - [⛔ Zod](https://zod.dev/)
 - [🚀 Remote Functions](https://svelte.dev/docs/kit/remote-functions)
@@ -92,7 +92,7 @@ src/
 │   │   ├── queries/           # Pure data queries
 │   │   └── migrations/        # SQL migrations
 │   ├── hooks/                 # Svelte hooks
-│   ├── mail/                  # Email (Resend + SailKit templates)
+│   ├── mail/                  # Email (Resend + Better Svelte Email templates)
 │   ├── messages/              # User-facing messages (i18n)
 │   ├── remote/                # Remote functions (*.remote.ts)
 │   ├── server/                # Server-only code
