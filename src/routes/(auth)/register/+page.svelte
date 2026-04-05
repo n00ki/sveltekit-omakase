@@ -4,6 +4,7 @@
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
   import { createUserSchema } from '$lib/validations/auth';
 
+  import PasswordInput from '$components/password-input.svelte';
   import { buttonVariants } from '$components/ui/button';
   import * as Card from '$components/ui/card';
   import * as Field from '$components/ui/field';
@@ -57,7 +58,7 @@
         <div>
           <Field.Field>
             <Field.Label>Password</Field.Label>
-            <Input autocomplete="new-password" {...createUser.fields._password.as('password')} />
+            <PasswordInput autocomplete="new-password" {...createUser.fields._password.as('password')} />
             <Field.Error errors={createUser.fields._password.issues()} />
           </Field.Field>
         </div>
@@ -65,7 +66,7 @@
         <div>
           <Field.Field>
             <Field.Label>Password Confirmation</Field.Label>
-            <Input autocomplete="new-password" {...createUser.fields._passwordConfirmation.as('password')} />
+            <PasswordInput autocomplete="new-password" {...createUser.fields._passwordConfirmation.as('password')} />
             <Field.Error errors={createUser.fields._passwordConfirmation.issues()} />
           </Field.Field>
         </div>

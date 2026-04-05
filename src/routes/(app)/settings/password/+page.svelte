@@ -4,9 +4,9 @@
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
   import { updateUserPasswordSchema } from '$lib/validations/auth';
 
+  import PasswordInput from '$components/password-input.svelte';
   import { buttonVariants } from '$components/ui/button';
   import * as Field from '$components/ui/field';
-  import { Input } from '$components/ui/input';
 
   import { RotateCw } from '@lucide/svelte';
 
@@ -41,7 +41,7 @@
       <div>
         <Field.Field>
           <Field.Label>Current Password</Field.Label>
-          <Input
+          <PasswordInput
             autocomplete="current-password"
             placeholder="********"
             {...updateUserPassword.fields._currentPassword.as('password')}
@@ -54,7 +54,7 @@
     <div>
       <Field.Field>
         <Field.Label>New Password</Field.Label>
-        <Input
+        <PasswordInput
           autocomplete="new-password"
           placeholder="********"
           {...updateUserPassword.fields._password.as('password')}
@@ -66,7 +66,7 @@
     <div>
       <Field.Field>
         <Field.Label>Confirm Password</Field.Label>
-        <Input
+        <PasswordInput
           autocomplete="new-password"
           placeholder="********"
           {...updateUserPassword.fields._passwordConfirmation.as('password')}

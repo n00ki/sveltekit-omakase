@@ -4,10 +4,10 @@
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
   import { resetUserPasswordSchema } from '$lib/validations/auth';
 
+  import PasswordInput from '$components/password-input.svelte';
   import { buttonVariants } from '$components/ui/button';
   import * as Card from '$components/ui/card';
   import * as Field from '$components/ui/field';
-  import { Input } from '$components/ui/input';
 
   import { RotateCw } from '@lucide/svelte';
 
@@ -25,13 +25,13 @@
 
       <Field.Field>
         <Field.Label>Password</Field.Label>
-        <Input autocomplete="new-password" {...resetUserPassword.fields._password.as('password')} />
+        <PasswordInput autocomplete="new-password" {...resetUserPassword.fields._password.as('password')} />
         <Field.Error errors={resetUserPassword.fields._password.issues()} />
       </Field.Field>
 
       <Field.Field>
         <Field.Label>Password Confirmation</Field.Label>
-        <Input autocomplete="new-password" {...resetUserPassword.fields._passwordConfirmation.as('password')} />
+        <PasswordInput autocomplete="new-password" {...resetUserPassword.fields._passwordConfirmation.as('password')} />
         <Field.Error errors={resetUserPassword.fields._passwordConfirmation.issues()} />
       </Field.Field>
 

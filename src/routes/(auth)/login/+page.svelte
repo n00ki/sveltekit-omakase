@@ -5,6 +5,7 @@
   import { useRateLimitCountdown } from '$lib/hooks/use-rate-limit-countdown.svelte';
   import { loginSchema } from '$lib/validations/auth';
 
+  import PasswordInput from '$components/password-input.svelte';
   import { buttonVariants } from '$components/ui/button';
   import * as Card from '$components/ui/card';
   import * as Field from '$components/ui/field';
@@ -44,7 +45,7 @@
               <Field.Label>Password</Field.Label>
               <a href="/password" class="ml-auto inline-block text-sm underline">Forgot your password?</a>
             </div>
-            <Input autocomplete="current-password" {...login.fields._password.as('password')} />
+            <PasswordInput autocomplete="current-password" {...login.fields._password.as('password')} />
             <Field.Error errors={login.fields._password.issues()} />
           </Field.Field>
         </div>
