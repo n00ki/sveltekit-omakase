@@ -10,7 +10,7 @@
 
 <Html>
   <Head />
-  <Body class="m-0 bg-stone-800 px-4 py-8 font-sans">
+  <Body class="m-0 bg-zinc-800 px-4 py-8 font-sans">
     <Preview preview="We are thrilled to have you onboard. ⭐" />
     <Container class="max-w-[600px] rounded-3xl bg-slate-100 px-8 py-10">
       <Section>
