@@ -46,7 +46,7 @@
   }: {
     form: HTMLFormElement;
     data: { firstName?: string; lastName?: string; imageFileId?: string };
-    submit: () => Promise<void>;
+    submit: () => Promise<boolean>;
   }) {
     const firstName = formData.firstName?.trim() || undefined;
     const lastName = formData.lastName?.trim() || undefined;
@@ -60,7 +60,9 @@
       return;
     }
 
-    await submit();
+    const isSuccessful = await submit();
+
+    if (!isSuccessful) return;
 
     form.reset();
     updateUser.fields.set({

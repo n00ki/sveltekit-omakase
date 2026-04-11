@@ -14,8 +14,11 @@
 
   const hasCredential = $derived(data.hasCredentialAccount);
 
-  async function handleSubmit({ form, submit }: { form: HTMLFormElement; submit: () => Promise<void> }) {
-    await submit();
+  async function handleSubmit({ form, submit }: { form: HTMLFormElement; submit: () => Promise<boolean> }) {
+    const isSuccessful = await submit();
+
+    if (!isSuccessful) return;
+
     form.reset();
     updateUserPassword.fields.set({
       _currentPassword: '',
