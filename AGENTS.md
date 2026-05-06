@@ -87,7 +87,7 @@ This validates on focusout, then re-validates on input while errors exist.
 ## Testing guidance
 
 - Name tests by user value, not implementation.
-- Run `bun run fix` and relevant tests when asked.
+- Run `pnpm fix` and relevant tests when asked.
 
 ---
 

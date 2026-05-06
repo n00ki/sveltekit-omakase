@@ -63,19 +63,18 @@ Whether you're a seasoned developer or just starting out, this starter kit is ca
 git clone https://github.com/n00ki/sveltekit-omakase.git my-app
 cd my-app
 
-# Install dependencies using your preferred package manager
-bun install
-# or: npm/pnpm/yarn install
+# Install dependencies with pnpm, or use your preferred package manager
+pnpm install
 
 # Setup environment variables
 cp .env.example .env
 # Edit .env with your configuration
 
 # Initialize the database locally
-bun db:push
+pnpm db:push
 
 # Start the development server
-bun dev
+pnpm dev
 ```
 
 ## Project Structure

@@ -223,15 +223,15 @@ export const loginSchema = z.object({
 ## Commands
 
 ```bash
-bun run dev          # Dev server
-bun run build        # Production build
-bun run fix          # Format & lint fix
+pnpm dev          # Dev server
+pnpm build        # Production build
+pnpm fix          # Format & lint fix
 
-bun run db:push      # Push schema
-bun run db:studio    # Drizzle Studio
+pnpm db:push      # Push schema
+pnpm db:studio    # Drizzle Studio
 
-bun run test:unit    # Unit tests
-bun run test:e2e     # E2E tests
+pnpm test:unit    # Unit tests
+pnpm test:e2e     # E2E tests
 ```
 
 ---
