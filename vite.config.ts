@@ -2,11 +2,14 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [tailwindcss(), sveltekit()],
-  ssr: {
-    noExternal: ['postcss', 'nanoid']
-  },
+  ssr:
+    command === 'build'
+      ? {
+          noExternal: ['postcss', 'nanoid']
+        }
+      : undefined,
   test: {
     expect: { requireAssertions: true },
     projects: [
@@ -21,4 +24,4 @@ export default defineConfig({
       }
     ]
   }
-});
+}));
