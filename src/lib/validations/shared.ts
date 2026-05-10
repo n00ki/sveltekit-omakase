@@ -7,9 +7,17 @@ export const MAX_PASSWORD_LENGTH = 32;
 export const MAX_SLUG_LENGTH = 50;
 export const MAX_MESSAGE_LENGTH = 200;
 
-const normalizeName = (value: string) => {
+const normalizeNameSpacing = (value: string): string => {
+  return value.trim().replace(/\s+/g, ' ');
+};
+
+const normalizeName = (value: string): string => {
   if (!value) return value;
-  return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+
+  return value
+    .split(' ')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+    .join(' ');
 };
 
 export const nonEmptyString = z.string().trim().min(1);
@@ -28,18 +36,30 @@ export const emailSchema = z
 
 export const firstNameSchema = z
   .string()
-  .trim()
-  .min(1, { error: 'First name is required' })
-  .regex(/^[a-zA-Z\s]*$/, { error: 'First name can only contain english letters' })
-  .max(MAX_NAME_LENGTH, { error: 'First name must be less than 64 characters' })
+  .transform(normalizeNameSpacing)
+  .pipe(
+    z
+      .string()
+      .min(1, { error: 'First name is required' })
+      .regex(/^[a-zA-Z]+(?: [a-zA-Z]+)*$/, {
+        error: 'First name can only contain english letters and spaces'
+      })
+      .max(MAX_NAME_LENGTH, { error: 'First name must be less than 64 characters' })
+  )
   .transform(normalizeName);
 
 export const lastNameSchema = z
   .string()
-  .trim()
-  .min(1, { error: 'Last name is required' })
-  .regex(/^[a-zA-Z\s]*$/, { error: 'Last name can only contain english letters' })
-  .max(MAX_NAME_LENGTH, { error: 'Last name must be less than 64 characters' })
+  .transform(normalizeNameSpacing)
+  .pipe(
+    z
+      .string()
+      .min(1, { error: 'Last name is required' })
+      .regex(/^[a-zA-Z]+(?: [a-zA-Z]+)*$/, {
+        error: 'Last name can only contain english letters and spaces'
+      })
+      .max(MAX_NAME_LENGTH, { error: 'Last name must be less than 64 characters' })
+  )
   .transform(normalizeName);
 
 export const passwordSchema = z
