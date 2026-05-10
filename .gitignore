@@ -8,6 +8,7 @@ Thumbs.db
 # Node.js dependencies
 # -------------------------
 node_modules/
+.pnpm-store/
 
 # -------------------------
 # Package manager lockfiles
