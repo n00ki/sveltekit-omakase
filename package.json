@@ -76,7 +76,6 @@
     "@libsql/client": "^0.17.2",
     "better-auth": "^1.6.10",
     "drizzle-orm": "^0.45.2",
-    "nanoid": "^5.1.7",
     "resend": "^6.10.0",
     "uuid": "^14.0.0"
   },
