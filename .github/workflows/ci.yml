@@ -7,8 +7,8 @@ on:
     branches: [main]
 
 env:
-  NODE_VERSION: '24'
-  PNPM_VERSION: '10.33.0'
+  NODE_VERSION: 'lts/*'
+  PNPM_VERSION: '10'
 
 jobs:
   quality:
