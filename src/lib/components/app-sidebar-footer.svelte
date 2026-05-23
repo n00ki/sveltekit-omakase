@@ -1,7 +1,8 @@
 <script lang="ts">
   import type { User } from '$lib/server/auth';
 
-  import { getAvatarUrl, getInitials } from '$lib/utils/display';
+  import { getAvatarUrl } from '$lib/utils/display';
+  import { getInitials } from '$lib/utils/name';
 
   import * as Avatar from '$components/ui/avatar';
   import * as DropdownMenu from '$components/ui/dropdown-menu';
@@ -34,10 +35,10 @@
           >
             <Avatar.Root class="size-8 rounded-lg">
               {#if user.avatar}
-                <Avatar.Image src={getAvatarUrl(user.avatar)} alt={`${user.firstName} ${user.lastName}`} />
+                <Avatar.Image src={getAvatarUrl(user.avatar)} alt={user.name} />
               {:else}
                 <Avatar.Fallback class="rounded-lg">
-                  {getInitials(user.firstName, user.lastName)}
+                  {getInitials(user.name)}
                 </Avatar.Fallback>
               {/if}
             </Avatar.Root>
@@ -59,15 +60,15 @@
           <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
             <Avatar.Root class="size-8 rounded-lg">
               {#if user.avatar}
-                <Avatar.Image src={getAvatarUrl(user.avatar)} alt={`${user.firstName} ${user.lastName}`} />
+                <Avatar.Image src={getAvatarUrl(user.avatar)} alt={user.name} />
               {:else}
                 <Avatar.Fallback class="rounded-lg">
-                  {getInitials(user.firstName, user.lastName)}
+                  {getInitials(user.name)}
                 </Avatar.Fallback>
               {/if}
             </Avatar.Root>
             <div class="grid flex-1 text-left text-sm leading-tight">
-              <span class="truncate font-semibold">{`${user.firstName} ${user.lastName}`}</span>
+              <span class="truncate font-semibold">{user.name}</span>
               <span class="truncate text-xs">{user.email}</span>
             </div>
           </div>

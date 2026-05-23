@@ -23,22 +23,12 @@
   <Card.Content>
     <div class="grid gap-4">
       <form {...createUser.preflight(createUserSchema)} {...useFormValidation(createUser)}>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <Field.Field>
-              <Field.Label>First name</Field.Label>
-              <Input autocomplete="given-name" placeholder="Frank" {...createUser.fields.firstName.as('text')} />
-              <Field.Error errors={createUser.fields.firstName.issues()} />
-            </Field.Field>
-          </div>
-
-          <div>
-            <Field.Field>
-              <Field.Label>Last name</Field.Label>
-              <Input autocomplete="family-name" placeholder="Sinatra" {...createUser.fields.lastName.as('text')} />
-              <Field.Error errors={createUser.fields.lastName.issues()} />
-            </Field.Field>
-          </div>
+        <div>
+          <Field.Field>
+            <Field.Label>Name</Field.Label>
+            <Input autocomplete="name" placeholder="Ada Lovelace" {...createUser.fields.name.as('text')} />
+            <Field.Error errors={createUser.fields.name.issues()} />
+          </Field.Field>
         </div>
 
         <div>

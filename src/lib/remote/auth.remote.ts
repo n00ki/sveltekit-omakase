@@ -38,7 +38,7 @@ export const login = form(loginSchema, async ({ email, _password }, issue) => {
   flashAndRedirect('/dashboard', 'success', m.auth.login.success);
 });
 
-export const createUser = form(createUserSchema, async ({ email, firstName, lastName, _password }, issue) => {
+export const createUser = form(createUserSchema, async ({ email, name, _password }, issue) => {
   requireGuest();
   await checkRateLimit(issue.email);
 
@@ -46,9 +46,7 @@ export const createUser = form(createUserSchema, async ({ email, firstName, last
     await auth.api.signUpEmail({
       body: {
         email,
-        firstName,
-        lastName,
-        name: `${firstName} ${lastName}`,
+        name,
         password: _password,
         avatar: ''
       }
@@ -65,7 +63,7 @@ export const createUser = form(createUserSchema, async ({ email, firstName, last
   // Send welcome email
   try {
     await sendEmail(email, EMAILS.welcome, {
-      userFirstName: firstName
+      userName: name
     });
   } catch (e) {
     console.error('Failed to send welcome email:', e);

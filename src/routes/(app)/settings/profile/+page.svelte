@@ -6,6 +6,7 @@
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
   import { imageFileUploader } from '$lib/state/upload-file.svelte';
   import { getAvatarUrl } from '$lib/utils/display';
+  import { normalizeFullName } from '$lib/utils/name';
   import { deleteUserSchema, updateUserSchema } from '$lib/validations/auth';
   import * as m from '$lib/messages';
 
@@ -25,17 +26,15 @@
   let userAvatarPreview = $derived(getAvatarUrl(data.user?.avatar));
   let deleteDialogOpen = $state(false);
 
-  async function uploadAvatar(event: Event) {
+  async function uploadAvatar(event: Event): Promise<void> {
     const avatarInputField: HTMLInputElement = event.target as HTMLInputElement;
     if (!avatarInputField.files) return;
 
     const upload = await imageFileUploader.upload(avatarInputField, 'images/avatars', 'avatar');
 
-    if (upload) {
-      if (!upload.errors && upload.fileId && upload.previewUrl) {
-        avatarFileId = upload.fileId;
-        userAvatarPreview = upload.previewUrl;
-      }
+    if (!upload.errors && upload.fileId && upload.previewUrl) {
+      avatarFileId = upload.fileId;
+      userAvatarPreview = upload.previewUrl;
     }
   }
 
@@ -45,17 +44,15 @@
     submit
   }: {
     form: HTMLFormElement;
-    data: { firstName?: string; lastName?: string; imageFileId?: string };
+    data: { name?: string; imageFileId?: string };
     submit: () => Promise<boolean>;
-  }) {
-    const firstName = formData.firstName?.trim() || undefined;
-    const lastName = formData.lastName?.trim() || undefined;
+  }): Promise<void> {
+    const name = formData.name ? normalizeFullName(formData.name) || undefined : undefined;
 
-    const firstNameChanged = !!firstName && firstName !== data.user?.firstName;
-    const lastNameChanged = !!lastName && lastName !== data.user?.lastName;
+    const nameChanged = !!name && name !== data.user?.name;
     const avatarChanged = !!formData.imageFileId;
 
-    if (!firstNameChanged && !lastNameChanged && !avatarChanged) {
+    if (!nameChanged && !avatarChanged) {
       toast.warning(m.settings.userProfile.edit.noChanges);
       return;
     }
@@ -66,8 +63,7 @@
 
     form.reset();
     updateUser.fields.set({
-      firstName: '',
-      lastName: '',
+      name: '',
       imageFileId: ''
     });
     avatarFileId = null;
@@ -111,31 +107,11 @@
       <Input type="file" accept="image/*" onchange={uploadAvatar} disabled={imageFileUploader.isUploading} />
     </Field.Field>
 
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <Field.Field>
-          <Field.Label>First name</Field.Label>
-          <Input
-            autocomplete="given-name"
-            placeholder={data.user?.firstName}
-            {...updateUser.fields.firstName.as('text')}
-          />
-          <Field.Error errors={updateUser.fields.firstName.issues()} />
-        </Field.Field>
-      </div>
-
-      <div>
-        <Field.Field>
-          <Field.Label>Last name</Field.Label>
-          <Input
-            autocomplete="family-name"
-            placeholder={data.user?.lastName}
-            {...updateUser.fields.lastName.as('text')}
-          />
-          <Field.Error errors={updateUser.fields.lastName.issues()} />
-        </Field.Field>
-      </div>
-    </div>
+    <Field.Field>
+      <Field.Label>Name</Field.Label>
+      <Input autocomplete="name" placeholder={data.user?.name} {...updateUser.fields.name.as('text')} />
+      <Field.Error errors={updateUser.fields.name.issues()} />
+    </Field.Field>
 
     <button
       type="submit"

@@ -9,25 +9,19 @@ import { sveltekitCookies } from 'better-auth/svelte-kit';
 import { Account, Session, User, Verification } from '$lib/db/models';
 import { EMAILS, sendEmail } from '$lib/mail/mailer';
 import db from '$lib/server/database';
+import { normalizeFullName } from '$lib/utils/name';
 
 type GoogleIdTokenPayload = {
   picture?: string;
 };
 
-function getUserFirstName(user: { firstName?: string | null; name?: string | null }): string {
-  const firstName = user.firstName?.trim();
-
-  if (firstName) {
-    return firstName;
-  }
-
-  const name = user.name?.trim();
-
-  if (!name) {
-    return 'there';
-  }
-
-  return name.split(/\s+/)[0] ?? 'there';
+function getGoogleProfileName(profile: {
+  name?: string | null;
+  given_name?: string | null;
+  family_name?: string | null;
+}): string {
+  const name = normalizeFullName(profile.name ?? [profile.given_name, profile.family_name].filter(Boolean).join(' '));
+  return name || 'User';
 }
 
 function getGoogleAvatarFromIdToken(idToken: string | null | undefined): string | null {
@@ -105,7 +99,7 @@ export const auth = betterAuth({
     autoSignIn: true,
     sendResetPassword: async ({ user, url }) => {
       await sendEmail(user?.email, EMAILS.resetPassword, {
-        userFirstName: getUserFirstName(user),
+        userName: user?.name ?? 'there',
         url
       });
     }
@@ -118,8 +112,7 @@ export const auth = betterAuth({
       overrideUserInfoOnSignIn: false,
       mapProfileToUser: (profile) => {
         return {
-          firstName: profile.given_name,
-          lastName: profile.family_name
+          name: getGoogleProfileName(profile)
         };
       }
     }
@@ -131,12 +124,6 @@ export const auth = betterAuth({
         unique: true,
         index: true,
         input: false
-      },
-      firstName: {
-        type: 'string'
-      },
-      lastName: {
-        type: 'string'
       },
       avatar: {
         type: 'string'

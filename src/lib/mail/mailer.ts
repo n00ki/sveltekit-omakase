@@ -7,6 +7,8 @@ import { dev } from '$app/environment';
 import { Renderer, toPlainText } from '@better-svelte-email/server';
 import { Resend } from 'resend';
 
+import { getFirstName } from '$lib/utils/name';
+
 import ResetPasswordTemplate from './templates/reset-password.svelte';
 import WelcomeTemplate from './templates/welcome.svelte';
 
@@ -19,10 +21,10 @@ export type EmailName = (typeof EMAILS)[keyof typeof EMAILS];
 
 type EmailData = {
   welcome: {
-    userFirstName: string;
+    userName: string;
   };
   resetPassword: {
-    userFirstName: string;
+    userName: string;
     url: string;
   };
 };
@@ -44,8 +46,8 @@ const emailTemplates: EmailTemplates = {
     component: WelcomeTemplate as Component,
     subject: '🥋 Welcome to SvelteKit Omakase!',
     validate: (data: EmailData['welcome']) => {
-      if (!data.userFirstName.trim()) {
-        throw new Error('Missing required property for Welcome template: userFirstName');
+      if (!getFirstName(data.userName)) {
+        throw new Error('Missing required property for Welcome template: userName');
       }
     }
   },
@@ -53,8 +55,8 @@ const emailTemplates: EmailTemplates = {
     component: ResetPasswordTemplate as Component,
     subject: '🔒 Reset Your Password',
     validate: (data: EmailData['resetPassword']) => {
-      if (!data.userFirstName.trim() || !data.url.trim()) {
-        throw new Error('Missing required properties for ResetPassword template: userFirstName, url');
+      if (!getFirstName(data.userName) || !data.url.trim()) {
+        throw new Error('Missing required properties for ResetPassword template: userName, url');
       }
     }
   }
@@ -85,8 +87,13 @@ export const sendEmail = async <T extends EmailName>(
   try {
     template.validate(data);
 
+    const templateData = {
+      ...data,
+      userFirstName: getFirstName(data.userName)
+    };
+
     const html = await renderer.render(template.component, {
-      props: data
+      props: templateData
     });
     const text = toPlainText(html);
 

@@ -14,28 +14,21 @@ export const hasCredentialAccount = query(async () => {
   return hasCredentialAccountByUserId(user.id);
 });
 
-export const updateUser = form(updateUserSchema, async ({ imageFileId, firstName, lastName }) => {
-  const { user } = requireAuth();
+export const updateUser = form(updateUserSchema, async ({ imageFileId, name }) => {
+  requireAuth();
 
   const { request } = getRequestEvent();
 
-  if (!imageFileId && !firstName && !lastName) {
+  if (!imageFileId && !name) {
     flash('warning', m.settings.userProfile.edit.noChanges);
     return;
   }
 
   try {
-    // Build the name from first and last name, using current values as fallback
-    const updatedFirstName = firstName || user.firstName || '';
-    const updatedLastName = lastName || user.lastName || '';
-    const updatedName = `${updatedFirstName} ${updatedLastName}`.trim();
-
     await auth.api.updateUser({
       body: {
         ...(imageFileId && { avatar: imageFileId }),
-        ...(firstName && { firstName }),
-        ...(lastName && { lastName }),
-        ...(updatedName && { name: updatedName })
+        ...(name && { name })
       },
       headers: request.headers
     });

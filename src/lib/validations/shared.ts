@@ -1,24 +1,15 @@
 import { z } from 'zod';
 
+import { normalizeFullName } from '$lib/utils/name';
+
 export const MAX_EMAIL_LENGTH = 64;
-export const MAX_NAME_LENGTH = 64;
+export const MAX_NAME_LENGTH = 128;
 export const MIN_PASSWORD_LENGTH = 8;
 export const MAX_PASSWORD_LENGTH = 32;
 export const MAX_SLUG_LENGTH = 50;
 export const MAX_MESSAGE_LENGTH = 200;
 
-const normalizeNameSpacing = (value: string): string => {
-  return value.trim().replace(/\s+/g, ' ');
-};
-
-const normalizeName = (value: string): string => {
-  if (!value) return value;
-
-  return value
-    .split(' ')
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
-    .join(' ');
-};
+const NAME_PATTERN = /^\p{L}[\p{L}\p{M}]*(?:[ -]\p{L}[\p{L}\p{M}]*)*$/u;
 
 export const nonEmptyString = z.string().trim().min(1);
 
@@ -34,33 +25,18 @@ export const emailSchema = z
   .refine((value) => !value.includes('test'), { error: 'Test emails are not allowed' })
   .refine((value) => !value.includes('+'), { error: 'Email address tagging is not allowed' });
 
-export const firstNameSchema = z
+export const nameSchema = z
   .string()
-  .transform(normalizeNameSpacing)
+  .transform(normalizeFullName)
   .pipe(
     z
       .string()
-      .min(1, { error: 'First name is required' })
-      .regex(/^[a-zA-Z]+(?: [a-zA-Z]+)*$/, {
-        error: 'First name can only contain english letters and spaces'
+      .min(1, { error: 'Name is required' })
+      .regex(NAME_PATTERN, {
+        error: 'Name can only contain letters, spaces, or hyphens'
       })
-      .max(MAX_NAME_LENGTH, { error: 'First name must be less than 64 characters' })
-  )
-  .transform(normalizeName);
-
-export const lastNameSchema = z
-  .string()
-  .transform(normalizeNameSpacing)
-  .pipe(
-    z
-      .string()
-      .min(1, { error: 'Last name is required' })
-      .regex(/^[a-zA-Z]+(?: [a-zA-Z]+)*$/, {
-        error: 'Last name can only contain english letters and spaces'
-      })
-      .max(MAX_NAME_LENGTH, { error: 'Last name must be less than 64 characters' })
-  )
-  .transform(normalizeName);
+      .max(MAX_NAME_LENGTH, { error: 'Name must be less than 128 characters' })
+  );
 
 export const passwordSchema = z
   .string()

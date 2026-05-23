@@ -33,8 +33,6 @@ CREATE TABLE `user` (
 	`public_id` text,
 	`email` text NOT NULL,
 	`email_verified` integer DEFAULT false NOT NULL,
-	`first_name` text NOT NULL,
-	`last_name` text NOT NULL,
 	`name` text NOT NULL,
 	`avatar` text,
 	`image` text,
