@@ -5,86 +5,97 @@
   import { useRateLimitCountdown } from '$lib/hooks/use-rate-limit-countdown.svelte';
   import { loginSchema } from '$lib/validations/auth';
 
+  import GoogleIcon from '$components/google-icon.svelte';
   import PasswordInput from '$components/password-input.svelte';
   import { buttonVariants } from '$components/ui/button';
-  import * as Card from '$components/ui/card';
   import * as Field from '$components/ui/field';
   import { Input } from '$components/ui/input';
 
-  import { RotateCw } from '@lucide/svelte';
+  import { ArrowRight, RotateCw } from '@lucide/svelte';
 
   let isRedirecting = $state(false);
 
   const emailErrors = useRateLimitCountdown(() => login.fields.email.issues());
 </script>
 
-<Card.Root>
-  <Card.Header>
-    <Card.Title class="font-secondary text-xl">Login</Card.Title>
-    <Card.Description>Enter your email and password below to log in</Card.Description>
-  </Card.Header>
-  <Card.Content>
-    <div class="grid gap-4">
-      <form {...login.preflight(loginSchema)} {...useFormValidation(login)}>
-        <div>
-          <Field.Field>
-            <Field.Label>Email</Field.Label>
-            <Input
-              autocapitalize="none"
-              autocorrect="off"
-              autocomplete="username"
-              placeholder="email@example.com"
-              {...login.fields.email.as('email')}
-            />
-            <Field.Error errors={emailErrors()} />
-          </Field.Field>
-        </div>
-        <div>
-          <Field.Field>
-            <div class="flex items-center">
-              <Field.Label>Password</Field.Label>
-              <a href="/password" class="ml-auto inline-block text-sm underline">Forgot your password?</a>
-            </div>
-            <PasswordInput autocomplete="current-password" {...login.fields._password.as('password')} />
-            <Field.Error errors={login.fields._password.issues()} />
-          </Field.Field>
-        </div>
+<section class="space-y-6">
+  <header class="space-y-1.5">
+    <h1 class="font-secondary text-[26px] leading-tight font-semibold tracking-tight">Welcome back</h1>
+    <p class="text-sm text-muted-foreground">Enter your email and password below to log in.</p>
+  </header>
 
-        <button type="submit" disabled={!!login.pending} class={buttonVariants({ class: 'my-2 w-full' })}>
-          {#if login.pending}
-            <RotateCw size="16" class="mr-2 animate-spin" />
-          {/if}
-          Login
-        </button>
-      </form>
+  <form {...login.preflight(loginSchema)} {...useFormValidation(login)} class="space-y-4!">
+    <Field.Field class="gap-1.5">
+      <Field.Label class="text-xs font-medium tracking-tight text-muted-foreground">Email</Field.Label>
+      <Input
+        autocapitalize="none"
+        autocorrect="off"
+        autocomplete="username"
+        placeholder="you@example.com"
+        class="h-10 bg-background text-sm dark:bg-background"
+        {...login.fields.email.as('email')}
+      />
+      <Field.Error errors={emailErrors()} />
+    </Field.Field>
 
-      <div class="relative">
-        <div class="absolute inset-0 flex items-center">
-          <span class="w-full border-t transition-colors"></span>
-        </div>
-        <div class="relative flex justify-center text-xs uppercase">
-          <span class="bg-background px-2 text-muted-foreground transition-colors"> Or continue with </span>
-        </div>
+    <Field.Field class="gap-1.5">
+      <div class="flex items-baseline justify-between">
+        <Field.Label class="text-xs font-medium tracking-tight text-muted-foreground">Password</Field.Label>
+        <a
+          href="/password"
+          class="text-xs text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
+        >
+          Forgot password?
+        </a>
       </div>
-      <a
-        class={buttonVariants({
-          variant: 'outline',
-          class: isRedirecting ? 'pointer-events-none cursor-not-allowed opacity-50' : ''
-        })}
-        onclick={() => (isRedirecting = true)}
-        href="/login/google"
-        data-sveltekit-reload
-      >
-        {#if isRedirecting}
-          <RotateCw size="16" class="mr-2 animate-spin" />
-        {/if}
-        Google
-      </a>
-    </div>
+      <PasswordInput
+        autocomplete="current-password"
+        class="h-10 bg-background text-sm dark:bg-background"
+        {...login.fields._password.as('password')}
+      />
+      <Field.Error errors={login.fields._password.issues()} />
+    </Field.Field>
 
-    <div class="mt-4 text-center text-sm">
-      Don&apos;t have an account?
-      <a href="/register" class="underline"> Sign up </a>
-    </div>
-  </Card.Content>
-</Card.Root>
+    <button
+      type="submit"
+      disabled={!!login.pending}
+      class={buttonVariants({ class: 'group mt-1 h-10 w-full gap-1.5' })}
+    >
+      {#if login.pending}
+        <RotateCw size="14" class="animate-spin" />
+        Signing in
+      {:else}
+        Sign in
+        <ArrowRight size="14" class="transition-transform group-hover:translate-x-0.5" />
+      {/if}
+    </button>
+  </form>
+
+  <div class="flex items-center gap-3 text-[11px] tracking-tight text-muted-foreground uppercase">
+    <span class="h-px flex-1 bg-border"></span>
+    <span>or</span>
+    <span class="h-px flex-1 bg-border"></span>
+  </div>
+
+  <a
+    class={buttonVariants({
+      variant: 'outline',
+      class: ['h-10 w-full gap-2.5', isRedirecting && 'pointer-events-none cursor-not-allowed opacity-50']
+    })}
+    onclick={() => (isRedirecting = true)}
+    href="/login/google"
+    data-sveltekit-reload
+  >
+    {#if isRedirecting}
+      <RotateCw size="14" class="animate-spin" />
+    {:else}
+      <GoogleIcon />
+    {/if}
+    Continue with Google
+  </a>
+
+  <p class="text-center text-sm text-muted-foreground">
+    Don't have an account?
+    <a href="/register" class="font-medium text-foreground underline-offset-4 hover:underline">Sign up</a>
+  </p>
+</section>

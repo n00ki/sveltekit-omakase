@@ -3,6 +3,8 @@
   import type { Snippet } from 'svelte';
   import type { HTMLAttributes } from 'svelte/elements';
 
+  import AlertCircleIcon from '@lucide/svelte/icons/alert-circle';
+
   import { cn } from '$lib/utils/utils.js';
 
   let {
@@ -16,23 +18,8 @@
     errors?: { message?: string }[];
   } = $props();
 
-  const hasContent = $derived.by(() => {
-    // has slotted error
-    if (children) return true;
-
-    // no errors
-    if (!errors || errors.length === 0) return false;
-
-    // has an error but no message
-    if (errors.length === 1 && !errors[0]?.message) {
-      return false;
-    }
-
-    return true;
-  });
-
-  const isMultipleErrors = $derived(errors && errors.length > 1);
-  const singleErrorMessage = $derived(errors && errors.length === 1 && errors[0]?.message);
+  const messages = $derived((errors ?? []).map((error) => error?.message).filter((m): m is string => !!m));
+  const hasContent = $derived(!!children || messages.length > 0);
 </script>
 
 {#if hasContent}
@@ -40,21 +27,18 @@
     bind:this={ref}
     role="alert"
     data-slot="field-error"
-    class={cn('text-sm font-normal text-destructive', className)}
+    class={cn('flex flex-col gap-1 text-xs leading-snug tracking-tight text-destructive/90', className)}
     {...restProps}
   >
     {#if children}
       {@render children()}
-    {:else if singleErrorMessage}
-      {singleErrorMessage}
-    {:else if isMultipleErrors}
-      <ul class="ms-4 flex list-disc flex-col gap-1">
-        {#each errors ?? [] as error, index (index)}
-          {#if error?.message}
-            <li>{error.message}</li>
-          {/if}
-        {/each}
-      </ul>
+    {:else}
+      {#each messages as message, index (index)}
+        <div class="flex items-start gap-1.5">
+          <AlertCircleIcon class="mt-px size-3 shrink-0" aria-hidden="true" />
+          <span>{message}</span>
+        </div>
+      {/each}
     {/if}
   </div>
 {/if}

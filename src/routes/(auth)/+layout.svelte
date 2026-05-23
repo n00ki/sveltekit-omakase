@@ -1,6 +1,5 @@
 <script lang="ts">
   import ThemeSwitch from '$components/theme-switch.svelte';
-  import { Button } from '$components/ui/button';
 
   interface Props {
     children?: import('svelte').Snippet;
@@ -9,20 +8,24 @@
   let { children }: Props = $props();
 </script>
 
-<nav class="fixed w-full p-2">
-  <div>
-    <Button href="/" variant="ghost" class="font-secondary text-lg font-semibold">SvelteKit Omakase</Button>
-  </div>
-</nav>
+<div class="relative isolate min-h-screen overflow-hidden bg-background">
+  <div
+    class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,var(--color-accent),transparent_75%)] opacity-60"
+    aria-hidden="true"
+  ></div>
+  <div
+    class="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] [background-size:56px_56px] opacity-[0.28] [mask-image:radial-gradient(ellipse_at_center,black_25%,transparent_70%)]"
+    aria-hidden="true"
+  ></div>
 
-<div class="flex min-h-screen items-center justify-center">
-  <div class="w-full px-2 md:px-0">
-    <div class="mx-auto max-w-lg rounded-2xl border bg-accent/30 p-1.5 outline-none">
+  <header class="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-6 py-5 md:px-8">
+    <a href="/" class="font-secondary text-sm font-semibold tracking-tight">SvelteKit Omakase</a>
+    <ThemeSwitch />
+  </header>
+
+  <main class="flex min-h-screen items-center justify-center px-6 py-24">
+    <div class="w-full max-w-[380px]">
       {@render children?.()}
     </div>
-  </div>
-</div>
-
-<div class="fixed right-5 bottom-5">
-  <ThemeSwitch />
+  </main>
 </div>

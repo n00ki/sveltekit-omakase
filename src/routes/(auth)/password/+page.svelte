@@ -5,32 +5,55 @@
   import { requestPasswordResetSchema } from '$lib/validations/auth';
 
   import { buttonVariants } from '$components/ui/button';
-  import * as Card from '$components/ui/card';
   import * as Field from '$components/ui/field';
   import { Input } from '$components/ui/input';
 
-  import { RotateCw } from '@lucide/svelte';
+  import { ArrowLeft, ArrowRight, RotateCw } from '@lucide/svelte';
 </script>
 
-<Card.Root>
-  <Card.Header class="space-y-1">
-    <Card.Title class="font-secondary text-xl">Request Password Reset</Card.Title>
-    <Card.Description>Enter your email below to receive a password reset link</Card.Description>
-  </Card.Header>
-  <Card.Content class="grid gap-4">
-    <form {...requestPasswordReset.preflight(requestPasswordResetSchema)} {...useFormValidation(requestPasswordReset)}>
-      <Field.Field>
-        <Field.Label>Email</Field.Label>
-        <Input autocapitalize="none" autocorrect="off" {...requestPasswordReset.fields.email.as('email')} />
-        <Field.Error errors={requestPasswordReset.fields.email.issues()} />
-      </Field.Field>
+<section class="space-y-6">
+  <header class="space-y-1.5">
+    <h1 class="font-secondary text-[26px] leading-tight font-semibold tracking-tight">Reset password</h1>
+    <p class="text-sm text-muted-foreground">Enter your email and we'll send you a link to choose a new password.</p>
+  </header>
 
-      <button type="submit" disabled={!!requestPasswordReset.pending} class={buttonVariants({ class: 'my-2 w-full' })}>
-        {#if requestPasswordReset.pending}
-          <RotateCw size="16" class="mr-2 animate-spin" />
-        {/if}
-        Send
-      </button>
-    </form>
-  </Card.Content>
-</Card.Root>
+  <form
+    {...requestPasswordReset.preflight(requestPasswordResetSchema)}
+    {...useFormValidation(requestPasswordReset)}
+    class="space-y-4!"
+  >
+    <Field.Field class="gap-1.5">
+      <Field.Label class="text-xs font-medium tracking-tight text-muted-foreground">Email</Field.Label>
+      <Input
+        autocapitalize="none"
+        autocorrect="off"
+        placeholder="you@example.com"
+        class="h-10 bg-background text-sm dark:bg-background"
+        {...requestPasswordReset.fields.email.as('email')}
+      />
+      <Field.Error errors={requestPasswordReset.fields.email.issues()} />
+    </Field.Field>
+
+    <button
+      type="submit"
+      disabled={!!requestPasswordReset.pending}
+      class={buttonVariants({ class: 'group mt-1 h-10 w-full gap-1.5' })}
+    >
+      {#if requestPasswordReset.pending}
+        <RotateCw size="14" class="animate-spin" />
+        Sending link
+      {:else}
+        Send reset link
+        <ArrowRight size="14" class="transition-transform group-hover:translate-x-0.5" />
+      {/if}
+    </button>
+  </form>
+
+  <a
+    href="/login"
+    class="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+  >
+    <ArrowLeft size="14" />
+    Back to sign in
+  </a>
+</section>
