@@ -38,40 +38,33 @@
     }
   }
 
-  async function handleSubmit({
-    form,
-    data: formData,
-    submit
-  }: {
-    form: HTMLFormElement;
-    data: { name?: string; imageFileId?: string };
-    submit: () => Promise<boolean>;
-  }): Promise<void> {
-    const name = formData.name ? normalizeFullName(formData.name) || undefined : undefined;
+  const updateUserForm = updateUser.preflight(updateUserSchema).enhance(async (form) => {
+    const formName = form.fields.name.value();
+    const imageFileId = form.fields.imageFileId.value();
+    const name = typeof formName === 'string' ? normalizeFullName(formName) || undefined : undefined;
 
     const nameChanged = !!name && name !== data.user?.name;
-    const avatarChanged = !!formData.imageFileId;
+    const avatarChanged = !!imageFileId;
 
     if (!nameChanged && !avatarChanged) {
       toast.warning(m.settings.userProfile.edit.noChanges);
       return;
     }
 
-    const isSuccessful = await submit();
+    const isSuccessful = await form.submit();
 
     if (!isSuccessful) return;
 
-    form.reset();
-    updateUser.fields.set({
+    form.element.reset();
+    form.fields.set({
       name: '',
       imageFileId: ''
     });
     avatarFileId = null;
-  }
+  });
 
   const CONFIRMATION_PHRASE = 'DELETE';
-  let deleteConfirmationPhrase = $state('');
-  let isDeleteConfirmed = $derived(deleteConfirmationPhrase === CONFIRMATION_PHRASE);
+  let isDeleteConfirmed = $derived(deleteUser.fields._confirmation.value() === CONFIRMATION_PHRASE);
 
   function handleDeleteConfirmationKeydown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
@@ -99,12 +92,13 @@
     </div>
   </div>
 
-  <form {...updateUser.preflight(updateUserSchema).enhance(handleSubmit)} {...useFormValidation(updateUser)}>
-    <input type="hidden" name="imageFileId" value={avatarFileId ?? ''} />
+  <form {...updateUserForm} {...useFormValidation(updateUser)}>
+    <input {...updateUser.fields.imageFileId.as('hidden', avatarFileId ?? '')} />
 
     <Field.Field>
       <Field.Label>Avatar</Field.Label>
       <Input type="file" accept="image/*" onchange={uploadAvatar} disabled={imageFileUploader.isUploading} />
+      <Field.Error errors={updateUser.fields.imageFileId.issues()} />
     </Field.Field>
 
     <Field.Field>
@@ -156,13 +150,12 @@
               {m.settings.userProfile.delete.destructiveOperation}
             </AlertDialog.Description>
           </AlertDialog.Header>
-          <input type="hidden" name="_confirmation" value={deleteConfirmationPhrase} />
           <Input
-            type="text"
-            bind:value={deleteConfirmationPhrase}
             placeholder={`Type "${CONFIRMATION_PHRASE}" to confirm`}
             onkeydown={handleDeleteConfirmationKeydown}
+            {...deleteUser.fields._confirmation.as('text')}
           />
+          <Field.Error errors={deleteUser.fields._confirmation.issues()} />
           <AlertDialog.Footer>
             <AlertDialog.Cancel>Back to safety</AlertDialog.Cancel>
             <button

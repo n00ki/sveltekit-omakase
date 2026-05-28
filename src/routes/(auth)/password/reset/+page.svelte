@@ -27,7 +27,8 @@
     {...useFormValidation(resetUserPassword)}
     class="space-y-4!"
   >
-    <input type="hidden" name="token" value={data.token} />
+    <input {...resetUserPassword.fields.token.as('hidden', data.token)} />
+    <Field.Error errors={resetUserPassword.fields.token.issues()} />
 
     <Field.Field class="gap-1.5">
       <Field.Label class="text-xs font-medium tracking-tight text-muted-foreground">New password</Field.Label>
