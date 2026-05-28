@@ -87,7 +87,7 @@ export const updateUserPassword = form(updateUserPasswordSchema, async ({ _curre
   }
 });
 
-export const deleteUser = form(deleteUserSchema, async () => {
+export const deleteUser = form(deleteUserSchema, async (_data, issue) => {
   requireAuth();
 
   const { request } = getRequestEvent();
@@ -98,6 +98,10 @@ export const deleteUser = form(deleteUserSchema, async () => {
       headers: request.headers
     });
   } catch (err) {
+    if (err instanceof BetterAuthAPIError && err.body?.code === 'SESSION_EXPIRED') {
+      invalid(issue._confirmation(m.settings.userProfile.delete.requiresRecentSignIn));
+    }
+
     console.error('Failed to delete user:', err);
     error(500, m.general.error);
   }

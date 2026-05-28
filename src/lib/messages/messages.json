@@ -42,7 +42,8 @@
       },
       "delete": {
         "success": "Your user account has been permanently deleted.",
-        "destructiveOperation": "Are you sure you want to delete your user account? This cannot be undone."
+        "destructiveOperation": "Are you sure you want to delete your user account? This cannot be undone.",
+        "requiresRecentSignIn": "For your security, account deletion requires a recent sign-in. Please sign out, sign back in, and try again."
       }
     },
     "password": {
