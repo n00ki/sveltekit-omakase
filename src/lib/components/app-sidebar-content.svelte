@@ -3,9 +3,8 @@
 
   import { page } from '$app/state';
 
+  import GithubIcon from '$components/github-icon.svelte';
   import * as Sidebar from '$components/ui/sidebar';
-
-  import { FolderGit2 } from '@lucide/svelte';
 
   let {
     items
@@ -46,7 +45,7 @@
         <Sidebar.MenuButton size="sm">
           {#snippet child({ props })}
             <a href="https://github.com/n00ki/sveltekit-omakase" target="_blank" rel="noopener noreferrer" {...props}>
-              <FolderGit2 class="size-4 shrink-0" />
+              <GithubIcon class="shrink-0" />
               <span>GitHub</span>
             </a>
           {/snippet}

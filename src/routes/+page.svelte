@@ -1,11 +1,11 @@
 <script>
+  import GithubIcon from '$components/github-icon.svelte';
   import ThemeSwitch from '$components/theme-switch.svelte';
   import { Button } from '$components/ui/button';
 
   import {
     Database,
     DoorClosedLocked,
-    FolderGit2,
     HardDrive,
     Mail,
     Paintbrush,
@@ -29,7 +29,7 @@
         variant="outline"
         aria-label="GitHub repository"
       >
-        <FolderGit2 size="16" />
+        <GithubIcon />
       </Button>
     </div>
     <div class="flex items-center gap-2">
