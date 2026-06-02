@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { SidebarNavigationItem } from '$components/app-sidebar-content.svelte';
   import type { User } from '$lib/server/auth';
   import type { ComponentProps } from 'svelte';
 
@@ -19,7 +20,7 @@
       url: '/dashboard',
       icon: LayoutGrid
     }
-  ];
+  ] satisfies readonly SidebarNavigationItem[];
 
   let {
     ref = $bindable(null),

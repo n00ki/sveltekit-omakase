@@ -1,12 +1,14 @@
 <script lang="ts">
   import type { WithoutChildrenOrChild } from '$lib/utils/utils.js';
-  import type { Snippet } from 'svelte';
+  import type { ComponentProps, Snippet } from 'svelte';
 
   import XIcon from '@lucide/svelte/icons/x';
   import { Dialog as DialogPrimitive } from 'bits-ui';
 
+  import { Button } from '$lib/components/ui/button/index.js';
   import { cn } from '$lib/utils/utils.js';
 
+  import DialogPortal from './dialog-portal.svelte';
   import * as Dialog from './index.js';
 
   let {
@@ -17,31 +19,33 @@
     showCloseButton = true,
     ...restProps
   }: WithoutChildrenOrChild<DialogPrimitive.ContentProps> & {
-    portalProps?: DialogPrimitive.PortalProps;
+    portalProps?: WithoutChildrenOrChild<ComponentProps<typeof DialogPortal>>;
     children: Snippet;
     showCloseButton?: boolean;
   } = $props();
 </script>
 
-<Dialog.Portal {...portalProps}>
+<DialogPortal {...portalProps}>
   <Dialog.Overlay />
   <DialogPrimitive.Content
     bind:ref
     data-slot="dialog-content"
     class={cn(
-      'fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg',
+      'bg-popover text-popover-foreground data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 ring-foreground/10 grid max-w-[calc(100%-2rem)] gap-4 rounded-xl p-4 text-sm ring-1 duration-100 sm:max-w-sm fixed top-1/2 left-1/2 z-50 w-full -translate-x-1/2 -translate-y-1/2 outline-none',
       className
     )}
     {...restProps}
   >
     {@render children?.()}
     {#if showCloseButton}
-      <DialogPrimitive.Close
-        class="absolute end-4 top-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
-      >
-        <XIcon />
-        <span class="sr-only">Close</span>
+      <DialogPrimitive.Close data-slot="dialog-close">
+        {#snippet child({ props })}
+          <Button variant="ghost" class="absolute top-2 right-2" size="icon-sm" {...props}>
+            <XIcon />
+            <span class="sr-only">Close</span>
+          </Button>
+        {/snippet}
       </DialogPrimitive.Close>
     {/if}
   </DialogPrimitive.Content>
-</Dialog.Portal>
+</DialogPortal>

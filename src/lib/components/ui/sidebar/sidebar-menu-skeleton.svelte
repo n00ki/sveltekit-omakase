@@ -2,9 +2,8 @@
   import type { WithElementRef } from '$lib/utils/utils.js';
   import type { HTMLAttributes } from 'svelte/elements';
 
+  import { Skeleton } from '$lib/components/ui/skeleton/index.js';
   import { cn } from '$lib/utils/utils.js';
-
-  import { Skeleton } from '$components/ui/skeleton/index.js';
 
   let {
     ref = $bindable(null),
@@ -24,7 +23,7 @@
   bind:this={ref}
   data-slot="sidebar-menu-skeleton"
   data-sidebar="menu-skeleton"
-  class={cn('flex h-8 items-center gap-2 rounded-md px-2', className)}
+  class={cn('h-8 gap-2 rounded-md px-2 flex items-center', className)}
   {...restProps}
 >
   {#if showIcon}

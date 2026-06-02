@@ -2,7 +2,7 @@
   import type { WithElementRef, WithoutChildren } from '$lib/utils/utils.js';
   import type { HTMLAttributes } from 'svelte/elements';
 
-  import EllipsisIcon from '@lucide/svelte/icons/ellipsis';
+  import MoreHorizontalIcon from '@lucide/svelte/icons/more-horizontal';
 
   import { cn } from '$lib/utils/utils.js';
 
@@ -18,9 +18,9 @@
   data-slot="breadcrumb-ellipsis"
   role="presentation"
   aria-hidden="true"
-  class={cn('flex size-9 items-center justify-center', className)}
+  class={cn('size-5 [&>svg]:size-4 flex items-center justify-center', className)}
   {...restProps}
 >
-  <EllipsisIcon class="size-4" />
+  <MoreHorizontalIcon />
   <span class="sr-only">More</span>
 </span>

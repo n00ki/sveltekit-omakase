@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { User } from '$lib/server/auth';
 
+  import { resolve } from '$app/paths';
+
   import { getAvatarUrl } from '$lib/utils/display';
   import { getInitials } from '$lib/utils/name';
 
@@ -31,6 +33,7 @@
           <Sidebar.MenuButton
             size="lg"
             class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            data-active={undefined}
             {...props}
           >
             <Avatar.Root class="size-8 rounded-lg">
@@ -51,7 +54,7 @@
         {/snippet}
       </DropdownMenu.Trigger>
       <DropdownMenu.Content
-        class="w-[var(--bits-dropdown-menu-anchor-width)] min-w-56 rounded-lg"
+        class="w-(--bits-dropdown-menu-anchor-width) min-w-56 rounded-lg"
         side={sidebar.isMobile ? 'bottom' : 'right'}
         align="end"
         sideOffset={4}
@@ -77,7 +80,7 @@
         <DropdownMenu.Group>
           <DropdownMenu.Item>
             {#snippet child({ props })}
-              <a href="/settings/profile" {...props}>
+              <a href={resolve('/settings/profile')} {...props}>
                 <Settings />
                 Settings
               </a>

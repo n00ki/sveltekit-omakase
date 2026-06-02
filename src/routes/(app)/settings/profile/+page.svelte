@@ -7,13 +7,14 @@
   import { FileUploader } from '$lib/state/upload-file.svelte';
   import { getAvatarUrl } from '$lib/utils/display';
   import { normalizeFullName } from '$lib/utils/name';
+  import { cn } from '$lib/utils/utils';
   import { deleteUserSchema, updateUserSchema } from '$lib/validations/auth';
   import * as m from '$lib/messages';
 
   import * as Alert from '$components/ui/alert';
-  import * as AlertDialog from '$components/ui/alert-dialog';
   import * as Avatar from '$components/ui/avatar';
-  import { buttonVariants } from '$components/ui/button';
+  import { Button, buttonVariants } from '$components/ui/button';
+  import * as Dialog from '$components/ui/dialog';
   import * as Field from '$components/ui/field';
   import { Input } from '$components/ui/input';
   import { Separator } from '$components/ui/separator';
@@ -64,7 +65,10 @@
     avatarFileId = null;
   });
 
-  const CONFIRMATION_PHRASE = 'DELETE';
+  const CONFIRMATION_PHRASE: string = 'DELETE';
+  const destructiveButtonClass: string =
+    'bg-destructive text-white hover:bg-destructive/90 dark:bg-destructive/60 dark:hover:bg-destructive/70';
+
   let isDeleteConfirmed = $derived(deleteUser.fields._confirmation.value() === CONFIRMATION_PHRASE);
 
   function handleDeleteConfirmationKeydown(event: KeyboardEvent) {
@@ -141,37 +145,40 @@
       <p class="font-medium">Warning</p>
       <p class="text-sm">Please proceed with caution, this cannot be undone.</p>
     </div>
-    <AlertDialog.Root bind:open={deleteDialogOpen}>
-      <AlertDialog.Trigger class={buttonVariants({ variant: 'destructive' })}>Delete account</AlertDialog.Trigger>
-      <AlertDialog.Content>
-        <form {...deleteUser.preflight(deleteUserSchema)}>
-          <AlertDialog.Header>
-            <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
-            <AlertDialog.Description>
-              {m.settings.userProfile.delete.destructiveOperation}
-            </AlertDialog.Description>
-          </AlertDialog.Header>
-          <Input
-            placeholder={`Type "${CONFIRMATION_PHRASE}" to confirm`}
-            onkeydown={handleDeleteConfirmationKeydown}
-            {...deleteUser.fields._confirmation.as('text')}
-          />
-          <Field.Error errors={deleteUser.fields._confirmation.issues()} />
-          <AlertDialog.Footer>
-            <AlertDialog.Cancel>Back to safety</AlertDialog.Cancel>
-            <button
+    <Dialog.Root bind:open={deleteDialogOpen}>
+      <Dialog.Trigger class={cn(buttonVariants({ variant: 'destructive' }), destructiveButtonClass)}>
+        Delete account
+      </Dialog.Trigger>
+      <Dialog.Content class="sm:max-w-lg">
+        <form {...deleteUser.preflight(deleteUserSchema)} class="space-y-6">
+          <Dialog.Header>
+            <Dialog.Title>Are you absolutely sure?</Dialog.Title>
+            <Dialog.Description>{m.settings.userProfile.delete.destructiveOperation}</Dialog.Description>
+          </Dialog.Header>
+          <div class="grid gap-2">
+            <Input
+              placeholder={`Type "${CONFIRMATION_PHRASE}" to confirm`}
+              onkeydown={handleDeleteConfirmationKeydown}
+              {...deleteUser.fields._confirmation.as('text')}
+            />
+            <Field.Error errors={deleteUser.fields._confirmation.issues()} />
+          </div>
+          <Dialog.Footer class="gap-2">
+            <Dialog.Close type="button" class={buttonVariants({ variant: 'secondary' })}>Back to safety</Dialog.Close>
+            <Button
               type="submit"
+              variant="destructive"
+              class={destructiveButtonClass}
               disabled={!isDeleteConfirmed || !!deleteUser.pending}
-              class={buttonVariants({ variant: 'destructive' })}
             >
               {#if deleteUser.pending}
                 <RotateCw size="16" class="mr-2 animate-spin" />
               {/if}
               Continue
-            </button>
-          </AlertDialog.Footer>
+            </Button>
+          </Dialog.Footer>
         </form>
-      </AlertDialog.Content>
-    </AlertDialog.Root>
+      </Dialog.Content>
+    </Dialog.Root>
   </div>
 </div>

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { resolve } from '$app/paths';
+
   import * as Sidebar from '$components/ui/sidebar';
 
   import logo from '$lib/assets/logo.png';
@@ -6,9 +8,9 @@
 
 <Sidebar.Menu>
   <Sidebar.MenuItem>
-    <Sidebar.MenuButton size="lg">
+    <Sidebar.MenuButton size="lg" data-active={undefined}>
       {#snippet child({ props })}
-        <a href="/dashboard" {...props}>
+        <a href={resolve('/dashboard')} {...props}>
           <div
             class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground"
           >

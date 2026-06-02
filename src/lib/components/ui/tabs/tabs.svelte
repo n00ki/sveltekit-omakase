@@ -11,4 +11,10 @@
   }: TabsPrimitive.RootProps = $props();
 </script>
 
-<TabsPrimitive.Root bind:ref bind:value data-slot="tabs" class={cn('flex flex-col gap-2', className)} {...restProps} />
+<TabsPrimitive.Root
+  bind:ref
+  bind:value
+  data-slot="tabs"
+  class={cn('gap-2 group/tabs flex data-[orientation=horizontal]:flex-col', className)}
+  {...restProps}
+/>
