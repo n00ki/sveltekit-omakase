@@ -41,10 +41,10 @@ export const updateUser = form(updateUserSchema, async ({ imageFileId, name }) =
 });
 
 export const updateUserPassword = form(updateUserPasswordSchema, async ({ _currentPassword, _password }, issue) => {
-  requireAuth();
+  const { user } = requireAuth();
 
   const { request } = getRequestEvent();
-  const hasCredential = await hasCredentialAccount();
+  const hasCredential = await hasCredentialAccountByUserId(user.id);
 
   try {
     if (hasCredential) {

@@ -4,7 +4,7 @@
   import { deleteUser, updateUser } from '$remote/user.remote';
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
-  import { imageFileUploader } from '$lib/state/upload-file.svelte';
+  import { FileUploader } from '$lib/state/upload-file.svelte';
   import { getAvatarUrl } from '$lib/utils/display';
   import { normalizeFullName } from '$lib/utils/name';
   import { deleteUserSchema, updateUserSchema } from '$lib/validations/auth';
@@ -22,6 +22,7 @@
 
   let { data } = $props();
 
+  const imageFileUploader: FileUploader = new FileUploader('image');
   let avatarFileId = $state<string | null>(null);
   let userAvatarPreview = $derived(getAvatarUrl(data.user?.avatar));
   let deleteDialogOpen = $state(false);

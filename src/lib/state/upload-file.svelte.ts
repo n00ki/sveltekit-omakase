@@ -196,8 +196,3 @@ export class FileUploader {
     }
   }
 }
-
-/**
- * Image uploader instance for common use cases.
- */
-export const imageFileUploader = new FileUploader('image');

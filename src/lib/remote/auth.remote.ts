@@ -69,7 +69,7 @@ export const createUser = form(createUserSchema, async ({ email, name, _password
     console.error('Failed to send welcome email:', e);
   }
 
-  flashAndRedirect('/login', 'success', m.auth.register.success);
+  flashAndRedirect('/dashboard', 'success', m.auth.register.success);
 });
 
 export const requestPasswordReset = form(requestPasswordResetSchema, async ({ email }, issue) => {

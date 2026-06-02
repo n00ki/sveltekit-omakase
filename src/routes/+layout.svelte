@@ -1,12 +1,9 @@
 <script>
-  import { onNavigate } from '$app/navigation';
   import { page } from '$app/state';
 
   import { ModeWatcher } from 'mode-watcher';
   import { toast } from 'svelte-sonner';
   import { getFlash } from 'sveltekit-flash-message/client';
-
-  import { imageFileUploader } from '$lib/state/upload-file.svelte';
 
   import AppHead from '$components/app-head.svelte';
   import { Toaster } from '$components/ui/sonner';
@@ -43,11 +40,6 @@
       // Clear the flash message to avoid double-toasting.
       $flash = undefined;
     };
-  });
-
-  // Reset file upload status on navigation
-  onNavigate(() => {
-    imageFileUploader.reset();
   });
 </script>
 
