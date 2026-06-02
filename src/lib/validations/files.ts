@@ -2,14 +2,21 @@ import { z } from 'zod';
 
 const MAX_AVATAR_SIZE = 2000000; // 2MB
 const MAX_IMAGE_SIZE = 4000000; // 4MB
-const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'] as const;
+const AVATAR_UPLOAD_DIRECTORY = 'images/avatars';
+
+export const uploadRequestSchema = z.object({
+  destinationDirectory: z.literal(AVATAR_UPLOAD_DIRECTORY),
+  fileSize: z.number().int().positive().max(MAX_AVATAR_SIZE),
+  fileType: z.enum(ACCEPTED_IMAGE_TYPES)
+});
 
 const imageFileSchema = z
   .instanceof(File)
   .refine((file) => file.size <= MAX_IMAGE_SIZE, {
     error: 'Image size must be less than 4MB.'
   })
-  .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), {
+  .refine((file) => ACCEPTED_IMAGE_TYPES.some((type) => type === file.type), {
     error: 'Only .jpg, .jpeg, .png and .webp formats are supported.'
   });
 
@@ -18,7 +25,7 @@ export const avatarFileSchema = z
   .refine((file) => file.size <= MAX_AVATAR_SIZE, {
     error: 'Avatar size must be less than 2MB.'
   })
-  .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), {
+  .refine((file) => ACCEPTED_IMAGE_TYPES.some((type) => type === file.type), {
     error: 'Only .jpg, .jpeg, .png and .webp formats are supported.'
   });
 

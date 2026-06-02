@@ -124,10 +124,10 @@ export class FileUploader {
       const presignedResponse = await fetch('/api/upload', {
         method: 'POST',
         headers: {
-          'Content-type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+          fileSize: file.size,
           fileType: file.type,
           destinationDirectory: uploadDestinationDirectory
         })

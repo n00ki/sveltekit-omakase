@@ -9,6 +9,7 @@ import { error, json } from '@sveltejs/kit';
 
 import { auth } from '$lib/server/auth';
 import { s3 } from '$lib/server/storage';
+import { uploadRequestSchema } from '$lib/validations/files';
 
 export const POST: RequestHandler = async ({ request }) => {
   const session = await auth.api.getSession(request);
@@ -17,15 +18,30 @@ export const POST: RequestHandler = async ({ request }) => {
     error(401, 'Unauthorized');
   }
 
-  try {
-    const { fileType, destinationDirectory } = await request.json();
+  let body: unknown;
 
+  try {
+    body = await request.json();
+  } catch {
+    error(400, 'Invalid upload request');
+  }
+
+  const uploadRequest = uploadRequestSchema.safeParse(body);
+
+  if (!uploadRequest.success) {
+    error(400, 'Invalid upload request');
+  }
+
+  const { destinationDirectory, fileSize, fileType } = uploadRequest.data;
+
+  try {
     const fileName = crypto.randomBytes(16).toString('hex');
 
     const file = {
       Bucket: PUBLIC_R2_BUCKET_NAME,
       Key: `${destinationDirectory}/${fileName}`,
-      ContentType: fileType
+      ContentType: fileType,
+      ContentLength: fileSize
     };
 
     const command = new PutObjectCommand(file);
