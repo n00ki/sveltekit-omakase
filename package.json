@@ -52,7 +52,7 @@
     "prettier-plugin-svelte": "^4.1.0",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "simple-git-hooks": "^2.13.1",
-    "svelte": "5.56.0",
+    "svelte": "^5.56.1",
     "svelte-check": "^4.5.0",
     "svelte-sonner": "^1.1.0",
     "sveltekit-flash-message": "^2.4.6",
@@ -74,7 +74,7 @@
     "@better-svelte-email/components": "^2.1.1",
     "@better-svelte-email/server": "^2.1.1",
     "@libsql/client": "^0.17.2",
-    "better-auth": "^1.6.13",
+    "better-auth": "1.6.11",
     "drizzle-orm": "^0.45.2",
     "resend": "^6.12.4",
     "uuid": "^14.0.0"
