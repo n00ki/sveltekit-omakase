@@ -1,5 +1,7 @@
 import { PUBLIC_R2_BUCKET_URL } from '$env/static/public';
 
+import type { ImageUploadType } from '$lib/validations/files';
+
 import { browser } from '$app/environment';
 
 import { toast } from 'svelte-sonner';
@@ -83,13 +85,13 @@ export class FileUploader {
    *
    * @param fileInputField - HTML input element containing the selected file
    * @param uploadDestinationDirectory - storage directory path
-   * @param uploadType - Optional upload type for specialized validation
+   * @param uploadType - Upload type for specialized validation
    * @returns Promise resolving to upload results
    */
   async upload(
     fileInputField: HTMLInputElement,
     uploadDestinationDirectory: string,
-    uploadType?: 'avatar'
+    uploadType: ImageUploadType
   ): Promise<UploadResult> {
     // Ensure we're in the browser
     if (!browser) {
@@ -110,7 +112,7 @@ export class FileUploader {
 
       // Validate file based on type
       if (this.type === 'image') {
-        const { valid, errors } = validateImageFile(file, uploadType ?? '');
+        const { valid, errors } = validateImageFile(file, uploadType);
 
         if (!valid) {
           this.status = 'failed';
@@ -129,6 +131,7 @@ export class FileUploader {
         body: JSON.stringify({
           fileSize: file.size,
           fileType: file.type,
+          uploadType,
           destinationDirectory: uploadDestinationDirectory
         })
       });

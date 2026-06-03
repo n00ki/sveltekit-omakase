@@ -3,13 +3,28 @@ import { z } from 'zod';
 const MAX_AVATAR_SIZE = 2000000; // 2MB
 const MAX_IMAGE_SIZE = 4000000; // 4MB
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'] as const;
-const AVATAR_UPLOAD_DIRECTORY = 'images/avatars';
+const IMAGE_UPLOAD_TYPES = ['avatar', 'image'] as const;
 
-export const uploadRequestSchema = z.object({
-  destinationDirectory: z.literal(AVATAR_UPLOAD_DIRECTORY),
-  fileSize: z.number().int().positive().max(MAX_AVATAR_SIZE),
-  fileType: z.enum(ACCEPTED_IMAGE_TYPES)
-});
+export type ImageUploadType = (typeof IMAGE_UPLOAD_TYPES)[number];
+
+export const uploadRequestSchema = z
+  .object({
+    destinationDirectory: z.string().trim().min(1, { error: 'Upload destination is required.' }),
+    fileSize: z.number().int().positive(),
+    fileType: z.enum(ACCEPTED_IMAGE_TYPES),
+    uploadType: z.enum(IMAGE_UPLOAD_TYPES)
+  })
+  .superRefine(({ fileSize, uploadType }, ctx) => {
+    const sizeLimit = uploadType === 'avatar' ? MAX_AVATAR_SIZE : MAX_IMAGE_SIZE;
+
+    if (fileSize <= sizeLimit) return;
+
+    ctx.addIssue({
+      code: 'custom',
+      path: ['fileSize'],
+      message: uploadType === 'avatar' ? 'Avatar size must be less than 2MB.' : 'Image size must be less than 4MB.'
+    });
+  });
 
 const imageFileSchema = z
   .instanceof(File)
@@ -31,7 +46,7 @@ export const avatarFileSchema = z
 
 export function validateImageFile(
   imageFile: File,
-  type: string
+  type: ImageUploadType
 ): {
   valid: boolean;
   errors: string[];
@@ -50,10 +65,5 @@ export function validateAvatarFile(avatarFile: File): {
   valid: boolean;
   errors: string[];
 } {
-  const result = avatarFileSchema.safeParse(avatarFile);
-
-  return {
-    valid: result.success,
-    errors: result.success ? [] : result.error.issues.map((e) => e.message)
-  };
+  return validateImageFile(avatarFile, 'avatar');
 }
