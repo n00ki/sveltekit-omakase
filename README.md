@@ -101,6 +101,7 @@ src/
 │   │   ├── rate-limit.ts      # Rate limit helper
 │   │   └── storage.ts         # R2/S3 client
 │   ├── state/                 # Global state (*.svelte.ts)
+│   ├── upload/                # Upload policies and FileUploader
 │   ├── utils/                 # Shared utilities
 │   └── validations/           # Zod schemas
 ├── routes/

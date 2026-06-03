@@ -6,7 +6,7 @@
   import { deleteUser, updateUser } from '$remote/user.remote';
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
-  import { FileUploader } from '$lib/state/upload-file.svelte';
+  import { FileUploader, uploads } from '$lib/upload';
   import { getAvatarUrl } from '$lib/utils/display';
   import { normalizeFullName } from '$lib/utils/name';
   import { cn } from '$lib/utils/utils';
@@ -25,7 +25,7 @@
 
   let { data }: { data: PageData } = $props();
 
-  const imageFileUploader: FileUploader = new FileUploader('image');
+  const avatarUploader: FileUploader = new FileUploader(uploads.avatar);
   const formId = $props.id();
   const profileForm = updateUser.for(`${formId}-profile`).preflight(updateUserSchema);
   const deleteAccountForm = deleteUser.for(`${formId}-delete`).preflight(deleteUserSchema);
@@ -34,15 +34,21 @@
   let deleteDialogOpen = $state(false);
 
   async function uploadAvatar(event: Event): Promise<void> {
-    const avatarInputField: HTMLInputElement = event.target as HTMLInputElement;
-    if (!avatarInputField.files) return;
+    const input: HTMLInputElement = event.target as HTMLInputElement;
+    const file = input.files?.[0];
 
-    const upload = await imageFileUploader.upload(avatarInputField, 'images/avatars', 'avatar');
+    if (!file) return;
 
-    if (!upload.errors && upload.fileId && upload.previewUrl) {
-      avatarFileId = upload.fileId;
-      userAvatarPreview = upload.previewUrl;
+    const upload = await avatarUploader.upload(file);
+
+    if (!upload.success) {
+      input.value = '';
+      return;
     }
+
+    avatarFileId = upload.file.id;
+    profileForm.fields.imageFileId.set(upload.file.id);
+    userAvatarPreview = upload.file.url;
   }
 
   const profileFormProps = profileForm.enhance(async (form) => {
@@ -92,7 +98,7 @@
 
   <div class="mx-auto my-2 flex size-32 rounded-full p-1 ring-4 ring-accent drop-shadow-xs">
     <div class="flex size-full items-center justify-center overflow-hidden rounded-full">
-      {#if imageFileUploader.isUploading}
+      {#if avatarUploader.isUploading}
         <RefreshCw size="24" class="animate-spin" />
       {:else}
         <Avatar.Root class="size-full">
@@ -107,7 +113,7 @@
 
     <Field.Field>
       <Field.Label>Avatar</Field.Label>
-      <Input type="file" accept="image/*" onchange={uploadAvatar} disabled={imageFileUploader.isUploading} />
+      <Input type="file" accept={avatarUploader.accept} onchange={uploadAvatar} disabled={avatarUploader.isUploading} />
       <Field.Error errors={profileForm.fields.imageFileId.issues()} />
     </Field.Field>
 
@@ -129,9 +135,9 @@
     </button>
   </form>
 
-  {#if imageFileUploader.isFailed}
+  {#if avatarUploader.isFailed}
     <div class="space-y-2">
-      {#each imageFileUploader.errors as error, index (index)}
+      {#each avatarUploader.errors as error, index (index)}
         <Alert.Root variant="destructive" class="inline-flex items-center gap-2 py-2">
           <div>
             <CircleX size="24" />

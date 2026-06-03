@@ -1,22 +1,21 @@
-import { PUBLIC_R2_BUCKET_NAME } from '$env/static/public';
+import { PUBLIC_R2_BUCKET_NAME, PUBLIC_R2_BUCKET_URL } from '$env/static/public';
 
 import type { RequestHandler } from '@sveltejs/kit';
 
-import crypto from 'crypto';
+import { randomUUID } from 'node:crypto';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { error, json } from '@sveltejs/kit';
 
-import { auth } from '$lib/server/auth';
+import { requireAuth } from '$lib/server/auth';
 import { s3 } from '$lib/server/storage';
+import { getUploadPolicy } from '$lib/upload/policies';
 import { uploadRequestSchema } from '$lib/validations/files';
 
-export const POST: RequestHandler = async ({ request }) => {
-  const session = await auth.api.getSession(request);
+const SIGNED_UPLOAD_EXPIRES_IN = 300;
 
-  if (!session?.user) {
-    error(401, 'Unauthorized');
-  }
+export const POST: RequestHandler = async ({ request }) => {
+  requireAuth();
 
   let body: unknown;
 
@@ -26,33 +25,38 @@ export const POST: RequestHandler = async ({ request }) => {
     error(400, 'Invalid upload request');
   }
 
-  const uploadRequest = uploadRequestSchema.safeParse(body);
+  const result = uploadRequestSchema.safeParse(body);
 
-  if (!uploadRequest.success) {
+  if (!result.success) {
     error(400, 'Invalid upload request');
   }
 
-  const { destinationDirectory, fileSize, fileType } = uploadRequest.data;
+  const { file, policy: policyId } = result.data;
+  const policy = getUploadPolicy(policyId);
 
   try {
-    const fileName = crypto.randomBytes(16).toString('hex');
+    const fileId = randomUUID();
+    const key = `${policy.directory}/${fileId}`;
 
-    const file = {
+    const command = new PutObjectCommand({
       Bucket: PUBLIC_R2_BUCKET_NAME,
-      Key: `${destinationDirectory}/${fileName}`,
-      ContentType: fileType,
-      ContentLength: fileSize
-    };
+      ContentLength: file.size,
+      ContentType: file.type,
+      Key: key
+    });
 
-    const command = new PutObjectCommand(file);
-    const url = await getSignedUrl(s3, command, { expiresIn: 60000 });
+    const uploadUrl = await getSignedUrl(s3, command, { expiresIn: SIGNED_UPLOAD_EXPIRES_IN });
 
     return json({
-      presignedUrl: url,
-      fileName
+      file: {
+        id: fileId,
+        key,
+        url: `${PUBLIC_R2_BUCKET_URL}/${key}`
+      },
+      uploadUrl
     });
   } catch (err) {
-    console.log(err);
+    console.error('Failed to create upload URL:', err);
   }
 
   error(500, 'Something went wrong');

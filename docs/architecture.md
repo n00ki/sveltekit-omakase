@@ -37,6 +37,7 @@ src/
 │   │   ├── rate-limit.ts      # Rate limit helper
 │   │   └── storage.ts         # R2/S3 client
 │   ├── state/                 # Global state (*.svelte.ts)
+│   ├── upload/                # Upload policies and FileUploader
 │   ├── utils/                 # Shared utilities
 │   └── validations/           # Zod schemas
 ├── routes/
@@ -66,6 +67,7 @@ $remote       → src/lib/remote
 - Forms can call `await checkRateLimit(issue.field)` and use `.preflight(schema)` and `useFormValidation` hook for client-side validation.
 - Models live in `$lib/db/models`; db connection is the default export in `$lib/server/database.ts`.
 - Always use explicit TypeScript types.
+- Keep TypeScript readable: prefer plain object types and named unions over generics, mapped types, conditional types, and assertions unless they clearly improve the caller API.
 
 ---
 
@@ -78,17 +80,12 @@ $remote       → src/lib/remote
 | Global  | Class in `.svelte.ts` | `$lib/state/*.svelte.ts` |
 
 ```typescript
-// $lib/state/upload-file.svelte.ts
-export class FileUploader {
-  status = $state<UploadStatus>('ready');
-  progress = $state(0);
+// $lib/state/sidebar.svelte.ts
+export class SidebarState {
+  open = $state(false);
 
-  get isUploading() {
-    return this.status === 'uploading';
-  }
-
-  async upload(file: File) {
-    /* ... */
+  toggle(): void {
+    this.open = !this.open;
   }
 }
 ```
@@ -181,6 +178,19 @@ export const deleteUser = form(deleteUserSchema, async () => {
     Log in
   </button>
 </form>
+```
+
+---
+
+## Uploads
+
+Uploads use named policies from `$lib/upload` and direct R2 uploads through `/api/upload`.
+
+```typescript
+import { FileUploader, uploads } from '$lib/upload';
+
+const avatarUploader: FileUploader = new FileUploader(uploads.avatar);
+const upload = await avatarUploader.upload(file);
 ```
 
 ---
