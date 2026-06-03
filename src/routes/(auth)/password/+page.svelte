@@ -9,6 +9,9 @@
   import { Input } from '$components/ui/input';
 
   import { ArrowLeft, ArrowRight, RotateCw } from '@lucide/svelte';
+
+  const formId = $props.id();
+  const requestPasswordResetForm = requestPasswordReset.for(formId).preflight(requestPasswordResetSchema);
 </script>
 
 <section class="space-y-6">
@@ -17,11 +20,7 @@
     <p class="text-sm text-muted-foreground">Enter your email and we'll send you a link to choose a new password.</p>
   </header>
 
-  <form
-    {...requestPasswordReset.preflight(requestPasswordResetSchema)}
-    {...useFormValidation(requestPasswordReset)}
-    class="space-y-4!"
-  >
+  <form {...requestPasswordResetForm} {...useFormValidation(requestPasswordResetForm)} class="space-y-4!">
     <Field.Field class="gap-1.5">
       <Field.Label class="text-xs font-medium tracking-tight text-muted-foreground">Email</Field.Label>
       <Input
@@ -29,17 +28,17 @@
         autocorrect="off"
         placeholder="you@example.com"
         class="h-10 bg-background text-sm dark:bg-background"
-        {...requestPasswordReset.fields.email.as('email')}
+        {...requestPasswordResetForm.fields.email.as('email')}
       />
-      <Field.Error errors={requestPasswordReset.fields.email.issues()} />
+      <Field.Error errors={requestPasswordResetForm.fields.email.issues()} />
     </Field.Field>
 
     <button
       type="submit"
-      disabled={!!requestPasswordReset.pending}
+      disabled={!!requestPasswordResetForm.pending}
       class={buttonVariants({ class: 'group mt-1 h-10 w-full gap-1.5' })}
     >
-      {#if requestPasswordReset.pending}
+      {#if requestPasswordResetForm.pending}
         <RotateCw size="14" class="animate-spin" />
         Sending link
       {:else}

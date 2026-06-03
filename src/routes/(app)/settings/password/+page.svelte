@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { PageData } from './$types';
+
   import { updateUserPassword } from '$remote/user.remote';
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
@@ -10,11 +12,13 @@
 
   import { RotateCw } from '@lucide/svelte';
 
-  let { data } = $props();
+  let { data }: { data: PageData } = $props();
 
   const hasCredential = $derived(data.hasCredentialAccount);
+  const formId = $props.id();
+  const passwordForm = updateUserPassword.for(formId).preflight(updateUserPasswordSchema);
 
-  const updateUserPasswordForm = updateUserPassword.preflight(updateUserPasswordSchema).enhance(async (form) => {
+  const passwordFormProps = passwordForm.enhance(async (form) => {
     const isSuccessful = await form.submit();
 
     if (!isSuccessful) return;
@@ -36,7 +40,7 @@
     </p>
   </header>
 
-  <form {...updateUserPasswordForm} {...useFormValidation(updateUserPassword)}>
+  <form {...passwordFormProps} {...useFormValidation(passwordForm)}>
     {#if hasCredential}
       <div>
         <Field.Field>
@@ -44,9 +48,9 @@
           <PasswordInput
             autocomplete="current-password"
             placeholder="********"
-            {...updateUserPassword.fields._currentPassword.as('password')}
+            {...passwordForm.fields._currentPassword.as('password')}
           />
-          <Field.Error errors={updateUserPassword.fields._currentPassword.issues()} />
+          <Field.Error errors={passwordForm.fields._currentPassword.issues()} />
         </Field.Field>
       </div>
     {/if}
@@ -57,9 +61,9 @@
         <PasswordInput
           autocomplete="new-password"
           placeholder="********"
-          {...updateUserPassword.fields._password.as('password')}
+          {...passwordForm.fields._password.as('password')}
         />
-        <Field.Error errors={updateUserPassword.fields._password.issues()} />
+        <Field.Error errors={passwordForm.fields._password.issues()} />
       </Field.Field>
     </div>
 
@@ -69,18 +73,18 @@
         <PasswordInput
           autocomplete="new-password"
           placeholder="********"
-          {...updateUserPassword.fields._passwordConfirmation.as('password')}
+          {...passwordForm.fields._passwordConfirmation.as('password')}
         />
-        <Field.Error errors={updateUserPassword.fields._passwordConfirmation.issues()} />
+        <Field.Error errors={passwordForm.fields._passwordConfirmation.issues()} />
       </Field.Field>
     </div>
 
     <button
       type="submit"
-      disabled={!!updateUserPassword.pending}
+      disabled={!!passwordForm.pending}
       class={buttonVariants({ variant: 'secondary', class: 'my-2 w-full' })}
     >
-      {#if updateUserPassword.pending}
+      {#if passwordForm.pending}
         <RotateCw size="16" class="mr-2 animate-spin" />
       {/if}
       {hasCredential ? 'Update Password' : 'Set Password'}

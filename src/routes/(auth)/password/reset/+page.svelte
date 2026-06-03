@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { PageData } from './$types';
+
   import { resetUserPassword } from '$remote/auth.remote';
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
@@ -10,7 +12,10 @@
 
   import { ArrowRight, RotateCw } from '@lucide/svelte';
 
-  let { data } = $props();
+  let { data }: { data: PageData } = $props();
+
+  const formId = $props.id();
+  const resetUserPasswordForm = resetUserPassword.for(formId).preflight(resetUserPasswordSchema);
 </script>
 
 <section class="space-y-6">
@@ -22,22 +27,18 @@
     </p>
   </header>
 
-  <form
-    {...resetUserPassword.preflight(resetUserPasswordSchema)}
-    {...useFormValidation(resetUserPassword)}
-    class="space-y-4!"
-  >
-    <input {...resetUserPassword.fields.token.as('hidden', data.token)} />
-    <Field.Error errors={resetUserPassword.fields.token.issues()} />
+  <form {...resetUserPasswordForm} {...useFormValidation(resetUserPasswordForm)} class="space-y-4!">
+    <input {...resetUserPasswordForm.fields.token.as('hidden', data.token)} />
+    <Field.Error errors={resetUserPasswordForm.fields.token.issues()} />
 
     <Field.Field class="gap-1.5">
       <Field.Label class="text-xs font-medium tracking-tight text-muted-foreground">New password</Field.Label>
       <PasswordInput
         autocomplete="new-password"
         class="h-10 bg-background text-sm dark:bg-background"
-        {...resetUserPassword.fields._password.as('password')}
+        {...resetUserPasswordForm.fields._password.as('password')}
       />
-      <Field.Error errors={resetUserPassword.fields._password.issues()} />
+      <Field.Error errors={resetUserPasswordForm.fields._password.issues()} />
     </Field.Field>
 
     <Field.Field class="gap-1.5">
@@ -45,17 +46,17 @@
       <PasswordInput
         autocomplete="new-password"
         class="h-10 bg-background text-sm dark:bg-background"
-        {...resetUserPassword.fields._passwordConfirmation.as('password')}
+        {...resetUserPasswordForm.fields._passwordConfirmation.as('password')}
       />
-      <Field.Error errors={resetUserPassword.fields._passwordConfirmation.issues()} />
+      <Field.Error errors={resetUserPasswordForm.fields._passwordConfirmation.issues()} />
     </Field.Field>
 
     <button
       type="submit"
-      disabled={!!resetUserPassword.pending}
+      disabled={!!resetUserPasswordForm.pending}
       class={buttonVariants({ class: 'group mt-1 h-10 w-full gap-1.5' })}
     >
-      {#if resetUserPassword.pending}
+      {#if resetUserPasswordForm.pending}
         <RotateCw size="14" class="animate-spin" />
         Updating
       {:else}

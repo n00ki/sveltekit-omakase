@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { PageData } from './$types';
+
   import { toast } from 'svelte-sonner';
 
   import { deleteUser, updateUser } from '$remote/user.remote';
@@ -21,9 +23,12 @@
 
   import { CircleX, RefreshCw, RotateCw } from '@lucide/svelte';
 
-  let { data } = $props();
+  let { data }: { data: PageData } = $props();
 
   const imageFileUploader: FileUploader = new FileUploader('image');
+  const formId = $props.id();
+  const profileForm = updateUser.for(`${formId}-profile`).preflight(updateUserSchema);
+  const deleteAccountForm = deleteUser.for(`${formId}-delete`).preflight(deleteUserSchema);
   let avatarFileId = $state<string | null>(null);
   let userAvatarPreview = $derived(getAvatarUrl(data.user?.avatar));
   let deleteDialogOpen = $state(false);
@@ -40,7 +45,7 @@
     }
   }
 
-  const updateUserForm = updateUser.preflight(updateUserSchema).enhance(async (form) => {
+  const profileFormProps = profileForm.enhance(async (form) => {
     const formName = form.fields.name.value();
     const imageFileId = form.fields.imageFileId.value();
     const name = typeof formName === 'string' ? normalizeFullName(formName) || undefined : undefined;
@@ -69,7 +74,7 @@
   const destructiveButtonClass: string =
     'bg-destructive text-white hover:bg-destructive/90 dark:bg-destructive/60 dark:hover:bg-destructive/70';
 
-  let isDeleteConfirmed = $derived(deleteUser.fields._confirmation.value() === CONFIRMATION_PHRASE);
+  let isDeleteConfirmed = $derived(deleteAccountForm.fields._confirmation.value() === CONFIRMATION_PHRASE);
 
   function handleDeleteConfirmationKeydown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
@@ -97,27 +102,27 @@
     </div>
   </div>
 
-  <form {...updateUserForm} {...useFormValidation(updateUser)}>
-    <input {...updateUser.fields.imageFileId.as('hidden', avatarFileId ?? '')} />
+  <form {...profileFormProps} {...useFormValidation(profileForm)}>
+    <input {...profileForm.fields.imageFileId.as('hidden', avatarFileId ?? '')} />
 
     <Field.Field>
       <Field.Label>Avatar</Field.Label>
       <Input type="file" accept="image/*" onchange={uploadAvatar} disabled={imageFileUploader.isUploading} />
-      <Field.Error errors={updateUser.fields.imageFileId.issues()} />
+      <Field.Error errors={profileForm.fields.imageFileId.issues()} />
     </Field.Field>
 
     <Field.Field>
       <Field.Label>Name</Field.Label>
-      <Input autocomplete="name" placeholder={data.user?.name} {...updateUser.fields.name.as('text')} />
-      <Field.Error errors={updateUser.fields.name.issues()} />
+      <Input autocomplete="name" placeholder={data.user?.name} {...profileForm.fields.name.as('text')} />
+      <Field.Error errors={profileForm.fields.name.issues()} />
     </Field.Field>
 
     <button
       type="submit"
-      disabled={!!updateUser.pending}
+      disabled={!!profileForm.pending}
       class={buttonVariants({ variant: 'secondary', class: 'my-2 w-full' })}
     >
-      {#if updateUser.pending}
+      {#if profileForm.pending}
         <RotateCw size="16" class="mr-2 animate-spin" />
       {/if}
       Update Profile
@@ -150,7 +155,7 @@
         Delete account
       </Dialog.Trigger>
       <Dialog.Content class="sm:max-w-lg">
-        <form {...deleteUser.preflight(deleteUserSchema)} class="space-y-6">
+        <form {...deleteAccountForm} class="space-y-6">
           <Dialog.Header>
             <Dialog.Title>Are you absolutely sure?</Dialog.Title>
             <Dialog.Description>{m.settings.userProfile.delete.destructiveOperation}</Dialog.Description>
@@ -159,9 +164,9 @@
             <Input
               placeholder={`Type "${CONFIRMATION_PHRASE}" to confirm`}
               onkeydown={handleDeleteConfirmationKeydown}
-              {...deleteUser.fields._confirmation.as('text')}
+              {...deleteAccountForm.fields._confirmation.as('text')}
             />
-            <Field.Error errors={deleteUser.fields._confirmation.issues()} />
+            <Field.Error errors={deleteAccountForm.fields._confirmation.issues()} />
           </div>
           <Dialog.Footer class="gap-2">
             <Dialog.Close type="button" class={buttonVariants({ variant: 'secondary' })}>Back to safety</Dialog.Close>
@@ -169,9 +174,9 @@
               type="submit"
               variant="destructive"
               class={destructiveButtonClass}
-              disabled={!isDeleteConfirmed || !!deleteUser.pending}
+              disabled={!isDeleteConfirmed || !!deleteAccountForm.pending}
             >
-              {#if deleteUser.pending}
+              {#if deleteAccountForm.pending}
                 <RotateCw size="16" class="mr-2 animate-spin" />
               {/if}
               Continue

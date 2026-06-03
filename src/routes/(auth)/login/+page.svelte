@@ -13,9 +13,11 @@
 
   import { ArrowRight, RotateCw } from '@lucide/svelte';
 
-  let isRedirecting = $state(false);
+  const formId = $props.id();
+  const loginForm = login.for(formId).preflight(loginSchema);
+  const emailErrors = useRateLimitCountdown(() => loginForm.fields.email.issues());
 
-  const emailErrors = useRateLimitCountdown(() => login.fields.email.issues());
+  let isRedirecting = $state(false);
 </script>
 
 <section class="space-y-6">
@@ -24,7 +26,7 @@
     <p class="text-sm text-muted-foreground">Enter your email and password below to log in.</p>
   </header>
 
-  <form {...login.preflight(loginSchema)} {...useFormValidation(login)} class="space-y-4!">
+  <form {...loginForm} {...useFormValidation(loginForm)} class="space-y-4!">
     <Field.Field class="gap-1.5">
       <Field.Label class="text-xs font-medium tracking-tight text-muted-foreground">Email</Field.Label>
       <Input
@@ -33,7 +35,7 @@
         autocomplete="username"
         placeholder="you@example.com"
         class="h-10 bg-background text-sm dark:bg-background"
-        {...login.fields.email.as('email')}
+        {...loginForm.fields.email.as('email')}
       />
       <Field.Error errors={emailErrors()} />
     </Field.Field>
@@ -51,17 +53,17 @@
       <PasswordInput
         autocomplete="current-password"
         class="h-10 bg-background text-sm dark:bg-background"
-        {...login.fields._password.as('password')}
+        {...loginForm.fields._password.as('password')}
       />
-      <Field.Error errors={login.fields._password.issues()} />
+      <Field.Error errors={loginForm.fields._password.issues()} />
     </Field.Field>
 
     <button
       type="submit"
-      disabled={!!login.pending}
+      disabled={!!loginForm.pending}
       class={buttonVariants({ class: 'group mt-1 h-10 w-full gap-1.5' })}
     >
-      {#if login.pending}
+      {#if loginForm.pending}
         <RotateCw size="14" class="animate-spin" />
         Signing in
       {:else}
