@@ -22,13 +22,23 @@ Guidelines for AI agents working with sveltekit-omakase.
 ## Critical rules
 
 - Use Svelte 5 runes syntax (`$props`, `$state`, `$derived`, `$effect`).
-- Always use explicit TypeScript types; avoid JSDoc unless essential shared utility.
-- Use Remote Functions (`form`, `query`, `command`) instead of actions; use `await` patterns for queries.
+- Always use explicit TypeScript types. Avoid JSDoc unless essential shared utility.
+- Use Remote Functions (`form`, `query`, `command`) instead of actions. Use `await` patterns for queries.
 - **Never use `redirect()` inside `command` functions** - use `form` instead for actions that need to redirect (SvelteKit limitation: commands cannot handle redirects properly).
-- Protected routes and remote functions must call `requireAuth()`; auth pages use `requireGuest()`.
+- Protected routes and remote functions must call `requireAuth()`. Auth pages use `requireGuest()`.
 - Forms can call `await checkRateLimit(issue.field)` and use `.preflight(schema)` and `useFormValidation` hook for client-side validation
-- Use Drizzle ORM only; models live in `$models`, queries live in `$queries`. db connection is the default export in `$lib/server/database.ts`.
-- Use class-based state machines in `$lib/state/*.svelte.ts` only for cross-route or app-wide state; keep state local to the component otherwise.
+- Use Drizzle ORM only. Models live in `$models`, queries live in `$queries`. db connection is the default export in `$lib/server/database.ts`.
+- Use class-based state machines in `$lib/state/*.svelte.ts` only for cross-route or app-wide state. Keep state local to the component otherwise.
+
+---
+
+## Implementation
+
+- Prefer existing structure, conventions, helper APIs, and implemented decisions before introducing new patterns.
+- Use modern, commonly recommended approaches when they fit this codebase. Do not replace working local patterns just for novelty. If a new pattern seems essential, suggest it first and explain the tradeoff.
+- Keep code, comments, and docs concise. Avoid non-essential abstractions, boilerplate, explanatory notes, and fluff.
+- Review suggestions and changes through the project's philosophy. Explain what they affect, why they are better or worse, and whether they still fit existing decisions.
+- Update existing docs only when behavior, architecture, commands, or project conventions change. Do not add docs for routine implementation details.
 
 ---
 
