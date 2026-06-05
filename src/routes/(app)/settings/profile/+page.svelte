@@ -6,7 +6,7 @@
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
   import { FileUploader, uploads } from '$lib/upload';
   import { getUserImageUrl } from '$lib/utils/display';
-  import { normalizeFullName } from '$lib/utils/name';
+  import { getInitials, normalizeFullName } from '$lib/utils/name';
   import { cn } from '$lib/utils/utils';
   import { deleteUserSchema, updateUserSchema } from '$lib/validations/auth';
   import * as m from '$lib/messages';
@@ -100,7 +100,10 @@
         <RefreshCw size="24" class="animate-spin" />
       {:else}
         <Avatar.Root class="size-full">
-          <Avatar.Image src={userImagePreview} alt="user profile preview" />
+          <Avatar.Image src={userImagePreview} alt="user profile preview" referrerpolicy="no-referrer" />
+          <Avatar.Fallback>
+            {getInitials(data.user?.name)}
+          </Avatar.Fallback>
         </Avatar.Root>
       {/if}
     </div>
