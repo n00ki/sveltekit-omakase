@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { mode, userPrefersMode } from 'mode-watcher';
+  import { mode } from 'mode-watcher';
   import { fade, fly } from 'svelte/transition';
 
+  import { Theme } from '$lib/constants';
   import { useTheme } from '$lib/hooks/use-theme';
 
   import { Button } from '$components/ui/button';
@@ -10,28 +11,27 @@
 
   import { Monitor, Moon, Sun } from '@lucide/svelte';
 
-  const { cycleMode, setupKeyListener } = useTheme();
+  const theme = useTheme();
 
   const nextMode = $derived.by(() => {
-    const currentMode = userPrefersMode.current || 'system';
-    if (currentMode === 'system') {
-      return 'light';
-    } else if (currentMode === 'light') {
-      return 'dark';
+    if (theme.selectedMode === Theme.SYSTEM) {
+      return Theme.LIGHT;
+    } else if (theme.selectedMode === Theme.LIGHT) {
+      return Theme.DARK;
     } else {
-      return 'system';
+      return Theme.SYSTEM;
     }
   });
 
   $effect(() => {
-    return setupKeyListener();
+    return theme.setupKeyListener();
   });
 </script>
 
 {#if mode.current}
   <Tooltip.Provider>
     <Tooltip.Root delayDuration={250} disableCloseOnTriggerClick={true}>
-      <Tooltip.Trigger onclick={cycleMode}>
+      <Tooltip.Trigger onclick={theme.cycleMode}>
         {#snippet child({ props })}
           <Button
             id="theme-switcher"
@@ -41,15 +41,15 @@
             class="rounded-full"
             {...props}
           >
-            {#if userPrefersMode.current === 'dark'}
+            {#if theme.selectedMode === Theme.DARK}
               <span in:fade={{ duration: 300 }}>
                 <Monitor size="16" />
               </span>
-            {:else if userPrefersMode.current === 'light'}
+            {:else if theme.selectedMode === Theme.LIGHT}
               <span in:fly={{ y: -10, duration: 300 }}>
                 <Moon size="16" />
               </span>
-            {:else if userPrefersMode.current === 'system'}
+            {:else if theme.selectedMode === Theme.SYSTEM}
               <span in:fly={{ y: 20, duration: 300 }}>
                 <Sun size="16" />
               </span>

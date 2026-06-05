@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { resetMode, setMode, userPrefersMode } from 'mode-watcher';
-
+  import { Theme } from '$lib/constants';
   import { useTheme } from '$lib/hooks/use-theme';
 
   import { Button } from '$components/ui/button';
@@ -10,19 +9,11 @@
 
   import { Monitor, Moon, Sun } from '@lucide/svelte';
 
-  const { setupKeyListener } = useTheme();
+  const theme = useTheme();
 
   $effect(() => {
-    return setupKeyListener();
+    return theme.setupKeyListener();
   });
-
-  function handleModeChange(value: 'light' | 'dark' | 'system') {
-    if (value === 'system') {
-      resetMode();
-    } else {
-      setMode(value);
-    }
-  }
 </script>
 
 <div>
@@ -34,9 +25,9 @@
             <DropdownMenu.Trigger>
               {#snippet child({ props: triggerProps })}
                 <Button variant="ghost" size="icon" class="size-9 rounded-lg" {...props} {...triggerProps}>
-                  {#if userPrefersMode.current === 'light'}
+                  {#if theme.selectedMode === Theme.LIGHT}
                     <Sun size="16" />
-                  {:else if userPrefersMode.current === 'dark'}
+                  {:else if theme.selectedMode === Theme.DARK}
                     <Moon size="16" />
                   {:else}
                     <Monitor size="16" />
@@ -56,19 +47,19 @@
       </Tooltip.Root>
     </Tooltip.Provider>
     <DropdownMenu.Content align="end">
-      <DropdownMenu.Item onclick={() => handleModeChange('light')}>
+      <DropdownMenu.Item onclick={() => theme.setMode(Theme.LIGHT)}>
         <span class="flex items-center gap-2">
           <Sun size="16" />
           Light
         </span>
       </DropdownMenu.Item>
-      <DropdownMenu.Item onclick={() => handleModeChange('dark')}>
+      <DropdownMenu.Item onclick={() => theme.setMode(Theme.DARK)}>
         <span class="flex items-center gap-2">
           <Moon size="16" />
           Dark
         </span>
       </DropdownMenu.Item>
-      <DropdownMenu.Item onclick={() => handleModeChange('system')}>
+      <DropdownMenu.Item onclick={() => theme.setMode(Theme.SYSTEM)}>
         <span class="flex items-center gap-2">
           <Monitor size="16" />
           System

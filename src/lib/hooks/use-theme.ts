@@ -1,29 +1,58 @@
+import type { ThemeType } from '$lib/constants';
+
 import { resetMode, setMode, userPrefersMode } from 'mode-watcher';
 
+import { Theme } from '$lib/constants';
+
 /**
- * Cycles through theme modes: system → light → dark → system
+ * The user-selectable theme preference.
+ */
+export type Mode = ThemeType;
+
+/**
+ * Client-facing theme controls shared by theme UI components.
+ */
+export type ThemeControls = {
+  cycleMode: () => void;
+  readonly selectedMode: Mode;
+  setMode: (mode: Mode) => void;
+  setupKeyListener: () => () => void;
+};
+
+/**
+ * Applies a theme preference. System mode resets the stored override.
+ */
+export function setThemeMode(mode: Mode): void {
+  if (mode === Theme.SYSTEM) {
+    resetMode();
+    return;
+  }
+
+  setMode(mode);
+}
+
+/**
+ * Cycles through theme modes: system -> light -> dark -> system.
  */
 export function cycleThemeMode(): void {
   const currentUserMode = userPrefersMode.current;
-  if (currentUserMode === 'system') {
-    setMode('light');
-  } else if (currentUserMode === 'light') {
-    setMode('dark');
+
+  if (currentUserMode === Theme.SYSTEM) {
+    setThemeMode(Theme.LIGHT);
+  } else if (currentUserMode === Theme.LIGHT) {
+    setThemeMode(Theme.DARK);
   } else {
-    resetMode();
+    setThemeMode(Theme.SYSTEM);
   }
 }
 
 /**
- * Sets up a keyboard listener for theme cycling.
- * Listens for 't' key and cycles through themes.
- * Ignores key presses when typing in input fields.
+ * Registers the keyboard shortcut for cycling themes.
  *
- * @returns Cleanup function to remove the event listener
+ * @returns A cleanup function that removes the listener.
  */
 export function setupThemeCyclingKeyListener(): () => void {
   const keyListener = (e: KeyboardEvent) => {
-    // Ignore key presses when typing in input fields
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
       return;
     }
@@ -35,18 +64,21 @@ export function setupThemeCyclingKeyListener(): () => void {
 
   window.addEventListener('keydown', keyListener);
 
-  // Return cleanup function
   return () => {
     window.removeEventListener('keydown', keyListener);
   };
 }
 
 /**
- * Custom hook for theme cycling with keyboard support.
+ * Returns the shared theme API used by theme controls.
  */
-export function useTheme() {
+export function useTheme(): ThemeControls {
   return {
     cycleMode: cycleThemeMode,
+    get selectedMode(): Mode {
+      return userPrefersMode.current;
+    },
+    setMode: setThemeMode,
     setupKeyListener: setupThemeCyclingKeyListener
   };
 }

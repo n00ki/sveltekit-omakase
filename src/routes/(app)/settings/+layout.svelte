@@ -8,7 +8,7 @@
 
   let { children }: Props = $props();
 
-  const sidebarNavItems = [
+  const sidebarNavItems: { title: string; href: string }[] = [
     {
       title: 'Profile',
       href: '/settings/profile'
@@ -16,6 +16,10 @@
     {
       title: 'Password',
       href: '/settings/password'
+    },
+    {
+      title: 'Appearance',
+      href: '/settings/appearance'
     }
   ];
 </script>
