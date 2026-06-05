@@ -3,7 +3,7 @@
 
   import { resolve } from '$app/paths';
 
-  import { getAvatarUrl } from '$lib/utils/display';
+  import { getUserImageUrl } from '$lib/utils/display';
   import { getInitials } from '$lib/utils/name';
 
   import * as Avatar from '$components/ui/avatar';
@@ -37,8 +37,8 @@
             {...props}
           >
             <Avatar.Root class="size-8 rounded-lg">
-              {#if user.avatar}
-                <Avatar.Image src={getAvatarUrl(user.avatar)} alt={user.name} />
+              {#if user.image}
+                <Avatar.Image src={getUserImageUrl(user.image)} alt={user.name} />
               {:else}
                 <Avatar.Fallback class="rounded-lg">
                   {getInitials(user.name)}
@@ -62,8 +62,8 @@
         <DropdownMenu.Label class="p-0 font-normal">
           <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
             <Avatar.Root class="size-8 rounded-lg">
-              {#if user.avatar}
-                <Avatar.Image src={getAvatarUrl(user.avatar)} alt={user.name} />
+              {#if user.image}
+                <Avatar.Image src={getUserImageUrl(user.image)} alt={user.name} />
               {:else}
                 <Avatar.Fallback class="rounded-lg">
                   {getInitials(user.name)}

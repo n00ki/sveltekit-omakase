@@ -189,8 +189,8 @@ Uploads use named policies from `$lib/upload` and direct R2 uploads through `/ap
 ```typescript
 import { FileUploader, uploads } from '$lib/upload';
 
-const avatarUploader: FileUploader = new FileUploader(uploads.avatar);
-const upload = await avatarUploader.upload(file);
+const imageUploader: FileUploader = new FileUploader(uploads.userImage);
+const upload = await imageUploader.upload(file);
 ```
 
 ---

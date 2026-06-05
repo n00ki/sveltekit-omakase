@@ -15,7 +15,7 @@ export type UploadPolicy = {
   maxSize: number;
 };
 
-export const UPLOAD_POLICY_IDS = ['file', 'image', 'avatar'] as const;
+export const UPLOAD_POLICY_IDS = ['file', 'image', 'userImage'] as const;
 export type UploadPolicyId = (typeof UPLOAD_POLICY_IDS)[number];
 
 type UploadPolicyConfig = {
@@ -61,7 +61,7 @@ export function defineUploadPolicies(policies: { [id: string]: UploadPolicyConfi
 const uploadConfigs = {
   file: fileUpload(),
   image: imageUpload(),
-  avatar: imageUpload({ directory: 'images/avatars', maxSize: mb(2) })
+  userImage: imageUpload({ directory: 'images/users', maxSize: mb(2) })
 };
 
 export const uploads = defineUploadPolicies(uploadConfigs);

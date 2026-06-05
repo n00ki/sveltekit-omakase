@@ -36,7 +36,7 @@ export const resetUserPasswordSchema = z
   });
 
 export const updateUserSchema = z.object({
-  imageFileId: z.string().trim().optional(),
+  image: optionalString.pipe(z.uuid().optional()),
   name: optionalString.pipe(nameSchema.optional())
 });
 

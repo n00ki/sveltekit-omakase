@@ -47,8 +47,7 @@ export const createUser = form(createUserSchema, async ({ email, name, _password
       body: {
         email,
         name,
-        password: _password,
-        avatar: ''
+        password: _password
       }
     });
   } catch (err) {

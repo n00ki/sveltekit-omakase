@@ -7,7 +7,7 @@
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
   import { FileUploader, uploads } from '$lib/upload';
-  import { getAvatarUrl } from '$lib/utils/display';
+  import { getUserImageUrl } from '$lib/utils/display';
   import { normalizeFullName } from '$lib/utils/name';
   import { cn } from '$lib/utils/utils';
   import { deleteUserSchema, updateUserSchema } from '$lib/validations/auth';
@@ -25,41 +25,41 @@
 
   let { data }: { data: PageData } = $props();
 
-  const avatarUploader: FileUploader = new FileUploader(uploads.avatar);
+  const imageUploader: FileUploader = new FileUploader(uploads.userImage);
   const formId = $props.id();
   const profileForm = updateUser.for(`${formId}-profile`).preflight(updateUserSchema);
   const deleteAccountForm = deleteUser.for(`${formId}-delete`).preflight(deleteUserSchema);
-  let avatarFileId = $state<string | null>(null);
-  let userAvatarPreview = $derived(getAvatarUrl(data.user?.avatar));
+  let uploadedImageId = $state<string | null>(null);
+  let userImagePreview = $derived(getUserImageUrl(data.user?.image));
   let deleteDialogOpen = $state(false);
 
-  async function uploadAvatar(event: Event): Promise<void> {
+  async function uploadImage(event: Event): Promise<void> {
     const input: HTMLInputElement = event.target as HTMLInputElement;
     const file = input.files?.[0];
 
     if (!file) return;
 
-    const upload = await avatarUploader.upload(file);
+    const upload = await imageUploader.upload(file);
 
     if (!upload.success) {
       input.value = '';
       return;
     }
 
-    avatarFileId = upload.file.id;
-    profileForm.fields.imageFileId.set(upload.file.id);
-    userAvatarPreview = upload.file.url;
+    uploadedImageId = upload.file.id;
+    profileForm.fields.image.set(upload.file.id);
+    userImagePreview = upload.file.url;
   }
 
   const profileFormProps = profileForm.enhance(async (form) => {
     const formName = form.fields.name.value();
-    const imageFileId = form.fields.imageFileId.value();
+    const image = form.fields.image.value();
     const name = typeof formName === 'string' ? normalizeFullName(formName) || undefined : undefined;
 
     const nameChanged = !!name && name !== data.user?.name;
-    const avatarChanged = !!imageFileId;
+    const imageChanged = !!image;
 
-    if (!nameChanged && !avatarChanged) {
+    if (!nameChanged && !imageChanged) {
       toast.warning(m.settings.userProfile.edit.noChanges);
       return;
     }
@@ -70,10 +70,10 @@
 
     form.element.reset();
     form.fields.set({
-      name: '',
-      imageFileId: ''
+      image: '',
+      name: ''
     });
-    avatarFileId = null;
+    uploadedImageId = null;
   });
 
   const CONFIRMATION_PHRASE: string = 'DELETE';
@@ -98,23 +98,23 @@
 
   <div class="mx-auto my-2 flex size-32 rounded-full p-1 ring-4 ring-accent drop-shadow-xs">
     <div class="flex size-full items-center justify-center overflow-hidden rounded-full">
-      {#if avatarUploader.isUploading}
+      {#if imageUploader.isUploading}
         <RefreshCw size="24" class="animate-spin" />
       {:else}
         <Avatar.Root class="size-full">
-          <Avatar.Image src={userAvatarPreview} alt="user avatar preview" />
+          <Avatar.Image src={userImagePreview} alt="user profile preview" />
         </Avatar.Root>
       {/if}
     </div>
   </div>
 
   <form {...profileFormProps} {...useFormValidation(profileForm)}>
-    <input {...profileForm.fields.imageFileId.as('hidden', avatarFileId ?? '')} />
+    <input {...profileForm.fields.image.as('hidden', uploadedImageId ?? '')} />
 
     <Field.Field>
-      <Field.Label>Avatar</Field.Label>
-      <Input type="file" accept={avatarUploader.accept} onchange={uploadAvatar} disabled={avatarUploader.isUploading} />
-      <Field.Error errors={profileForm.fields.imageFileId.issues()} />
+      <Field.Label>Profile image</Field.Label>
+      <Input type="file" accept={imageUploader.accept} onchange={uploadImage} disabled={imageUploader.isUploading} />
+      <Field.Error errors={profileForm.fields.image.issues()} />
     </Field.Field>
 
     <Field.Field>
@@ -135,9 +135,9 @@
     </button>
   </form>
 
-  {#if avatarUploader.isFailed}
+  {#if imageUploader.isFailed}
     <div class="space-y-2">
-      {#each avatarUploader.errors as error, index (index)}
+      {#each imageUploader.errors as error, index (index)}
         <Alert.Root variant="destructive" class="inline-flex items-center gap-2 py-2">
           <div>
             <CircleX size="24" />

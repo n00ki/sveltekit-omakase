@@ -34,7 +34,6 @@ CREATE TABLE `user` (
 	`email` text NOT NULL,
 	`email_verified` integer DEFAULT false NOT NULL,
 	`name` text NOT NULL,
-	`avatar` text,
 	`image` text,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL

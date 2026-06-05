@@ -14,12 +14,12 @@ export const hasCredentialAccount = query(async () => {
   return hasCredentialAccountByUserId(user.id);
 });
 
-export const updateUser = form(updateUserSchema, async ({ imageFileId, name }) => {
+export const updateUser = form(updateUserSchema, async ({ image, name }) => {
   requireAuth();
 
   const { request } = getRequestEvent();
 
-  if (!imageFileId && !name) {
+  if (!image && !name) {
     flash('warning', m.settings.userProfile.edit.noChanges);
     return;
   }
@@ -27,7 +27,7 @@ export const updateUser = form(updateUserSchema, async ({ imageFileId, name }) =
   try {
     await auth.api.updateUser({
       body: {
-        ...(imageFileId && { avatar: imageFileId }),
+        ...(image && { image }),
         ...(name && { name })
       },
       headers: request.headers

@@ -1,7 +1,7 @@
 import { getRequestEvent } from '$app/server';
 
 import { redirect } from '@sveltejs/kit';
-import { hasCredentialAccountByUserId, setUserAvatarFromOAuth } from '$queries';
+import { setUserImageFromOAuth } from '$queries';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { sveltekitCookies } from 'better-auth/svelte-kit';
@@ -11,37 +11,70 @@ import { EMAILS, sendEmail } from '$lib/mail/mailer';
 import db from '$lib/server/database';
 import { normalizeFullName } from '$lib/utils/name';
 
+type GoogleProfile = {
+  family_name?: string | null;
+  given_name?: string | null;
+  name?: string | null;
+  picture?: string | null;
+};
+
 type GoogleIdTokenPayload = {
   picture?: string;
 };
 
-function getGoogleProfileName(profile: {
-  name?: string | null;
-  given_name?: string | null;
-  family_name?: string | null;
-}): string {
+type OAuthAccount = {
+  idToken?: string | null;
+  providerId: string;
+  userId: string;
+};
+
+function nonEmptyString(value: string | null | undefined): string | undefined {
+  return typeof value === 'string' && value.length > 0 ? value : undefined;
+}
+
+function getGoogleProfileName(profile: GoogleProfile): string {
   const name = normalizeFullName(profile.name ?? [profile.given_name, profile.family_name].filter(Boolean).join(' '));
   return name || 'User';
 }
 
-function getGoogleAvatarFromIdToken(idToken: string | null | undefined): string | null {
+function getGoogleProfileImage(profile: GoogleProfile): string | undefined {
+  return nonEmptyString(profile.picture);
+}
+
+function getGoogleImageFromIdToken(idToken: string | null | undefined): string | undefined {
   if (!idToken) {
-    return null;
+    return undefined;
   }
 
   const payload = idToken.split('.')[1];
 
   if (!payload) {
-    return null;
+    return undefined;
   }
 
   try {
     const decodedPayload = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as GoogleIdTokenPayload;
-    return typeof decodedPayload.picture === 'string' && decodedPayload.picture.length > 0
-      ? decodedPayload.picture
-      : null;
+    return nonEmptyString(decodedPayload.picture);
   } catch {
-    return null;
+    return undefined;
+  }
+}
+
+async function syncGoogleImage(account: OAuthAccount | null | undefined): Promise<void> {
+  if (!account || account.providerId !== 'google') {
+    return;
+  }
+
+  const image = getGoogleImageFromIdToken(account.idToken);
+
+  if (!image) {
+    return;
+  }
+
+  try {
+    await setUserImageFromOAuth(account.userId, image);
+  } catch (error) {
+    console.error('Failed to sync Google profile image:', error);
   }
 }
 
@@ -68,29 +101,10 @@ export const auth = betterAuth({
   databaseHooks: {
     account: {
       create: {
-        after: async (account) => {
-          if (account.providerId !== 'google') {
-            return;
-          }
-
-          const hasCredentialAccount = await hasCredentialAccountByUserId(account.userId);
-
-          if (!hasCredentialAccount) {
-            return;
-          }
-
-          const googleAvatar = getGoogleAvatarFromIdToken(account.idToken);
-
-          if (!googleAvatar) {
-            return;
-          }
-
-          try {
-            await setUserAvatarFromOAuth(account.userId, googleAvatar);
-          } catch (error) {
-            console.error('Failed to sync Google avatar:', error);
-          }
-        }
+        after: syncGoogleImage
+      },
+      update: {
+        after: syncGoogleImage
       }
     }
   },
@@ -111,7 +125,10 @@ export const auth = betterAuth({
       redirectUri: `${process.env.PUBLIC_BASE_URL}/auth/social/callback/google`,
       overrideUserInfoOnSignIn: false,
       mapProfileToUser: (profile) => {
+        const image = getGoogleProfileImage(profile);
+
         return {
+          ...(image && { image }),
           name: getGoogleProfileName(profile)
         };
       }
@@ -124,9 +141,6 @@ export const auth = betterAuth({
         unique: true,
         index: true,
         input: false
-      },
-      avatar: {
-        type: 'string'
       }
     },
     deleteUser: {
