@@ -1,10 +1,8 @@
-import type { PageServerLoad } from './$types';
-
 import { hasCredentialAccountByUserId } from '$queries';
 
 import { requireChallenge } from '$lib/server/challenge';
 
-export const load: PageServerLoad = async ({ parent }) => {
+export async function load({ parent }) {
   const { user } = await parent();
   const hasCredential = await hasCredentialAccountByUserId(user.id);
 
@@ -22,4 +20,4 @@ export const load: PageServerLoad = async ({ parent }) => {
     },
     hasCredentialAccount: hasCredential
   };
-};
+}

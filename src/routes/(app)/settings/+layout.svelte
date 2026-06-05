@@ -2,11 +2,7 @@
   import SettingsNavbar from '$components/settings-navbar.svelte';
   import { Separator } from '$components/ui/separator';
 
-  interface Props {
-    children?: import('svelte').Snippet;
-  }
-
-  let { children }: Props = $props();
+  let { children } = $props();
 
   const sidebarNavItems: { title: string; href: string }[] = [
     {

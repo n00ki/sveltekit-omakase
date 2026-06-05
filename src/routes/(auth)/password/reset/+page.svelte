@@ -1,6 +1,4 @@
 <script lang="ts">
-  import type { PageData } from './$types';
-
   import { resetUserPassword } from '$remote/auth.remote';
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
@@ -12,7 +10,7 @@
 
   import { ArrowRight, RotateCw } from '@lucide/svelte';
 
-  let { data }: { data: PageData } = $props();
+  let { data } = $props();
 
   const formId = $props.id();
   const resetUserPasswordForm = resetUserPassword.for(formId).preflight(resetUserPasswordSchema);

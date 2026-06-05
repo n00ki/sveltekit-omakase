@@ -1,11 +1,7 @@
 <script lang="ts">
   import ThemeSwitch from '$components/theme-switch.svelte';
 
-  interface Props {
-    children?: import('svelte').Snippet;
-  }
-
-  let { children }: Props = $props();
+  let { children } = $props();
 </script>
 
 <div class="relative isolate min-h-screen overflow-hidden bg-background">

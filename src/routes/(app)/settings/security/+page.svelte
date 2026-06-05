@@ -1,6 +1,4 @@
 <script lang="ts">
-  import type { PageData } from './$types';
-
   import { page } from '$app/state';
 
   import { getFlash } from 'sveltekit-flash-message/client';
@@ -17,7 +15,7 @@
 
   import { RotateCw } from '@lucide/svelte';
 
-  let { data }: { data: PageData } = $props();
+  let { data } = $props();
 
   const hasCredential = $derived(data.hasCredentialAccount);
   const formId = $props.id();

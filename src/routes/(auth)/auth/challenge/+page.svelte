@@ -1,6 +1,4 @@
 <script lang="ts">
-  import type { PageData } from './$types';
-
   import { completeChallenge } from '$remote/challenge.remote';
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
@@ -13,7 +11,7 @@
 
   import { ArrowRight, RotateCw } from '@lucide/svelte';
 
-  let { data }: { data: PageData } = $props();
+  let { data } = $props();
 
   const formId = $props.id();
   const challengeForm = completeChallenge.for(formId).preflight(challengeSchema);

@@ -67,7 +67,7 @@ $remote       → src/lib/remote
 - Password-backed sensitive routes and remote forms use `requireChallenge('/return-path')` before the operation. `/auth/challenge` returns users there after confirmation.
 - Forms can call `await checkRateLimit(issue.field)` and use `.preflight(schema)` and `useFormValidation` hook for client-side validation.
 - Models live in `$lib/db/models`; db connection is the default export in `$lib/server/database.ts`.
-- Always use explicit TypeScript types.
+- Always use explicit TypeScript types, except for SvelteKit `load` functions and route `$props()` data/children props. Prefer `export function load(...)` and avoid importing generated `$types` only for those route entrypoints.
 - Keep TypeScript readable: prefer plain object types and named unions over generics, mapped types, conditional types, and assertions unless they clearly improve the caller API.
 
 ---

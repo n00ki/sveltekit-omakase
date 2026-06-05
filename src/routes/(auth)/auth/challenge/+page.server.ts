@@ -1,12 +1,10 @@
-import type { PageServerLoad } from './$types';
-
 import { redirect } from '@sveltejs/kit';
 import { hasCredentialAccountByUserId } from '$queries';
 
 import { requireAuth } from '$lib/server/auth';
 import { getSafeChallengeNext, hasFreshChallenge } from '$lib/server/challenge';
 
-export const load: PageServerLoad = async ({ url }) => {
+export async function load({ url }) {
   const { user, session } = requireAuth();
   const next = getSafeChallengeNext(url.searchParams.get('next'));
   const hasCredential = await hasCredentialAccountByUserId(user.id);
@@ -21,4 +19,4 @@ export const load: PageServerLoad = async ({ url }) => {
       title: 'Confirm Access'
     }
   };
-};
+}

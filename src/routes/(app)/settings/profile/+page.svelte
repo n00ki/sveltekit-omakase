@@ -1,6 +1,4 @@
 <script lang="ts">
-  import type { PageData } from './$types';
-
   import { toast } from 'svelte-sonner';
 
   import { deleteUser, updateUser } from '$remote/user.remote';
@@ -23,7 +21,7 @@
 
   import { CircleX, RefreshCw, RotateCw } from '@lucide/svelte';
 
-  let { data }: { data: PageData } = $props();
+  let { data } = $props();
 
   const imageUploader: FileUploader = new FileUploader(uploads.userImage);
   const formId = $props.id();

@@ -1,10 +1,8 @@
-import type { PageServerLoad } from './$types';
-
 import { requireGuest } from '$lib/server/auth';
 import { flashAndRedirect } from '$lib/server/flash';
 import * as m from '$lib/messages';
 
-export const load: PageServerLoad = ({ url }) => {
+export function load({ url }) {
   requireGuest();
 
   const token = url.searchParams.get('token');
@@ -23,4 +21,4 @@ export const load: PageServerLoad = ({ url }) => {
     token,
     email
   };
-};
+}
