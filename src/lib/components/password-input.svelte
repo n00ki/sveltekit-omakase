@@ -93,6 +93,7 @@
     type="button"
     class="absolute inset-y-0 right-0 flex items-center justify-center rounded-r-md px-3 text-muted-foreground transition-[color,box-shadow] outline-none hover:text-foreground focus-visible:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50"
     aria-label={visible ? hidePasswordLabel : showPasswordLabel}
+    tabindex={-1}
     {disabled}
     onpointerdown={keepInputFocus}
     onclick={toggleVisibility}
