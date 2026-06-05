@@ -11,6 +11,7 @@ export const Session = sqliteTable('session', {
   createdAt: integer({ mode: 'timestamp' }).notNull(),
   updatedAt: integer({ mode: 'timestamp' }).notNull(),
   expiresAt: integer({ mode: 'timestamp' }).notNull(),
+  challengeCompletedAt: integer({ mode: 'timestamp' }),
   ipAddress: text(),
   userAgent: text(),
   userId: text()

@@ -1,4 +1,6 @@
-export function load() {
+import type { PageServerLoad } from './$types';
+
+export const load: PageServerLoad = () => {
   return {
     metadata: {
       title: 'User Profile',
@@ -8,4 +10,4 @@ export function load() {
       ]
     }
   };
-}
+};

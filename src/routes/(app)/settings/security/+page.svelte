@@ -1,10 +1,15 @@
 <script lang="ts">
   import type { PageData } from './$types';
 
+  import { page } from '$app/state';
+
+  import { getFlash } from 'sveltekit-flash-message/client';
+
   import { updateUserPassword } from '$remote/user.remote';
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
   import { updateUserPasswordSchema } from '$lib/validations/auth';
+  import * as m from '$lib/messages';
 
   import PasswordInput from '$components/password-input.svelte';
   import { buttonVariants } from '$components/ui/button';
@@ -16,46 +21,38 @@
 
   const hasCredential = $derived(data.hasCredentialAccount);
   const formId = $props.id();
-  const passwordForm = updateUserPassword.for(formId).preflight(updateUserPasswordSchema);
+  const flash = getFlash(page);
+  let passwordFormKey = $state(0);
+  const passwordFormId = $derived(`${formId}-password-${passwordFormKey}`);
+  const passwordForm = $derived(updateUserPassword.for(passwordFormId).preflight(updateUserPasswordSchema));
+  const passwordSuccessMessage = $derived(
+    hasCredential ? m.settings.security.password.success.update : m.settings.security.password.success.set
+  );
 
-  const passwordFormProps = passwordForm.enhance(async (form) => {
-    const isSuccessful = await form.submit();
+  const passwordFormProps = $derived(
+    passwordForm.enhance(async (form) => {
+      const isSuccessful = await form.submit();
 
-    if (!isSuccessful) return;
+      if (!isSuccessful) return;
 
-    form.element.reset();
-    form.fields.set({
-      _currentPassword: '',
-      _password: '',
-      _passwordConfirmation: ''
-    });
-  });
+      $flash = { type: 'success', message: passwordSuccessMessage };
+
+      form.element.reset();
+      passwordFormKey += 1;
+    })
+  );
 </script>
 
 <div class="flex w-full flex-1 flex-col justify-center gap-4">
   <header>
-    <h3 class="mb-0.5 text-base font-medium">Password Settings</h3>
+    <h3 class="mb-0.5 text-base font-medium">Security Settings</h3>
     <p class="text-xs tracking-tight text-muted-foreground">
       {hasCredential ? 'Update your password' : 'Set a password for your account'}
     </p>
   </header>
 
-  <form {...passwordFormProps} {...useFormValidation(passwordForm)}>
-    {#if hasCredential}
-      <div>
-        <Field.Field>
-          <Field.Label>Current Password</Field.Label>
-          <PasswordInput
-            autocomplete="current-password"
-            placeholder="********"
-            {...passwordForm.fields._currentPassword.as('password')}
-          />
-          <Field.Error errors={passwordForm.fields._currentPassword.issues()} />
-        </Field.Field>
-      </div>
-    {/if}
-
-    <div>
+  {#key passwordFormId}
+    <form {...passwordFormProps} {...useFormValidation(passwordForm)}>
       <Field.Field>
         <Field.Label>New Password</Field.Label>
         <PasswordInput
@@ -65,9 +62,7 @@
         />
         <Field.Error errors={passwordForm.fields._password.issues()} />
       </Field.Field>
-    </div>
 
-    <div>
       <Field.Field>
         <Field.Label>Confirm Password</Field.Label>
         <PasswordInput
@@ -77,17 +72,17 @@
         />
         <Field.Error errors={passwordForm.fields._passwordConfirmation.issues()} />
       </Field.Field>
-    </div>
 
-    <button
-      type="submit"
-      disabled={!!passwordForm.pending}
-      class={buttonVariants({ variant: 'secondary', class: 'my-2 w-full' })}
-    >
-      {#if passwordForm.pending}
-        <RotateCw size="16" class="mr-2 animate-spin" />
-      {/if}
-      {hasCredential ? 'Update Password' : 'Set Password'}
-    </button>
-  </form>
+      <button
+        type="submit"
+        disabled={!!passwordForm.pending}
+        class={buttonVariants({ variant: 'secondary', class: 'my-2 w-full' })}
+      >
+        {#if passwordForm.pending}
+          <RotateCw size="16" class="mr-2 animate-spin" />
+        {/if}
+        {hasCredential ? 'Update Password' : 'Set Password'}
+      </button>
+    </form>
+  {/key}
 </div>

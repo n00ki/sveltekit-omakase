@@ -42,7 +42,6 @@ export const updateUserSchema = z.object({
 
 export const updateUserPasswordSchema = z
   .object({
-    _currentPassword: z.string().trim().optional(),
     _password: passwordSchema,
     _passwordConfirmation: z.string().trim()
   })
@@ -61,3 +60,8 @@ export const deleteUserSchema = z
     error: `You must type "${CONFIRMATION_PHRASE}" exactly to confirm`,
     path: ['_confirmation']
   });
+
+export const challengeSchema = z.object({
+  next: z.string().trim().optional(),
+  _password: z.string().trim().min(1, { error: 'Password is required' })
+});

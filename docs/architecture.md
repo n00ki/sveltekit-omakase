@@ -63,7 +63,8 @@ $remote       → src/lib/remote
 
 - Use Svelte 5 runes (`$props`, `$state`, `$derived`, `$effect`).
 - Use Remote Functions (`form`, `query`, `command`) instead of actions.
-- Protected routes and remote functions must call `requireAuth()`; auth pages use `requireGuest()`.
+- Protected route groups use `requireAuth()` in their server layout. protected remote functions and standalone protected routes must call `requireAuth()`. Auth pages use `requireGuest()`.
+- Password-backed sensitive routes and remote forms use `requireChallenge('/return-path')` before the operation. `/auth/challenge` returns users there after confirmation.
 - Forms can call `await checkRateLimit(issue.field)` and use `.preflight(schema)` and `useFormValidation` hook for client-side validation.
 - Models live in `$lib/db/models`; db connection is the default export in `$lib/server/database.ts`.
 - Always use explicit TypeScript types.
@@ -128,7 +129,7 @@ export const login = form(loginSchema, async ({ email, _password }, issue) => {
 ### query() - Read operations
 
 ```typescript
-export const hasCredentialAccount = query(async () => {
+export const hasActiveSubscription = query(async () => {
   const { user } = requireAuth();
   // ... return data
 });

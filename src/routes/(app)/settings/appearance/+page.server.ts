@@ -1,8 +1,6 @@
-import { requireAuth } from '$lib/server/auth';
+import type { PageServerLoad } from './$types';
 
-export function load() {
-  requireAuth();
-
+export const load: PageServerLoad = () => {
   return {
     metadata: {
       title: 'Appearance Settings',
@@ -12,4 +10,4 @@ export function load() {
       ]
     }
   };
-}
+};

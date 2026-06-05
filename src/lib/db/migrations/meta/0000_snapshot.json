@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "9852e1b5-58b7-44af-bee2-848989ae35dd",
+  "id": "50e795e5-12c0-450e-ae5f-b096aa736a4f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "account": {
@@ -155,6 +155,13 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false
+        },
+        "challenge_completed_at": {
+          "name": "challenge_completed_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         },
         "ip_address": {

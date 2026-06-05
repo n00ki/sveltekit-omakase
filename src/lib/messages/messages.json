@@ -32,6 +32,10 @@
       "success": "All set! Your password has been reset successfully. You can now log in with your new password.",
       "invalidToken": "Your password reset link is invalid or has expired. Please request a new one.",
       "passwordsMismatch": "The passwords don't match. Please try again."
+    },
+    "challenge": {
+      "success": "Access confirmed.",
+      "invalidPassword": "The password you entered is incorrect."
     }
   },
   "settings": {
@@ -46,8 +50,8 @@
         "requiresRecentSignIn": "For your security, account deletion requires a recent sign-in. Please sign out, sign back in, and try again."
       }
     },
-    "password": {
-      "edit": {
+    "security": {
+      "password": {
         "success": {
           "set": "Password set successfully! You can now log in using your email and password in addition to your existing login method.",
           "update": "Your password has been updated successfully."

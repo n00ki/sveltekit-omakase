@@ -21,6 +21,7 @@ CREATE TABLE `session` (
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL,
 	`expires_at` integer NOT NULL,
+	`challenge_completed_at` integer,
 	`ip_address` text,
 	`user_agent` text,
 	`user_id` text NOT NULL,

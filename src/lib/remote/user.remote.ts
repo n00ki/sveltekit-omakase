@@ -1,18 +1,15 @@
-import { form, getRequestEvent, query } from '$app/server';
+import { form, getRequestEvent } from '$app/server';
 
 import { error, invalid } from '@sveltejs/kit';
 import { hasCredentialAccountByUserId } from '$queries';
 import { APIError as BetterAuthAPIError } from 'better-auth/api';
 
 import { auth, requireAuth } from '$lib/server/auth';
+import { markChallengeCompleted, requireChallenge } from '$lib/server/challenge';
 import { flash, flashAndRedirect } from '$lib/server/flash';
+import { updateCredentialPassword } from '$lib/server/password';
 import { deleteUserSchema, updateUserPasswordSchema, updateUserSchema } from '$lib/validations/auth';
 import * as m from '$lib/messages';
-
-export const hasCredentialAccount = query(async () => {
-  const { user } = requireAuth();
-  return hasCredentialAccountByUserId(user.id);
-});
 
 export const updateUser = form(updateUserSchema, async ({ image, name }) => {
   requireAuth();
@@ -40,51 +37,39 @@ export const updateUser = form(updateUserSchema, async ({ image, name }) => {
   flashAndRedirect('/settings/profile', 'success', m.settings.userProfile.edit.success);
 });
 
-export const updateUserPassword = form(updateUserPasswordSchema, async ({ _currentPassword, _password }, issue) => {
-  const { user } = requireAuth();
+export const updateUserPassword = form(updateUserPasswordSchema, async ({ _password }) => {
+  const { user, session } = requireAuth();
 
-  const { request } = getRequestEvent();
   const hasCredential = await hasCredentialAccountByUserId(user.id);
+
+  if (hasCredential) {
+    await requireChallenge('/settings/security');
+  }
 
   try {
     if (hasCredential) {
-      // User has existing credential account - current password is required.
-      if (!_currentPassword) {
-        invalid(issue._currentPassword('Current password is required'));
-      }
-
-      await auth.api.changePassword({
-        body: {
-          currentPassword: _currentPassword,
-          newPassword: _password,
-          revokeOtherSessions: true
-        },
-        headers: request.headers
-      });
+      await updateCredentialPassword(user.id, _password, session.token);
     } else {
-      // OAuth user without password - set password for the first time.
+      const { request } = getRequestEvent();
+
       await auth.api.setPassword({
         body: {
           newPassword: _password
         },
         headers: request.headers
       });
+      await markChallengeCompleted();
     }
   } catch (err) {
     console.error('Failed to update password:', err);
-    if (hasCredential && err instanceof BetterAuthAPIError) {
-      if (err.body?.code === 'INVALID_PASSWORD') {
-        invalid(issue._currentPassword('Current password is incorrect'));
-      }
-    }
     error(500, m.general.error);
   }
 
-  if (hasCredential) {
-    flashAndRedirect('/settings/password', 'success', m.settings.password.edit.success.update);
-  } else {
-    flashAndRedirect('/', 'success', m.settings.password.edit.success.set);
-  }
+  const message = hasCredential
+    ? m.settings.security.password.success.update
+    : m.settings.security.password.success.set;
+
+  flashAndRedirect('/settings/security', 'success', message);
 });
 
 export const deleteUser = form(deleteUserSchema, async (_data, issue) => {

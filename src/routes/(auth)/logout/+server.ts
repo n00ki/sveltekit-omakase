@@ -8,6 +8,8 @@ import * as m from '$lib/messages';
 export const POST: RequestHandler = async (event) => {
   requireAuth();
 
+  const redirectTo = getSafeRedirectTo(await event.request.formData());
+
   try {
     await auth.api.signOut({
       headers: event.request.headers
@@ -25,7 +27,7 @@ export const POST: RequestHandler = async (event) => {
     );
   }
   redirect(
-    '/',
+    redirectTo,
     {
       status: 303,
       type: 'success',
@@ -34,3 +36,13 @@ export const POST: RequestHandler = async (event) => {
     event
   );
 };
+
+function getSafeRedirectTo(formData: FormData): string {
+  const redirectTo = formData.get('redirectTo');
+
+  if (typeof redirectTo === 'string' && redirectTo.startsWith('/') && !redirectTo.startsWith('//')) {
+    return redirectTo;
+  }
+
+  return '/';
+}
