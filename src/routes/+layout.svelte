@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { page } from '$app/state';
 
   import { ModeWatcher } from 'mode-watcher';
@@ -8,13 +8,15 @@
   import AppHead from '$components/app-head.svelte';
   import { Toaster } from '$components/ui/sonner';
 
+  import { config } from '$config';
+
   import '../styles/app.css';
 
   let { children } = $props();
 
   const flash = getFlash(page, {
     clearOnNavigate: true,
-    clearAfterMs: 3000,
+    clearAfterMs: config.ui.flashClearAfterMs,
     clearArray: true
   });
 
@@ -37,7 +39,7 @@
     }
 
     return () => {
-      // Clear the flash message to avoid double-toasting.
+      // Clear the flash message to avoid double-toasting
       $flash = undefined;
     };
   });

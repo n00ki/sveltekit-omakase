@@ -8,7 +8,8 @@ import { Session } from '$lib/db/models';
 import { requireAuth } from '$lib/server/auth';
 import db from '$lib/server/database';
 
-const CHALLENGE_TTL_MS = 5 * 60 * 1000;
+import { config } from '$config/server';
+
 const CHALLENGE_PATH = '/auth/challenge';
 
 export function getSafeChallengeNext(value: string | null | undefined, fallback = '/settings/security'): string {
@@ -30,7 +31,7 @@ export async function hasFreshChallenge(sessionToken: string): Promise<boolean> 
     return false;
   }
 
-  return Date.now() - session.challengeCompletedAt.getTime() < CHALLENGE_TTL_MS;
+  return Date.now() - session.challengeCompletedAt.getTime() < config.security.challenge.lifetimeMs;
 }
 
 export async function markChallengeCompleted(): Promise<void> {

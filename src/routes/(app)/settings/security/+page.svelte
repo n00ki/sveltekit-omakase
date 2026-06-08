@@ -7,13 +7,14 @@
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
   import { updateUserPasswordSchema } from '$lib/validations/auth';
-  import * as m from '$lib/messages';
 
   import PasswordInput from '$components/password-input.svelte';
   import { buttonVariants } from '$components/ui/button';
   import * as Field from '$components/ui/field';
 
   import { RotateCw } from '@lucide/svelte';
+
+  import * as m from '$messages';
 
   let { data } = $props();
 

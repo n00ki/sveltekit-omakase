@@ -12,7 +12,7 @@ import { s3 } from '$lib/server/storage';
 import { getUploadPolicy } from '$lib/upload/policies';
 import { uploadRequestSchema } from '$lib/validations/files';
 
-const SIGNED_UPLOAD_EXPIRES_IN = 300;
+import { config } from '$config/server';
 
 export const POST: RequestHandler = async ({ request }) => {
   requireAuth();
@@ -45,7 +45,7 @@ export const POST: RequestHandler = async ({ request }) => {
       Key: key
     });
 
-    const uploadUrl = await getSignedUrl(s3, command, { expiresIn: SIGNED_UPLOAD_EXPIRES_IN });
+    const uploadUrl = await getSignedUrl(s3, command, { expiresIn: config.upload.signing.expiresIn });
 
     return json({
       file: {

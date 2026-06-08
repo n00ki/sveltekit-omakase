@@ -4,8 +4,7 @@ import { browser } from '$app/environment';
 
 import { getUploadFileErrors } from '$lib/upload/policies';
 
-const DEFAULT_FILE_TYPE = 'application/octet-stream';
-const UPLOAD_ENDPOINT = '/api/upload';
+import { config } from '$config';
 
 export type UploadStatus = 'ready' | 'uploading' | 'uploaded' | 'failed';
 
@@ -29,6 +28,8 @@ type PreparedUpload = {
   file: UploadedFile;
   uploadUrl: string;
 };
+
+const UPLOAD_ENDPOINT = '/api/upload';
 
 export class FileUploader {
   status = $state<UploadStatus>('ready');
@@ -107,7 +108,7 @@ export class FileUploader {
       body: JSON.stringify({
         file: {
           size: file.size,
-          type: file.type || DEFAULT_FILE_TYPE
+          type: file.type || config.upload.fallbackContentType
         },
         policy: this.policy.id
       })
@@ -144,7 +145,7 @@ export class FileUploader {
       };
 
       xhr.open('PUT', upload.uploadUrl);
-      xhr.setRequestHeader('Content-Type', file.type || DEFAULT_FILE_TYPE);
+      xhr.setRequestHeader('Content-Type', file.type || config.upload.fallbackContentType);
       xhr.send(file);
     });
   }

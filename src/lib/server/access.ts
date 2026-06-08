@@ -2,7 +2,7 @@ import { getRequestEvent } from '$app/server';
 
 import { error } from '@sveltejs/kit';
 
-import * as m from '$lib/messages';
+import * as m from '$messages';
 
 type VisibilityResource = {
   visibility: 'public' | 'private';

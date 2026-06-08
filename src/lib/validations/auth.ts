@@ -2,6 +2,8 @@ import { z } from 'zod';
 
 import { emailSchema, nameSchema, optionalString, passwordSchema } from '$lib/validations/shared';
 
+import { config } from '$config';
+
 export const createUserSchema = z
   .object({
     email: emailSchema,
@@ -50,14 +52,12 @@ export const updateUserPasswordSchema = z
     path: ['_passwordConfirmation']
   });
 
-const CONFIRMATION_PHRASE = 'DELETE';
-
 export const deleteUserSchema = z
   .object({
     _confirmation: z.string().trim()
   })
-  .refine((data) => data._confirmation === CONFIRMATION_PHRASE, {
-    error: `You must type "${CONFIRMATION_PHRASE}" exactly to confirm`,
+  .refine((data) => data._confirmation === config.auth.deleteAccountConfirmationText, {
+    error: `You must type "${config.auth.deleteAccountConfirmationText}" exactly to confirm`,
     path: ['_confirmation']
   });
 

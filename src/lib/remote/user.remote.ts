@@ -9,7 +9,8 @@ import { markChallengeCompleted, requireChallenge } from '$lib/server/challenge'
 import { flash, flashAndRedirect } from '$lib/server/flash';
 import { updateCredentialPassword } from '$lib/server/password';
 import { deleteUserSchema, updateUserPasswordSchema, updateUserSchema } from '$lib/validations/auth';
-import * as m from '$lib/messages';
+
+import * as m from '$messages';
 
 export const updateUser = form(updateUserSchema, async ({ image, name }) => {
   requireAuth();

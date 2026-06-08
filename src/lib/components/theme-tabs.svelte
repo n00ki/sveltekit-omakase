@@ -3,13 +3,14 @@
   import type { Component } from 'svelte';
   import type { HTMLAttributes } from 'svelte/elements';
 
-  import { Theme } from '$lib/constants';
   import { useTheme } from '$lib/hooks/use-theme';
   import { cn } from '$lib/utils/utils';
 
   import * as ToggleGroup from '$components/ui/toggle-group';
 
   import { Monitor, Moon, Sun } from '@lucide/svelte';
+
+  import { config } from '$config';
 
   interface Props extends HTMLAttributes<HTMLDivElement> {
     class?: string | undefined | null;
@@ -24,11 +25,12 @@
   let { class: className = undefined }: Props = $props();
 
   const theme = useTheme();
+  const themeModes = config.theme.modes;
 
   const modes: ModeOption[] = [
-    { value: Theme.LIGHT, label: 'Light', icon: Sun },
-    { value: Theme.DARK, label: 'Dark', icon: Moon },
-    { value: Theme.SYSTEM, label: 'System', icon: Monitor }
+    { value: themeModes.LIGHT, label: 'Light', icon: Sun },
+    { value: themeModes.DARK, label: 'Dark', icon: Moon },
+    { value: themeModes.SYSTEM, label: 'System', icon: Monitor }
   ];
 
   function handleModeChange(value: string | undefined): void {
@@ -38,7 +40,7 @@
   }
 
   function isMode(value: string | undefined): value is Mode {
-    return value === Theme.LIGHT || value === Theme.DARK || value === Theme.SYSTEM;
+    return value === themeModes.LIGHT || value === themeModes.DARK || value === themeModes.SYSTEM;
   }
 </script>
 

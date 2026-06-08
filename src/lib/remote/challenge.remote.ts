@@ -9,7 +9,8 @@ import { getSafeChallengeNext, markChallengeCompleted } from '$lib/server/challe
 import { flashAndRedirect } from '$lib/server/flash';
 import { checkRateLimit } from '$lib/server/rate-limit';
 import { challengeSchema } from '$lib/validations/auth';
-import * as m from '$lib/messages';
+
+import * as m from '$messages';
 
 export const completeChallenge = form(challengeSchema, async ({ next, _password }, issue) => {
   const { user } = requireAuth();

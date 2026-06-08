@@ -9,6 +9,8 @@ import { Resend } from 'resend';
 
 import { getFirstName } from '$lib/utils/name';
 
+import { config } from '$config/server';
+
 import ResetPasswordTemplate from './templates/reset-password.svelte';
 import WelcomeTemplate from './templates/welcome.svelte';
 
@@ -44,7 +46,7 @@ const renderer = new Renderer();
 const emailTemplates: EmailTemplates = {
   [EMAILS.welcome]: {
     component: WelcomeTemplate as Component,
-    subject: '🥋 Welcome to SvelteKit Omakase!',
+    subject: `🥋 Welcome to ${config.app.name}!`,
     validate: (data: EmailData['welcome']) => {
       if (!getFirstName(data.userName)) {
         throw new Error('Missing required property for Welcome template: userName');

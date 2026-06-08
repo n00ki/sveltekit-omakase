@@ -1,8 +1,9 @@
-import type { ThemeType } from '$lib/constants';
-
 import { resetMode, setMode, userPrefersMode } from 'mode-watcher';
 
-import { Theme } from '$lib/constants';
+import type { ThemeType } from '$config';
+import { config } from '$config';
+
+const themeModes = config.theme.modes;
 
 /**
  * The user-selectable theme preference.
@@ -23,7 +24,7 @@ export type ThemeControls = {
  * Applies a theme preference. System mode resets the stored override.
  */
 export function setThemeMode(mode: Mode): void {
-  if (mode === Theme.SYSTEM) {
+  if (mode === themeModes.SYSTEM) {
     resetMode();
     return;
   }
@@ -37,12 +38,12 @@ export function setThemeMode(mode: Mode): void {
 export function cycleThemeMode(): void {
   const currentUserMode = userPrefersMode.current;
 
-  if (currentUserMode === Theme.SYSTEM) {
-    setThemeMode(Theme.LIGHT);
-  } else if (currentUserMode === Theme.LIGHT) {
-    setThemeMode(Theme.DARK);
+  if (currentUserMode === themeModes.SYSTEM) {
+    setThemeMode(themeModes.LIGHT);
+  } else if (currentUserMode === themeModes.LIGHT) {
+    setThemeMode(themeModes.DARK);
   } else {
-    setThemeMode(Theme.SYSTEM);
+    setThemeMode(themeModes.SYSTEM);
   }
 }
 

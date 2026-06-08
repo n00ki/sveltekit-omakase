@@ -4,6 +4,8 @@
   import * as Sidebar from '$components/ui/sidebar';
 
   import logo from '$lib/assets/logo.png';
+
+  import { config } from '$config';
 </script>
 
 <Sidebar.Menu>
@@ -14,10 +16,10 @@
           <div
             class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground"
           >
-            <img src={logo} alt="SvelteKit Omakase" />
+            <img src={logo} alt={config.app.name} />
           </div>
           <div class="grid flex-1 text-left text-sm leading-tight">
-            <span class="truncate font-semibold">SvelteKit Omakase</span>
+            <span class="truncate font-semibold">{config.app.name}</span>
           </div>
         </a>
       {/snippet}

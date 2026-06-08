@@ -1,6 +1,8 @@
 <script lang="ts">
   import { Body, Container, Head, Heading, Hr, Html, Preview, Section, Text } from '@better-svelte-email/components';
 
+  import { config } from '$config';
+
   interface WelcomeEmailProps {
     userFirstName: string;
   }
@@ -15,7 +17,7 @@
     <Container class="max-w-[600px] rounded-3xl bg-slate-100 px-8 py-10">
       <Section>
         <Heading as="h1" class="m-0 text-[30px] leading-[1.2] font-bold text-slate-900">
-          Welcome to <span class="text-amber-500">SvelteKit Omakase</span>
+          Welcome to <span class="text-amber-500">{config.app.name}</span>
         </Heading>
         <Text class="mt-6 mb-0 text-base leading-[1.7] text-slate-700">Hey, {userFirstName}!</Text>
         <Text class="mt-3 mb-0 text-base leading-[1.7] text-slate-700">

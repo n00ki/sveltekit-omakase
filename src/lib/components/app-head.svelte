@@ -3,6 +3,10 @@
 
   import metaImage from '$lib/assets/meta_image.png';
 
+  import { config } from '$config';
+
+  const TITLE_SEPARATOR = '|';
+
   interface Props {
     title?: string;
     description?: string;
@@ -12,12 +16,12 @@
 
   let {
     title = $bindable(),
-    description = $bindable('a starter project designed to get you up and running with SvelteKit 🚀'),
+    description = $bindable(config.app.description),
     image = $bindable(metaImage),
     url = $bindable(PUBLIC_BASE_URL)
   }: Props = $props();
 
-  let displayTitle = $derived(title ? `${title} | SvelteKit Omakase` : 'SvelteKit Omakase');
+  let displayTitle = $derived(title ? `${title} ${TITLE_SEPARATOR} ${config.app.name}` : config.app.name);
 </script>
 
 <svelte:head>

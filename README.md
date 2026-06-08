@@ -85,14 +85,13 @@ src/
 │   ├── assets/                # Static assets (logo, images)
 │   ├── components/            # Svelte components
 │   │   └── ui/                # shadcn-svelte primitives
-│   ├── constants/             # Domain constants and enums
+│   ├── config/                # App config, messages, and adjustable defaults
 │   ├── db/
 │   │   ├── models/            # Drizzle schemas (User, Session, etc.)
 │   │   ├── queries/           # Pure data queries
 │   │   └── migrations/        # SQL migrations
 │   ├── hooks/                 # Svelte hooks
 │   ├── mail/                  # Email (Resend + Better Svelte Email templates)
-│   ├── messages/              # User-facing messages (i18n)
 │   ├── remote/                # Remote functions (*.remote.ts)
 │   ├── server/                # Server-only code
 │   │   ├── auth.ts            # Better-Auth config + helpers
@@ -115,11 +114,18 @@ src/
 ### Path Aliases
 
 ```typescript
-$components   → src/lib/components
-$models       → src/lib/db/models
-$queries      → src/lib/db/queries
-$remote       → src/lib/remote
+$config        → src/lib/config/config.ts
+$config/server → src/lib/config/config.server.ts
+$messages      → src/lib/config/messages
+$components    → src/lib/components
+$models        → src/lib/db/models
+$queries       → src/lib/db/queries
+$remote        → src/lib/remote
 ```
+
+### Config
+
+Config lives in `src/lib/config`, grouped by context. Import `{ config }` from `$config` for public config, `{ config }` from `$config/server` in server-only modules, and user-facing messages from `$messages`.
 
 ## Documentation
 

@@ -1,6 +1,8 @@
 import { z } from 'zod';
 
-import { getUploadFileErrors, getUploadPolicy, UPLOAD_POLICY_IDS } from '$lib/upload/policies';
+import { getUploadFileErrors, getUploadPolicy } from '$lib/upload/policies';
+
+import { config } from '$config';
 
 const uploadFileSchema = z.object({
   size: z.number().int().positive(),
@@ -10,7 +12,7 @@ const uploadFileSchema = z.object({
 export const uploadRequestSchema = z
   .object({
     file: uploadFileSchema,
-    policy: z.enum(UPLOAD_POLICY_IDS)
+    policy: z.enum(config.upload.policyIds)
   })
   .superRefine(({ file, policy: policyId }, ctx) => {
     const policy = getUploadPolicy(policyId);

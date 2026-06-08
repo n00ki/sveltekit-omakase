@@ -3,7 +3,8 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { redirect } from 'sveltekit-flash-message/server';
 
 import { auth, requireAuth } from '$lib/server/auth';
-import * as m from '$lib/messages';
+
+import * as m from '$messages';
 
 export const POST: RequestHandler = async (event) => {
   requireAuth();

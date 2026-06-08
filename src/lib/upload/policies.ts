@@ -1,5 +1,9 @@
-const BYTES_IN_MB = 1_000_000;
-const DEFAULT_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'] as const;
+import { BYTES_IN_MB } from '$lib/utils/size';
+
+import type { UploadPolicyDefinition, UploadPolicyId } from '$config';
+import { config } from '$config';
+
+export type { UploadPolicyId };
 
 export type UploadOptions = {
   acceptedTypes?: readonly string[];
@@ -15,56 +19,39 @@ export type UploadPolicy = {
   maxSize: number;
 };
 
-export const UPLOAD_POLICY_IDS = ['file', 'image', 'userImage'] as const;
-export type UploadPolicyId = (typeof UPLOAD_POLICY_IDS)[number];
-
-type UploadPolicyConfig = {
-  acceptedTypes?: readonly string[];
-  directory: string;
-  maxSize: number;
-};
-
 type UploadFile = {
   size: number;
   type: string;
 };
 
-export function mb(value: number): number {
-  return Math.round(value * BYTES_IN_MB);
-}
-
-export function fileUpload(options: UploadOptions = {}): UploadPolicyConfig {
-  const maxSize = options.maxSize ?? mb(10);
+export function fileUpload(options: UploadOptions = {}): UploadPolicyDefinition {
+  const maxSize = options.maxSize ?? config.upload.policies.file.maxSize;
 
   return {
     acceptedTypes: options.acceptedTypes,
-    directory: options.directory ?? 'files/uploads',
+    directory: options.directory ?? config.upload.policies.file.directory,
     maxSize
   };
 }
 
-export function imageUpload(options: UploadOptions = {}): UploadPolicyConfig {
-  const maxSize = options.maxSize ?? mb(4);
-  const acceptedTypes = options.acceptedTypes ?? DEFAULT_IMAGE_TYPES;
+export function imageUpload(options: UploadOptions = {}): UploadPolicyDefinition {
+  const acceptedTypes = options.acceptedTypes ?? config.upload.defaultImageTypes;
+  const maxSize = options.maxSize ?? config.upload.policies.image.maxSize;
 
   return {
     acceptedTypes,
-    directory: options.directory ?? 'images/uploads',
+    directory: options.directory ?? config.upload.policies.image.directory,
     maxSize
   };
 }
 
-export function defineUploadPolicies(policies: { [id: string]: UploadPolicyConfig }): { [id: string]: UploadPolicy } {
+function createUploadPolicies(policies: { [id: string]: UploadPolicyDefinition }): {
+  [id: string]: UploadPolicy;
+} {
   return Object.fromEntries(Object.entries(policies).map(([id, policy]) => [id, createUploadPolicy(id, policy)]));
 }
 
-const uploadConfigs = {
-  file: fileUpload(),
-  image: imageUpload(),
-  userImage: imageUpload({ directory: 'images/users', maxSize: mb(2) })
-};
-
-export const uploads = defineUploadPolicies(uploadConfigs);
+export const uploads = createUploadPolicies(config.upload.policies);
 
 export function getUploadPolicy(id: UploadPolicyId): UploadPolicy {
   return uploads[id];
@@ -84,19 +71,19 @@ export function getUploadFileErrors(file: UploadFile, policy: UploadPolicy): str
   return errors;
 }
 
-function createUploadPolicy(id: string, config: UploadPolicyConfig): UploadPolicy {
-  if (!Number.isSafeInteger(config.maxSize) || config.maxSize <= 0) {
+function createUploadPolicy(id: string, policy: UploadPolicyDefinition): UploadPolicy {
+  if (!Number.isSafeInteger(policy.maxSize) || policy.maxSize <= 0) {
     throw new Error(`Upload policy "${id}" must define a positive integer maxSize.`);
   }
 
-  const acceptedTypes = normalizeAcceptedTypes(id, config.acceptedTypes);
+  const acceptedTypes = normalizeAcceptedTypes(id, policy.acceptedTypes);
 
   return {
     acceptedTypes,
     accept: acceptedTypes?.join(','),
-    directory: normalizeDirectory(id, config.directory),
+    directory: normalizeDirectory(id, policy.directory),
     id,
-    maxSize: config.maxSize
+    maxSize: policy.maxSize
   };
 }
 

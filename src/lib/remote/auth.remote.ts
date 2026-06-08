@@ -13,7 +13,8 @@ import {
   requestPasswordResetSchema,
   resetUserPasswordSchema
 } from '$lib/validations/auth';
-import * as m from '$lib/messages';
+
+import * as m from '$messages';
 
 export const login = form(loginSchema, async ({ email, _password }, issue) => {
   requireGuest();

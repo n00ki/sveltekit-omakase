@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { Theme } from '$lib/constants';
   import { useTheme } from '$lib/hooks/use-theme';
 
   import { Button } from '$components/ui/button';
@@ -9,7 +8,10 @@
 
   import { Monitor, Moon, Sun } from '@lucide/svelte';
 
+  import { config } from '$config';
+
   const theme = useTheme();
+  const themeModes = config.theme.modes;
 
   $effect(() => {
     return theme.setupKeyListener();
@@ -25,9 +27,9 @@
             <DropdownMenu.Trigger>
               {#snippet child({ props: triggerProps })}
                 <Button variant="ghost" size="icon" class="size-9 rounded-lg" {...props} {...triggerProps}>
-                  {#if theme.selectedMode === Theme.LIGHT}
+                  {#if theme.selectedMode === themeModes.LIGHT}
                     <Sun size="16" />
-                  {:else if theme.selectedMode === Theme.DARK}
+                  {:else if theme.selectedMode === themeModes.DARK}
                     <Moon size="16" />
                   {:else}
                     <Monitor size="16" />
@@ -47,19 +49,19 @@
       </Tooltip.Root>
     </Tooltip.Provider>
     <DropdownMenu.Content align="end">
-      <DropdownMenu.Item onclick={() => theme.setMode(Theme.LIGHT)}>
+      <DropdownMenu.Item onclick={() => theme.setMode(themeModes.LIGHT)}>
         <span class="flex items-center gap-2">
           <Sun size="16" />
           Light
         </span>
       </DropdownMenu.Item>
-      <DropdownMenu.Item onclick={() => theme.setMode(Theme.DARK)}>
+      <DropdownMenu.Item onclick={() => theme.setMode(themeModes.DARK)}>
         <span class="flex items-center gap-2">
           <Moon size="16" />
           Dark
         </span>
       </DropdownMenu.Item>
-      <DropdownMenu.Item onclick={() => theme.setMode(Theme.SYSTEM)}>
+      <DropdownMenu.Item onclick={() => theme.setMode(themeModes.SYSTEM)}>
         <span class="flex items-center gap-2">
           <Monitor size="16" />
           System

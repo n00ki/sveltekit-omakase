@@ -9,7 +9,6 @@
   import { getInitials, normalizeFullName } from '$lib/utils/name';
   import { cn } from '$lib/utils/utils';
   import { deleteUserSchema, updateUserSchema } from '$lib/validations/auth';
-  import * as m from '$lib/messages';
 
   import * as Alert from '$components/ui/alert';
   import * as Avatar from '$components/ui/avatar';
@@ -20,6 +19,9 @@
   import { Separator } from '$components/ui/separator';
 
   import { CircleX, RefreshCw, RotateCw } from '@lucide/svelte';
+
+  import * as m from '$messages';
+  import { config } from '$config';
 
   let { data } = $props();
 
@@ -74,11 +76,11 @@
     uploadedImageId = null;
   });
 
-  const CONFIRMATION_PHRASE: string = 'DELETE';
+  const deleteConfirmationPhrase: string = config.auth.deleteAccountConfirmationText;
   const destructiveButtonClass: string =
     'bg-destructive text-white hover:bg-destructive/90 dark:bg-destructive/60 dark:hover:bg-destructive/70';
 
-  let isDeleteConfirmed = $derived(deleteAccountForm.fields._confirmation.value() === CONFIRMATION_PHRASE);
+  let isDeleteConfirmed = $derived(deleteAccountForm.fields._confirmation.value() === deleteConfirmationPhrase);
 
   function handleDeleteConfirmationKeydown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
@@ -169,7 +171,7 @@
           </Dialog.Header>
           <div class="grid gap-2">
             <Input
-              placeholder={`Type "${CONFIRMATION_PHRASE}" to confirm`}
+              placeholder={`Type "${deleteConfirmationPhrase}" to confirm`}
               onkeydown={handleDeleteConfirmationKeydown}
               {...deleteAccountForm.fields._confirmation.as('text')}
             />

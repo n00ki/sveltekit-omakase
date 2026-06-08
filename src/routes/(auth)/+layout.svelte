@@ -1,5 +1,9 @@
 <script lang="ts">
+  import { resolve } from '$app/paths';
+
   import ThemeSwitch from '$components/theme-switch.svelte';
+
+  import { config } from '$config';
 
   let { children } = $props();
 </script>
@@ -15,7 +19,7 @@
   ></div>
 
   <header class="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-6 py-5 md:px-8">
-    <a href="/" class="font-secondary text-sm font-semibold tracking-tight">SvelteKit Omakase</a>
+    <a href={resolve('/')} class="font-secondary text-sm font-semibold tracking-tight">{config.app.name}</a>
     <ThemeSwitch />
   </header>
 

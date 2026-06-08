@@ -21,14 +21,13 @@ src/
 │   ├── assets/                # Static assets (logo, images)
 │   ├── components/            # Svelte components
 │   │   └── ui/                # shadcn-svelte primitives
-│   ├── constants/             # Domain constants and enums
+│   ├── config/                # App config, messages, and adjustable defaults
 │   ├── db/
 │   │   ├── models/            # Drizzle schemas (User, Session, etc.)
 │   │   ├── queries/           # Pure data queries
 │   │   └── migrations/        # SQL migrations
 │   ├── hooks/                 # Svelte hooks
 │   ├── mail/                  # Email (Resend + Better Svelte Email templates)
-│   ├── messages/              # User-facing messages (i18n)
 │   ├── remote/                # Remote functions (*.remote.ts)
 │   ├── server/                # Server-only code
 │   │   ├── auth.ts            # Better-Auth config + helpers
@@ -51,11 +50,24 @@ src/
 ### Path Aliases
 
 ```typescript
-$components   → src/lib/components
-$models       → src/lib/db/models
-$queries      → src/lib/db/queries
-$remote       → src/lib/remote
+$config        → src/lib/config/config.ts
+$config/server → src/lib/config/config.server.ts
+$messages      → src/lib/config/messages
+$components    → src/lib/components
+$models        → src/lib/db/models
+$queries       → src/lib/db/queries
+$remote        → src/lib/remote
 ```
+
+### Config
+
+- Config is grouped by context folders in `src/lib/config`: `app`, `auth`, `security`, `upload`, etc.
+- `$config` exports `{ config }` with client-safe config values and shared config types.
+- `$config/server` exports server-only `{ config }`, including the public config plus server-only values.
+- `config.schema.ts` defines the public and full config shapes. Config files use plain typed objects.
+- `$messages` holds user-facing messages.
+- Server-only config is composed through `src/lib/config/config.server.ts`. SvelteKit blocks `.server` modules from client imports.
+- Keep routes, local helper constants, styling internals, and one-off implementation details near their usage.
 
 ---
 
@@ -107,7 +119,8 @@ import { requireGuest } from '$lib/server/auth';
 import { flashAndRedirect } from '$lib/server/flash';
 import { checkRateLimit } from '$lib/server/rate-limit';
 import { loginSchema } from '$lib/validations/auth';
-import * as m from '$lib/messages';
+
+import * as m from '$messages';
 
 export const login = form(loginSchema, async ({ email, _password }, issue) => {
   requireGuest();
@@ -185,7 +198,7 @@ export const deleteUser = form(deleteUserSchema, async () => {
 
 ## Uploads
 
-Uploads use named policies from `$lib/upload` and direct R2 uploads through `/api/upload`.
+Uploads use named policies from `$lib/upload` and direct R2 uploads through the file-based upload endpoint.
 
 ```typescript
 import { FileUploader, uploads } from '$lib/upload';

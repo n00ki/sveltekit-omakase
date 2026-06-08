@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import GithubIcon from '$components/github-icon.svelte';
   import ThemeSwitch from '$components/theme-switch.svelte';
   import { Button } from '$components/ui/button';
@@ -18,17 +18,16 @@
     Zap
   } from '@lucide/svelte';
   import logo from '$lib/assets/logo.png';
+
+  import { config } from '$config';
+
+  const REPOSITORY_URL = 'https://github.com/n00ki/sveltekit-omakase';
 </script>
 
 <div class="flex min-h-screen flex-col items-center gap-8 px-4 py-8">
   <nav class="flex w-full max-w-3xl items-center justify-between">
     <div>
-      <Button
-        href="https://github.com/n00ki/sveltekit-omakase"
-        target="_blank"
-        variant="outline"
-        aria-label="GitHub repository"
-      >
+      <Button href={REPOSITORY_URL} target="_blank" variant="outline" aria-label="GitHub repository">
         <GithubIcon />
       </Button>
     </div>
@@ -41,7 +40,7 @@
   <div class="flex w-full max-w-3xl flex-1 flex-col items-center justify-center gap-8">
     <section class="text-center">
       <img src={logo} alt="logo" class="mx-auto size-16 md:size-24" />
-      <h1 class="mb-1.5 font-secondary text-3xl font-black md:text-6xl">SvelteKit Omakase</h1>
+      <h1 class="mb-1.5 font-secondary text-3xl font-black md:text-6xl">{config.app.name}</h1>
       <h2 class="text-base font-medium tracking-tight md:text-lg">
         the ultimate <span class=" bg-gradient-to-r from-rose-500 to-orange-400 bg-clip-text text-transparent"
           >mise en place</span
@@ -171,7 +170,7 @@
           class="text-muted-foreground"
         >
           Rails doctrine
-        </a>, <em>SvelteKit Omakase</em> offers an opinionated selection of tools and a structured approach for your next
+        </a>, <em>{config.app.name}</em> offers an opinionated selection of tools and a structured approach for your next
         web application. It provides a robust foundation with carefully chosen defaults, while preserving the flexibility
         to customize and extend as your project needs evolve.
       </h2>

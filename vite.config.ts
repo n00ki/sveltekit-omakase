@@ -15,6 +15,13 @@ export default defineConfig(() => ({
       },
 
       alias: {
+        '$config/server': 'src/lib/config/config.server.ts',
+
+        $config: 'src/lib/config/config.ts',
+
+        $messages: 'src/lib/config/messages',
+        '$messages/*': 'src/lib/config/messages/*',
+
         $components: 'src/lib/components',
         '$components/*': 'src/lib/components/*',
 

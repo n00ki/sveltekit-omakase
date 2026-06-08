@@ -2,7 +2,6 @@
   import { mode } from 'mode-watcher';
   import { fade, fly } from 'svelte/transition';
 
-  import { Theme } from '$lib/constants';
   import { useTheme } from '$lib/hooks/use-theme';
 
   import { Button } from '$components/ui/button';
@@ -11,15 +10,18 @@
 
   import { Monitor, Moon, Sun } from '@lucide/svelte';
 
+  import { config } from '$config';
+
   const theme = useTheme();
+  const themeModes = config.theme.modes;
 
   const nextMode = $derived.by(() => {
-    if (theme.selectedMode === Theme.SYSTEM) {
-      return Theme.LIGHT;
-    } else if (theme.selectedMode === Theme.LIGHT) {
-      return Theme.DARK;
+    if (theme.selectedMode === themeModes.SYSTEM) {
+      return themeModes.LIGHT;
+    } else if (theme.selectedMode === themeModes.LIGHT) {
+      return themeModes.DARK;
     } else {
-      return Theme.SYSTEM;
+      return themeModes.SYSTEM;
     }
   });
 
@@ -41,15 +43,15 @@
             class="rounded-full"
             {...props}
           >
-            {#if theme.selectedMode === Theme.DARK}
+            {#if theme.selectedMode === themeModes.DARK}
               <span in:fade={{ duration: 300 }}>
                 <Monitor size="16" />
               </span>
-            {:else if theme.selectedMode === Theme.LIGHT}
+            {:else if theme.selectedMode === themeModes.LIGHT}
               <span in:fly={{ y: -10, duration: 300 }}>
                 <Moon size="16" />
               </span>
-            {:else if theme.selectedMode === Theme.SYSTEM}
+            {:else if theme.selectedMode === themeModes.SYSTEM}
               <span in:fly={{ y: 20, duration: 300 }}>
                 <Sun size="16" />
               </span>

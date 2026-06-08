@@ -11,6 +11,8 @@ import { EMAILS, sendEmail } from '$lib/mail/mailer';
 import db from '$lib/server/database';
 import { normalizeFullName } from '$lib/utils/name';
 
+import { config } from '$config/server';
+
 type GoogleProfile = {
   family_name?: string | null;
   given_name?: string | null;
@@ -90,13 +92,13 @@ export const auth = betterAuth({
   }),
   plugins: [sveltekitCookies(getRequestEvent)],
   advanced: {
-    cookiePrefix: 'somakase',
+    cookiePrefix: config.auth.session.cookiePrefix,
     database: {
       generateId: false
     }
   },
   session: {
-    expiresIn: 60 * 60 * 24 * 7 // 7 days
+    expiresIn: config.auth.session.expiresIn
   },
   databaseHooks: {
     account: {
