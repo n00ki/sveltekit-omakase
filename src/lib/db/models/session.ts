@@ -12,6 +12,7 @@ export const Session = sqliteTable('session', {
   updatedAt: integer({ mode: 'timestamp' }).notNull(),
   expiresAt: integer({ mode: 'timestamp' }).notNull(),
   challengeCompletedAt: integer({ mode: 'timestamp' }),
+  twoFactorCompletedAt: integer({ mode: 'timestamp' }),
   ipAddress: text(),
   userAgent: text(),
   userId: text()

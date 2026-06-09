@@ -44,7 +44,7 @@ Whether you're a seasoned developer or just starting out, this starter kit is ca
 - [👍 SvelteKit](https://kit.svelte.dev/)
 - [💨 TailwindCSS](https://tailwindcss.com/)
 - [💾 Drizzle ORM](https://orm.drizzle.team/)
-- [💂 Better-Auth](https://www.better-auth.com/)
+- [💂 Better Auth](https://www.better-auth.com/)
 - [🎨 shadcn-svelte](https://www.shadcn-svelte.com/)
 - [✉️ Better Svelte Email](https://better-svelte-email.konixy.dev/)
 - [📬 Resend](https://resend.com/)
@@ -94,7 +94,7 @@ src/
 │   ├── mail/                  # Email (Resend + Better Svelte Email templates)
 │   ├── remote/                # Remote functions (*.remote.ts)
 │   ├── server/                # Server-only code
-│   │   ├── auth.ts            # Better-Auth config + helpers
+│   │   ├── auth.ts            # Auth config + helpers
 │   │   ├── database.ts        # Drizzle connection (default export)
 │   │   ├── flash.ts           # Flash message helpers
 │   │   ├── rate-limit.ts      # Rate limit helper
@@ -104,7 +104,7 @@ src/
 │   ├── utils/                 # Shared utilities
 │   └── validations/           # Zod schemas
 ├── routes/
-│   ├── (auth)/                # Auth flows (login, register, password)
+│   ├── (auth)/                # Auth flows (login, register, password, challenge)
 │   ├── (app)/                 # Protected routes (dashboard, settings)
 │   └── api/                   # API endpoints
 └── styles/

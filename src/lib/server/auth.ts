@@ -4,9 +4,10 @@ import { redirect } from '@sveltejs/kit';
 import { setUserImageFromOAuth } from '$queries';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
+import { twoFactor } from 'better-auth/plugins';
 import { sveltekitCookies } from 'better-auth/svelte-kit';
 
-import { Account, Session, User, Verification } from '$lib/db/models';
+import { Account, Session, TwoFactor, User, Verification } from '$lib/db/models';
 import { EMAILS, sendEmail } from '$lib/mail/mailer';
 import db from '$lib/server/database';
 import { normalizeFullName } from '$lib/utils/name';
@@ -81,16 +82,27 @@ async function syncGoogleImage(account: OAuthAccount | null | undefined): Promis
 }
 
 export const auth = betterAuth({
+  appName: config.app.name,
   database: drizzleAdapter(db, {
     provider: 'sqlite',
     schema: {
       user: User,
       session: Session,
       account: Account,
-      verification: Verification
+      verification: Verification,
+      twoFactor: TwoFactor
     }
   }),
-  plugins: [sveltekitCookies(getRequestEvent)],
+  plugins: [
+    twoFactor({
+      issuer: config.app.name,
+      backupCodeOptions: {
+        amount: 8
+      },
+      twoFactorCookieMaxAge: 10 * 60
+    }),
+    sveltekitCookies(getRequestEvent)
+  ],
   advanced: {
     cookiePrefix: config.auth.session.cookiePrefix,
     database: {

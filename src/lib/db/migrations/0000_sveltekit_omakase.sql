@@ -22,6 +22,7 @@ CREATE TABLE `session` (
 	`updated_at` integer NOT NULL,
 	`expires_at` integer NOT NULL,
 	`challenge_completed_at` integer,
+	`two_factor_completed_at` integer,
 	`ip_address` text,
 	`user_agent` text,
 	`user_id` text NOT NULL,
@@ -34,6 +35,7 @@ CREATE TABLE `user` (
 	`public_id` text,
 	`email` text NOT NULL,
 	`email_verified` integer DEFAULT false NOT NULL,
+	`two_factor_enabled` integer DEFAULT false NOT NULL,
 	`name` text NOT NULL,
 	`image` text,
 	`created_at` integer NOT NULL,
@@ -43,6 +45,16 @@ CREATE TABLE `user` (
 CREATE UNIQUE INDEX `user_publicId_unique` ON `user` (`public_id`);--> statement-breakpoint
 CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);--> statement-breakpoint
 CREATE UNIQUE INDEX `public_id_index` ON `user` (`public_id`);--> statement-breakpoint
+CREATE TABLE `two_factor` (
+	`id` text PRIMARY KEY NOT NULL,
+	`secret` text NOT NULL,
+	`backup_codes` text NOT NULL,
+	`user_id` text NOT NULL,
+	`verified` integer DEFAULT false NOT NULL,
+	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE INDEX `two_factor_user_id_index` ON `two_factor` (`user_id`);--> statement-breakpoint
 CREATE TABLE `verification` (
 	`id` text PRIMARY KEY NOT NULL,
 	`identifier` text NOT NULL,

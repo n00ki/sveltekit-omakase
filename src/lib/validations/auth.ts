@@ -18,7 +18,8 @@ export const createUserSchema = z
 
 export const loginSchema = z.object({
   email: emailSchema,
-  _password: z.string().trim()
+  _password: z.string().trim(),
+  next: z.string().trim().optional()
 });
 
 export const requestPasswordResetSchema = z.object({
@@ -61,7 +62,28 @@ export const deleteUserSchema = z
     path: ['_confirmation']
   });
 
-export const challengeSchema = z.object({
-  next: z.string().trim().optional(),
+const nextSchema = z.string().trim().optional();
+
+export const totpCodeSchema = z
+  .string()
+  .trim()
+  .regex(/^\d{6}$/, { error: 'Enter the 6-digit code from your authenticator app' });
+
+export const passwordChallengeSchema = z.object({
+  next: nextSchema,
   _password: z.string().trim().min(1, { error: 'Password is required' })
+});
+
+export const totpChallengeSchema = z.object({
+  next: nextSchema,
+  _code: totpCodeSchema
+});
+
+export const recoveryChallengeSchema = z.object({
+  next: nextSchema,
+  _recoveryCode: z.string().trim().min(1, { error: 'Enter a recovery code' })
+});
+
+export const confirmTwoFactorSetupSchema = z.object({
+  _code: totpCodeSchema
 });

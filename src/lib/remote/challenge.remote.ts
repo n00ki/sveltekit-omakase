@@ -1,45 +1,83 @@
 import { form, getRequestEvent } from '$app/server';
 
 import { error, invalid } from '@sveltejs/kit';
-import { hasCredentialAccountByUserId } from '$queries';
 import { APIError as BetterAuthAPIError } from 'better-auth/api';
 
-import { auth, requireAuth } from '$lib/server/auth';
-import { getSafeChallengeNext, markChallengeCompleted } from '$lib/server/challenge';
+import { auth } from '$lib/server/auth';
+import { getChallengeMode, getSafeChallengeNext, markChallengeCompleted } from '$lib/server/challenge';
 import { flashAndRedirect } from '$lib/server/flash';
 import { checkRateLimit } from '$lib/server/rate-limit';
-import { challengeSchema } from '$lib/validations/auth';
+import * as twoFactor from '$lib/server/two-factor';
+import { passwordChallengeSchema, recoveryChallengeSchema, totpChallengeSchema } from '$lib/validations/auth';
 
 import * as m from '$messages';
 
-export const completeChallenge = form(challengeSchema, async ({ next, _password }, issue) => {
-  const { user } = requireAuth();
-  await checkRateLimit(issue._password);
+function finishTwoFactor(next: string | undefined, loggedIn: boolean): void {
+  flashAndRedirect(getSafeChallengeNext(next), 'success', loggedIn ? m.auth.challenge.success : m.auth.login.success);
+}
 
-  const redirectTo = getSafeChallengeNext(next);
+function handleExpiredTwoFactor(result: string): void {
+  if (result === 'expired') {
+    flashAndRedirect('/login', 'error', m.auth.twoFactor.expired);
+  }
+}
 
-  if (!(await hasCredentialAccountByUserId(user.id))) {
-    flashAndRedirect(redirectTo, 'success', m.auth.challenge.success);
+export const completeTotpChallenge = form(totpChallengeSchema, async ({ next, _code }, issue) => {
+  const event = getRequestEvent();
+  await checkRateLimit(issue._code);
+
+  const result = await twoFactor.verifyTotpChallenge(_code);
+  handleExpiredTwoFactor(result);
+
+  if (result === 'invalid') {
+    invalid(issue._code(m.auth.twoFactor.invalidCode));
+  }
+  if (result === 'failed') {
+    error(500, m.general.error);
   }
 
-  const { request } = getRequestEvent();
+  finishTwoFactor(next, !!event.locals.user);
+});
+
+export const completeRecoveryChallenge = form(recoveryChallengeSchema, async ({ next, _recoveryCode }, issue) => {
+  const event = getRequestEvent();
+  await checkRateLimit(issue._recoveryCode);
+
+  const result = await twoFactor.verifyRecoveryChallenge(_recoveryCode);
+  handleExpiredTwoFactor(result);
+
+  if (result === 'invalid') {
+    invalid(issue._recoveryCode(m.auth.twoFactor.invalidRecoveryCode));
+  }
+  if (result === 'failed') {
+    error(500, m.general.error);
+  }
+
+  finishTwoFactor(next, !!event.locals.user);
+});
+
+export const completePasswordChallenge = form(passwordChallengeSchema, async ({ next, _password }, issue) => {
+  const event = getRequestEvent();
+  await checkRateLimit(issue._password);
+
+  if ((await getChallengeMode()) !== 'password') {
+    error(400, m.general.error);
+  }
 
   try {
     await auth.api.verifyPassword({
-      body: {
-        password: _password
-      },
-      headers: request.headers
+      body: { password: _password },
+      headers: event.request.headers
     });
   } catch (err) {
     if (err instanceof BetterAuthAPIError && err.body?.code === 'INVALID_PASSWORD') {
       invalid(issue._password(m.auth.challenge.invalidPassword));
     }
 
-    console.error('Failed to complete challenge:', err);
+    console.error('Failed to complete password challenge:', err);
     error(500, m.general.error);
   }
 
   await markChallengeCompleted();
-  flashAndRedirect(redirectTo, 'success', m.auth.challenge.success);
+  flashAndRedirect(getSafeChallengeNext(next), 'success', m.auth.challenge.success);
 });

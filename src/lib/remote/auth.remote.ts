@@ -1,10 +1,11 @@
 import { form } from '$app/server';
 
-import { error, invalid } from '@sveltejs/kit';
+import { error, invalid, redirect } from '@sveltejs/kit';
 import { APIError as BetterAuthAPIError } from 'better-auth/api';
 
 import { EMAILS, sendEmail } from '$lib/mail/mailer';
 import { auth, requireGuest } from '$lib/server/auth';
+import { getSafeChallengeNext } from '$lib/server/challenge';
 import { flashAndRedirect } from '$lib/server/flash';
 import { checkRateLimit } from '$lib/server/rate-limit';
 import {
@@ -16,12 +17,15 @@ import {
 
 import * as m from '$messages';
 
-export const login = form(loginSchema, async ({ email, _password }, issue) => {
+export const login = form(loginSchema, async ({ email, _password, next }, issue) => {
   requireGuest();
   await checkRateLimit(issue.email);
 
+  const redirectTo = getSafeChallengeNext(next, '/dashboard');
+  let result: Awaited<ReturnType<typeof auth.api.signInEmail>>;
+
   try {
-    await auth.api.signInEmail({
+    result = await auth.api.signInEmail({
       body: {
         email,
         password: _password
@@ -36,7 +40,11 @@ export const login = form(loginSchema, async ({ email, _password }, issue) => {
     error(500, m.general.error);
   }
 
-  flashAndRedirect('/dashboard', 'success', m.auth.login.success);
+  if ('twoFactorRedirect' in result && result.twoFactorRedirect) {
+    redirect(303, `/auth/challenge?${new URLSearchParams({ next: redirectTo }).toString()}`);
+  }
+
+  flashAndRedirect(redirectTo, 'success', m.auth.login.success);
 });
 
 export const createUser = form(createUserSchema, async ({ email, name, _password }, issue) => {

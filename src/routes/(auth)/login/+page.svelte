@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { resolve } from '$app/paths';
+
   import { login } from '$remote/auth.remote';
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
@@ -13,11 +15,14 @@
 
   import { ArrowRight, RotateCw } from '@lucide/svelte';
 
+  let { data } = $props();
+
   const formId = $props.id();
   const loginForm = login.for(formId).preflight(loginSchema);
   const emailErrors = useRateLimitCountdown(() => loginForm.fields.email.issues());
+  const googleLoginQuery = $derived(new URLSearchParams({ next: data.next }).toString());
 
-  let isRedirecting = $state(false);
+  let redirecting = $state(false);
 </script>
 
 <section class="space-y-6">
@@ -27,6 +32,8 @@
   </header>
 
   <form {...loginForm} {...useFormValidation(loginForm)} class="space-y-4!">
+    <input {...loginForm.fields.next.as('hidden', data.next)} />
+
     <Field.Field class="gap-1.5">
       <Field.Label class="text-xs font-medium tracking-tight text-muted-foreground">Email</Field.Label>
       <Input
@@ -44,7 +51,7 @@
       <div class="flex items-baseline justify-between">
         <Field.Label class="text-xs font-medium tracking-tight text-muted-foreground">Password</Field.Label>
         <a
-          href="/password"
+          href={resolve('/password')}
           class="text-xs text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
         >
           Forgot password?
@@ -82,13 +89,13 @@
   <a
     class={buttonVariants({
       variant: 'outline',
-      class: ['h-10 w-full gap-2.5', isRedirecting && 'pointer-events-none cursor-not-allowed opacity-50']
+      class: ['h-10 w-full gap-2.5', redirecting && 'pointer-events-none cursor-not-allowed opacity-50']
     })}
-    onclick={() => (isRedirecting = true)}
-    href="/login/google"
+    onclick={() => (redirecting = true)}
+    href={resolve(`/login/google?${googleLoginQuery}`)}
     data-sveltekit-reload
   >
-    {#if isRedirecting}
+    {#if redirecting}
       <RotateCw size="14" class="animate-spin" />
     {:else}
       <GoogleIcon />
@@ -98,6 +105,6 @@
 
   <p class="text-center text-sm text-muted-foreground">
     Don't have an account?
-    <a href="/register" class="font-medium text-foreground underline-offset-4 hover:underline">Sign up</a>
+    <a href={resolve('/register')} class="font-medium text-foreground underline-offset-4 hover:underline">Sign up</a>
   </p>
 </section>

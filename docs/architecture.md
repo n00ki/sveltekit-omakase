@@ -4,7 +4,7 @@
 
 | Layer        | Tools                                               |
 | ------------ | --------------------------------------------------- |
-| **Backend**  | SvelteKit, TypeScript, Better-Auth, Drizzle ORM     |
+| **Backend**  | SvelteKit, TypeScript, Better Auth, Drizzle ORM     |
 | **Frontend** | Svelte 5, TypeScript, TailwindCSS v4, shadcn-svelte |
 | **Database** | Turso/LibSQL                                        |
 | **Forms**    | Remote Functions, Zod                               |
@@ -30,7 +30,7 @@ src/
 │   ├── mail/                  # Email (Resend + Better Svelte Email templates)
 │   ├── remote/                # Remote functions (*.remote.ts)
 │   ├── server/                # Server-only code
-│   │   ├── auth.ts            # Better-Auth config + helpers
+│   │   ├── auth.ts            # Better Auth config + helpers
 │   │   ├── database.ts        # Drizzle connection (default export)
 │   │   ├── flash.ts           # Flash message helpers
 │   │   ├── rate-limit.ts      # Rate limit helper
@@ -40,7 +40,7 @@ src/
 │   ├── utils/                 # Shared utilities
 │   └── validations/           # Zod schemas
 ├── routes/
-│   ├── (auth)/                # Auth flows (login, register, password)
+│   ├── (auth)/                # Auth flows (login, register, password, challenge)
 │   ├── (app)/                 # Protected routes (dashboard, settings)
 │   └── api/                   # API endpoints
 └── styles/
@@ -76,10 +76,11 @@ $remote        → src/lib/remote
 - Use Svelte 5 runes (`$props`, `$state`, `$derived`, `$effect`).
 - Use Remote Functions (`form`, `query`, `command`) instead of actions.
 - Protected route groups use `requireAuth()` in their server layout. protected remote functions and standalone protected routes must call `requireAuth()`. Auth pages use `requireGuest()`.
-- Password-backed sensitive routes and remote forms use `requireChallenge('/return-path')` before the operation. `/auth/challenge` returns users there after confirmation.
+- Access guards live in `src/lib/server/access.ts`. Two-factor protected sessions use Better Auth verification plus `Session.twoFactorCompletedAt`.
+- Sensitive routes and remote forms use `requireChallenge('/return-path')` before the operation. It prompts for a 2FA or recovery code when enabled, password for password-backed accounts, or a fresh sign-in for OAuth-only accounts, and `/auth/challenge` returns users there after confirmation.
 - Forms can call `await checkRateLimit(issue.field)` and use `.preflight(schema)` and `useFormValidation` hook for client-side validation.
 - Models live in `$lib/db/models`; db connection is the default export in `$lib/server/database.ts`.
-- Always use explicit TypeScript types, except for SvelteKit `load` functions and route `$props()` data/children props. Prefer `export function load(...)` and avoid importing generated `$types` only for those route entrypoints.
+- Use explicit TypeScript types at meaningful boundaries, such as shared APIs, DB/query contracts, and non-obvious helpers. Rely on inference for local values, route `load` functions, and route `$props()` data/children props.
 - Keep TypeScript readable: prefer plain object types and named unions over generics, mapped types, conditional types, and assertions unless they clearly improve the caller API.
 
 ---

@@ -1,22 +1,33 @@
 import { redirect } from '@sveltejs/kit';
-import { hasCredentialAccountByUserId } from '$queries';
 
-import { requireAuth } from '$lib/server/auth';
-import { getSafeChallengeNext, hasFreshChallenge } from '$lib/server/challenge';
+import { getChallengeMode, getSafeChallengeNext } from '$lib/server/challenge';
 
-export async function load({ url }) {
-  const { user, session } = requireAuth();
+export async function load({ locals, url }) {
   const next = getSafeChallengeNext(url.searchParams.get('next'));
-  const hasCredential = await hasCredentialAccountByUserId(user.id);
 
-  if (!hasCredential || (await hasFreshChallenge(session.token))) {
+  const title = 'Confirm Access';
+
+  if (!locals.user || !locals.session) {
+    return {
+      next,
+      method: 'totp',
+      metadata: {
+        title
+      }
+    };
+  }
+
+  const method = await getChallengeMode();
+
+  if (method === 'none') {
     redirect(303, next);
   }
 
   return {
     next,
+    method,
     metadata: {
-      title: 'Confirm Access'
+      title
     }
   };
 }

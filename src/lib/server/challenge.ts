@@ -1,7 +1,8 @@
-import { getRequestEvent } from '$app/server';
-
-import { redirect } from '@sveltejs/kit';
-import { hasCredentialAccountByUserId } from '$queries';
+import {
+  getSessionSecurityTimestampsByToken,
+  hasCredentialAccountByUserId,
+  hasEnabledTwoFactorByUserId
+} from '$queries';
 import { eq } from 'drizzle-orm';
 
 import { Session } from '$lib/db/models';
@@ -10,7 +11,7 @@ import db from '$lib/server/database';
 
 import { config } from '$config/server';
 
-const CHALLENGE_PATH = '/auth/challenge';
+export type ChallengeMode = 'none' | 'password' | 'session' | 'totp';
 
 export function getSafeChallengeNext(value: string | null | undefined, fallback = '/settings/security'): string {
   if (!value || !value.startsWith('/') || value.startsWith('//')) {
@@ -20,47 +21,69 @@ export function getSafeChallengeNext(value: string | null | undefined, fallback 
   return value;
 }
 
-export async function hasFreshChallenge(sessionToken: string): Promise<boolean> {
-  const [session] = await db
-    .select({ challengeCompletedAt: Session.challengeCompletedAt })
-    .from(Session)
-    .where(eq(Session.token, sessionToken))
-    .limit(1);
-
-  if (!session?.challengeCompletedAt) {
-    return false;
-  }
-
-  return Date.now() - session.challengeCompletedAt.getTime() < config.security.challenge.lifetimeMs;
+function isFresh(timestamp: Date | null | undefined): boolean {
+  return !!timestamp && Date.now() - timestamp.getTime() < config.security.challenge.lifetimeMs;
 }
 
-export async function markChallengeCompleted(): Promise<void> {
-  const { session } = requireAuth();
+export async function hasPendingTwoFactorChallenge(): Promise<boolean> {
+  const { session, user } = requireAuth();
+  const [hasTwoFactor, timestamps] = await Promise.all([
+    hasEnabledTwoFactorByUserId(user.id),
+    getSessionSecurityTimestampsByToken(session.token)
+  ]);
+
+  return hasTwoFactor && !timestamps?.twoFactorCompletedAt;
+}
+
+export async function getChallengeMode(): Promise<ChallengeMode> {
+  const { session, user } = requireAuth();
+  const [hasPassword, hasTwoFactor, timestamps] = await Promise.all([
+    hasCredentialAccountByUserId(user.id),
+    hasEnabledTwoFactorByUserId(user.id),
+    getSessionSecurityTimestampsByToken(session.token)
+  ]);
+
+  if (hasTwoFactor && !timestamps?.twoFactorCompletedAt) {
+    return 'totp';
+  }
+
+  if (isFresh(timestamps?.challengeCompletedAt)) {
+    return 'none';
+  }
+
+  if (hasTwoFactor) {
+    return 'totp';
+  }
+
+  if (hasPassword) {
+    return 'password';
+  }
+
+  return isFresh(timestamps?.createdAt) ? 'none' : 'session';
+}
+
+export async function markChallengeCompleted(sessionToken?: string): Promise<void> {
+  const token = sessionToken ?? requireAuth().session.token;
+  const now = new Date();
 
   await db
     .update(Session)
     .set({
-      challengeCompletedAt: new Date(),
-      updatedAt: new Date()
+      challengeCompletedAt: now,
+      updatedAt: now
     })
-    .where(eq(Session.token, session.token));
+    .where(eq(Session.token, token));
 }
 
-/**
- * Gate password-backed sensitive work behind a recent challenge.
- * Pass the route the user should return to after confirming.
- */
-export async function requireChallenge(next: string): Promise<void> {
-  const { user, session } = requireAuth();
-  const hasPassword = await hasCredentialAccountByUserId(user.id);
+export async function markTwoFactorChallengeCompleted(sessionToken: string): Promise<void> {
+  const now = new Date();
 
-  if (!hasPassword || (await hasFreshChallenge(session.token))) {
-    return;
-  }
-
-  const { url } = getRequestEvent();
-  const redirectTo = getSafeChallengeNext(next || `${url.pathname}${url.search}`);
-  const params = new URLSearchParams({ next: redirectTo });
-
-  redirect(303, `${CHALLENGE_PATH}?${params.toString()}`);
+  await db
+    .update(Session)
+    .set({
+      challengeCompletedAt: now,
+      twoFactorCompletedAt: now,
+      updatedAt: now
+    })
+    .where(eq(Session.token, sessionToken));
 }

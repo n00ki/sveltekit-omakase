@@ -36,6 +36,12 @@
     "challenge": {
       "success": "Access confirmed.",
       "invalidPassword": "The password you entered is incorrect."
+    },
+    "twoFactor": {
+      "setupConfirmed": "Two-factor authentication is now enabled.",
+      "invalidCode": "The authentication code is invalid.",
+      "invalidRecoveryCode": "The recovery code is invalid.",
+      "expired": "Your two-factor challenge has expired. Please sign in again."
     }
   },
   "settings": {
@@ -55,6 +61,11 @@
         "success": {
           "set": "Password set successfully! You can now log in using your email and password in addition to your existing login method.",
           "update": "Your password has been updated successfully."
+        }
+      },
+      "twoFactor": {
+        "success": {
+          "disable": "Two-factor authentication has been disabled."
         }
       }
     }

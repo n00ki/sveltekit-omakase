@@ -13,6 +13,7 @@ export const User = sqliteTable(
       .unique(),
     email: text().notNull().unique(),
     emailVerified: integer({ mode: 'boolean' }).notNull().default(false),
+    twoFactorEnabled: integer({ mode: 'boolean' }).notNull().default(false),
     name: text().notNull(),
     image: text(),
     createdAt: integer({ mode: 'timestamp' })

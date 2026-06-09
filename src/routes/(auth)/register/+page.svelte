@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { resolve } from '$app/paths';
+
   import { createUser } from '$remote/auth.remote';
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
@@ -15,7 +17,7 @@
   const formId = $props.id();
   const createUserForm = createUser.for(formId).preflight(createUserSchema);
 
-  let isRedirecting = $state(false);
+  let redirecting = $state(false);
 </script>
 
 <section class="space-y-6">
@@ -93,13 +95,13 @@
   <a
     class={buttonVariants({
       variant: 'outline',
-      class: ['h-10 w-full gap-2.5', isRedirecting && 'pointer-events-none cursor-not-allowed opacity-50']
+      class: ['h-10 w-full gap-2.5', redirecting && 'pointer-events-none cursor-not-allowed opacity-50']
     })}
-    onclick={() => (isRedirecting = true)}
-    href="/login/google"
+    onclick={() => (redirecting = true)}
+    href={resolve('/login/google')}
     data-sveltekit-reload
   >
-    {#if isRedirecting}
+    {#if redirecting}
       <RotateCw size="14" class="animate-spin" />
     {:else}
       <GoogleIcon />
@@ -109,6 +111,6 @@
 
   <p class="text-center text-sm text-muted-foreground">
     Already have an account?
-    <a href="/login" class="font-medium text-foreground underline-offset-4 hover:underline">Sign in</a>
+    <a href={resolve('/login')} class="font-medium text-foreground underline-offset-4 hover:underline">Sign in</a>
   </p>
 </section>

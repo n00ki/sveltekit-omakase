@@ -1,14 +1,14 @@
-import { hasCredentialAccountByUserId } from '$queries';
+import { hasCredentialAccountByUserId, hasEnabledTwoFactorByUserId } from '$queries';
 
-import { requireChallenge } from '$lib/server/challenge';
+import { requireChallenge } from '$lib/server/access';
 
 export async function load({ parent }) {
   const { user } = await parent();
-  const hasCredential = await hasCredentialAccountByUserId(user.id);
-
-  if (hasCredential) {
-    await requireChallenge('/settings/security');
-  }
+  await requireChallenge('/settings/security');
+  const [hasCredential, twoFactorEnabled] = await Promise.all([
+    hasCredentialAccountByUserId(user.id),
+    hasEnabledTwoFactorByUserId(user.id)
+  ]);
 
   return {
     metadata: {
@@ -18,6 +18,7 @@ export async function load({ parent }) {
         { title: 'Security Settings', href: '/settings/security' }
       ]
     },
-    hasCredentialAccount: hasCredential
+    hasCredentialAccount: hasCredential,
+    twoFactorEnabled
   };
 }

@@ -33,7 +33,7 @@
   let userImagePreview = $derived(getUserImageUrl(data.user?.image));
   let deleteDialogOpen = $state(false);
 
-  async function uploadImage(event: Event): Promise<void> {
+  async function uploadImage(event: Event) {
     const input: HTMLInputElement = event.target as HTMLInputElement;
     const file = input.files?.[0];
 
@@ -51,7 +51,7 @@
     userImagePreview = upload.file.url;
   }
 
-  const profileFormProps = profileForm.enhance(async (form) => {
+  const enhancedProfileForm = profileForm.enhance(async (form) => {
     const formName = form.fields.name.value();
     const image = form.fields.image.value();
     const name = typeof formName === 'string' ? normalizeFullName(formName) || undefined : undefined;
@@ -64,9 +64,9 @@
       return;
     }
 
-    const isSuccessful = await form.submit();
+    const successful = await form.submit();
 
-    if (!isSuccessful) return;
+    if (!successful) return;
 
     form.element.reset();
     form.fields.set({
@@ -80,7 +80,7 @@
   const destructiveButtonClass: string =
     'bg-destructive text-white hover:bg-destructive/90 dark:bg-destructive/60 dark:hover:bg-destructive/70';
 
-  let isDeleteConfirmed = $derived(deleteAccountForm.fields._confirmation.value() === deleteConfirmationPhrase);
+  let deleteConfirmed = $derived(deleteAccountForm.fields._confirmation.value() === deleteConfirmationPhrase);
 
   function handleDeleteConfirmationKeydown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
@@ -111,7 +111,7 @@
     </div>
   </div>
 
-  <form {...profileFormProps} {...useFormValidation(profileForm)}>
+  <form {...profileForm} {...enhancedProfileForm} {...useFormValidation(profileForm)}>
     <input {...profileForm.fields.image.as('hidden', uploadedImageId ?? '')} />
 
     <Field.Field>
@@ -183,7 +183,7 @@
               type="submit"
               variant="destructive"
               class={destructiveButtonClass}
-              disabled={!isDeleteConfirmed || !!deleteAccountForm.pending}
+              disabled={!deleteConfirmed || !!deleteAccountForm.pending}
             >
               {#if deleteAccountForm.pending}
                 <RotateCw size="16" class="mr-2 animate-spin" />

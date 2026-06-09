@@ -7,6 +7,7 @@ import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { error, json } from '@sveltejs/kit';
 
+import { requireTwoFactor } from '$lib/server/access';
 import { requireAuth } from '$lib/server/auth';
 import { s3 } from '$lib/server/storage';
 import { getUploadPolicy } from '$lib/upload/policies';
@@ -16,6 +17,7 @@ import { config } from '$config/server';
 
 export const POST: RequestHandler = async ({ request }) => {
   requireAuth();
+  await requireTwoFactor();
 
   let body: unknown;
 

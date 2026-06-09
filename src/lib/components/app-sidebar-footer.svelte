@@ -22,7 +22,7 @@
   const sidebar = useSidebar();
 
   let logoutForm: HTMLFormElement;
-  let isLoggingOut = $state(false);
+  let loggingOut = $state(false);
 </script>
 
 <Sidebar.Menu>
@@ -88,12 +88,12 @@
         <DropdownMenu.Separator />
         <DropdownMenu.Item
           onclick={() => {
-            isLoggingOut = true;
+            loggingOut = true;
             logoutForm.submit();
           }}
-          disabled={isLoggingOut}
+          disabled={loggingOut}
         >
-          {#if isLoggingOut}
+          {#if loggingOut}
             <RotateCw size="16" class="mr-2 animate-spin" />
           {:else}
             <LogOut size="16" />
