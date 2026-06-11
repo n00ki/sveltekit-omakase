@@ -1,8 +1,6 @@
 <script lang="ts">
   import { page } from '$app/state';
 
-  import { onMount } from 'svelte';
-
   import AppSidebar from '$components/app-sidebar.svelte';
   import ThemeDropdown from '$components/theme-dropdown.svelte';
   import * as Breadcrumb from '$components/ui/breadcrumb';
@@ -10,10 +8,6 @@
   import * as Sidebar from '$components/ui/sidebar';
 
   let { data, children } = $props();
-
-  let sidebarState = $state({
-    open: true
-  });
 
   let breadcrumbs = $derived(
     page.data.metadata?.breadcrumbs ??
@@ -25,18 +19,9 @@
           href: `/${item}`
         }))
   );
-
-  onMount(() => {
-    sidebarState.open = localStorage.getItem('sidebar') !== 'false';
-  });
-
-  const handleSidebarChange = (open: boolean) => {
-    sidebarState.open = open;
-    localStorage.setItem('sidebar', String(open));
-  };
 </script>
 
-<Sidebar.Provider bind:open={sidebarState.open} onOpenChange={handleSidebarChange}>
+<Sidebar.Provider open={data.sidebarOpen}>
   <AppSidebar user={data.user} />
 
   <Sidebar.Inset>
