@@ -156,6 +156,9 @@ importers:
       typescript-eslint:
         specifier: ^8.60.1
         version: 8.60.1(eslint@10.4.1(jiti@2.7.0))(typescript@6.0.3)
+      valibot:
+        specifier: ^1.4.1
+        version: 1.4.1(typescript@6.0.3)
       vite:
         specifier: ^8.0.16
         version: 8.0.16(@types/node@25.9.1)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0)
@@ -165,9 +168,6 @@ importers:
       vitest:
         specifier: ^4.1.8
         version: 4.1.8(@types/node@25.9.1)(vite@8.0.16(@types/node@25.9.1)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0))
-      zod:
-        specifier: 4.4.3
-        version: 4.4.3
 
 packages:
 
@@ -2845,6 +2845,14 @@ packages:
     resolution: {integrity: sha512-Qo+uWgilfSmAhXCMav1uYFynlQO7fMFiMVZsQqZRMIXp0O7rR7qjkj+cPvBHLgBqi960QCoo/PH2/6ZtVqKvrg==}
     hasBin: true
 
+  valibot@1.4.1:
+    resolution: {integrity: sha512-klCmFTz2jeDluy9RwX+F884TCiogtdBJ/YaxSx1EOBYXa3NXNWj8kR1jjN8rzluwojJVWWaHJ4r1U5LfICnM3g==}
+    peerDependencies:
+      typescript: '>=5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   vite-node@6.0.0:
     resolution: {integrity: sha512-oj4PVrT+pDh6GYf5wfUXkcZyekYS8kKPfLPXVl8qe324Ec6l4K2DUKNadRbZ3LQl0qGcDz+PyOo7ZAh00Y+JjQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -5374,6 +5382,10 @@ snapshots:
   util-deprecate@1.0.2: {}
 
   uuid@14.0.0: {}
+
+  valibot@1.4.1(typescript@6.0.3):
+    optionalDependencies:
+      typescript: 6.0.3
 
   vite-node@6.0.0(@types/node@25.9.1)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.0):
     dependencies:

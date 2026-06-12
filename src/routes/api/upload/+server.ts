@@ -6,6 +6,7 @@ import { randomUUID } from 'node:crypto';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { error, json } from '@sveltejs/kit';
+import * as v from 'valibot';
 
 import { requireTwoFactor } from '$lib/server/access';
 import { requireAuth } from '$lib/server/auth';
@@ -27,13 +28,13 @@ export const POST: RequestHandler = async ({ request }) => {
     error(400, 'Invalid upload request');
   }
 
-  const result = uploadRequestSchema.safeParse(body);
+  const result = v.safeParse(uploadRequestSchema, body);
 
   if (!result.success) {
     error(400, 'Invalid upload request');
   }
 
-  const { file, policy: policyId } = result.data;
+  const { file, policy: policyId } = result.output;
   const policy = getUploadPolicy(policyId);
 
   try {

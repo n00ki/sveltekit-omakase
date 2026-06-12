@@ -7,7 +7,7 @@
 | **Backend**  | SvelteKit, TypeScript, Better Auth, Drizzle ORM     |
 | **Frontend** | Svelte 5, TypeScript, TailwindCSS v4, shadcn-svelte |
 | **Database** | Turso/LibSQL                                        |
-| **Forms**    | Remote Functions, Zod                               |
+| **Forms**    | Remote Functions, Valibot                           |
 | **Email**    | Resend, Better Svelte Email                         |
 | **Storage**  | Cloudflare R2                                       |
 
@@ -38,7 +38,7 @@ src/
 │   ├── state/                 # Global state (*.svelte.ts)
 │   ├── upload/                # Upload policies and FileUploader
 │   ├── utils/                 # Shared utilities
-│   └── validations/           # Zod schemas
+│   └── validations/           # Valibot schemas
 ├── routes/
 │   ├── (auth)/                # Auth flows (login, register, password, challenge)
 │   ├── (app)/                 # Protected routes (dashboard, settings)
@@ -217,19 +217,24 @@ const upload = await imageUploader.upload(file);
 Define reusable schemas in `$lib/validations/shared.ts`:
 
 ```typescript
-export const emailSchema = z
-  .email({ error: 'Invalid email address' })
-  .trim()
-  .max(64)
-  .refine((v) => !v.includes('test'), { error: 'Test emails not allowed' })
-  .refine((v) => !v.includes('+'), { error: 'Email tagging not allowed' });
+import * as v from 'valibot';
 
-export const passwordSchema = z
-  .string()
-  .trim()
-  .min(8)
-  .max(32)
-  .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, { error: 'Must contain letter and number' });
+export const trimmedString = v.pipe(v.string(), v.trim());
+
+export const emailSchema = v.pipe(
+  trimmedString,
+  v.email('Invalid email address'),
+  v.maxLength(64, 'Email must be less than 64 characters'),
+  v.check((value) => !value.includes('test'), 'Test emails are not allowed'),
+  v.check((value) => !value.includes('+'), 'Email address tagging is not allowed')
+);
+
+export const passwordSchema = v.pipe(
+  trimmedString,
+  v.minLength(8, 'Password must be at least 8 characters'),
+  v.maxLength(32, 'Password must be less than 32 characters'),
+  v.regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, 'Must contain letter and number')
+);
 ```
 
 ### Password field naming
@@ -237,9 +242,9 @@ export const passwordSchema = z
 Prefix password fields with `_` to prevent client serialization:
 
 ```typescript
-export const loginSchema = z.object({
+export const loginSchema = v.object({
   email: emailSchema,
-  _password: z.string().trim() // Won't be sent back to client
+  _password: trimmedString // Won't be sent back to client
 });
 ```
 

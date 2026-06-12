@@ -123,13 +123,13 @@
           <span class="font-medium">Resend</span>
         </a>
         <a
-          href="https://zod.dev/"
+          href="https://valibot.dev/"
           target="_blank"
           rel="noopener noreferrer"
           class="group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary"
         >
           <Shield size="18" class="text-muted-foreground group-hover:text-orange-400" />
-          <span class="font-medium">Zod</span>
+          <span class="font-medium">Valibot</span>
         </a>
         <a
           href="https://svelte.dev/docs/kit/remote-functions"

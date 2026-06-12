@@ -48,7 +48,7 @@ Whether you're a seasoned developer or just starting out, this starter kit is ca
 - [🎨 shadcn-svelte](https://www.shadcn-svelte.com/)
 - [✉️ Better Svelte Email](https://better-svelte-email.konixy.dev/)
 - [📬 Resend](https://resend.com/)
-- [⛔ Zod](https://zod.dev/)
+- [🧪 Valibot](https://valibot.dev/)
 - [🚀 Remote Functions](https://svelte.dev/docs/kit/remote-functions)
 - [🐂 Turso](https://turso.tech/)
 - [📁 Cloudflare R2](https://www.cloudflare.com/r2/)
@@ -102,7 +102,7 @@ src/
 │   ├── state/                 # Global state (*.svelte.ts)
 │   ├── upload/                # Upload policies and FileUploader
 │   ├── utils/                 # Shared utilities
-│   └── validations/           # Zod schemas
+│   └── validations/           # Valibot schemas
 ├── routes/
 │   ├── (auth)/                # Auth flows (login, register, password, challenge)
 │   ├── (app)/                 # Protected routes (dashboard, settings)

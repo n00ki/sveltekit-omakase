@@ -24,6 +24,7 @@ Guidelines for AI agents working with sveltekit-omakase.
 - Use Svelte 5 runes syntax (`$props`, `$state`, `$derived`, `$effect`).
 - Always use explicit TypeScript types, except for SvelteKit `load` functions and route `$props()` data/children props, which should rely on SvelteKit inference. Avoid JSDoc unless essential shared utility.
 - Use Remote Functions (`form`, `query`, `command`) instead of actions. Use `await` patterns for queries.
+- Use Valibot schemas with `import * as v from 'valibot'`.
 - **Never use `redirect()` inside `command` functions** - use `form` instead for actions that need to redirect (SvelteKit limitation: commands cannot handle redirects properly).
 - Protected route groups use `requireAuth()` in their server layout. protected remote functions and standalone protected routes must call `requireAuth()`. Auth pages use `requireGuest()`.
 - Password-backed sensitive routes and remote forms use `requireChallenge('/return-path')` before the operation. Do not duplicate current-password fields in those forms.

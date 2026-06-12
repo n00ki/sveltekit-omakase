@@ -1,89 +1,105 @@
-import { z } from 'zod';
+import * as v from 'valibot';
 
-import { emailSchema, nameSchema, optionalString, passwordSchema } from '$lib/validations/shared';
+import { emailSchema, nameSchema, optionalString, passwordSchema, trimmedString } from '$lib/validations/shared';
 
 import { config } from '$config';
 
-export const createUserSchema = z
-  .object({
+export const createUserSchema = v.pipe(
+  v.object({
     email: emailSchema,
     name: nameSchema,
     _password: passwordSchema,
-    _passwordConfirmation: z.string().trim()
-  })
-  .refine((data) => data._password === data._passwordConfirmation, {
-    error: 'Passwords do not match',
-    path: ['_passwordConfirmation']
-  });
+    _passwordConfirmation: trimmedString
+  }),
+  v.forward(
+    v.partialCheck(
+      [['_password'], ['_passwordConfirmation']],
+      (data) => data._password === data._passwordConfirmation,
+      'Passwords do not match'
+    ),
+    ['_passwordConfirmation']
+  )
+);
 
-export const loginSchema = z.object({
+export const loginSchema = v.object({
   email: emailSchema,
-  _password: z.string().trim(),
-  next: z.string().trim().optional()
+  _password: trimmedString,
+  next: v.optional(trimmedString)
 });
 
-export const requestPasswordResetSchema = z.object({
+export const requestPasswordResetSchema = v.object({
   email: emailSchema
 });
 
-export const resetUserPasswordSchema = z
-  .object({
-    email: z.email().optional(),
-    token: z.string().trim(),
+export const resetUserPasswordSchema = v.pipe(
+  v.object({
+    email: v.optional(v.pipe(trimmedString, v.email('Invalid email address'))),
+    token: trimmedString,
     _password: passwordSchema,
-    _passwordConfirmation: z.string().trim()
-  })
-  .refine((data) => data._password === data._passwordConfirmation, {
-    error: 'Passwords do not match',
-    path: ['_passwordConfirmation']
-  });
+    _passwordConfirmation: trimmedString
+  }),
+  v.forward(
+    v.partialCheck(
+      [['_password'], ['_passwordConfirmation']],
+      (data) => data._password === data._passwordConfirmation,
+      'Passwords do not match'
+    ),
+    ['_passwordConfirmation']
+  )
+);
 
-export const updateUserSchema = z.object({
-  image: optionalString.pipe(z.uuid().optional()),
-  name: optionalString.pipe(nameSchema.optional())
+export const updateUserSchema = v.object({
+  image: v.pipe(optionalString, v.optional(v.pipe(v.string(), v.uuid('Invalid UUID')))),
+  name: v.pipe(optionalString, v.optional(nameSchema))
 });
 
-export const updateUserPasswordSchema = z
-  .object({
+export const updateUserPasswordSchema = v.pipe(
+  v.object({
     _password: passwordSchema,
-    _passwordConfirmation: z.string().trim()
-  })
-  .refine((data) => data._password === data._passwordConfirmation, {
-    error: 'Passwords do not match',
-    path: ['_passwordConfirmation']
-  });
+    _passwordConfirmation: trimmedString
+  }),
+  v.forward(
+    v.partialCheck(
+      [['_password'], ['_passwordConfirmation']],
+      (data) => data._password === data._passwordConfirmation,
+      'Passwords do not match'
+    ),
+    ['_passwordConfirmation']
+  )
+);
 
-export const deleteUserSchema = z
-  .object({
-    _confirmation: z.string().trim()
-  })
-  .refine((data) => data._confirmation === config.auth.deleteAccountConfirmationText, {
-    error: `You must type "${config.auth.deleteAccountConfirmationText}" exactly to confirm`,
-    path: ['_confirmation']
-  });
+export const deleteUserSchema = v.object({
+  _confirmation: v.pipe(
+    trimmedString,
+    v.literal(
+      config.auth.deleteAccountConfirmationText,
+      `You must type "${config.auth.deleteAccountConfirmationText}" exactly to confirm`
+    )
+  )
+});
 
-const nextSchema = z.string().trim().optional();
+const nextSchema = v.optional(trimmedString);
 
-export const totpCodeSchema = z
-  .string()
-  .trim()
-  .regex(/^\d{6}$/, { error: 'Enter the 6-digit code from your authenticator app' });
+export const totpCodeSchema = v.pipe(
+  trimmedString,
+  v.regex(/^\d{6}$/, 'Enter the 6-digit code from your authenticator app')
+);
 
-export const passwordChallengeSchema = z.object({
+export const passwordChallengeSchema = v.object({
   next: nextSchema,
-  _password: z.string().trim().min(1, { error: 'Password is required' })
+  _password: v.pipe(trimmedString, v.minLength(1, 'Password is required'))
 });
 
-export const totpChallengeSchema = z.object({
+export const totpChallengeSchema = v.object({
   next: nextSchema,
   _code: totpCodeSchema
 });
 
-export const recoveryChallengeSchema = z.object({
+export const recoveryChallengeSchema = v.object({
   next: nextSchema,
-  _recoveryCode: z.string().trim().min(1, { error: 'Enter a recovery code' })
+  _recoveryCode: v.pipe(trimmedString, v.minLength(1, 'Enter a recovery code'))
 });
 
-export const confirmTwoFactorSetupSchema = z.object({
+export const confirmTwoFactorSetupSchema = v.object({
   _code: totpCodeSchema
 });
