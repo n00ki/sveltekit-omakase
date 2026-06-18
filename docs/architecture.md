@@ -34,6 +34,7 @@ src/
 │   │   ├── database.ts        # Drizzle connection (default export)
 │   │   ├── flash.ts           # Flash message helpers
 │   │   ├── rate-limit.ts      # Rate limit helper
+│   │   ├── security.ts        # Security and access guards
 │   │   └── storage.ts         # R2/S3 client
 │   ├── state/                 # Global state (*.svelte.ts)
 │   ├── upload/                # Upload policies and FileUploader
@@ -76,7 +77,7 @@ $remote        → src/lib/remote
 - Use Svelte 5 runes (`$props`, `$state`, `$derived`, `$effect`).
 - Use Remote Functions (`form`, `query`, `command`) instead of actions.
 - Protected route groups use `requireAuth()` in their server layout. protected remote functions and standalone protected routes must call `requireAuth()`. Auth pages use `requireGuest()`.
-- Access guards live in `src/lib/server/access.ts`. Two-factor protected sessions use Better Auth verification plus `Session.twoFactorCompletedAt`.
+- Security and access guards live in `src/lib/server/security.ts`. Two-factor protected sessions use Better Auth verification plus `Session.twoFactorCompletedAt`.
 - Sensitive routes and remote forms use `requireChallenge('/return-path')` before the operation. It prompts for a 2FA or recovery code when enabled, password for password-backed accounts, or a fresh sign-in for OAuth-only accounts, and `/auth/challenge` returns users there after confirmation.
 - Forms can call `await checkRateLimit(issue.field)` and use `.preflight(schema)` and `useFormValidation` hook for client-side validation.
 - Models live in `$lib/db/models`; db connection is the default export in `$lib/server/database.ts`.

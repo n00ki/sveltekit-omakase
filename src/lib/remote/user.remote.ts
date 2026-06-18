@@ -1,14 +1,12 @@
 import { form, getRequestEvent } from '$app/server';
 
 import { error, invalid } from '@sveltejs/kit';
-import { hasCredentialAccountByUserId } from '$queries';
 import { APIError as BetterAuthAPIError } from 'better-auth/api';
 
-import { requireChallenge, requireTwoFactor } from '$lib/server/access';
 import { auth, requireAuth } from '$lib/server/auth';
-import { markChallengeCompleted } from '$lib/server/challenge';
 import { flash, flashAndRedirect } from '$lib/server/flash';
 import { updateCredentialPassword } from '$lib/server/password';
+import { markChallengeCompleted, requirePasswordUpdate, requireTwoFactor } from '$lib/server/security';
 import { deleteUserSchema, updateUserPasswordSchema, updateUserSchema } from '$lib/validations/auth';
 
 import * as m from '$messages';
@@ -41,14 +39,10 @@ export const updateUser = form(updateUserSchema, async ({ image, name }) => {
 });
 
 export const updateUserPassword = form(updateUserPasswordSchema, async ({ _password }) => {
-  const { user, session } = requireAuth();
-  await requireTwoFactor('/settings/security');
-  await requireChallenge('/settings/security');
-
-  const hasCredential = await hasCredentialAccountByUserId(user.id);
+  const { hasCredentialAccount, session, user } = await requirePasswordUpdate();
 
   try {
-    if (hasCredential) {
+    if (hasCredentialAccount) {
       await updateCredentialPassword(user.id, _password, session.token);
     } else {
       const { request } = getRequestEvent();
@@ -66,7 +60,7 @@ export const updateUserPassword = form(updateUserPasswordSchema, async ({ _passw
     error(500, m.general.error);
   }
 
-  const message = hasCredential
+  const message = hasCredentialAccount
     ? m.settings.security.password.success.update
     : m.settings.security.password.success.set;
 

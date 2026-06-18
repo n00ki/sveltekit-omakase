@@ -1,5 +1,5 @@
 import { requireGuest } from '$lib/server/auth';
-import { getSafeChallengeNext } from '$lib/server/challenge';
+import { getSafeChallengeNext } from '$lib/server/security';
 
 export function load({ url }) {
   requireGuest();

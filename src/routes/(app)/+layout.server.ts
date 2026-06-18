@@ -1,5 +1,5 @@
-import { requireTwoFactor } from '$lib/server/access';
 import { requireAuth } from '$lib/server/auth';
+import { requireTwoFactor } from '$lib/server/security';
 
 import { SIDEBAR_COOKIE_NAME } from '$components/ui/sidebar/constants';
 

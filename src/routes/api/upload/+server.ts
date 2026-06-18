@@ -8,8 +8,8 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { error, json } from '@sveltejs/kit';
 import * as v from 'valibot';
 
-import { requireTwoFactor } from '$lib/server/access';
 import { requireAuth } from '$lib/server/auth';
+import { requireTwoFactor } from '$lib/server/security';
 import { s3 } from '$lib/server/storage';
 import { getUploadPolicy } from '$lib/upload/policies';
 import { uploadRequestSchema } from '$lib/validations/files';

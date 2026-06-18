@@ -1,18 +1,20 @@
 import { getRequestEvent } from '$app/server';
 
 import { createOTP } from '@better-auth/utils/otp';
-import { error } from '@sveltejs/kit';
-import { getTwoFactorByUserId, hasEnabledTwoFactorByUserId } from '$queries';
 import { APIError as BetterAuthAPIError } from 'better-auth/api';
 import { generateRandomString, symmetricDecrypt, symmetricEncrypt } from 'better-auth/crypto';
 import { eq } from 'drizzle-orm';
 import QRCode from 'qrcode';
 
 import { Session, TwoFactor, User } from '$lib/db/models';
-import { requireChallenge } from '$lib/server/access';
-import { auth, requireAuth } from '$lib/server/auth';
-import { markTwoFactorChallengeCompleted } from '$lib/server/challenge';
+import { auth } from '$lib/server/auth';
 import db from '$lib/server/database';
+import {
+  markTwoFactorChallengeCompleted,
+  requireEnabledTwoFactor,
+  requirePendingTwoFactorSetup,
+  requireTwoFactorSetup
+} from '$lib/server/security';
 
 import { config } from '$config/server';
 
@@ -33,11 +35,11 @@ async function getSecretKey() {
   return (await auth.$context).secretConfig;
 }
 
-function isBetterAuthCode(err: unknown, code: string): boolean {
+function isBetterAuthCode(err: unknown, code: string) {
   return err instanceof BetterAuthAPIError && err.body?.code === code;
 }
 
-function isExpiredChallenge(err: unknown): boolean {
+function isExpiredChallenge(err: unknown) {
   return (
     isBetterAuthCode(err, 'INVALID_TWO_FACTOR_COOKIE') ||
     isBetterAuthCode(err, 'TOTP_NOT_ENABLED') ||
@@ -45,25 +47,25 @@ function isExpiredChallenge(err: unknown): boolean {
   );
 }
 
-async function encrypt(value: string): Promise<string> {
+async function encrypt(value: string) {
   return symmetricEncrypt({
     data: value,
     key: await getSecretKey()
   });
 }
 
-function createRecoveryCodes(): string[] {
+function createRecoveryCodes() {
   return Array.from({ length: RECOVERY_CODE_COUNT }, () => {
     const code = generateRandomString(RECOVERY_CODE_LENGTH, 'a-z', '0-9', 'A-Z');
     return `${code.slice(0, 5)}-${code.slice(5)}`;
   });
 }
 
-async function encryptRecoveryCodes(codes: string[]): Promise<string> {
+async function encryptRecoveryCodes(codes: string[]) {
   return encrypt(JSON.stringify(codes));
 }
 
-async function decryptRecoveryCodes(value: string): Promise<string[]> {
+async function decryptRecoveryCodes(value: string) {
   const parsed = JSON.parse(
     await symmetricDecrypt({
       data: value,
@@ -74,7 +76,7 @@ async function decryptRecoveryCodes(value: string): Promise<string[]> {
   return Array.isArray(parsed) && parsed.every((code) => typeof code === 'string') ? parsed : [];
 }
 
-async function verifyCode(twoFactor: TwoFactor, code: string): Promise<boolean> {
+async function verifyCode(twoFactor: TwoFactor, code: string) {
   const secret = await symmetricDecrypt({
     data: twoFactor.secret,
     key: await getSecretKey()
@@ -83,23 +85,8 @@ async function verifyCode(twoFactor: TwoFactor, code: string): Promise<boolean> 
   return createOTP(secret, { digits: TOTP_DIGITS, period: TOTP_PERIOD }).verify(code);
 }
 
-async function requireEnabledTwoFactor(userId: string): Promise<TwoFactor> {
-  const [enabled, twoFactor] = await Promise.all([hasEnabledTwoFactorByUserId(userId), getTwoFactorByUserId(userId)]);
-
-  if (!enabled || !twoFactor) {
-    error(400, 'Two-factor authentication is not enabled.');
-  }
-
-  return twoFactor;
-}
-
 export async function startSetup(): Promise<TwoFactorSetup> {
-  const { user } = requireAuth();
-  await requireChallenge('/settings/security');
-
-  if (await hasEnabledTwoFactorByUserId(user.id)) {
-    error(400, 'Two-factor authentication is already enabled.');
-  }
+  const { user } = await requireTwoFactorSetup();
 
   const secret = generateRandomString(TOTP_SECRET_LENGTH);
   const totpURI = createOTP(secret, { digits: TOTP_DIGITS, period: TOTP_PERIOD }).url(config.app.name, user.email);
@@ -130,14 +117,7 @@ export async function startSetup(): Promise<TwoFactorSetup> {
 }
 
 export async function confirmSetup(code: string): Promise<boolean> {
-  const { session, user } = requireAuth();
-  await requireChallenge('/settings/security');
-
-  const twoFactor = await getTwoFactorByUserId(user.id);
-
-  if ((await hasEnabledTwoFactorByUserId(user.id)) || !twoFactor || twoFactor.verified) {
-    error(400, 'Two-factor authentication setup is not available.');
-  }
+  const { session, twoFactor, user } = await requirePendingTwoFactorSetup();
 
   if (!(await verifyCode(twoFactor, code))) {
     return false;
@@ -210,10 +190,8 @@ export async function verifyRecoveryChallenge(code: string): Promise<TwoFactorCh
   }
 }
 
-export async function disable(): Promise<void> {
-  const { session, user } = requireAuth();
-  await requireChallenge('/settings/security');
-  await requireEnabledTwoFactor(user.id);
+export async function disable() {
+  const { session, user } = await requireEnabledTwoFactor();
 
   const now = new Date();
 
@@ -237,17 +215,12 @@ export async function disable(): Promise<void> {
 }
 
 export async function getRecoveryCodes(): Promise<string[]> {
-  const { user } = requireAuth();
-  await requireChallenge('/settings/security');
-
-  return decryptRecoveryCodes((await requireEnabledTwoFactor(user.id)).backupCodes);
+  const { twoFactor } = await requireEnabledTwoFactor();
+  return decryptRecoveryCodes(twoFactor.backupCodes);
 }
 
 export async function regenerateRecoveryCodes(): Promise<string[]> {
-  const { user } = requireAuth();
-  await requireChallenge('/settings/security');
-
-  const twoFactor = await requireEnabledTwoFactor(user.id);
+  const { twoFactor } = await requireEnabledTwoFactor();
   const recoveryCodes = createRecoveryCodes();
 
   await db

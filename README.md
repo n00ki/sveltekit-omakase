@@ -98,6 +98,7 @@ src/
 │   │   ├── database.ts        # Drizzle connection (default export)
 │   │   ├── flash.ts           # Flash message helpers
 │   │   ├── rate-limit.ts      # Rate limit helper
+│   │   ├── security.ts        # Security and access guards
 │   │   └── storage.ts         # R2/S3 client
 │   ├── state/                 # Global state (*.svelte.ts)
 │   ├── upload/                # Upload policies and FileUploader

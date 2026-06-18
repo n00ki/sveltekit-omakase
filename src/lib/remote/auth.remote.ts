@@ -5,9 +5,9 @@ import { APIError as BetterAuthAPIError } from 'better-auth/api';
 
 import { EMAILS, sendEmail } from '$lib/mail/mailer';
 import { auth, requireGuest } from '$lib/server/auth';
-import { getSafeChallengeNext } from '$lib/server/challenge';
 import { flashAndRedirect } from '$lib/server/flash';
 import { checkRateLimit } from '$lib/server/rate-limit';
+import { getSafeChallengeNext } from '$lib/server/security';
 import {
   createUserSchema,
   loginSchema,
