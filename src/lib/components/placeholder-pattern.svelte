@@ -7,7 +7,7 @@
   let patternId = $derived(`pattern-${Math.random().toString(36).substring(2, 9)}`);
 </script>
 
-<svg class={className} fill="none">
+<svg class={className} fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <defs>
     <pattern id={patternId} x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
       <path d="M-3 13 15-5M-5 5l18-18M-1 21 17 3"></path>

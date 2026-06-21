@@ -5,16 +5,14 @@ test('home page has expected h1', async ({ page }) => {
   await expect(page.locator('h1')).toHaveText('SvelteKit Omakase');
 });
 
-test('home page has navigation links', async ({ page }) => {
+test('home page has authentication links', async ({ page }) => {
   await page.goto('/');
 
-  // Check for Login button
-  const loginButton = page.locator('a[href="/login"]');
-  await expect(loginButton).toBeVisible();
-  await expect(loginButton).toHaveText('Login');
+  const loginLink = page.getByRole('link', { name: 'Login' });
+  await expect(loginLink).toBeVisible();
+  await expect(loginLink).toHaveAttribute('href', '/login');
 
-  // Check for Register button
-  const registerButton = page.locator('a[href="/register"]');
-  await expect(registerButton).toBeVisible();
-  await expect(registerButton).toHaveText('Register');
+  const registerLink = page.getByRole('link', { name: 'Register' });
+  await expect(registerLink).toBeVisible();
+  await expect(registerLink).toHaveAttribute('href', '/register');
 });
