@@ -35,7 +35,7 @@ src/
 │   │   ├── flash.ts           # Flash message helpers
 │   │   ├── rate-limit.ts      # Rate limit helper
 │   │   ├── security.ts        # Security and access guards
-│   │   └── storage.ts         # R2/S3 client
+│   │   └── storage.ts         # R2/S3 upload signing
 │   ├── state/                 # Global state (*.svelte.ts)
 │   ├── upload/                # Upload policies and FileUploader
 │   ├── utils/                 # Shared utilities

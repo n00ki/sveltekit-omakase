@@ -1,4 +1,4 @@
-import type { UploadPolicy } from '$lib/upload/policies';
+import type { PreparedUpload, UploadedFile, UploadPolicy } from '$lib/upload/policies';
 
 import { browser } from '$app/environment';
 
@@ -7,12 +7,6 @@ import { getUploadFileErrors } from '$lib/upload/policies';
 import { config } from '$config';
 
 export type UploadStatus = 'ready' | 'uploading' | 'uploaded' | 'failed';
-
-export type UploadedFile = {
-  id: string;
-  key: string;
-  url: string;
-};
 
 export type UploadResult =
   | {
@@ -23,11 +17,6 @@ export type UploadResult =
       errors: string[];
       success: false;
     };
-
-type PreparedUpload = {
-  file: UploadedFile;
-  uploadUrl: string;
-};
 
 const UPLOAD_ENDPOINT = '/api/upload';
 

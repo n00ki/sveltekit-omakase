@@ -1,6 +1,4 @@
-import { PUBLIC_R2_BUCKET_URL } from '$env/static/public';
-
-import { uploads } from '$lib/upload';
+import { getUploadUrl } from '$lib/upload/policies';
 
 import imagePlaceholder from '$lib/assets/avatar.png';
 
@@ -11,7 +9,7 @@ export function getUserImageUrl(image: string | null | undefined): string {
     return image;
   }
 
-  return `${PUBLIC_R2_BUCKET_URL}/${uploads.userImage.directory}/${image}`;
+  return getUploadUrl(image);
 }
 
 export function isRemoteImageUrl(image: string): boolean {

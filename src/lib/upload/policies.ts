@@ -1,7 +1,12 @@
+import { PUBLIC_R2_BUCKET_URL } from '$env/static/public';
+
 import { BYTES_IN_MB } from '$lib/utils/size';
 
 import type { UploadPolicyDefinition, UploadPolicyId } from '$config';
 import { config } from '$config';
+
+const UPLOAD_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const uploadBaseUrl = PUBLIC_R2_BUCKET_URL.replace(/\/+$/, '');
 
 export type { UploadPolicyId };
 
@@ -15,13 +20,23 @@ export type UploadPolicy = {
   acceptedTypes?: readonly string[];
   accept?: string;
   directory: string;
-  id: string;
+  id: UploadPolicyId;
   maxSize: number;
 };
 
-type UploadFile = {
+export type UploadFile = {
   size: number;
   type: string;
+};
+
+export type UploadedFile = {
+  key: string;
+  url: string;
+};
+
+export type PreparedUpload = {
+  file: UploadedFile;
+  uploadUrl: string;
 };
 
 export function fileUpload(options: UploadOptions = {}): UploadPolicyDefinition {
@@ -45,16 +60,41 @@ export function imageUpload(options: UploadOptions = {}): UploadPolicyDefinition
   };
 }
 
-function createUploadPolicies(policies: { [id: string]: UploadPolicyDefinition }): {
-  [id: string]: UploadPolicy;
-} {
-  return Object.fromEntries(Object.entries(policies).map(([id, policy]) => [id, createUploadPolicy(id, policy)]));
+function createUploadPolicies(
+  policies: Record<UploadPolicyId, UploadPolicyDefinition>
+): Record<UploadPolicyId, UploadPolicy> {
+  const result = {} as Record<UploadPolicyId, UploadPolicy>;
+
+  for (const id of config.upload.policyIds) {
+    result[id] = createUploadPolicy(id, policies[id]);
+  }
+
+  return result;
 }
 
 export const uploads = createUploadPolicies(config.upload.policies);
 
 export function getUploadPolicy(id: UploadPolicyId): UploadPolicy {
   return uploads[id];
+}
+
+export function createUploadKey(policy: UploadPolicy, id: string): string {
+  if (!UPLOAD_ID_PATTERN.test(id)) {
+    throw new Error('Upload id must be a UUID.');
+  }
+
+  return `${policy.directory}/${id}`;
+}
+
+export function getUploadUrl(key: string): string {
+  return `${uploadBaseUrl}/${key}`;
+}
+
+export function isUploadKeyForPolicy(key: string, policy: UploadPolicy): boolean {
+  const prefix = `${policy.directory}/`;
+  const id = key.startsWith(prefix) ? key.slice(prefix.length) : '';
+
+  return UPLOAD_ID_PATTERN.test(id);
 }
 
 export function getUploadFileErrors(file: UploadFile, policy: UploadPolicy): string[] {
@@ -71,7 +111,7 @@ export function getUploadFileErrors(file: UploadFile, policy: UploadPolicy): str
   return errors;
 }
 
-function createUploadPolicy(id: string, policy: UploadPolicyDefinition): UploadPolicy {
+function createUploadPolicy(id: UploadPolicyId, policy: UploadPolicyDefinition): UploadPolicy {
   if (!Number.isSafeInteger(policy.maxSize) || policy.maxSize <= 0) {
     throw new Error(`Upload policy "${id}" must define a positive integer maxSize.`);
   }

@@ -29,7 +29,7 @@
   const formId = $props.id();
   const profileForm = updateUser.for(`${formId}-profile`).preflight(updateUserSchema);
   const deleteAccountForm = deleteUser.for(`${formId}-delete`).preflight(deleteUserSchema);
-  let uploadedImageId = $state<string | null>(null);
+  let uploadedImageKey = $state<string | null>(null);
   let userImagePreview = $derived(getUserImageUrl(data.user?.image));
   let deleteDialogOpen = $state(false);
 
@@ -46,8 +46,8 @@
       return;
     }
 
-    uploadedImageId = upload.file.id;
-    profileForm.fields.image.set(upload.file.id);
+    uploadedImageKey = upload.file.key;
+    profileForm.fields.image.set(upload.file.key);
     userImagePreview = upload.file.url;
   }
 
@@ -73,7 +73,7 @@
       image: '',
       name: ''
     });
-    uploadedImageId = null;
+    uploadedImageKey = null;
   });
 
   const deleteConfirmationPhrase: string = config.auth.deleteAccountConfirmationText;
@@ -112,7 +112,7 @@
   </div>
 
   <form {...profileForm} {...enhancedProfileForm} {...useFormValidation(profileForm)}>
-    <input {...profileForm.fields.image.as('hidden', uploadedImageId ?? '')} />
+    <input {...profileForm.fields.image.as('hidden', uploadedImageKey ?? '')} />
 
     <Field.Field>
       <Field.Label>Profile image</Field.Label>

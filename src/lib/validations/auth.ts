@@ -1,5 +1,6 @@
 import * as v from 'valibot';
 
+import { isUploadKeyForPolicy, uploads } from '$lib/upload/policies';
 import { emailSchema, nameSchema, optionalString, passwordSchema, trimmedString } from '$lib/validations/shared';
 
 import { config } from '$config';
@@ -49,7 +50,10 @@ export const resetUserPasswordSchema = v.pipe(
 );
 
 export const updateUserSchema = v.object({
-  image: v.pipe(optionalString, v.optional(v.pipe(v.string(), v.uuid('Invalid UUID')))),
+  image: v.pipe(
+    optionalString,
+    v.check((image) => !image || isUploadKeyForPolicy(image, uploads.userImage), 'Invalid image')
+  ),
   name: v.pipe(optionalString, v.optional(nameSchema))
 });
 
