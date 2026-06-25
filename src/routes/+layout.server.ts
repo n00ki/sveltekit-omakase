@@ -1,12 +1,9 @@
 import { load as loadFlash } from 'sveltekit-flash-message/server';
 
-import { auth } from '$lib/server/auth';
-
 export async function load(event) {
-  const session = await auth.api.getSession(event.request);
   return {
     ...loadFlash(event),
-    user: session?.user ?? null,
-    session: session?.session ?? null
+    user: event.locals.user,
+    session: event.locals.session
   };
 }
