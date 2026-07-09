@@ -2,6 +2,7 @@
   import { requestPasswordReset } from '$remote/auth.remote';
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
+  import { useRemoteForm } from '$lib/hooks/use-remote-form';
   import { requestPasswordResetSchema } from '$lib/validations/auth';
 
   import { buttonVariants } from '$components/ui/button';
@@ -10,8 +11,8 @@
 
   import { ArrowLeft, ArrowRight, RotateCw } from '@lucide/svelte';
 
-  const formId = $props.id();
-  const requestPasswordResetForm = requestPasswordReset.for(formId).preflight(requestPasswordResetSchema);
+  const formKey = $props.id();
+  const requestPasswordResetForm = useRemoteForm(requestPasswordReset, formKey).preflight(requestPasswordResetSchema);
 </script>
 
 <section class="space-y-6">

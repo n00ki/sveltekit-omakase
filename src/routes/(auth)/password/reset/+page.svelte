@@ -2,6 +2,7 @@
   import { resetUserPassword } from '$remote/auth.remote';
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
+  import { useRemoteForm } from '$lib/hooks/use-remote-form';
   import { resetUserPasswordSchema } from '$lib/validations/auth';
 
   import PasswordInput from '$components/password-input.svelte';
@@ -12,8 +13,8 @@
 
   let { data } = $props();
 
-  const formId = $props.id();
-  const resetUserPasswordForm = resetUserPassword.for(formId).preflight(resetUserPasswordSchema);
+  const formKey = $props.id();
+  const resetUserPasswordForm = useRemoteForm(resetUserPassword, formKey).preflight(resetUserPasswordSchema);
 </script>
 
 <section class="space-y-6">

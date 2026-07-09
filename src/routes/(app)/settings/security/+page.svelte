@@ -7,6 +7,7 @@
   import { updateUserPassword } from '$remote/user.remote';
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
+  import { useRemoteForm } from '$lib/hooks/use-remote-form';
   import { updateUserPasswordSchema } from '$lib/validations/auth';
 
   import PasswordInput from '$components/password-input.svelte';
@@ -22,11 +23,9 @@
   let { data } = $props();
 
   const flash = getFlash(page);
-  const formId = $props.id();
+  const formKey = $props.id();
 
-  let passwordFormKey = $state(0);
-  const passwordFormId = $derived(`${formId}-password-${passwordFormKey}`);
-  const passwordForm = $derived(updateUserPassword.for(passwordFormId).preflight(updateUserPasswordSchema));
+  const passwordForm = useRemoteForm(updateUserPassword, formKey, 'password').preflight(updateUserPasswordSchema);
   const passwordSuccessMessage = $derived(
     data.hasCredentialAccount ? m.settings.security.password.success.update : m.settings.security.password.success.set
   );
@@ -40,12 +39,11 @@
       $flash = { type: 'success', message: passwordSuccessMessage };
 
       form.element.reset();
-      passwordFormKey += 1;
     })
   );
 
-  const setupForm = startTwoFactorSetup.for(`${formId}-two-factor-start`);
-  const disableForm = disableTwoFactor.for(`${formId}-two-factor-disable`);
+  const setupForm = useRemoteForm(startTwoFactorSetup, formKey, 'two-factor-start');
+  const disableForm = useRemoteForm(disableTwoFactor, formKey, 'two-factor-disable');
   let twoFactorSetup = $state(setupForm.result ?? null);
   const open = $derived(!!twoFactorSetup);
 
@@ -79,40 +77,38 @@
       </p>
     </header>
 
-    {#key passwordFormId}
-      <form {...passwordForm} {...enhancedPasswordForm} {...useFormValidation(passwordForm)}>
-        <Field.Field>
-          <Field.Label>New Password</Field.Label>
-          <PasswordInput
-            autocomplete="new-password"
-            placeholder="********"
-            {...passwordForm.fields._password.as('password')}
-          />
-          <Field.Error errors={passwordForm.fields._password.issues()} />
-        </Field.Field>
+    <form {...passwordForm} {...enhancedPasswordForm} {...useFormValidation(passwordForm)}>
+      <Field.Field>
+        <Field.Label>New Password</Field.Label>
+        <PasswordInput
+          autocomplete="new-password"
+          placeholder="********"
+          {...passwordForm.fields._password.as('password')}
+        />
+        <Field.Error errors={passwordForm.fields._password.issues()} />
+      </Field.Field>
 
-        <Field.Field>
-          <Field.Label>Confirm Password</Field.Label>
-          <PasswordInput
-            autocomplete="new-password"
-            placeholder="********"
-            {...passwordForm.fields._passwordConfirmation.as('password')}
-          />
-          <Field.Error errors={passwordForm.fields._passwordConfirmation.issues()} />
-        </Field.Field>
+      <Field.Field>
+        <Field.Label>Confirm Password</Field.Label>
+        <PasswordInput
+          autocomplete="new-password"
+          placeholder="********"
+          {...passwordForm.fields._passwordConfirmation.as('password')}
+        />
+        <Field.Error errors={passwordForm.fields._passwordConfirmation.issues()} />
+      </Field.Field>
 
-        <button
-          type="submit"
-          disabled={!!passwordForm.pending}
-          class={buttonVariants({ variant: 'secondary', class: 'my-2 w-full' })}
-        >
-          {#if passwordForm.pending}
-            <RotateCw size="16" class="mr-2 animate-spin" />
-          {/if}
-          {data.hasCredentialAccount ? 'Update Password' : 'Set Password'}
-        </button>
-      </form>
-    {/key}
+      <button
+        type="submit"
+        disabled={!!passwordForm.pending}
+        class={buttonVariants({ variant: 'secondary', class: 'my-2 w-full' })}
+      >
+        {#if passwordForm.pending}
+          <RotateCw size="16" class="mr-2 animate-spin" />
+        {/if}
+        {data.hasCredentialAccount ? 'Update Password' : 'Set Password'}
+      </button>
+    </form>
   </section>
 
   <section class="space-y-4">

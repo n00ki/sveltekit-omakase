@@ -4,6 +4,7 @@
   import { deleteUser, updateUser } from '$remote/user.remote';
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
+  import { useRemoteForm } from '$lib/hooks/use-remote-form';
   import { FileUploader, uploads } from '$lib/upload';
   import { getUserImageUrl } from '$lib/utils/display';
   import { getInitials, normalizeFullName } from '$lib/utils/name';
@@ -26,9 +27,9 @@
   let { data } = $props();
 
   const imageUploader: FileUploader = new FileUploader(uploads.userImage);
-  const formId = $props.id();
-  const profileForm = updateUser.for(`${formId}-profile`).preflight(updateUserSchema);
-  const deleteAccountForm = deleteUser.for(`${formId}-delete`).preflight(deleteUserSchema);
+  const formKey = $props.id();
+  const profileForm = useRemoteForm(updateUser, formKey, 'profile').preflight(updateUserSchema);
+  const deleteAccountForm = useRemoteForm(deleteUser, formKey, 'delete').preflight(deleteUserSchema);
   let uploadedImageKey = $state<string | null>(null);
   let userImagePreview = $derived(getUserImageUrl(data.user?.image));
   let deleteDialogOpen = $state(false);
@@ -69,10 +70,6 @@
     if (!successful) return;
 
     form.element.reset();
-    form.fields.set({
-      image: '',
-      name: ''
-    });
     uploadedImageKey = null;
   });
 

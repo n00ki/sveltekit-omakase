@@ -2,6 +2,7 @@
   import { confirmTwoFactorSetup } from '$remote/two-factor.remote';
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
+  import { useRemoteForm } from '$lib/hooks/use-remote-form';
   import { confirmTwoFactorSetupSchema } from '$lib/validations/auth';
 
   import OtpCodeField from '$components/otp-code-field.svelte';
@@ -25,8 +26,8 @@
     setup: Setup | null;
   } = $props();
 
-  const formId = $props.id();
-  const confirmForm = confirmTwoFactorSetup.for(formId).preflight(confirmTwoFactorSetupSchema);
+  const formKey = $props.id();
+  const confirmForm = useRemoteForm(confirmTwoFactorSetup, formKey).preflight(confirmTwoFactorSetupSchema);
   let code = $state('');
   let copied = $state(false);
   let step = $state<'scan' | 'verify'>('scan');

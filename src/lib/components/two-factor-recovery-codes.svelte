@@ -1,13 +1,15 @@
 <script lang="ts">
   import { getTwoFactorRecoveryCodes, regenerateTwoFactorRecoveryCodes } from '$remote/two-factor.remote';
 
+  import { useRemoteForm } from '$lib/hooks/use-remote-form';
+
   import { buttonVariants } from '$components/ui/button';
   import * as Card from '$components/ui/card';
 
   import { Eye, EyeOff, LockKeyhole, RefreshCw } from '@lucide/svelte';
 
-  const formId = $props.id();
-  const regenerateForm = regenerateTwoFactorRecoveryCodes.for(formId);
+  const formKey = $props.id();
+  const regenerateForm = useRemoteForm(regenerateTwoFactorRecoveryCodes, formKey);
   const skeletonRows = [0, 1, 2, 3, 4, 5, 6, 7];
 
   let recoveryCodes = $state<string[]>([]);

@@ -79,7 +79,7 @@ $remote        → src/lib/remote
 - Protected route groups use `requireAuth()` in their server layout. protected remote functions and standalone protected routes must call `requireAuth()`. Auth pages use `requireGuest()`.
 - Security and access guards live in `src/lib/server/security.ts`. Two-factor protected sessions use Better Auth verification plus `Session.twoFactorCompletedAt`.
 - Sensitive routes and remote forms use `requireChallenge('/return-path')` before the operation. It prompts for a 2FA or recovery code when enabled, password for password-backed accounts, or a fresh sign-in for OAuth-only accounts, and `/auth/challenge` returns users there after confirmation.
-- Forms can call `await checkRateLimit(issue.field)` and use `.preflight(schema)` and `useFormValidation` hook for client-side validation.
+- Forms can call `await checkRateLimit(issue.field)` and use `useRemoteForm`, `.preflight(schema)`, and `useFormValidation` for client-side usage.
 - Models live in `$lib/db/models`; db connection is the default export in `$lib/server/database.ts`.
 - Use explicit TypeScript types at meaningful boundaries, such as shared APIs, DB/query contracts, and non-obvious helpers. Rely on inference for local values, route `load` functions, and route `$props()` data/children props.
 - Keep TypeScript readable: prefer plain object types and named unions over generics, mapped types, conditional types, and assertions unless they clearly improve the caller API.
@@ -180,17 +180,21 @@ export const deleteUser = form(deleteUserSchema, async () => {
   import { login } from '$remote/auth.remote';
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
+  import { useRemoteForm } from '$lib/hooks/use-remote-form';
   import { loginSchema } from '$lib/validations/auth';
+
+  const formKey = $props.id();
+  const loginForm = useRemoteForm(login, formKey).preflight(loginSchema);
 </script>
 
-<form {...login.preflight(loginSchema)} {...useFormValidation(login)}>
-  <input {...login.fields.email.as('email')} />
-  {#each login.fields.email.issues() ?? [] as issue}
+<form {...loginForm} {...useFormValidation(loginForm)}>
+  <input {...loginForm.fields.email.as('email')} />
+  {#each loginForm.fields.email.issues() ?? [] as issue}
     <span class="error">{issue.message}</span>
   {/each}
 
-  <button type="submit" disabled={!!login.pending}>
-    {#if login.pending}Loading...{/if}
+  <button type="submit" disabled={!!loginForm.pending}>
+    {#if loginForm.pending}Loading...{/if}
     Log in
   </button>
 </form>

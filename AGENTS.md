@@ -28,7 +28,7 @@ Guidelines for AI agents working with sveltekit-omakase.
 - **Never use `redirect()` inside `command` functions** - use `form` instead for actions that need to redirect (SvelteKit limitation: commands cannot handle redirects properly).
 - Protected route groups use `requireAuth()` in their server layout. protected remote functions and standalone protected routes must call `requireAuth()`. Auth pages use `requireGuest()`.
 - Password-backed sensitive routes and remote forms use `requireChallenge('/return-path')` before the operation. Do not duplicate current-password fields in those forms.
-- Forms can call `await checkRateLimit(issue.field)` and use `.preflight(schema)` and `useFormValidation` hook for client-side validation
+- Forms can call `await checkRateLimit(issue.field)` and use `useRemoteForm`, `.preflight(schema)`, and `useFormValidation` for client-side usage
 - Use Drizzle ORM only. Models live in `$models`, queries live in `$queries`. db connection is the default export in `$lib/server/database.ts`.
 - Use class-based state machines in `$lib/state/*.svelte.ts` only for cross-route or app-wide state. Keep state local to the component otherwise.
 
@@ -86,10 +86,15 @@ For user-facing interactions that don't fit CRUD patterns (likes, follows, subsc
 
 ## Form validation
 
-Use `useFormValidation` hook for client-side validation:
+Use `useRemoteForm` for client-side remote form instances and `useFormValidation` for client-side validation:
 
 ```svelte
-<form {...login.preflight(loginSchema)} {...useFormValidation(login)}>
+<script lang="ts">
+  const formKey = $props.id();
+  const loginForm = useRemoteForm(login, formKey).preflight(loginSchema);
+</script>
+
+<form {...loginForm} {...useFormValidation(loginForm)}>
 ```
 
 This validates on focusout, then re-validates on input while errors exist.

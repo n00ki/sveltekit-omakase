@@ -7,6 +7,7 @@
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
   import { useRateLimitCountdown } from '$lib/hooks/use-rate-limit-countdown.svelte';
+  import { useRemoteForm } from '$lib/hooks/use-remote-form';
   import { passwordChallengeSchema, recoveryChallengeSchema, totpChallengeSchema } from '$lib/validations/auth';
 
   import OtpCodeField from '$components/otp-code-field.svelte';
@@ -19,13 +20,13 @@
 
   let { data } = $props();
 
-  const formId = $props.id();
+  const formKey = $props.id();
   let code = $state('');
   let challenge = $state<'totp' | 'recovery'>('totp');
 
-  const passwordForm = completePasswordChallenge.for(`${formId}-password`).preflight(passwordChallengeSchema);
-  const otpForm = completeTotpChallenge.for(`${formId}-otp`).preflight(totpChallengeSchema);
-  const recoveryForm = completeRecoveryChallenge.for(`${formId}-recovery`).preflight(recoveryChallengeSchema);
+  const passwordForm = useRemoteForm(completePasswordChallenge, formKey, 'password').preflight(passwordChallengeSchema);
+  const otpForm = useRemoteForm(completeTotpChallenge, formKey, 'otp').preflight(totpChallengeSchema);
+  const recoveryForm = useRemoteForm(completeRecoveryChallenge, formKey, 'recovery').preflight(recoveryChallengeSchema);
   const passwordErrors = useRateLimitCountdown(() => passwordForm.fields._password.issues());
   const otpErrors = useRateLimitCountdown(() => otpForm.fields._code.issues());
   const recoveryErrors = useRateLimitCountdown(() => recoveryForm.fields._recoveryCode.issues());

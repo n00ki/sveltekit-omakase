@@ -4,6 +4,7 @@
   import { createUser } from '$remote/auth.remote';
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
+  import { useRemoteForm } from '$lib/hooks/use-remote-form';
   import { createUserSchema } from '$lib/validations/auth';
 
   import GoogleIcon from '$components/google-icon.svelte';
@@ -14,8 +15,8 @@
 
   import { ArrowRight, RotateCw } from '@lucide/svelte';
 
-  const formId = $props.id();
-  const createUserForm = createUser.for(formId).preflight(createUserSchema);
+  const formKey = $props.id();
+  const createUserForm = useRemoteForm(createUser, formKey).preflight(createUserSchema);
 
   let redirecting = $state(false);
 </script>

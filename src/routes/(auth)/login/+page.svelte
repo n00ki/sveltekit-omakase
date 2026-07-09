@@ -5,6 +5,7 @@
 
   import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
   import { useRateLimitCountdown } from '$lib/hooks/use-rate-limit-countdown.svelte';
+  import { useRemoteForm } from '$lib/hooks/use-remote-form';
   import { loginSchema } from '$lib/validations/auth';
 
   import GoogleIcon from '$components/google-icon.svelte';
@@ -17,8 +18,8 @@
 
   let { data } = $props();
 
-  const formId = $props.id();
-  const loginForm = login.for(formId).preflight(loginSchema);
+  const formKey = $props.id();
+  const loginForm = useRemoteForm(login, formKey).preflight(loginSchema);
   const emailErrors = useRateLimitCountdown(() => loginForm.fields.email.issues());
   const googleLoginQuery = $derived(new URLSearchParams({ next: data.next }).toString());
 
