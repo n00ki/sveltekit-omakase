@@ -20,11 +20,6 @@ node_modules/
 # bun.lock
 
 # -------------------------
-# Local build approvals
-# -------------------------
-pnpm-workspace.yaml
-
-# -------------------------
 # Build output
 # -------------------------
 /build
