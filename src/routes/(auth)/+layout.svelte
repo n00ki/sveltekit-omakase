@@ -14,7 +14,7 @@
     aria-hidden="true"
   ></div>
   <div
-    class="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] bg-size-[56px_56px] opacity-[0.28] mask-[radial-gradient(ellipse_at_center,black_25%,transparent_70%)]"
+    class="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] mask-[radial-gradient(ellipse_at_center,black_25%,transparent_70%)] bg-size-[56px_56px] opacity-[0.28]"
     aria-hidden="true"
   ></div>
 
