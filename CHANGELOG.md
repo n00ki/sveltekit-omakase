@@ -1,9 +1,26 @@
 # Changelog
 
-Headlines: Added, Changed, Deprecated, Removed, Fixed, Security
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+Releases are starter snapshots for new projects. Existing applications may need manual changes to adopt them.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.1.0] - 2026-09-18
+
+### Changed
+
+- Update dependencies
+- Share keyed form setup through `useRemoteForm` and simplify password and profile form resets
+- Include pnpm build approvals and workspace configuration
+- Update CI actions and pnpm
+- Sort Tailwind classes across UI components
+
+### Fixed
+
+- Show a validation message when two-factor verification is locked and restart sign-in after too many attempts
+- Add missing two-factor lockout fields to the initial database schema
+
+### Removed
+
+- `engine-strict`, allowing installation on other Node.js versions with a warning
 
 ## [1.0.0] - 2026-06-21
 
