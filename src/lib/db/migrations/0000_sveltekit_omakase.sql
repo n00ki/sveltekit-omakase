@@ -51,6 +51,8 @@ CREATE TABLE `two_factor` (
 	`backup_codes` text NOT NULL,
 	`user_id` text NOT NULL,
 	`verified` integer DEFAULT false NOT NULL,
+	`failed_verification_count` integer DEFAULT 0 NOT NULL,
+	`locked_until` integer,
 	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint

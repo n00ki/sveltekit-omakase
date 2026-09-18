@@ -14,7 +14,9 @@ export const TwoFactor = sqliteTable(
     userId: text()
       .notNull()
       .references(() => User.id, { onDelete: 'cascade' }),
-    verified: integer({ mode: 'boolean' }).notNull().default(false)
+    verified: integer({ mode: 'boolean' }).notNull().default(false),
+    failedVerificationCount: integer().notNull().default(0),
+    lockedUntil: integer({ mode: 'timestamp' })
   },
   (TwoFactor) => [index('two_factor_user_id_index').on(TwoFactor.userId)]
 );

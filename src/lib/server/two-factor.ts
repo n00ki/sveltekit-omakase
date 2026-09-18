@@ -29,7 +29,7 @@ export type TwoFactorSetup = {
   qrCodeSvg: string;
 };
 
-type TwoFactorChallengeResult = 'completed' | 'expired' | 'failed' | 'invalid';
+export type TwoFactorChallengeResult = 'completed' | 'exhausted' | 'expired' | 'failed' | 'invalid' | 'locked';
 
 async function getSecretKey() {
   return (await auth.$context).secretConfig;
@@ -160,6 +160,8 @@ export async function verifyTotpChallenge(code: string): Promise<TwoFactorChalle
     return 'completed';
   } catch (err) {
     if (isExpiredChallenge(err)) return 'expired';
+    if (isBetterAuthCode(err, 'TOO_MANY_ATTEMPTS_REQUEST_NEW_CODE')) return 'exhausted';
+    if (isBetterAuthCode(err, 'ACCOUNT_TEMPORARILY_LOCKED')) return 'locked';
     if (isBetterAuthCode(err, 'INVALID_CODE')) return 'invalid';
 
     console.error('Failed to complete TOTP challenge:', err);
@@ -183,6 +185,8 @@ export async function verifyRecoveryChallenge(code: string): Promise<TwoFactorCh
     return 'completed';
   } catch (err) {
     if (isExpiredChallenge(err)) return 'expired';
+    if (isBetterAuthCode(err, 'TOO_MANY_ATTEMPTS_REQUEST_NEW_CODE')) return 'exhausted';
+    if (isBetterAuthCode(err, 'ACCOUNT_TEMPORARILY_LOCKED')) return 'locked';
     if (isBetterAuthCode(err, 'INVALID_BACKUP_CODE')) return 'invalid';
 
     console.error('Failed to complete recovery challenge:', err);

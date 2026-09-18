@@ -16,9 +16,12 @@ function finishTwoFactor(next: string | undefined, loggedIn: boolean) {
   flashAndRedirect(getSafeChallengeNext(next), 'success', loggedIn ? m.auth.challenge.success : m.auth.login.success);
 }
 
-function handleExpiredTwoFactor(result: string) {
+function restartSignIn(result: twoFactor.TwoFactorChallengeResult): void {
   if (result === 'expired') {
     flashAndRedirect('/login', 'error', m.auth.twoFactor.expired);
+  }
+  if (result === 'exhausted') {
+    flashAndRedirect('/login', 'error', m.auth.twoFactor.tooManyAttempts);
   }
 }
 
@@ -27,10 +30,13 @@ export const completeTotpChallenge = form(totpChallengeSchema, async ({ next, _c
   await checkRateLimit(issue._code);
 
   const result = await twoFactor.verifyTotpChallenge(_code);
-  handleExpiredTwoFactor(result);
+  restartSignIn(result);
 
   if (result === 'invalid') {
     invalid(issue._code(m.auth.twoFactor.invalidCode));
+  }
+  if (result === 'locked') {
+    invalid(issue._code(m.auth.twoFactor.locked));
   }
   if (result === 'failed') {
     error(500, m.general.error);
@@ -44,10 +50,13 @@ export const completeRecoveryChallenge = form(recoveryChallengeSchema, async ({ 
   await checkRateLimit(issue._recoveryCode);
 
   const result = await twoFactor.verifyRecoveryChallenge(_recoveryCode);
-  handleExpiredTwoFactor(result);
+  restartSignIn(result);
 
   if (result === 'invalid') {
     invalid(issue._recoveryCode(m.auth.twoFactor.invalidRecoveryCode));
+  }
+  if (result === 'locked') {
+    invalid(issue._recoveryCode(m.auth.twoFactor.locked));
   }
   if (result === 'failed') {
     error(500, m.general.error);

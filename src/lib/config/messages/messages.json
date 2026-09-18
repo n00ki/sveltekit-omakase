@@ -41,6 +41,8 @@
       "setupConfirmed": "Two-factor authentication is now enabled.",
       "invalidCode": "The authentication code is invalid.",
       "invalidRecoveryCode": "The recovery code is invalid.",
+      "locked": "Too many failed attempts. Please try again later.",
+      "tooManyAttempts": "Too many attempts. Please sign in again.",
       "expired": "Your two-factor challenge has expired. Please sign in again."
     }
   },
