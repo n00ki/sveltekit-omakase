@@ -58,6 +58,8 @@ Whether you're a seasoned developer or just starting out, this starter kit is ca
 
 ### Installation
 
+Use Node.js 24 or newer (LTS recommended) and pnpm.
+
 ```bash
 # Clone the repository
 git clone https://github.com/n00ki/sveltekit-omakase.git my-app
