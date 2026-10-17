@@ -14,7 +14,7 @@
   <Head />
   <Body class="m-0 bg-zinc-800 px-4 py-8 font-sans">
     <Preview preview="We are thrilled to have you onboard. ⭐" />
-    <Container class="max-w-[600px] rounded-3xl bg-slate-100 px-8 py-10">
+    <Container class="max-w-150 rounded-3xl bg-slate-100 px-8 py-10">
       <Section>
         <Heading as="h1" class="m-0 text-[30px] leading-[1.2] font-bold text-slate-900">
           Welcome to <span class="text-amber-500">{config.app.name}</span>
