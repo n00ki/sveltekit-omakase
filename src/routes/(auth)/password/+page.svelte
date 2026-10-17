@@ -1,13 +1,13 @@
 <script lang="ts">
-  import { requestPasswordReset } from '$remote/auth.remote';
+  import { requestPasswordReset } from '#remote/auth.remote.ts';
 
-  import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
-  import { useRemoteForm } from '$lib/hooks/use-remote-form';
-  import { requestPasswordResetSchema } from '$lib/validations/auth';
+  import { useFormValidation } from '#lib/hooks/use-form-validation.svelte.ts';
+  import { useRemoteForm } from '#lib/hooks/use-remote-form.ts';
+  import { requestPasswordResetSchema } from '#lib/validations/auth.ts';
 
-  import { buttonVariants } from '$components/ui/button';
-  import * as Field from '$components/ui/field';
-  import { Input } from '$components/ui/input';
+  import { buttonVariants } from '#components/ui/button/index.ts';
+  import * as Field from '#components/ui/field/index.ts';
+  import { Input } from '#components/ui/input/index.ts';
 
   import { ArrowLeft, ArrowRight, RotateCw } from '@lucide/svelte';
 

@@ -1,14 +1,14 @@
-import { R2_ACCESS_KEY_ID, R2_ACCOUNT_ID, R2_SECRET_ACCESS_KEY } from '$env/static/private';
-import { PUBLIC_R2_BUCKET_NAME } from '$env/static/public';
+import { R2_ACCESS_KEY_ID, R2_ACCOUNT_ID, R2_SECRET_ACCESS_KEY } from '$app/env/private';
+import { PUBLIC_R2_BUCKET_NAME } from '$app/env/public';
 
-import type { PreparedUpload, UploadFile, UploadPolicyId } from '$lib/upload/policies';
+import type { PreparedUpload, UploadFile, UploadPolicyId } from '#lib/upload/policies.ts';
 
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
-import { createUploadKey, getUploadPolicy, getUploadUrl } from '$lib/upload/policies';
+import { createUploadKey, getUploadPolicy, getUploadUrl } from '#lib/upload/policies.ts';
 
-import { config } from '$config/server';
+import { config } from '#config/server';
 
 const r2Endpoint = `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`;
 

@@ -3,22 +3,22 @@
 
   import { getFlash } from 'sveltekit-flash-message/client';
 
-  import { disableTwoFactor, startTwoFactorSetup } from '$remote/two-factor.remote';
-  import { updateUserPassword } from '$remote/user.remote';
+  import { disableTwoFactor, startTwoFactorSetup } from '#remote/two-factor.remote.ts';
+  import { updateUserPassword } from '#remote/user.remote.ts';
 
-  import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
-  import { useRemoteForm } from '$lib/hooks/use-remote-form';
-  import { updateUserPasswordSchema } from '$lib/validations/auth';
+  import { useFormValidation } from '#lib/hooks/use-form-validation.svelte.ts';
+  import { useRemoteForm } from '#lib/hooks/use-remote-form.ts';
+  import { updateUserPasswordSchema } from '#lib/validations/auth.ts';
 
-  import PasswordInput from '$components/password-input.svelte';
-  import TwoFactorRecoveryCodes from '$components/two-factor-recovery-codes.svelte';
-  import TwoFactorSetupModal from '$components/two-factor-setup-modal.svelte';
-  import { buttonVariants } from '$components/ui/button';
-  import * as Field from '$components/ui/field';
+  import PasswordInput from '#components/password-input.svelte';
+  import TwoFactorRecoveryCodes from '#components/two-factor-recovery-codes.svelte';
+  import TwoFactorSetupModal from '#components/two-factor-setup-modal.svelte';
+  import { buttonVariants } from '#components/ui/button/index.ts';
+  import * as Field from '#components/ui/field/index.ts';
 
   import { RotateCw } from '@lucide/svelte';
 
-  import * as m from '$messages';
+  import * as m from '#messages';
 
   let { data } = $props();
 
@@ -77,7 +77,7 @@
       </p>
     </header>
 
-    <form {...passwordForm} {...enhancedPasswordForm} {...useFormValidation(passwordForm)}>
+    <form {...enhancedPasswordForm} {...useFormValidation(passwordForm)}>
       <Field.Field>
         <Field.Label>New Password</Field.Label>
         <PasswordInput
@@ -119,7 +119,7 @@
 
     {#if !data.twoFactorEnabled}
       <div class="space-y-4">
-        <form {...setupForm} {...enhancedSetupForm}>
+        <form {...enhancedSetupForm}>
           <button type="submit" disabled={!!setupForm.pending} class={buttonVariants()}>
             {#if setupForm.pending}
               <RotateCw size="16" class="mr-2 animate-spin" />

@@ -1,7 +1,7 @@
-import { requireGuest } from '$lib/server/auth';
-import { flashAndRedirect } from '$lib/server/flash';
+import { requireGuest } from '#lib/server/auth.ts';
+import { flashAndRedirect } from '#lib/server/flash.ts';
 
-import * as m from '$messages';
+import * as m from '#messages';
 
 export function load({ url }) {
   requireGuest();

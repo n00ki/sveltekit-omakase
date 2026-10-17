@@ -1,5 +1,5 @@
 <script lang="ts">
-  import PlaceholderPattern from '$components/placeholder-pattern.svelte';
+  import PlaceholderPattern from '#components/placeholder-pattern.svelte';
 </script>
 
 <div class="grid grid-cols-1 gap-4 p-4 md:h-full md:grid-cols-3 md:grid-rows-[auto_1fr]">

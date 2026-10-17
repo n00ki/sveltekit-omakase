@@ -1,15 +1,15 @@
 <script lang="ts">
-  import type { User } from '$lib/server/auth';
+  import type { User } from '#lib/server/auth.ts';
 
   import { resolve } from '$app/paths';
 
-  import { getUserImageUrl } from '$lib/utils/display';
-  import { getInitials } from '$lib/utils/name';
+  import { getUserImageUrl } from '#lib/utils/display.ts';
+  import { getInitials } from '#lib/utils/name.ts';
 
-  import * as Avatar from '$components/ui/avatar';
-  import * as DropdownMenu from '$components/ui/dropdown-menu';
-  import { useSidebar } from '$components/ui/sidebar';
-  import * as Sidebar from '$components/ui/sidebar';
+  import * as Avatar from '#components/ui/avatar/index.ts';
+  import * as DropdownMenu from '#components/ui/dropdown-menu/index.ts';
+  import { useSidebar } from '#components/ui/sidebar/index.ts';
+  import * as Sidebar from '#components/ui/sidebar/index.ts';
 
   import { ChevronsUpDown, LogOut, RotateCw, Settings } from '@lucide/svelte';
 
@@ -78,7 +78,7 @@
         <DropdownMenu.Group>
           <DropdownMenu.Item>
             {#snippet child({ props })}
-              <a href={resolve('/settings/profile')} {...props}>
+              <a href={resolve('settings/profile')} {...props}>
                 <Settings />
                 Settings
               </a>

@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { PUBLIC_BASE_URL } from '$env/static/public';
+  import { PUBLIC_BASE_URL } from '$app/env/public';
 
-  import metaImage from '$lib/assets/meta_image.png';
+  import metaImage from '#lib/assets/meta_image.png';
 
-  import { config } from '$config';
+  import { config } from '#config';
 
   const TITLE_SEPARATOR = '|';
 

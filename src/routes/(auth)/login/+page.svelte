@@ -1,18 +1,18 @@
 <script lang="ts">
   import { resolve } from '$app/paths';
 
-  import { login } from '$remote/auth.remote';
+  import { login } from '#remote/auth.remote.ts';
 
-  import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
-  import { useRateLimitCountdown } from '$lib/hooks/use-rate-limit-countdown.svelte';
-  import { useRemoteForm } from '$lib/hooks/use-remote-form';
-  import { loginSchema } from '$lib/validations/auth';
+  import { useFormValidation } from '#lib/hooks/use-form-validation.svelte.ts';
+  import { useRateLimitCountdown } from '#lib/hooks/use-rate-limit-countdown.svelte.ts';
+  import { useRemoteForm } from '#lib/hooks/use-remote-form.ts';
+  import { loginSchema } from '#lib/validations/auth.ts';
 
-  import GoogleIcon from '$components/google-icon.svelte';
-  import PasswordInput from '$components/password-input.svelte';
-  import { buttonVariants } from '$components/ui/button';
-  import * as Field from '$components/ui/field';
-  import { Input } from '$components/ui/input';
+  import GoogleIcon from '#components/google-icon.svelte';
+  import PasswordInput from '#components/password-input.svelte';
+  import { buttonVariants } from '#components/ui/button/index.ts';
+  import * as Field from '#components/ui/field/index.ts';
+  import { Input } from '#components/ui/input/index.ts';
 
   import { ArrowRight, RotateCw } from '@lucide/svelte';
 
@@ -52,7 +52,7 @@
       <div class="flex items-baseline justify-between">
         <Field.Label class="text-xs font-medium tracking-tight text-muted-foreground">Password</Field.Label>
         <a
-          href={resolve('/password')}
+          href={resolve('password')}
           class="text-xs text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
         >
           Forgot password?
@@ -93,7 +93,7 @@
       class: ['h-10 w-full gap-2.5', redirecting && 'pointer-events-none cursor-not-allowed opacity-50']
     })}
     onclick={() => (redirecting = true)}
-    href={resolve(`/login/google?${googleLoginQuery}`)}
+    href={resolve(`login/google?${googleLoginQuery}`)}
     data-sveltekit-reload
   >
     {#if redirecting}
@@ -106,6 +106,7 @@
 
   <p class="text-center text-sm text-muted-foreground">
     Don't have an account?
-    <a href={resolve('/register')} class="font-medium text-foreground underline-offset-4 hover:underline">Sign up</a>
+
+    <a href={resolve('register')} class="font-medium text-foreground underline-offset-4 hover:underline">Sign up</a>
   </p>
 </section>

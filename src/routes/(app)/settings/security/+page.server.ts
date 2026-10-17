@@ -1,4 +1,4 @@
-import { getAccountSecurityStatus, requireChallenge } from '$lib/server/security';
+import { getAccountSecurityStatus, requireChallenge } from '#lib/server/security.ts';
 
 export async function load({ parent }) {
   const { user } = await parent();

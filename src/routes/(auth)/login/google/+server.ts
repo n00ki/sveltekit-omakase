@@ -1,7 +1,7 @@
 import type { RequestEvent } from '@sveltejs/kit';
 
-import { auth } from '$lib/server/auth';
-import { getSafeChallengeNext } from '$lib/server/security';
+import { auth } from '#lib/server/auth.ts';
+import { getSafeChallengeNext } from '#lib/server/security.ts';
 
 export async function GET({ url }: RequestEvent) {
   const callbackURL = getSafeChallengeNext(url.searchParams.get('next'), '/dashboard');

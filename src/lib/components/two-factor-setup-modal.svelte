@@ -1,13 +1,13 @@
 <script lang="ts">
-  import { confirmTwoFactorSetup } from '$remote/two-factor.remote';
+  import { confirmTwoFactorSetup } from '#remote/two-factor.remote.ts';
 
-  import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
-  import { useRemoteForm } from '$lib/hooks/use-remote-form';
-  import { confirmTwoFactorSetupSchema } from '$lib/validations/auth';
+  import { useFormValidation } from '#lib/hooks/use-form-validation.svelte.ts';
+  import { useRemoteForm } from '#lib/hooks/use-remote-form.ts';
+  import { confirmTwoFactorSetupSchema } from '#lib/validations/auth.ts';
 
-  import OtpCodeField from '$components/otp-code-field.svelte';
-  import { Button, buttonVariants } from '$components/ui/button';
-  import * as Dialog from '$components/ui/dialog';
+  import OtpCodeField from '#components/otp-code-field.svelte';
+  import { Button, buttonVariants } from '#components/ui/button/index.ts';
+  import * as Dialog from '#components/ui/dialog/index.ts';
 
   import { Check, Copy, RotateCw, ScanLine } from '@lucide/svelte';
 
@@ -28,6 +28,11 @@
 
   const formKey = $props.id();
   const confirmForm = useRemoteForm(confirmTwoFactorSetup, formKey).preflight(confirmTwoFactorSetupSchema);
+  const enhancedConfirmForm = confirmForm.enhance(async (form) => {
+    if (await form.submit()) {
+      handleOpenChange(false);
+    }
+  });
   let code = $state('');
   let copied = $state(false);
   let step = $state<'scan' | 'verify'>('scan');
@@ -97,7 +102,7 @@
     {#if setup}
       <div class="relative flex flex-col items-center justify-center space-y-5">
         {#if step === 'verify'}
-          <form {...confirmForm} {...useFormValidation(confirmForm)} class="w-full space-y-4!">
+          <form {...enhancedConfirmForm} {...useFormValidation(confirmForm)} class="w-full space-y-4!">
             <input {...confirmForm.fields._code.as('hidden', code)} />
 
             <OtpCodeField

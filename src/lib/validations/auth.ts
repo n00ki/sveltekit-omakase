@@ -1,9 +1,9 @@
 import * as v from 'valibot';
 
-import { isUploadKeyForPolicy, uploads } from '$lib/upload/policies';
-import { emailSchema, nameSchema, optionalString, passwordSchema, trimmedString } from '$lib/validations/shared';
+import { isUploadKeyForPolicy, uploads } from '#lib/upload/policies.ts';
+import { emailSchema, nameSchema, optionalString, passwordSchema, trimmedString } from '#lib/validations/shared.ts';
 
-import { config } from '$config';
+import { config } from '#config';
 
 export const createUserSchema = v.pipe(
   v.object({

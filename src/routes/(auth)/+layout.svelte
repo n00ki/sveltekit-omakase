@@ -1,9 +1,9 @@
 <script lang="ts">
   import { resolve } from '$app/paths';
 
-  import ThemeSwitch from '$components/theme-switch.svelte';
+  import ThemeSwitch from '#components/theme-switch.svelte';
 
-  import { config } from '$config';
+  import { config } from '#config';
 
   let { children } = $props();
 </script>

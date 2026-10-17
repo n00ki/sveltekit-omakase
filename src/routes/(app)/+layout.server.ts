@@ -1,7 +1,7 @@
-import { requireAuth } from '$lib/server/auth';
-import { requireTwoFactor } from '$lib/server/security';
+import { requireAuth } from '#lib/server/auth.ts';
+import { requireTwoFactor } from '#lib/server/security.ts';
 
-import { SIDEBAR_COOKIE_NAME } from '$components/ui/sidebar/constants';
+import { SIDEBAR_COOKIE_NAME } from '#components/ui/sidebar/constants.ts';
 
 export async function load({ cookies, url }) {
   const { user, session } = requireAuth();

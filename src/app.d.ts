@@ -1,8 +1,8 @@
 declare global {
   namespace App {
     interface Locals {
-      user: import('$lib/server/auth').User | null;
-      session: import('$lib/server/auth').Session | null;
+      user: import('#lib/server/auth.ts').User | null;
+      session: import('#lib/server/auth.ts').Session | null;
     }
 
     interface Error {
@@ -11,8 +11,8 @@ declare global {
     }
 
     interface PageData {
-      user: import('$lib/server/auth').User | null;
-      session: import('$lib/server/auth').Session | null;
+      user: import('#lib/server/auth.ts').User | null;
+      session: import('#lib/server/auth.ts').Session | null;
       metadata?: {
         title?: string;
         description?: string;

@@ -1,18 +1,18 @@
 <script lang="ts">
   import { resolve } from '$app/paths';
 
-  import * as Sidebar from '$components/ui/sidebar';
+  import * as Sidebar from '#components/ui/sidebar/index.ts';
 
-  import logo from '$lib/assets/logo.png';
+  import logo from '#lib/assets/logo.png';
 
-  import { config } from '$config';
+  import { config } from '#config';
 </script>
 
 <Sidebar.Menu>
   <Sidebar.MenuItem>
     <Sidebar.MenuButton size="lg" data-active={undefined}>
       {#snippet child({ props })}
-        <a href={resolve('/dashboard')} {...props}>
+        <a href={resolve('dashboard')} {...props}>
           <div
             class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground"
           >

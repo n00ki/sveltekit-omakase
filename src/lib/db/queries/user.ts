@@ -1,7 +1,7 @@
 import { and, eq, isNull, like, or } from 'drizzle-orm';
 
-import { User } from '$lib/db/models';
-import db from '$lib/server/database';
+import { User } from '#lib/db/models/index.ts';
+import db from '#lib/server/database.ts';
 
 export async function setUserImageFromOAuth(userId: string, image: string): Promise<void> {
   await db

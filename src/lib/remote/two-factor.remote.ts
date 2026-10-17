@@ -2,12 +2,12 @@ import { form, query } from '$app/server';
 
 import { invalid } from '@sveltejs/kit';
 
-import { flashAndRedirect } from '$lib/server/flash';
-import { checkRateLimit } from '$lib/server/rate-limit';
-import * as twoFactor from '$lib/server/two-factor';
-import { confirmTwoFactorSetupSchema } from '$lib/validations/auth';
+import { flashAndRedirect } from '#lib/server/flash.ts';
+import { checkRateLimit } from '#lib/server/rate-limit.ts';
+import * as twoFactor from '#lib/server/two-factor.ts';
+import { confirmTwoFactorSetupSchema } from '#lib/validations/auth.ts';
 
-import * as m from '$messages';
+import * as m from '#messages';
 
 export const startTwoFactorSetup = form(async () => {
   return twoFactor.startSetup();

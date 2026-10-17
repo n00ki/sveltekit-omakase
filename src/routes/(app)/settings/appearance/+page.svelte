@@ -1,5 +1,5 @@
 <script lang="ts">
-  import ThemeTabs from '$components/theme-tabs.svelte';
+  import ThemeTabs from '#components/theme-tabs.svelte';
 </script>
 
 <div class="flex w-full flex-1 flex-col justify-center gap-6">

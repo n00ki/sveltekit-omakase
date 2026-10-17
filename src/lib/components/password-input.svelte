@@ -5,9 +5,9 @@
   import EyeOffIcon from '@lucide/svelte/icons/eye-off';
   import { tick } from 'svelte';
 
-  import { cn } from '$lib/utils/utils.js';
+  import { cn } from '#lib/utils/utils.ts';
 
-  import Input from '$components/ui/input/input.svelte';
+  import Input from '#components/ui/input/input.svelte';
 
   type Props = Omit<ComponentProps<typeof Input>, 'ref' | 'files'> & {
     ref?: HTMLInputElement | null;

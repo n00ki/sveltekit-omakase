@@ -3,7 +3,7 @@ import { getRequestEvent } from '$app/server';
 import { error, invalid } from '@sveltejs/kit';
 import { RetryAfterRateLimiter } from 'sveltekit-rate-limiter/server';
 
-import { config } from '$config/server';
+import { config } from '#config/server';
 
 const limiter = new RetryAfterRateLimiter({
   IP: config.security.rateLimit.perIp,

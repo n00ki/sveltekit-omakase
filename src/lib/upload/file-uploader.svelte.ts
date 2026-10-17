@@ -1,10 +1,10 @@
-import type { PreparedUpload, UploadedFile, UploadPolicy } from '$lib/upload/policies';
+import type { PreparedUpload, UploadedFile, UploadPolicy } from '#lib/upload/policies.ts';
 
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 
-import { getUploadFileErrors } from '$lib/upload/policies';
+import { getUploadFileErrors } from '#lib/upload/policies.ts';
 
-import { config } from '$config';
+import { config } from '#config';
 
 export type UploadStatus = 'ready' | 'uploading' | 'uploaded' | 'failed';
 

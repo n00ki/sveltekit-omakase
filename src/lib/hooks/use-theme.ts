@@ -1,7 +1,7 @@
 import { resetMode, setMode, userPrefersMode } from 'mode-watcher';
 
-import type { ThemeType } from '$config';
-import { config } from '$config';
+import type { ThemeType } from '#config';
+import { config } from '#config';
 
 const themeModes = config.theme.modes;
 

@@ -1,9 +1,9 @@
 import * as v from 'valibot';
 
-import { getUploadFileErrors, getUploadPolicy } from '$lib/upload/policies';
-import { trimmedString } from '$lib/validations/shared';
+import { getUploadFileErrors, getUploadPolicy } from '#lib/upload/policies.ts';
+import { trimmedString } from '#lib/validations/shared.ts';
 
-import { config } from '$config';
+import { config } from '#config';
 
 const uploadFileSchema = v.object({
   size: v.pipe(v.number(), v.integer(), v.minValue(1)),

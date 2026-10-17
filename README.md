@@ -114,21 +114,24 @@ src/
     └── app.css                # Global styles + Tailwind config
 ```
 
-### Path Aliases
+### Imports
 
-```typescript
-$config        → src/lib/config/config.ts
-$config/server → src/lib/config/config.server.ts
-$messages      → src/lib/config/messages
-$components    → src/lib/components
-$models        → src/lib/db/models
-$queries       → src/lib/db/queries
-$remote        → src/lib/remote
+`package.json` defines the subpath imports below. Wildcard imports need a filename and extension, such as `#components/ui/button/index.ts`.
+
+```text
+#lib/*         → src/lib/*
+#config        → src/lib/config/config.ts
+#config/server → src/lib/config/config.server.ts
+#messages      → src/lib/config/messages/index.ts
+#components/*  → src/lib/components/*
+#models        → src/lib/db/models/index.ts
+#queries       → src/lib/db/queries/index.ts
+#remote        → src/lib/remote/index.ts
 ```
 
 ### Config
 
-Config lives in `src/lib/config`, grouped by context. Import `{ config }` from `$config` for public config, `{ config }` from `$config/server` in server-only modules, and user-facing messages from `$messages`.
+Config lives in `src/lib/config`, grouped by context. Import `{ config }` from `#config` for public config or `#config/server` for server-only config. Import user-facing messages from `#messages`.
 
 ## Documentation
 

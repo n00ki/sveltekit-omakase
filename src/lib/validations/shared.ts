@@ -1,6 +1,6 @@
 import * as v from 'valibot';
 
-import { normalizeFullName } from '$lib/utils/name';
+import { normalizeFullName } from '#lib/utils/name.ts';
 
 export const MAX_EMAIL_LENGTH = 64;
 export const MAX_NAME_LENGTH = 128;

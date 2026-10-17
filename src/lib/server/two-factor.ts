@@ -6,17 +6,17 @@ import { generateRandomString, symmetricDecrypt, symmetricEncrypt } from 'better
 import { eq } from 'drizzle-orm';
 import QRCode from 'qrcode';
 
-import { Session, TwoFactor, User } from '$lib/db/models';
-import { auth } from '$lib/server/auth';
-import db from '$lib/server/database';
+import { Session, TwoFactor, User } from '#lib/db/models/index.ts';
+import { auth } from '#lib/server/auth.ts';
+import db from '#lib/server/database.ts';
 import {
   markTwoFactorChallengeCompleted,
   requireEnabledTwoFactor,
   requirePendingTwoFactorSetup,
   requireTwoFactorSetup
-} from '$lib/server/security';
+} from '#lib/server/security.ts';
 
-import { config } from '$config/server';
+import { config } from '#config/server';
 
 const TOTP_DIGITS = 6;
 const TOTP_PERIOD = 30;

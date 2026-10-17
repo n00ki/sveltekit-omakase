@@ -3,14 +3,14 @@ import { form, getRequestEvent } from '$app/server';
 import { error, invalid } from '@sveltejs/kit';
 import { APIError as BetterAuthAPIError } from 'better-auth/api';
 
-import { auth } from '$lib/server/auth';
-import { flashAndRedirect } from '$lib/server/flash';
-import { checkRateLimit } from '$lib/server/rate-limit';
-import { getChallengeMode, getSafeChallengeNext, markChallengeCompleted } from '$lib/server/security';
-import * as twoFactor from '$lib/server/two-factor';
-import { passwordChallengeSchema, recoveryChallengeSchema, totpChallengeSchema } from '$lib/validations/auth';
+import { auth } from '#lib/server/auth.ts';
+import { flashAndRedirect } from '#lib/server/flash.ts';
+import { checkRateLimit } from '#lib/server/rate-limit.ts';
+import { getChallengeMode, getSafeChallengeNext, markChallengeCompleted } from '#lib/server/security.ts';
+import * as twoFactor from '#lib/server/two-factor.ts';
+import { passwordChallengeSchema, recoveryChallengeSchema, totpChallengeSchema } from '#lib/validations/auth.ts';
 
-import * as m from '$messages';
+import * as m from '#messages';
 
 function finishTwoFactor(next: string | undefined, loggedIn: boolean) {
   flashAndRedirect(getSafeChallengeNext(next), 'success', loggedIn ? m.auth.challenge.success : m.auth.login.success);

@@ -4,9 +4,9 @@
   import { cubicInOut } from 'svelte/easing';
   import { crossfade } from 'svelte/transition';
 
-  import { cn } from '$lib/utils/utils';
+  import { cn } from '#lib/utils/utils.ts';
 
-  import { Button } from '$components/ui/button';
+  import { Button } from '#components/ui/button/index.ts';
 
   interface Props {
     class?: string | undefined | null;
@@ -29,7 +29,7 @@
       href={item.href}
       variant="ghost"
       class={cn(!isActive && 'hover:underline', 'relative justify-start hover:bg-transparent')}
-      data-sveltekit-noscroll
+      data-sveltekit-reset={false}
     >
       {#if isActive}
         <div

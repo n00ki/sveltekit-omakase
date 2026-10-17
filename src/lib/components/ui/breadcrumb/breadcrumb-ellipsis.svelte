@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { WithElementRef, WithoutChildren } from '$lib/utils/utils.js';
+  import type { WithElementRef, WithoutChildren } from '#lib/utils/utils.ts';
   import type { HTMLAttributes } from 'svelte/elements';
 
   import MoreHorizontalIcon from '@lucide/svelte/icons/more-horizontal';
 
-  import { cn } from '$lib/utils/utils.js';
+  import { cn } from '#lib/utils/utils.ts';
 
   let {
     ref = $bindable(null),

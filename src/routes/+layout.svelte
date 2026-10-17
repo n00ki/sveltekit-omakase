@@ -5,10 +5,10 @@
   import { toast } from 'svelte-sonner';
   import { getFlash } from 'sveltekit-flash-message/client';
 
-  import AppHead from '$components/app-head.svelte';
-  import { Toaster } from '$components/ui/sonner';
+  import AppHead from '#components/app-head.svelte';
+  import { Toaster } from '#components/ui/sonner/index.ts';
 
-  import { config } from '$config';
+  import { config } from '#config';
 
   import '../styles/app.css';
 

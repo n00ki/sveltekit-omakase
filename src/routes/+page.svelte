@@ -1,7 +1,7 @@
 <script lang="ts">
-  import GithubIcon from '$components/github-icon.svelte';
-  import ThemeSwitch from '$components/theme-switch.svelte';
-  import { Button } from '$components/ui/button';
+  import GithubIcon from '#components/github-icon.svelte';
+  import ThemeSwitch from '#components/theme-switch.svelte';
+  import { Button } from '#components/ui/button/index.ts';
 
   import {
     Database,
@@ -17,9 +17,9 @@
     Webhook,
     Zap
   } from '@lucide/svelte';
-  import logo from '$lib/assets/logo.png';
+  import logo from '#lib/assets/logo.png';
 
-  import { config } from '$config';
+  import { config } from '#config';
 
   const REPOSITORY_URL = 'https://github.com/n00ki/sveltekit-omakase';
 </script>
@@ -42,7 +42,7 @@
       <img src={logo} alt="logo" class="mx-auto size-16 md:size-24" />
       <h1 class="mb-1.5 font-secondary text-3xl font-black md:text-6xl">{config.app.name}</h1>
       <h2 class="text-base font-medium tracking-tight md:text-lg">
-        the ultimate <span class=" bg-gradient-to-r from-rose-500 to-orange-400 bg-clip-text text-transparent"
+        the ultimate <span class=" bg-linear-to-r from-rose-500 to-orange-400 bg-clip-text text-transparent"
           >mise en place</span
         > for your next SvelteKit project 🚀
       </h2>

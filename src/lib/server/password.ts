@@ -1,8 +1,8 @@
 import { and, eq, ne } from 'drizzle-orm';
 
-import { Session } from '$lib/db/models';
-import { auth } from '$lib/server/auth';
-import db from '$lib/server/database';
+import { Session } from '#lib/db/models/index.ts';
+import { auth } from '#lib/server/auth.ts';
+import db from '#lib/server/database.ts';
 
 export async function updateCredentialPassword(userId: string, password: string, currentSessionToken: string) {
   const authContext = await auth.$context;

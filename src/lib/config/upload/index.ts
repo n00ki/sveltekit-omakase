@@ -1,6 +1,6 @@
 import type { UploadConfig, UploadPolicyId } from '../config.schema';
 
-import { mb } from '$lib/utils/size';
+import { mb } from '#lib/utils/size.ts';
 
 const DEFAULT_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'] as const;
 

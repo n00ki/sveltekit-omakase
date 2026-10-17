@@ -3,12 +3,12 @@ import { getRequestEvent } from '$app/server';
 import { error, redirect } from '@sveltejs/kit';
 import { and, eq, isNotNull } from 'drizzle-orm';
 
-import { Account, Session, TwoFactor, User } from '$lib/db/models';
-import { requireAuth } from '$lib/server/auth';
-import db from '$lib/server/database';
+import { Account, Session, TwoFactor, User } from '#lib/db/models/index.ts';
+import { requireAuth } from '#lib/server/auth.ts';
+import db from '#lib/server/database.ts';
 
-import * as m from '$messages';
-import { config } from '$config/server';
+import * as m from '#messages';
+import { config } from '#config/server';
 
 const CHALLENGE_PATH = '/auth/challenge';
 const SECURITY_PATH = '/settings/security';
@@ -151,8 +151,8 @@ async function getCurrentChallengeContext() {
 }
 
 function redirectToChallenge(next: string | undefined, fallback: string) {
-  const { url } = getRequestEvent();
-  const redirectTo = getSafeChallengeNext(next ?? `${url.pathname}${url.search}`, fallback);
+  const event = getRequestEvent();
+  const redirectTo = getSafeChallengeNext(next ?? `${event.url.pathname}${event.url.search}`, fallback);
   const params = new URLSearchParams({ next: redirectTo });
 
   redirect(303, `${CHALLENGE_PATH}?${params.toString()}`);

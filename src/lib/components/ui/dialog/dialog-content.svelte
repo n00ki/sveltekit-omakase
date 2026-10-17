@@ -1,12 +1,12 @@
 <script lang="ts">
-  import type { WithoutChildrenOrChild } from '$lib/utils/utils.js';
+  import type { WithoutChildrenOrChild } from '#lib/utils/utils.ts';
   import type { ComponentProps, Snippet } from 'svelte';
 
   import XIcon from '@lucide/svelte/icons/x';
   import { Dialog as DialogPrimitive } from 'bits-ui';
 
-  import { Button } from '$lib/components/ui/button/index.js';
-  import { cn } from '$lib/utils/utils.js';
+  import { Button } from '#lib/components/ui/button/index.ts';
+  import { cn } from '#lib/utils/utils.ts';
 
   import DialogPortal from './dialog-portal.svelte';
   import * as Dialog from './index.js';

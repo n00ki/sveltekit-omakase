@@ -1,18 +1,21 @@
+import { BETTER_AUTH_SECRET, BETTER_AUTH_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '$app/env/private';
+import { PUBLIC_BASE_URL } from '$app/env/public';
+
 import { getRequestEvent } from '$app/server';
 
 import { redirect } from '@sveltejs/kit';
-import { setUserImageFromOAuth } from '$queries';
+import { setUserImageFromOAuth } from '#queries';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { twoFactor } from 'better-auth/plugins';
 import { sveltekitCookies } from 'better-auth/svelte-kit';
 
-import { Account, Session, TwoFactor, User, Verification } from '$lib/db/models';
-import { EMAILS, sendEmail } from '$lib/mail/mailer';
-import db from '$lib/server/database';
-import { normalizeFullName } from '$lib/utils/name';
+import { Account, Session, TwoFactor, User, Verification } from '#lib/db/models/index.ts';
+import { EMAILS, sendEmail } from '#lib/mail/mailer.ts';
+import db from '#lib/server/database.ts';
+import { normalizeFullName } from '#lib/utils/name.ts';
 
-import { config } from '$config/server';
+import { config } from '#config/server';
 
 type GoogleProfile = {
   family_name?: string | null;
@@ -83,6 +86,8 @@ async function syncGoogleImage(account: OAuthAccount | null | undefined): Promis
 
 export const auth = betterAuth({
   appName: config.app.name,
+  baseURL: BETTER_AUTH_URL,
+  secret: BETTER_AUTH_SECRET,
   database: drizzleAdapter(db, {
     provider: 'sqlite',
     schema: {
@@ -134,9 +139,9 @@ export const auth = betterAuth({
   },
   socialProviders: {
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectUri: `${process.env.PUBLIC_BASE_URL}/auth/social/callback/google`,
+      clientId: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      redirectUri: `${PUBLIC_BASE_URL}/auth/social/callback/google`,
       overrideUserInfoOnSignIn: false,
       mapProfileToUser: (profile) => {
         const image = getGoogleProfileImage(profile);

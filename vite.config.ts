@@ -14,27 +14,6 @@ export default defineConfig(() => ({
         remoteFunctions: true
       },
 
-      alias: {
-        '$config/server': 'src/lib/config/config.server.ts',
-
-        $config: 'src/lib/config/config.ts',
-
-        $messages: 'src/lib/config/messages',
-        '$messages/*': 'src/lib/config/messages/*',
-
-        $components: 'src/lib/components',
-        '$components/*': 'src/lib/components/*',
-
-        $models: 'src/lib/db/models',
-        '$models/*': 'src/lib/db/models/*',
-
-        $remote: 'src/lib/remote',
-        '$remote/*': 'src/lib/remote/*',
-
-        $queries: 'src/lib/db/queries',
-        '$queries/*': 'src/lib/db/queries/*'
-      },
-
       compilerOptions: {
         experimental: {
           async: true

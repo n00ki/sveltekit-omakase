@@ -22,6 +22,8 @@ Guidelines for AI agents working with sveltekit-omakase.
 ## Critical rules
 
 - Use Svelte 5 runes syntax (`$props`, `$state`, `$derived`, `$effect`).
+- Use the subpath imports in `package.json`. Include file extensions for wildcard imports and `index.ts` for directory imports.
+- Declare environment variables in `src/env.ts` and import them from `$app/env/private` or `$app/env/public`.
 - Always use explicit TypeScript types, except for SvelteKit `load` functions and route `$props()` data/children props, which should rely on SvelteKit inference. Avoid JSDoc unless essential shared utility.
 - Use Remote Functions (`form`, `query`, `command`) instead of actions. Use `await` patterns for queries.
 - Use Valibot schemas with `import * as v from 'valibot'`.
@@ -29,8 +31,8 @@ Guidelines for AI agents working with sveltekit-omakase.
 - Protected route groups use `requireAuth()` in their server layout. protected remote functions and standalone protected routes must call `requireAuth()`. Auth pages use `requireGuest()`.
 - Password-backed sensitive routes and remote forms use `requireChallenge('/return-path')` before the operation. Do not duplicate current-password fields in those forms.
 - Forms can call `await checkRateLimit(issue.field)` and use `useRemoteForm`, `.preflight(schema)`, and `useFormValidation` for client-side usage
-- Use Drizzle ORM only. Models live in `$models`, queries live in `$queries`. db connection is the default export in `$lib/server/database.ts`.
-- Use class-based state machines in `$lib/state/*.svelte.ts` only for cross-route or app-wide state. Keep state local to the component otherwise.
+- Use Drizzle ORM only. Models live in `#models`, queries live in `#queries`. db connection is the default export in `#lib/server/database.ts`.
+- Use class-based state machines in `#lib/state/*.svelte.ts` only for cross-route or app-wide state. Keep state local to the component otherwise.
 
 ---
 

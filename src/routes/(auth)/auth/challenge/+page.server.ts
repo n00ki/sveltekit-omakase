@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 
-import { getChallengeMode, getSafeChallengeNext } from '$lib/server/security';
+import { getChallengeMode, getSafeChallengeNext } from '#lib/server/security.ts';
 
 export async function load({ locals, url }) {
   const next = getSafeChallengeNext(url.searchParams.get('next'));

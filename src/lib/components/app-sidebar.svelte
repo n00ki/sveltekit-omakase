@@ -1,12 +1,12 @@
 <script lang="ts">
-  import type { SidebarNavigationItem } from '$components/app-sidebar-content.svelte';
-  import type { User } from '$lib/server/auth';
+  import type { SidebarNavigationItem } from '#components/app-sidebar-content.svelte';
+  import type { User } from '#lib/server/auth.ts';
   import type { ComponentProps } from 'svelte';
 
-  import SidebarContent from '$components/app-sidebar-content.svelte';
-  import SidebarFooter from '$components/app-sidebar-footer.svelte';
-  import SidebarHeader from '$components/app-sidebar-header.svelte';
-  import * as Sidebar from '$components/ui/sidebar';
+  import SidebarContent from '#components/app-sidebar-content.svelte';
+  import SidebarFooter from '#components/app-sidebar-footer.svelte';
+  import SidebarHeader from '#components/app-sidebar-header.svelte';
+  import * as Sidebar from '#components/ui/sidebar/index.ts';
 
   import { LayoutGrid } from '@lucide/svelte';
 
@@ -17,7 +17,7 @@
   const navItems = [
     {
       title: 'Dashboard',
-      url: '/dashboard',
+      url: 'dashboard',
       icon: LayoutGrid
     }
   ] satisfies readonly SidebarNavigationItem[];

@@ -11,6 +11,8 @@
 | **Email**    | Resend, Better Svelte Email                         |
 | **Storage**  | Cloudflare R2                                       |
 
+Configure SvelteKit in `vite.config.ts`. Remote functions and async Svelte require their experimental flags.
+
 ---
 
 ## Directory Structure
@@ -48,25 +50,28 @@ src/
     └── app.css                # Global styles + Tailwind config
 ```
 
-### Path Aliases
+### Imports
 
-```typescript
-$config        → src/lib/config/config.ts
-$config/server → src/lib/config/config.server.ts
-$messages      → src/lib/config/messages
-$components    → src/lib/components
-$models        → src/lib/db/models
-$queries       → src/lib/db/queries
-$remote        → src/lib/remote
+`package.json` defines the subpath imports below. Wildcard imports need a filename and extension, such as `#components/ui/button/index.ts`.
+
+```text
+#lib/*         → src/lib/*
+#config        → src/lib/config/config.ts
+#config/server → src/lib/config/config.server.ts
+#messages      → src/lib/config/messages/index.ts
+#components/*  → src/lib/components/*
+#models        → src/lib/db/models/index.ts
+#queries       → src/lib/db/queries/index.ts
+#remote        → src/lib/remote/index.ts
 ```
 
 ### Config
 
 - Config is grouped by context folders in `src/lib/config`: `app`, `auth`, `security`, `upload`, etc.
-- `$config` exports `{ config }` with client-safe config values and shared config types.
-- `$config/server` exports server-only `{ config }`, including the public config plus server-only values.
+- `#config` exports `{ config }` with client-safe config values and shared config types.
+- `#config/server` exports server-only `{ config }`, including the public config plus server-only values.
 - `config.schema.ts` defines the public and full config shapes. Config files use plain typed objects.
-- `$messages` holds user-facing messages.
+- `#messages` holds user-facing messages.
 - Server-only config is composed through `src/lib/config/config.server.ts`. SvelteKit blocks `.server` modules from client imports.
 - Keep routes, local helper constants, styling internals, and one-off implementation details near their usage.
 
@@ -80,7 +85,7 @@ $remote        → src/lib/remote
 - Security and access guards live in `src/lib/server/security.ts`. Two-factor protected sessions use Better Auth verification plus `Session.twoFactorCompletedAt`.
 - Sensitive routes and remote forms use `requireChallenge('/return-path')` before the operation. It prompts for a 2FA or recovery code when enabled, password for password-backed accounts, or a fresh sign-in for OAuth-only accounts, and `/auth/challenge` returns users there after confirmation.
 - Forms can call `await checkRateLimit(issue.field)` and use `useRemoteForm`, `.preflight(schema)`, and `useFormValidation` for client-side usage.
-- Models live in `$lib/db/models`; db connection is the default export in `$lib/server/database.ts`.
+- Import models from `#models` and the database connection from the default export in `#lib/server/database.ts`.
 - Use explicit TypeScript types at meaningful boundaries, such as shared APIs, DB/query contracts, and non-obvious helpers. Rely on inference for local values, route `load` functions, and route `$props()` data/children props.
 - Keep TypeScript readable: prefer plain object types and named unions over generics, mapped types, conditional types, and assertions unless they clearly improve the caller API.
 
@@ -92,10 +97,10 @@ $remote        → src/lib/remote
 | ------- | --------------------- | ------------------------ |
 | Local   | `$state` in component | Component file           |
 | Complex | Class with `$state`   | Same file or co-located  |
-| Global  | Class in `.svelte.ts` | `$lib/state/*.svelte.ts` |
+| Global  | Class in `.svelte.ts` | `#lib/state/*.svelte.ts` |
 
 ```typescript
-// $lib/state/sidebar.svelte.ts
+// #lib/state/sidebar.svelte.ts
 export class SidebarState {
   open = $state(false);
 
@@ -112,17 +117,17 @@ export class SidebarState {
 ### form() - Form submissions with validation
 
 ```typescript
-// $lib/remote/auth.remote.ts
+// #lib/remote/auth.remote.ts
 import { form } from '$app/server';
 
 import { error, invalid } from '@sveltejs/kit';
 
-import { requireGuest } from '$lib/server/auth';
-import { flashAndRedirect } from '$lib/server/flash';
-import { checkRateLimit } from '$lib/server/rate-limit';
-import { loginSchema } from '$lib/validations/auth';
+import { requireGuest } from '#lib/server/auth.ts';
+import { flashAndRedirect } from '#lib/server/flash.ts';
+import { checkRateLimit } from '#lib/server/rate-limit.ts';
+import { loginSchema } from '#lib/validations/auth.ts';
 
-import * as m from '$messages';
+import * as m from '#messages';
 
 export const login = form(loginSchema, async ({ email, _password }, issue) => {
   requireGuest();
@@ -142,6 +147,8 @@ export const login = form(loginSchema, async ({ email, _password }, issue) => {
 ```
 
 ### query() - Read operations
+
+Pass route-dependent values as arguments. Queries cannot read `event.url`, `event.params`, or `event.route`.
 
 ```typescript
 export const hasActiveSubscription = query(async () => {
@@ -177,11 +184,11 @@ export const deleteUser = form(deleteUserSchema, async () => {
 
 ```svelte
 <script lang="ts">
-  import { login } from '$remote/auth.remote';
+  import { login } from '#remote/auth.remote.ts';
 
-  import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
-  import { useRemoteForm } from '$lib/hooks/use-remote-form';
-  import { loginSchema } from '$lib/validations/auth';
+  import { useFormValidation } from '#lib/hooks/use-form-validation.svelte.ts';
+  import { useRemoteForm } from '#lib/hooks/use-remote-form.ts';
+  import { loginSchema } from '#lib/validations/auth.ts';
 
   const formKey = $props.id();
   const loginForm = useRemoteForm(login, formKey).preflight(loginSchema);
@@ -204,10 +211,10 @@ export const deleteUser = form(deleteUserSchema, async () => {
 
 ## Uploads
 
-Uploads use named policies from `$lib/upload` and direct R2 uploads through the file-based upload endpoint.
+Uploads use named policies from `#lib/upload/index.ts` and direct R2 uploads through the file-based upload endpoint.
 
 ```typescript
-import { FileUploader, uploads } from '$lib/upload';
+import { FileUploader, uploads } from '#lib/upload/index.ts';
 
 const imageUploader: FileUploader = new FileUploader(uploads.userImage);
 const upload = await imageUploader.upload(file);
@@ -219,7 +226,7 @@ const upload = await imageUploader.upload(file);
 
 ### Shared schemas
 
-Define reusable schemas in `$lib/validations/shared.ts`:
+Define reusable schemas in `#lib/validations/shared.ts`:
 
 ```typescript
 import * as v from 'valibot';
@@ -273,4 +280,4 @@ pnpm test:e2e     # E2E tests
 
 ## Environment
 
-See `.env.example` for required variables.
+Declare environment variables in `src/env.ts` and keep `.env.example` aligned. Import values from `$app/env/private` or `$app/env/public`. SvelteKit reads them at runtime and validates URL and database settings with Valibot.

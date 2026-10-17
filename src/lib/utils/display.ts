@@ -1,6 +1,6 @@
-import { getUploadUrl } from '$lib/upload/policies';
+import { getUploadUrl } from '#lib/upload/policies.ts';
 
-import imagePlaceholder from '$lib/assets/avatar.png';
+import imagePlaceholder from '#lib/assets/avatar.png';
 
 export function getUserImageUrl(image: string | null | undefined): string {
   if (!image) return imagePlaceholder;

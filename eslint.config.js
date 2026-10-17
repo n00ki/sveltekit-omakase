@@ -18,6 +18,9 @@ export default defineConfig([
   ...svelte.configs.prettier,
   {
     languageOptions: {
+      parserOptions: {
+        extraFileExtensions: ['.svelte']
+      },
       globals: { ...globals.browser, ...globals.node }
     },
     rules: {
@@ -39,7 +42,6 @@ export default defineConfig([
     languageOptions: {
       parserOptions: {
         projectService: true,
-        extraFileExtensions: ['.svelte'],
         parser: ts.parser
       }
     },
@@ -52,8 +54,4 @@ export default defineConfig([
       ]
     }
   }
-  // Disable rules for shadcn-svelte UI components (OPTIONAL)
-  // {
-  //   ignores: ['src/lib/components/ui/**']
-  // }
 ]);

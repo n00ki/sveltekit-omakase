@@ -1,17 +1,17 @@
 <script lang="ts">
   import { resolve } from '$app/paths';
 
-  import { createUser } from '$remote/auth.remote';
+  import { createUser } from '#remote/auth.remote.ts';
 
-  import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
-  import { useRemoteForm } from '$lib/hooks/use-remote-form';
-  import { createUserSchema } from '$lib/validations/auth';
+  import { useFormValidation } from '#lib/hooks/use-form-validation.svelte.ts';
+  import { useRemoteForm } from '#lib/hooks/use-remote-form.ts';
+  import { createUserSchema } from '#lib/validations/auth.ts';
 
-  import GoogleIcon from '$components/google-icon.svelte';
-  import PasswordInput from '$components/password-input.svelte';
-  import { buttonVariants } from '$components/ui/button';
-  import * as Field from '$components/ui/field';
-  import { Input } from '$components/ui/input';
+  import GoogleIcon from '#components/google-icon.svelte';
+  import PasswordInput from '#components/password-input.svelte';
+  import { buttonVariants } from '#components/ui/button/index.ts';
+  import * as Field from '#components/ui/field/index.ts';
+  import { Input } from '#components/ui/input/index.ts';
 
   import { ArrowRight, RotateCw } from '@lucide/svelte';
 
@@ -99,7 +99,7 @@
       class: ['h-10 w-full gap-2.5', redirecting && 'pointer-events-none cursor-not-allowed opacity-50']
     })}
     onclick={() => (redirecting = true)}
-    href={resolve('/login/google')}
+    href={resolve('login/google')}
     data-sveltekit-reload
   >
     {#if redirecting}
@@ -112,6 +112,7 @@
 
   <p class="text-center text-sm text-muted-foreground">
     Already have an account?
-    <a href={resolve('/login')} class="font-medium text-foreground underline-offset-4 hover:underline">Sign in</a>
+
+    <a href={resolve('login')} class="font-medium text-foreground underline-offset-4 hover:underline">Sign in</a>
   </p>
 </section>

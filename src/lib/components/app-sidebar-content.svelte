@@ -1,16 +1,16 @@
 <script lang="ts">
   import type { Component } from '@lucide/svelte';
-  import type { Pathname } from '$app/types';
+  import type { Path } from '$app/types';
 
   import { resolve } from '$app/paths';
   import { page } from '$app/state';
 
-  import GithubIcon from '$components/github-icon.svelte';
-  import * as Sidebar from '$components/ui/sidebar';
+  import GithubIcon from '#components/github-icon.svelte';
+  import * as Sidebar from '#components/ui/sidebar/index.ts';
 
   export interface SidebarNavigationItem {
     title: string;
-    url: Pathname;
+    url: Path;
     icon?: typeof Component;
   }
 
@@ -20,8 +20,9 @@
     items: readonly SidebarNavigationItem[];
   } = $props();
 
-  function isNavigationItemActive(pathname: string, itemUrl: Pathname): boolean {
-    return pathname === itemUrl || pathname.startsWith(`${itemUrl}/`);
+  function isActive(href: string): boolean {
+    const pathname = new URL(href, page.url.href).pathname;
+    return page.url.pathname === pathname || page.url.pathname.startsWith(`${pathname}/`);
   }
 </script>
 
@@ -29,12 +30,12 @@
   <Sidebar.GroupLabel>Platform</Sidebar.GroupLabel>
   <Sidebar.Menu>
     {#each items as item (item.title)}
-      {@const isActive = isNavigationItemActive(page.url.pathname, item.url)}
+      {@const href = resolve(item.url)}
 
       <Sidebar.MenuItem>
-        <Sidebar.MenuButton data-active={isActive ? '' : undefined} tooltipContent={item.title}>
+        <Sidebar.MenuButton data-active={isActive(href) ? '' : undefined} tooltipContent={item.title}>
           {#snippet child({ props })}
-            <a href={resolve(item.url)} {...props}>
+            <a {href} {...props}>
               {#if item.icon}
                 {@const Icon = item.icon}
                 <Icon class="size-4 shrink-0" />

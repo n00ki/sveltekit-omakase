@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { getTwoFactorRecoveryCodes, regenerateTwoFactorRecoveryCodes } from '$remote/two-factor.remote';
+  import { getTwoFactorRecoveryCodes, regenerateTwoFactorRecoveryCodes } from '#remote/two-factor.remote.ts';
 
-  import { useRemoteForm } from '$lib/hooks/use-remote-form';
+  import { useRemoteForm } from '#lib/hooks/use-remote-form.ts';
 
-  import { buttonVariants } from '$components/ui/button';
-  import * as Card from '$components/ui/card';
+  import { buttonVariants } from '#components/ui/button/index.ts';
+  import * as Card from '#components/ui/card/index.ts';
 
   import { Eye, EyeOff, LockKeyhole, RefreshCw } from '@lucide/svelte';
 
@@ -64,7 +64,7 @@
       </button>
 
       {#if visible && !loading}
-        <form {...regenerateForm} {...enhancedRegenerateForm}>
+        <form {...enhancedRegenerateForm}>
           <button
             type="submit"
             disabled={!!regenerateForm.pending}

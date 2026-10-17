@@ -1,6 +1,6 @@
 <script lang="ts">
-  import * as Field from '$components/ui/field';
-  import { InputOTP, InputOTPGroup, InputOTPSlot } from '$components/ui/input-otp';
+  import * as Field from '#components/ui/field/index.ts';
+  import { InputOTP, InputOTPGroup, InputOTPSlot } from '#components/ui/input-otp/index.ts';
 
   type Props = {
     errors?: { message?: string }[];

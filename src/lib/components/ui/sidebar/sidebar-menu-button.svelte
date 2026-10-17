@@ -28,14 +28,14 @@
 </script>
 
 <script lang="ts">
-  import type { WithElementRef, WithoutChildrenOrChild } from '$lib/utils/utils.js';
+  import type { WithElementRef, WithoutChildrenOrChild } from '#lib/utils/utils.ts';
   import type { ComponentProps, Snippet } from 'svelte';
   import type { HTMLAttributes } from 'svelte/elements';
 
   import { mergeProps } from 'bits-ui';
 
-  import * as Tooltip from '$lib/components/ui/tooltip/index.js';
-  import { cn } from '$lib/utils/utils.js';
+  import * as Tooltip from '#lib/components/ui/tooltip/index.ts';
+  import { cn } from '#lib/utils/utils.ts';
 
   import { useSidebar } from './context.svelte.js';
 

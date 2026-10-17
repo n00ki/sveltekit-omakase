@@ -1,28 +1,28 @@
 <script lang="ts">
   import { toast } from 'svelte-sonner';
 
-  import { deleteUser, updateUser } from '$remote/user.remote';
+  import { deleteUser, updateUser } from '#remote/user.remote.ts';
 
-  import { useFormValidation } from '$lib/hooks/use-form-validation.svelte';
-  import { useRemoteForm } from '$lib/hooks/use-remote-form';
-  import { FileUploader, uploads } from '$lib/upload';
-  import { getUserImageUrl } from '$lib/utils/display';
-  import { getInitials, normalizeFullName } from '$lib/utils/name';
-  import { cn } from '$lib/utils/utils';
-  import { deleteUserSchema, updateUserSchema } from '$lib/validations/auth';
+  import { useFormValidation } from '#lib/hooks/use-form-validation.svelte.ts';
+  import { useRemoteForm } from '#lib/hooks/use-remote-form.ts';
+  import { FileUploader, uploads } from '#lib/upload/index.ts';
+  import { getUserImageUrl } from '#lib/utils/display.ts';
+  import { getInitials, normalizeFullName } from '#lib/utils/name.ts';
+  import { cn } from '#lib/utils/utils.ts';
+  import { deleteUserSchema, updateUserSchema } from '#lib/validations/auth.ts';
 
-  import * as Alert from '$components/ui/alert';
-  import * as Avatar from '$components/ui/avatar';
-  import { Button, buttonVariants } from '$components/ui/button';
-  import * as Dialog from '$components/ui/dialog';
-  import * as Field from '$components/ui/field';
-  import { Input } from '$components/ui/input';
-  import { Separator } from '$components/ui/separator';
+  import * as Alert from '#components/ui/alert/index.ts';
+  import * as Avatar from '#components/ui/avatar/index.ts';
+  import { Button, buttonVariants } from '#components/ui/button/index.ts';
+  import * as Dialog from '#components/ui/dialog/index.ts';
+  import * as Field from '#components/ui/field/index.ts';
+  import { Input } from '#components/ui/input/index.ts';
+  import { Separator } from '#components/ui/separator/index.ts';
 
   import { CircleX, RefreshCw, RotateCw } from '@lucide/svelte';
 
-  import * as m from '$messages';
-  import { config } from '$config';
+  import * as m from '#messages';
+  import { config } from '#config';
 
   let { data } = $props();
 
@@ -108,7 +108,7 @@
     </div>
   </div>
 
-  <form {...profileForm} {...enhancedProfileForm} {...useFormValidation(profileForm)}>
+  <form {...enhancedProfileForm} {...useFormValidation(profileForm)}>
     <input {...profileForm.fields.image.as('hidden', uploadedImageKey ?? '')} />
 
     <Field.Field>

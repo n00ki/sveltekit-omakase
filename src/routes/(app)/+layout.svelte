@@ -1,11 +1,11 @@
 <script lang="ts">
   import { page } from '$app/state';
 
-  import AppSidebar from '$components/app-sidebar.svelte';
-  import ThemeDropdown from '$components/theme-dropdown.svelte';
-  import * as Breadcrumb from '$components/ui/breadcrumb';
-  import { Separator } from '$components/ui/separator';
-  import * as Sidebar from '$components/ui/sidebar';
+  import AppSidebar from '#components/app-sidebar.svelte';
+  import ThemeDropdown from '#components/theme-dropdown.svelte';
+  import * as Breadcrumb from '#components/ui/breadcrumb/index.ts';
+  import { Separator } from '#components/ui/separator/index.ts';
+  import * as Sidebar from '#components/ui/sidebar/index.ts';
 
   let { data, children } = $props();
 

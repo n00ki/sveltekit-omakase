@@ -1,6 +1,6 @@
 <script lang="ts">
-  import SettingsNavbar from '$components/settings-navbar.svelte';
-  import { Separator } from '$components/ui/separator';
+  import SettingsNavbar from '#components/settings-navbar.svelte';
+  import { Separator } from '#components/ui/separator/index.ts';
 
   let { children } = $props();
 

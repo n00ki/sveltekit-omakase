@@ -1,15 +1,15 @@
-import { EMAIL_SENDER, RESEND_API_KEY } from '$env/static/private';
+import { EMAIL_SENDER, RESEND_API_KEY } from '$app/env/private';
 
 import type { Component } from 'svelte';
 
-import { dev } from '$app/environment';
+import { dev } from '$app/env';
 
 import { Renderer, toPlainText } from '@better-svelte-email/server';
 import { Resend } from 'resend';
 
-import { getFirstName } from '$lib/utils/name';
+import { getFirstName } from '#lib/utils/name.ts';
 
-import { config } from '$config/server';
+import { config } from '#config/server';
 
 import ResetPasswordTemplate from './templates/reset-password.svelte';
 import WelcomeTemplate from './templates/welcome.svelte';

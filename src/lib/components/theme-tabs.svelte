@@ -1,16 +1,16 @@
 <script lang="ts">
-  import type { Mode } from '$lib/hooks/use-theme';
+  import type { Mode } from '#lib/hooks/use-theme.ts';
   import type { Component } from 'svelte';
   import type { HTMLAttributes } from 'svelte/elements';
 
-  import { useTheme } from '$lib/hooks/use-theme';
-  import { cn } from '$lib/utils/utils';
+  import { useTheme } from '#lib/hooks/use-theme.ts';
+  import { cn } from '#lib/utils/utils.ts';
 
-  import * as ToggleGroup from '$components/ui/toggle-group';
+  import * as ToggleGroup from '#components/ui/toggle-group/index.ts';
 
   import { Monitor, Moon, Sun } from '@lucide/svelte';
 
-  import { config } from '$config';
+  import { config } from '#config';
 
   interface Props extends HTMLAttributes<HTMLDivElement> {
     class?: string | undefined | null;

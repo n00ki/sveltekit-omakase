@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { WithoutChild, WithoutChildrenOrChild } from '$lib/utils/utils.js';
+  import type { WithoutChild, WithoutChildrenOrChild } from '#lib/utils/utils.ts';
   import type { ComponentProps } from 'svelte';
 
   import { AlertDialog as AlertDialogPrimitive } from 'bits-ui';
 
-  import { cn } from '$lib/utils/utils.js';
+  import { cn } from '#lib/utils/utils.ts';
 
   import AlertDialogOverlay from './alert-dialog-overlay.svelte';
   import AlertDialogPortal from './alert-dialog-portal.svelte';

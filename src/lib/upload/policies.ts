@@ -1,9 +1,9 @@
-import { PUBLIC_R2_BUCKET_URL } from '$env/static/public';
+import { PUBLIC_R2_BUCKET_URL } from '$app/env/public';
 
-import { BYTES_IN_MB } from '$lib/utils/size';
+import { BYTES_IN_MB } from '#lib/utils/size.ts';
 
-import type { UploadPolicyDefinition, UploadPolicyId } from '$config';
-import { config } from '$config';
+import type { UploadPolicyDefinition, UploadPolicyId } from '#config';
+import { config } from '#config';
 
 const UPLOAD_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const uploadBaseUrl = PUBLIC_R2_BUCKET_URL.replace(/\/+$/, '');

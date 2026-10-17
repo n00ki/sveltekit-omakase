@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Body, Container, Head, Heading, Hr, Html, Preview, Section, Text } from '@better-svelte-email/components';
 
-  import { config } from '$config';
+  import { config } from '#config';
 
   interface WelcomeEmailProps {
     userFirstName: string;

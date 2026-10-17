@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
 import { sql } from 'drizzle-orm';
 
-import db from '$lib/server/database';
+import db from '#lib/server/database.ts';
 
 async function clearDb() {
   config();

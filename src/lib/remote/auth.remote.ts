@@ -3,19 +3,19 @@ import { form } from '$app/server';
 import { error, invalid, redirect } from '@sveltejs/kit';
 import { APIError as BetterAuthAPIError } from 'better-auth/api';
 
-import { EMAILS, sendEmail } from '$lib/mail/mailer';
-import { auth, requireGuest } from '$lib/server/auth';
-import { flashAndRedirect } from '$lib/server/flash';
-import { checkRateLimit } from '$lib/server/rate-limit';
-import { getSafeChallengeNext } from '$lib/server/security';
+import { EMAILS, sendEmail } from '#lib/mail/mailer.ts';
+import { auth, requireGuest } from '#lib/server/auth.ts';
+import { flashAndRedirect } from '#lib/server/flash.ts';
+import { checkRateLimit } from '#lib/server/rate-limit.ts';
+import { getSafeChallengeNext } from '#lib/server/security.ts';
 import {
   createUserSchema,
   loginSchema,
   requestPasswordResetSchema,
   resetUserPasswordSchema
-} from '$lib/validations/auth';
+} from '#lib/validations/auth.ts';
 
-import * as m from '$messages';
+import * as m from '#messages';
 
 export const login = form(loginSchema, async ({ email, _password, next }, issue) => {
   requireGuest();

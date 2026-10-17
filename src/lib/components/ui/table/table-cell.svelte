@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { WithElementRef } from '$lib/utils/utils.js';
+  import type { WithElementRef } from '#lib/utils/utils.ts';
   import type { HTMLTdAttributes } from 'svelte/elements';
 
-  import { cn } from '$lib/utils/utils.js';
+  import { cn } from '#lib/utils/utils.ts';
 
   let { ref = $bindable(null), class: className, children, ...restProps }: WithElementRef<HTMLTdAttributes> = $props();
 </script>

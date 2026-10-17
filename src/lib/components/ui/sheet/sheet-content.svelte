@@ -3,14 +3,14 @@
 </script>
 
 <script lang="ts">
-  import type { WithoutChildrenOrChild } from '$lib/utils/utils.js';
+  import type { WithoutChildrenOrChild } from '#lib/utils/utils.ts';
   import type { ComponentProps, Snippet } from 'svelte';
 
   import XIcon from '@lucide/svelte/icons/x';
   import { Dialog as SheetPrimitive } from 'bits-ui';
 
-  import { Button } from '$lib/components/ui/button/index.js';
-  import { cn } from '$lib/utils/utils.js';
+  import { Button } from '#lib/components/ui/button/index.ts';
+  import { cn } from '#lib/utils/utils.ts';
 
   import SheetOverlay from './sheet-overlay.svelte';
   import SheetPortal from './sheet-portal.svelte';

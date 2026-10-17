@@ -3,13 +3,13 @@ import { form, getRequestEvent } from '$app/server';
 import { error, invalid } from '@sveltejs/kit';
 import { APIError as BetterAuthAPIError } from 'better-auth/api';
 
-import { auth, requireAuth } from '$lib/server/auth';
-import { flash, flashAndRedirect } from '$lib/server/flash';
-import { updateCredentialPassword } from '$lib/server/password';
-import { markChallengeCompleted, requirePasswordUpdate, requireTwoFactor } from '$lib/server/security';
-import { deleteUserSchema, updateUserPasswordSchema, updateUserSchema } from '$lib/validations/auth';
+import { auth, requireAuth } from '#lib/server/auth.ts';
+import { flash, flashAndRedirect } from '#lib/server/flash.ts';
+import { updateCredentialPassword } from '#lib/server/password.ts';
+import { markChallengeCompleted, requirePasswordUpdate, requireTwoFactor } from '#lib/server/security.ts';
+import { deleteUserSchema, updateUserPasswordSchema, updateUserSchema } from '#lib/validations/auth.ts';
 
-import * as m from '$messages';
+import * as m from '#messages';
 
 export const updateUser = form(updateUserSchema, async ({ image, name }) => {
   requireAuth();

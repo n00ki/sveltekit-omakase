@@ -3,7 +3,7 @@
 
   import { getContext, setContext } from 'svelte';
 
-  import { toggleVariants } from '$lib/components/ui/toggle/index.js';
+  import { toggleVariants } from '#lib/components/ui/toggle/index.ts';
 
   type ToggleVariants = VariantProps<typeof toggleVariants>;
 
@@ -24,7 +24,7 @@
 <script lang="ts">
   import { ToggleGroup as ToggleGroupPrimitive } from 'bits-ui';
 
-  import { cn } from '$lib/utils/utils.js';
+  import { cn } from '#lib/utils/utils.ts';
 
   let {
     ref = $bindable(null),

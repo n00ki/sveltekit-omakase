@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { WithoutChild, WithoutChildrenOrChild } from '$lib/utils/utils.js';
+  import type { WithoutChild, WithoutChildrenOrChild } from '#lib/utils/utils.ts';
   import type { ComponentProps } from 'svelte';
 
   import { Select as SelectPrimitive } from 'bits-ui';
 
-  import { cn } from '$lib/utils/utils.js';
+  import { cn } from '#lib/utils/utils.ts';
 
   import SelectPortal from './select-portal.svelte';
   import SelectScrollDownButton from './select-scroll-down-button.svelte';

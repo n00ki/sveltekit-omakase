@@ -1,12 +1,12 @@
 import type { RequestHandler } from '@sveltejs/kit';
 
-import { error, json } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import * as v from 'valibot';
 
-import { requireAuth } from '$lib/server/auth';
-import { requireTwoFactor } from '$lib/server/security';
-import { prepareUpload } from '$lib/server/storage';
-import { uploadRequestSchema } from '$lib/validations/files';
+import { requireAuth } from '#lib/server/auth.ts';
+import { requireTwoFactor } from '#lib/server/security.ts';
+import { prepareUpload } from '#lib/server/storage.ts';
+import { uploadRequestSchema } from '#lib/validations/files.ts';
 
 export const POST: RequestHandler = async ({ request }) => {
   requireAuth();
@@ -27,7 +27,7 @@ export const POST: RequestHandler = async ({ request }) => {
   }
 
   try {
-    return json(await prepareUpload(result.output.policy, result.output.file));
+    return Response.json(await prepareUpload(result.output.policy, result.output.file));
   } catch (err) {
     console.error('Failed to create upload URL:', err);
   }

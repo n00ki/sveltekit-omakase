@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { useTheme } from '$lib/hooks/use-theme';
+  import { useTheme } from '#lib/hooks/use-theme.ts';
 
-  import { Button } from '$components/ui/button';
-  import * as DropdownMenu from '$components/ui/dropdown-menu';
-  import * as Kbd from '$components/ui/kbd';
-  import * as Tooltip from '$components/ui/tooltip';
+  import { Button } from '#components/ui/button/index.ts';
+  import * as DropdownMenu from '#components/ui/dropdown-menu/index.ts';
+  import * as Kbd from '#components/ui/kbd/index.ts';
+  import * as Tooltip from '#components/ui/tooltip/index.ts';
 
   import { Monitor, Moon, Sun } from '@lucide/svelte';
 
-  import { config } from '$config';
+  import { config } from '#config';
 
   const theme = useTheme();
   const themeModes = config.theme.modes;
