@@ -3,6 +3,20 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-10-17
+
+### Changed
+
+- Migrate to SvelteKit 3, extend `$app/tsconfig`, and update dependencies
+- Replace `$lib` and custom `$` aliases with `#` subpath imports in `package.json`
+- Declare runtime environment variables in `src/env.ts` and use `$app/env/private` and `$app/env/public` imports
+- Update remote queries and enhanced forms for SvelteKit 3
+- Use canonical Tailwind class syntax across components and email templates
+
+### Fixed
+
+- Remove duplicate Tailwind utilities and conflicting dropdown inset padding
+
 ## [1.1.0] - 2026-09-18
 
 ### Changed
