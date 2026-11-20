@@ -42,9 +42,9 @@
       <img src={logo} alt="logo" class="mx-auto size-16 md:size-24" />
       <h1 class="mb-1.5 font-secondary text-3xl font-black md:text-6xl">{config.app.name}</h1>
       <h2 class="text-base font-medium tracking-tight md:text-lg">
-        the ultimate <span class=" bg-linear-to-r from-rose-500 to-orange-400 bg-clip-text text-transparent"
-          >mise en place</span
-        > for your next SvelteKit project 🚀
+        the ultimate <span class=" bg-linear-to-r from-rose-500 to-orange-400 bg-clip-text text-transparent">
+          mise en place
+        </span> for your next SvelteKit project 🚀
       </h2>
     </section>
 

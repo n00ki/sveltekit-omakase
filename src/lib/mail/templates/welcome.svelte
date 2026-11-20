@@ -24,9 +24,9 @@
           We're thrilled to have you onboard and can't wait to see what you build.
         </Text>
         <Hr class="my-8 border-slate-200" />
-        <Text class="m-0 text-sm leading-[1.7] text-slate-600"
-          >Need help? Reply to this email and we'll take a look.</Text
-        >
+        <Text class="m-0 text-sm leading-[1.7] text-slate-600">
+          Need help? Reply to this email and we'll take a look.
+        </Text>
       </Section>
     </Container>
   </Body>

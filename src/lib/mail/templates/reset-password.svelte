@@ -49,9 +49,9 @@
           <Link href={url} class="text-slate-900 underline">{url}</Link>
         </Text>
         <Hr class="my-8 border-slate-200" />
-        <Text class="m-0 text-sm leading-[1.7] text-slate-600"
-          >If you didn't request this, please ignore this email.</Text
-        >
+        <Text class="m-0 text-sm leading-[1.7] text-slate-600">
+          If you didn't request this, please ignore this email.
+        </Text>
       </Section>
     </Container>
   </Body>
