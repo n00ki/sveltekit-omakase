@@ -6,6 +6,7 @@ export const MAX_EMAIL_LENGTH = 64;
 export const MAX_NAME_LENGTH = 128;
 export const MIN_PASSWORD_LENGTH = 8;
 export const MAX_PASSWORD_LENGTH = 32;
+export const PASSWORD_RULES = `minlength: ${MIN_PASSWORD_LENGTH}; maxlength: ${MAX_PASSWORD_LENGTH}; required: lower, upper; required: digit;`;
 
 const NAME_PATTERN = /^\p{L}[\p{L}\p{M}]*(?:[ -]\p{L}[\p{L}\p{M}]*)*$/u;
 

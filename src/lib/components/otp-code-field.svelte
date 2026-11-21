@@ -5,24 +5,33 @@
   type Props = {
     errors?: { message?: string }[];
     inputId: string;
-    label?: string;
     pending?: boolean;
     value?: string;
   };
 
-  let { errors, inputId, label, pending = false, value = $bindable('') }: Props = $props();
+  let { errors, inputId, pending = false, value = $bindable('') }: Props = $props();
+
+  const invalid = $derived(!!errors?.length);
 </script>
 
 <Field.Field class="items-center gap-2 py-1">
-  {#if label}
-    <Field.Label class="text-xs font-medium tracking-tight text-muted-foreground">{label}</Field.Label>
-  {/if}
+  <Field.Label for={inputId} class="sr-only">Authentication code</Field.Label>
 
-  <InputOTP {inputId} bind:value maxlength={6} disabled={pending}>
+  <InputOTP
+    {inputId}
+    bind:value
+    maxlength={6}
+    disabled={pending}
+    aria-invalid={invalid}
+    class="justify-center"
+    {@attach (node) => {
+      if (!pending) node.focus();
+    }}
+  >
     {#snippet children({ cells })}
       <InputOTPGroup>
         {#each cells as cell, index (index)}
-          <InputOTPSlot {cell} />
+          <InputOTPSlot {cell} aria-invalid={invalid} class="size-9" />
         {/each}
       </InputOTPGroup>
     {/snippet}

@@ -6,6 +6,7 @@
   import { tick } from 'svelte';
 
   import { cn } from '#lib/utils/utils.ts';
+  import { PASSWORD_RULES } from '#lib/validations/shared.ts';
 
   import Input from '#components/ui/input/input.svelte';
 
@@ -77,6 +78,7 @@
 
 <div data-slot="password-input" class="relative">
   <Input
+    passwordrules={inputProps.autocomplete === 'new-password' ? PASSWORD_RULES : undefined}
     {...inputProps}
     bind:ref
     bind:value

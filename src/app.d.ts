@@ -27,4 +27,10 @@ declare global {
   }
 }
 
+declare module 'svelte/elements' {
+  interface HTMLInputAttributes {
+    passwordrules?: string | null;
+  }
+}
+
 export {};

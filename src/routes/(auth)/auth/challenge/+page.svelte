@@ -59,7 +59,7 @@
         <Field.Field class="gap-1.5">
           <Field.Label class="text-xs font-medium tracking-tight text-muted-foreground">Recovery Code</Field.Label>
           <Input
-            autofocus
+            {@attach (node) => node.focus()}
             autocomplete="one-time-code"
             class="h-10 bg-background font-mono text-sm dark:bg-background"
             {...recoveryForm.fields._recoveryCode.as('text')}
