@@ -31,7 +31,7 @@
       <div class="flex w-full items-center justify-between px-4">
         <div class="flex items-center gap-2">
           <Sidebar.Trigger class="-ml-1" />
-          <Separator orientation="vertical" class="mr-2 h-4" />
+          <Separator orientation="vertical" class="mr-2 h-4 data-vertical:self-center" />
           <Breadcrumb.Root>
             <Breadcrumb.List>
               {#each breadcrumbs as item, index (index)}

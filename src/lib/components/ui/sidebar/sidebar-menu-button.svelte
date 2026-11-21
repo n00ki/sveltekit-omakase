@@ -37,7 +37,7 @@
   import * as Tooltip from '#lib/components/ui/tooltip/index.ts';
   import { cn } from '#lib/utils/utils.ts';
 
-  import { useSidebar } from './context.svelte.js';
+  import { useSidebar } from './context.svelte.ts';
 
   let {
     ref = $bindable(null),

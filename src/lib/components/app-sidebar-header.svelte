@@ -10,7 +10,7 @@
 
 <Sidebar.Menu>
   <Sidebar.MenuItem>
-    <Sidebar.MenuButton size="lg" data-active={undefined}>
+    <Sidebar.MenuButton size="lg">
       {#snippet child({ props })}
         <a href={resolve('dashboard')} {...props}>
           <div

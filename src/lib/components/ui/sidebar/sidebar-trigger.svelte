@@ -6,7 +6,7 @@
   import { Button } from '#lib/components/ui/button/index.ts';
   import { cn } from '#lib/utils/utils.ts';
 
-  import { useSidebar } from './context.svelte.js';
+  import { useSidebar } from './context.svelte.ts';
 
   let {
     ref = $bindable(null),
@@ -26,7 +26,7 @@
   data-slot="sidebar-trigger"
   variant="ghost"
   size="icon-sm"
-  class={cn('cn-sidebar-trigger', className)}
+  class={cn(className)}
   type="button"
   onclick={(e) => {
     onclick?.(e);

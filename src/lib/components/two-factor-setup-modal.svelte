@@ -18,11 +18,11 @@
 
   let {
     open = $bindable(false),
-    onOpenChange,
+    onClosed,
     setup
   }: {
     open?: boolean;
-    onOpenChange?: (open: boolean) => void;
+    onClosed?: () => void;
     setup: Setup | null;
   } = $props();
 
@@ -30,7 +30,7 @@
   const confirmForm = useRemoteForm(confirmTwoFactorSetup, formKey).preflight(confirmTwoFactorSetupSchema);
   const enhancedConfirmForm = confirmForm.enhance(async (form) => {
     if (await form.submit()) {
-      handleOpenChange(false);
+      open = false;
     }
   });
   let code = $state('');
@@ -58,23 +58,17 @@
     step = 'verify';
   }
 
-  function resetModalState() {
+  function handleOpenChangeComplete(isOpen: boolean) {
+    if (isOpen) return;
+
     copied = false;
     code = '';
     step = 'scan';
-  }
-
-  function handleOpenChange(nextOpen: boolean) {
-    open = nextOpen;
-    onOpenChange?.(nextOpen);
-
-    if (!nextOpen) {
-      resetModalState();
-    }
+    onClosed?.();
   }
 </script>
 
-<Dialog.Root {open} onOpenChange={handleOpenChange}>
+<Dialog.Root bind:open onOpenChangeComplete={handleOpenChangeComplete}>
   <Dialog.Content class="sm:max-w-md">
     <div class="flex flex-col items-center justify-center">
       <div class="mb-3 rounded-full border border-border bg-card p-0.5 shadow-sm">

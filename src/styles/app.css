@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import 'shadcn-svelte/tailwind.css';
 
 @font-face {
   font-family: 'Montserrat';
@@ -33,10 +34,9 @@
   --accent: var(--color-zinc-100);
   --accent-foreground: var(--color-zinc-900);
   --destructive: var(--color-red-600);
-  --destructive-foreground: var(--color-zinc-50);
   --ring: var(--color-zinc-950);
-  --radius: 0.5rem;
-  --sidebar-background: var(--color-zinc-50);
+  --radius: 0.625rem;
+  --sidebar: var(--color-zinc-50);
   --sidebar-foreground: var(--color-zinc-700);
   --sidebar-primary: var(--color-zinc-900);
   --sidebar-primary-foreground: var(--color-zinc-50);
@@ -68,9 +68,8 @@
   --accent: var(--color-zinc-800);
   --accent-foreground: var(--color-zinc-50);
   --destructive: var(--color-red-600);
-  --destructive-foreground: var(--color-zinc-50);
   --ring: var(--color-zinc-300);
-  --sidebar-background: var(--color-zinc-900);
+  --sidebar: var(--color-zinc-900);
   --sidebar-foreground: var(--color-zinc-200);
   --sidebar-primary: var(--color-white);
   --sidebar-primary-foreground: var(--color-white);
@@ -97,7 +96,9 @@
 
   /* Typography */
   --text-sm: 0.825rem;
+}
 
+@theme inline {
   /* Colors */
   --color-border: var(--border);
   --color-input: var(--input);
@@ -109,7 +110,6 @@
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
   --color-caution: var(--color-red-500);
   --color-warning: var(--color-amber-500);
   --color-info: var(--color-sky-500);
@@ -121,7 +121,7 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
-  --color-sidebar: var(--sidebar-background);
+  --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
@@ -134,15 +134,18 @@
   --color-brand-tertiary: var(--brand-tertiary);
 
   /* Border */
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border outline-ring/50;
   }
 
   *:focus-visible {

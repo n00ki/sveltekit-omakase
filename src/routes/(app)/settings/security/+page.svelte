@@ -45,7 +45,7 @@
   const setupForm = useRemoteForm(startTwoFactorSetup, formKey, 'two-factor-start');
   const disableForm = useRemoteForm(disableTwoFactor, formKey, 'two-factor-disable');
   let twoFactorSetup = $state(setupForm.result ?? null);
-  const open = $derived(!!twoFactorSetup);
+  let setupOpen = $state(!!setupForm.result);
 
   const enhancedSetupForm = setupForm.enhance(async (form) => {
     const successful = await form.submit();
@@ -53,14 +53,9 @@
     if (!successful) return;
 
     twoFactorSetup = setupForm.result ?? null;
+    setupOpen = !!twoFactorSetup;
     form.element.reset();
   });
-
-  function handleSetupOpenChange(nextOpen: boolean) {
-    if (!nextOpen) {
-      twoFactorSetup = null;
-    }
-  }
 </script>
 
 <div class="flex w-full flex-1 flex-col justify-center gap-8">
@@ -148,5 +143,5 @@
     {/if}
   </section>
 
-  <TwoFactorSetupModal {open} setup={twoFactorSetup} onOpenChange={handleSetupOpenChange} />
+  <TwoFactorSetupModal bind:open={setupOpen} setup={twoFactorSetup} onClosed={() => (twoFactorSetup = null)} />
 </div>

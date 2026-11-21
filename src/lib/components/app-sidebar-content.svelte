@@ -33,7 +33,7 @@
       {@const href = resolve(item.url)}
 
       <Sidebar.MenuItem>
-        <Sidebar.MenuButton data-active={isActive(href) ? '' : undefined} tooltipContent={item.title}>
+        <Sidebar.MenuButton isActive={isActive(href)} tooltipContent={item.title}>
           {#snippet child({ props })}
             <a {href} {...props}>
               {#if item.icon}
@@ -53,7 +53,7 @@
   <Sidebar.GroupContent>
     <Sidebar.Menu>
       <Sidebar.MenuItem>
-        <Sidebar.MenuButton size="sm" data-active={undefined}>
+        <Sidebar.MenuButton size="sm">
           {#snippet child({ props })}
             <a href="https://github.com/n00ki/sveltekit-omakase" target="_blank" rel="noopener noreferrer" {...props}>
               <GithubIcon class="shrink-0" />

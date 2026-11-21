@@ -31,11 +31,11 @@
     {@render children?.()}
     <ChevronDownIcon
       data-slot="accordion-trigger-icon"
-      class="cn-accordion-trigger-icon pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:hidden"
+      class="pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:hidden"
     />
     <ChevronUpIcon
       data-slot="accordion-trigger-icon"
-      class="cn-accordion-trigger-icon pointer-events-none hidden shrink-0 group-aria-expanded/accordion-trigger:inline"
+      class="pointer-events-none hidden shrink-0 group-aria-expanded/accordion-trigger:inline"
     />
   </AccordionPrimitive.Trigger>
 </AccordionPrimitive.Header>

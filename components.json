@@ -1,5 +1,6 @@
 {
   "$schema": "https://shadcn-svelte.com/schema.json",
+  "style": "nova",
   "tailwind": {
     "css": "src/styles/app.css",
     "baseColor": "zinc"
