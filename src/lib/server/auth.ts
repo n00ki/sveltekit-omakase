@@ -5,8 +5,8 @@ import { getRequestEvent } from '$app/server';
 
 import { redirect } from '@sveltejs/kit';
 import { setUserImageFromOAuth } from '#queries';
-import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
+import { betterAuth } from 'better-auth/minimal';
 import { twoFactor } from 'better-auth/plugins';
 import { sveltekitCookies } from 'better-auth/svelte-kit';
 
