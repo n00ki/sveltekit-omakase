@@ -3,6 +3,27 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-11-21
+
+### Added
+
+- `passwordrules` hints on new-password fields so password managers generate passwords that pass validation
+- Autofocus for authentication and recovery code inputs, with focus restored after a failed attempt
+
+### Changed
+
+- Update dependencies
+- Refresh shadcn-svelte components and theme to the nova style with a proportional radius scale
+- Replace `clsx` and `tailwind-merge` with `cn`
+- Import Better Auth from `better-auth/minimal`
+- Align config with `sv create`: hosted MCP servers, env variable descriptions, forced runes mode, and Prettier in `pnpm lint`
+- Rename the `--sidebar-background` theme variable to `--sidebar`
+- Reset the two-factor setup modal after its close animation finishes
+
+### Removed
+
+- Unused `sleep` utility and `--destructive-foreground` theme variable
+
 ## [2.0.0] - 2026-10-17
 
 ### Changed
