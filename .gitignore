@@ -26,6 +26,11 @@ node_modules/
 /.svelte-kit
 /package
 /dist
+.output
+.vercel
+.netlify
+.wrangler
+vite.config.*.timestamp-*
 
 # -------------------------
 # Environment & secrets
@@ -50,4 +55,4 @@ dev.db
 # -------------------------
 .vscode/
 .zed/
-.cusor/
+.cursor/

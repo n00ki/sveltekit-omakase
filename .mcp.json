@@ -1,13 +1,12 @@
 {
   "mcpServers": {
     "context7": {
-      "type": "local",
-      "command": ["npx", "-y", "@upstash/context7-mcp"],
-      "enabled": true
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp"
     },
     "svelte": {
-      "command": ["npx", "-y", "@sveltejs/mcp"],
-      "enabled": true
+      "type": "http",
+      "url": "https://mcp.svelte.dev/mcp"
     }
   }
 }
